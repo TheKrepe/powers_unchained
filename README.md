@@ -1,6 +1,6 @@
 # Powers Unchained
 
-Мод про супергероев для **Minecraft 26.3** на **NeoForge** и **Fabric** одновременно.
+Мод про супергероев для **Minecraft 26.3**. Сейчас собирается только под **NeoForge**; модуль Fabric временно отключён (вернуть: раскомментировать `include('fabric')` в `settings.gradle`).
 
 ## Структура
 
@@ -29,7 +29,7 @@ gradle.properties — ВСЕ версии (Minecraft, NeoForge, Fabric) и да�
 3. *Settings → Build Tools → Gradle → Gradle JVM* → выбрать JDK 25.
 4. Запуск игры с модом — в панели Gradle или в терминале:
    - `./gradlew :neoforge:runClient` — NeoForge
-   - `./gradlew :fabric:runClient` — Fabric
+   - `./gradlew :fabric:runClient` — Fabric (когда будет снова включён)
    (на Windows — `gradlew.bat ...`)
 5. В логе должно появиться: `Powers Unchained is loading on NeoForge` (или `Fabric`).
 
@@ -37,7 +37,7 @@ gradle.properties — ВСЕ версии (Minecraft, NeoForge, Fabric) и да�
 
 `./gradlew build` → готовые файлы:
 - `neoforge/build/libs/powers_unchained-neoforge-26.3-<версия>.jar`
-- `fabric/build/libs/powers_unchained-fabric-26.3-<версия>.jar`
+- (Fabric — когда будет снова включён)
 
 Файлы `-sources.jar` и `-javadoc.jar` в игру ставить не нужно.
 

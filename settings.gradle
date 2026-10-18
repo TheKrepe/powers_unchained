@@ -24,5 +24,7 @@ plugins {
 rootProject.name = 'powers_unchained'
 includeBuild('build-logic')
 include('common')
-include('fabric')
+// Fabric is temporarily disabled: only NeoForge is built for now.
+// To re-enable, uncomment the next line (and the Fabric lines in .github/workflows/build.yml).
+// include('fabric')
 include('neoforge')

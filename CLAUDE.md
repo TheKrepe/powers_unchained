@@ -3,6 +3,11 @@
 Superhero mod for Minecraft **26.3**, NeoForge + Fabric, built from the official MultiLoader-Template (branch 26.3).
 Owner: TheKrepe. Communicate with the owner in Russian.
 
+## Current build target
+**NeoForge only for now** (owner's decision): `include('fabric')` is commented out in `settings.gradle`.
+Do not build or update the `fabric/` module until the owner asks to bring Fabric back. Still keep game logic
+in `common/` and loader glue in `neoforge/`, so Fabric can be re-enabled later with minimal work.
+
 ## Layout
 - `common/` — shared code, vanilla-only (compiled against NeoForm). Put ~all logic here.
 - `neoforge/`, `fabric/` — thin loader layers: entry points, registration glue, events, networking glue.
