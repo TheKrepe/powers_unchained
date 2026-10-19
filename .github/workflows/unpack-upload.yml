@@ -16,6 +16,7 @@ jobs:
         run: git clone -q --depth 1 -b upload-tmp "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" /tmp/up
       - name: Unpack
         run: |
+          sudo apt-get update -q >/dev/null
           sudo apt-get install -y -q unar imagemagick >/dev/null
           mkdir -p /tmp/x /tmp/out
           for a in /tmp/up/*; do unar -q -o /tmp/x "$a" || true; done
