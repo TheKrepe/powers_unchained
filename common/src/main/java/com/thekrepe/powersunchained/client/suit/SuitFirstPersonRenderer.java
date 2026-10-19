@@ -39,18 +39,18 @@ public final class SuitFirstPersonRenderer {
      */
     public static boolean renderArm(PoseStack poseStack, SubmitNodeCollector collector, int lightCoords, Identifier skinTexture,
             ModelPart skinArm, HumanoidArm arm, @Nullable AvatarRenderState state) {
-        ItemStack chest;
+        LocalPlayer player = Minecraft.getInstance().player;
+        ItemStack chest = state != null ? state.chestEquipment : ItemStack.EMPTY;
+        if (SuitPieceItem.get(chest, EquipmentSlot.CHEST) == null && player != null) {
+            chest = player.getItemBySlot(EquipmentSlot.CHEST);
+        }
         boolean slim;
         if (state != null) {
-            chest = state.chestEquipment;
             slim = state.skin.model() == PlayerModelType.SLIM;
-        } else {
-            LocalPlayer player = Minecraft.getInstance().player;
-            if (player == null) {
-                return false;
-            }
-            chest = player.getItemBySlot(EquipmentSlot.CHEST);
+        } else if (player != null) {
             slim = player.getSkin().model() == PlayerModelType.SLIM;
+        } else {
+            return false;
         }
 
         SuitPieceItem piece = SuitPieceItem.get(chest, EquipmentSlot.CHEST);

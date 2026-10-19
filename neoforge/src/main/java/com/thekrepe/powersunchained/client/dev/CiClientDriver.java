@@ -52,24 +52,24 @@ public final class CiClientDriver {
                 run("item replace entity @p armor.feet with powers_unchained:spider_man_boots");
             }
             case 160 -> mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
-            case 240 -> shot("01_player_front");
-            case 260 -> mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
-            case 340 -> shot("02_player_back");
-            case 360 -> {
+            case 260 -> shot("01_player_front");
+            case 280 -> mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
+            case 380 -> shot("02_player_back");
+            case 400 -> {
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
                 summon(-2.4, WIDE, FULL_SUIT);
                 summon(-0.8, SLIM, FULL_SUIT);
                 summon(0.8, WIDE, MASK_AND_BOOTS);
                 summon(2.4, SLIM, SUIT_AND_PANTS);
             }
-            case 460 -> shot("03_mannequins_and_hand");
-            case 480 -> {
+            case 520 -> shot("03_mannequins_and_hand");
+            case 540 -> {
                 run("item replace entity @p armor.chest with minecraft:air");
                 run("item replace entity @p armor.legs with minecraft:air");
                 mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
             }
-            case 560 -> shot("04_player_mask_and_boots_only");
-            case 580 -> {
+            case 640 -> shot("04_player_mask_and_boots_only");
+            case 680 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -79,7 +79,7 @@ public final class CiClientDriver {
     }
 
     private static void summon(double x, String profile, String equipment) {
-        run("execute at @p run summon minecraft:mannequin ~" + x + " ~ ~3.5 {Rotation:[180f,0f],immovable:1b," + profile + "," + equipment + "}");
+        run("execute at @p run summon minecraft:mannequin ~" + x + " ~ ~5 {Rotation:[180f,0f],immovable:1b," + profile + "," + equipment + "}");
     }
 
     private static void shot(String name) {

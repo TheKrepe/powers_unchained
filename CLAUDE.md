@@ -52,7 +52,8 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
 - Suits: `suit/Suit` + `suit/Suits` (definitions), `item/SuitPieceItem` (armor-like item without a vanilla
   equipment asset, so vanilla does not draw it). Rendering in `client/suit/`: `SuitLayer` (added to player and
   mannequin renderers), `SuitModel` (player-skin-shaped model, one instance per piece), `SuitModelLayers`
-  (inflate 0.05 suit / 0.1 boots, wide + slim), `SuitRendering.hideCoveredSkinLayers` (render-state modifier,
-  hides the skin's outer layer under worn pieces), `SuitFirstPersonRenderer` (first-person sleeve).
+  (inflate 0.05 suit / 0.1 boots, wide + slim), `SuitRendering.extract` (render-state modifier:
+  copies suit pieces into the state — vanilla only copies real armor —, hides the skin's outer layer under
+  worn pieces and the flat head item), `SuitFirstPersonRenderer` (first-person sleeve).
 - Suit textures use the 64x64 player skin layout: `textures/suit/<suit>/<suit>.png`, `<suit>_slim.png`
   (3px arms), optional `<suit>_boots.png`.

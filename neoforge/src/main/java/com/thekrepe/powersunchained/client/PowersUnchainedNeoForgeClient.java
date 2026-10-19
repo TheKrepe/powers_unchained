@@ -55,7 +55,7 @@ public class PowersUnchainedNeoForgeClient {
         event.registerAvatarEntityModifier(new AvatarRenderStateModifier() {
             @Override
             public <T extends Avatar & ClientAvatarEntity> void accept(T avatar, AvatarRenderState state) {
-                SuitRendering.hideCoveredSkinLayers(state);
+                SuitRendering.extract(avatar, state);
             }
         });
     }
