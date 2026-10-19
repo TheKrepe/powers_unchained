@@ -2,12 +2,13 @@ package com.thekrepe.powersunchained.platform;
 
 import com.thekrepe.powersunchained.Constants;
 import com.thekrepe.powersunchained.platform.services.IRegistryHelper;
-import java.util.Collection;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jspecify.annotations.Nullable;
 
 public class NeoForgeRegistryHelper implements IRegistryHelper {
 
@@ -41,11 +43,17 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
     @Override
     public Supplier<CreativeModeTab> registerCreativeTab(String name, Component title, Supplier<ItemStack> icon,
-            Supplier<? extends Collection<? extends Supplier<? extends Item>>> items) {
-        return CREATIVE_TABS.register(name, () -> CreativeModeTab.builder()
-                .title(title)
-                .icon(icon)
-                .displayItems((parameters, output) -> items.get().forEach(item -> output.accept(item.get())))
-                .build());
+            Consumer<TabOutput> contents, @Nullable Identifier after) {
+        return CREATIVE_TABS.register(name, () -> {
+            CreativeModeTab.Builder builder = CreativeModeTab.builder()
+                    .title(title)
+                    .icon(icon)
+                    .displayItems((parameters, output) -> contents.accept((stack, searchOnly) -> output.accept(stack,
+                            searchOnly ? CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY : CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS)));
+            if (after != null) {
+                builder.withTabsBefore(after);
+            }
+            return builder.build();
+        });
     }
 }

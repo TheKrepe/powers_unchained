@@ -11,8 +11,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 
 /**
- * Suit Creator: a job-site style full block (wood cabinet with an iron band, tools on the front, thread spool
- * shelves on the sides, cutting mat on top). Where suits will be made.
+ * Suit Creator: a steel machine (corner pillars, recessed body, glowing amber vent on the front, glowing data
+ * screen on top, light strips on the sides). Where suits will be made. Full-block collision.
  * For now only the block itself (placement direction) — no menu yet.
  */
 public class SuitCreatorBlock extends Block {

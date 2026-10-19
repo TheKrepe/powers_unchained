@@ -23,6 +23,9 @@ public final class CiClientDriver {
     private static final String WIDE = "profile:{model:\"wide\",texture:\"minecraft:entity/player/wide/steve\"}";
     private static final String SLIM = "profile:{model:\"slim\",texture:\"minecraft:entity/player/slim/alex\"}";
 
+    private static final String[] VARIANTS = {"spider_man", "spider_man_first_appearance", "spider_man_advanced_2",
+            "spider_man_brand_new_day", "spider_man_raimi"};
+
     private static int ticks = -1;
 
     private CiClientDriver() {
@@ -103,6 +106,27 @@ public final class CiClientDriver {
             }
             case 2080 -> shot("07_fabrics_and_suit_creator_item");
             case 2280 -> {
+                // All Spider-Man variants on mannequins (wide/slim alternating), facing the player.
+                run("tp @p 160.5 ~ 0.5 0 10");
+                for (int i = 0; i < VARIANTS.length; i++) {
+                    summon(2.6 - i * 1.3, i % 2 == 0 ? WIDE : SLIM, fullSuit(VARIANTS[i]));
+                }
+            }
+            case 2380 -> shot("08_suit_variants_front");
+            case 2580 -> run("tp @p 160.5 ~ 10.5 180 10");
+            case 2680 -> shot("09_suit_variants_back");
+            case 2880 -> {
+                // Item icons: one column per variant, rows mask / suit / pants / boots.
+                run("tp @p 200.5 ~ 0.5 0 -8");
+                String[] pieces = {"mask", "suit", "pants", "boots"};
+                for (int i = 0; i < VARIANTS.length; i++) {
+                    for (int j = 0; j < pieces.length; j++) {
+                        display(1.6 - i * 0.8, 2.6 - j * 0.6, "powers_unchained:" + VARIANTS[i] + "_" + pieces[j]);
+                    }
+                }
+            }
+            case 2980 -> shot("10_suit_items");
+            case 3180 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -113,6 +137,11 @@ public final class CiClientDriver {
 
     private static void summon(double x, String profile, String equipment) {
         run("execute at @p run summon minecraft:mannequin ~" + x + " ~ ~5 {Rotation:[180f,0f],immovable:1b," + profile + "," + equipment + "}");
+    }
+
+    private static String fullSuit(String suit) {
+        return "equipment:{head:{id:\"powers_unchained:" + suit + "_mask\"},chest:{id:\"powers_unchained:" + suit + "_suit\"},"
+                + "legs:{id:\"powers_unchained:" + suit + "_pants\"},feet:{id:\"powers_unchained:" + suit + "_boots\"}}";
     }
 
     private static void armorStand(double x, String nbt) {

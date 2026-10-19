@@ -9,4 +9,5 @@
   recipes, `fabrics` tag.
 - `gen_spider_textures.py <resources dir>` — placeholder Spider-Man suit textures.
 - `gen_tech_table.py <out root>` — tech tailoring table concepts T1-T3 (not used any more).
-- `gen_suit_creator.py <resources root>` — Suit Creator block textures (the block used in the mod).
+- `gen_suit_creator.py <resources root>` — Suit Creator block model + textures (the block used in the mod).
+- `gen_spider_variants.py <resources root>` — alternative Spider-Man suits (textures + item icons).

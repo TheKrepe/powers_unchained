@@ -1,15 +1,17 @@
 package com.thekrepe.powersunchained.platform.services;
 
-import java.util.Collection;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Loader-specific registration. Common code declares content through this interface,
@@ -17,20 +19,27 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
  */
 public interface IRegistryHelper {
 
-    /** Registers an item. The id is set on the properties automatically. */
     /** Registers a block. The id is set on the properties automatically. */
     <T extends Block> Supplier<T> registerBlock(String name, Function<BlockBehaviour.Properties, T> factory, UnaryOperator<BlockBehaviour.Properties> properties);
 
+    /** Registers an item. The id is set on the properties automatically. */
     <T extends Item> Supplier<T> registerItem(String name, Function<Item.Properties, T> factory, UnaryOperator<Item.Properties> properties);
 
     /**
      * Registers a creative tab. The loader builds it (vanilla's tab builder API is partly
      * inaccessible from common code), common code only describes it.
      *
-     * @param title tab title
-     * @param icon  icon stack, created lazily
-     * @param items items shown in the tab, in order
+     * @param title    tab title
+     * @param icon     icon stack, created lazily
+     * @param contents fills the tab, in order
+     * @param after    tab that comes right before this one, or {@code null}
      */
     Supplier<CreativeModeTab> registerCreativeTab(String name, Component title, Supplier<ItemStack> icon,
-            Supplier<? extends Collection<? extends Supplier<? extends Item>>> items);
+            Consumer<TabOutput> contents, @Nullable Identifier after);
+
+    /** Receives the stacks of a creative tab. */
+    interface TabOutput {
+        /** @param searchOnly {@code true}: only findable through the search tab, not listed in the tab itself */
+        void accept(ItemStack stack, boolean searchOnly);
+    }
 }

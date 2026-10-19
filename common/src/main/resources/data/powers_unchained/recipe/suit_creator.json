@@ -2,14 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "I": "minecraft:iron_ingot",
+    "C": "minecraft:copper_ingot",
+    "R": "minecraft:redstone",
+    "G": "minecraft:glass_pane",
     "F": "#powers_unchained:fabrics",
-    "P": "#minecraft:planks"
+    "I": "minecraft:iron_ingot"
   },
   "pattern": [
-    "II",
-    "FF",
-    "PP"
+    "CGC",
+    "FRF",
+    "III"
   ],
   "result": {
     "id": "powers_unchained:suit_creator"

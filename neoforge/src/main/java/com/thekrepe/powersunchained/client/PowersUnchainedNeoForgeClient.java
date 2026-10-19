@@ -7,6 +7,7 @@ import com.thekrepe.powersunchained.client.suit.SuitFirstPersonRenderer;
 import com.thekrepe.powersunchained.client.suit.SuitLayer;
 import com.thekrepe.powersunchained.client.suit.SuitModelLayers;
 import com.thekrepe.powersunchained.client.suit.SuitRendering;
+import com.thekrepe.powersunchained.client.suit.SuitVariantScroller;
 import net.minecraft.client.entity.ClientAvatarEntity;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
@@ -21,9 +22,11 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RenderArmEvent;
+import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.renderstate.AvatarRenderStateModifier;
 import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 /** Client-only NeoForge entry point: wires the common client code to NeoForge events. */
 @Mod(value = Constants.MOD_ID, dist = Dist.CLIENT)
@@ -34,6 +37,13 @@ public class PowersUnchainedNeoForgeClient {
         modEventBus.addListener(PowersUnchainedNeoForgeClient::addLayers);
         modEventBus.addListener(PowersUnchainedNeoForgeClient::registerRenderStateModifiers);
         NeoForge.EVENT_BUS.addListener(PowersUnchainedNeoForgeClient::onRenderArm);
+        NeoForge.EVENT_BUS.addListener((ScreenEvent.MouseScrolled.Pre event) -> {
+            if (SuitVariantScroller.onScroll(event.getScreen(), event.getScrollDeltaY())) {
+                event.setCanceled(true);
+            }
+        });
+        NeoForge.EVENT_BUS.addListener((ItemTooltipEvent event) ->
+                SuitVariantScroller.appendTooltip(event.getItemStack(), event.getToolTip()));
         CiClientDriver.register();
     }
 

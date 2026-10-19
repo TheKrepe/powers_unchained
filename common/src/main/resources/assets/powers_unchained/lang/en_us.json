@@ -1,5 +1,4 @@
 {
-  "itemGroup.powers_unchained.main": "Powers Unchained",
   "item.powers_unchained.spider_man_mask": "Spider-Man Mask",
   "item.powers_unchained.spider_man_suit": "Spider-Man Suit",
   "item.powers_unchained.spider_man_pants": "Spider-Man Pants",
@@ -20,5 +19,26 @@
   "item.powers_unchained.green_fabric": "Green Fabric",
   "item.powers_unchained.red_fabric": "Red Fabric",
   "item.powers_unchained.black_fabric": "Black Fabric",
-  "block.powers_unchained.suit_creator": "Suit Creator"
+  "block.powers_unchained.suit_creator": "Suit Creator",
+  "itemGroup.powers_unchained.suits": "Powers Unchained Suits",
+  "itemGroup.powers_unchained.weapons": "Powers Unchained Weapons",
+  "itemGroup.powers_unchained.items": "Powers Unchained Items",
+  "itemGroup.powers_unchained.blocks": "Powers Unchained Blocks",
+  "tooltip.powers_unchained.suit_variant": "Variant %s/%s (mouse wheel to switch)",
+  "item.powers_unchained.spider_man_first_appearance_mask": "Spider-Man Mask (First Appearance)",
+  "item.powers_unchained.spider_man_first_appearance_suit": "Spider-Man Suit (First Appearance)",
+  "item.powers_unchained.spider_man_first_appearance_pants": "Spider-Man Pants (First Appearance)",
+  "item.powers_unchained.spider_man_first_appearance_boots": "Spider-Man Boots (First Appearance)",
+  "item.powers_unchained.spider_man_advanced_2_mask": "Spider-Man Mask (Advanced 2.0)",
+  "item.powers_unchained.spider_man_advanced_2_suit": "Spider-Man Suit (Advanced 2.0)",
+  "item.powers_unchained.spider_man_advanced_2_pants": "Spider-Man Pants (Advanced 2.0)",
+  "item.powers_unchained.spider_man_advanced_2_boots": "Spider-Man Boots (Advanced 2.0)",
+  "item.powers_unchained.spider_man_brand_new_day_mask": "Spider-Man Mask (Brand New Day)",
+  "item.powers_unchained.spider_man_brand_new_day_suit": "Spider-Man Suit (Brand New Day)",
+  "item.powers_unchained.spider_man_brand_new_day_pants": "Spider-Man Pants (Brand New Day)",
+  "item.powers_unchained.spider_man_brand_new_day_boots": "Spider-Man Boots (Brand New Day)",
+  "item.powers_unchained.spider_man_raimi_mask": "Spider-Man Mask (Raimi)",
+  "item.powers_unchained.spider_man_raimi_suit": "Spider-Man Suit (Raimi)",
+  "item.powers_unchained.spider_man_raimi_pants": "Spider-Man Pants (Raimi)",
+  "item.powers_unchained.spider_man_raimi_boots": "Spider-Man Boots (Raimi)"
 }
