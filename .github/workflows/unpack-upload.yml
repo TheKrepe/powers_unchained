@@ -15,21 +15,27 @@ jobs:
       - name: Fetch upload
         run: git clone -q --depth 1 -b upload-tmp "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" /tmp/up
       - name: Unpack
+        shell: bash
         run: |
-          sudo apt-get update -q >/dev/null
-          sudo apt-get install -y -q unar imagemagick >/dev/null
+          set +e
           mkdir -p /tmp/x /tmp/out
-          for a in /tmp/up/*; do unar -q -o /tmp/x "$a" || true; done
+          exec > >(tee /tmp/out/_log.txt) 2>&1
+          sudo apt-get update -q >/dev/null
+          sudo apt-get install -y -q unar unrar-free p7zip-full imagemagick
+          ls -la /tmp/up
+          for a in /tmp/up/*; do unar -o /tmp/x "$a" || 7z x -y -o/tmp/x "$a"; done
           find /tmp/x -type f | sort > /tmp/out/_all_files.txt
           i=0
-          find /tmp/x -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.bmp' -o -iname '*.gif' \) | sort | while read -r f; do
+          while read -r f; do
             i=$((i+1))
             name=$(printf '%03d' $i)_$(basename "${f%.*}" | tr -c 'A-Za-z0-9_\n-' '_')
             convert "$f[0]" -resize '1280x1280>' -quality 85 "/tmp/out/$name.jpg"
             echo "$name.jpg <- ${f#/tmp/x/}" >> /tmp/out/_index.txt
-          done
+          done < <(find /tmp/x -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.bmp' -o -iname '*.gif' \) | sort)
           du -sh /tmp/out
+          exit 0
       - name: Push
+        if: always()
         run: |
           cd /tmp/out
           git init -q -b u
