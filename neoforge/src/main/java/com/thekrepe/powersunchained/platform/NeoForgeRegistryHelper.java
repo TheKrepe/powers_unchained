@@ -28,7 +28,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     }
 
     @Override
-    public Supplier<CreativeModeTab> registerCreativeTab(String name, Supplier<CreativeModeTab> tab) {
-        return CREATIVE_TABS.register(name, tab);
+    public Supplier<CreativeModeTab> registerCreativeTab(String name, UnaryOperator<CreativeModeTab.Builder> tab) {
+        return CREATIVE_TABS.register(name, () -> tab.apply(CreativeModeTab.builder()).build());
     }
 }

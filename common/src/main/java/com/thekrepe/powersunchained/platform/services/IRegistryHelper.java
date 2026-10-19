@@ -15,5 +15,9 @@ public interface IRegistryHelper {
     /** Registers an item. The id is set on the properties automatically. */
     <T extends Item> Supplier<T> registerItem(String name, Function<Item.Properties, T> factory, UnaryOperator<Item.Properties> properties);
 
-    Supplier<CreativeModeTab> registerCreativeTab(String name, Supplier<CreativeModeTab> tab);
+    /**
+     * Registers a creative tab. The loader creates the tab builder (vanilla's builder needs a fixed
+     * row/column, loaders add their own positioning), common code only configures it.
+     */
+    Supplier<CreativeModeTab> registerCreativeTab(String name, UnaryOperator<CreativeModeTab.Builder> tab);
 }
