@@ -80,6 +80,8 @@ jobs:
               echo "Captured $name"
             done
             if grep -q '\[CI\] gradle exited' /tmp/client.log; then break; fi
+            # both graphics backends failed -> the game only shows an error, stop waiting
+            if grep -q 'Failed to create backend Vulkan' /tmp/client.log; then sleep 10; break; fi
             # periodic overview screenshot to debug loading problems
             if [ $((SECONDS % 60)) -lt 3 ]; then import -display :99 -window root "/tmp/out/shots/progress_$SECONDS.png" || true; fi
             sleep 2
