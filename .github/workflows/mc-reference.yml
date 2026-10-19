@@ -28,21 +28,34 @@ jobs:
         env:
           PATTERNS: ${{ inputs.patterns }}
         run: |
-          mkdir -p /tmp/ref/out
-          find . ~/.gradle -name '*.jar' \( -path '*moddev*' -o -path '*neoforge*' \) 2>/dev/null | grep -E 'artifacts|neoforge-26' | sort -u > /tmp/ref/out/_jars.txt || true
-          cat /tmp/ref/out/_jars.txt
-          while read -r jar; do
-            unzip -Z1 "$jar" 2>/dev/null > /tmp/ref/list.txt || continue
-            for p in $PATTERNS; do
-              grep -E "$p" /tmp/ref/list.txt | while read -r f; do
-                case "$f" in */) continue;; esac
-                mkdir -p "/tmp/ref/out/$(dirname "$f")"
-                unzip -o -q "$jar" "$f" -d /tmp/ref/out || true
-              done
+          mkdir -p /tmp/ref/out /tmp/ref/classes
+          curl -sSLo /tmp/ref/vf.jar https://repo1.maven.org/maven2/org/vineflower/vineflower/1.11.1/vineflower-1.11.1.jar
+          MC=$(find neoforge/build/moddev -name 'minecraft-patched-*.jar' | head -1)
+          NEO=$(find ~/.gradle/caches/modules-2 -name 'neoforge-*-sources.jar' | head -1)
+          echo "MC=$MC NEO=$NEO" > /tmp/ref/out/_jars.txt
+          unzip -Z1 "$MC" > /tmp/ref/mc.txt
+          unzip -Z1 "$NEO" > /tmp/ref/neo.txt
+          for p in $PATTERNS; do
+            # Minecraft classes (incl. inner classes) -> decompile later; resources copied as-is
+            grep -E "$p" /tmp/ref/mc.txt | grep -v '/$' | while read -r f; do
+              case "$f" in
+                *.class) unzip -o -q "$MC" "$f" -d /tmp/ref/classes ;;
+                *) unzip -o -q "$MC" "$f" -d /tmp/ref/out ;;
+              esac
             done
-          done < /tmp/ref/out/_jars.txt
-          # javap signatures for classes in the merged jar matching patterns (for compiled-only classes)
-          find /tmp/ref/out -type f | sed 's|/tmp/ref/out/||' > /tmp/ref/out/_files.txt
+            grep -E "$p" /tmp/ref/mc.txt | grep '\.class$' | sed -E 's/\.class$//' | while read -r c; do
+              unzip -o -q "$MC" "${c}\$*.class" -d /tmp/ref/classes 2>/dev/null || true
+            done
+            grep -E "$p" /tmp/ref/neo.txt | grep '\.java$' | while read -r f; do
+              unzip -o -q "$NEO" "$f" -d /tmp/ref/out
+            done
+          done
+          (cd /tmp/ref/classes && zip -q -r /tmp/ref/sel.jar .) || true
+          if [ -f /tmp/ref/sel.jar ]; then
+            java -jar /tmp/ref/vf.jar -e="$MC" /tmp/ref/sel.jar /tmp/ref/dec >/dev/null 2>&1 || true
+            (cd /tmp/ref/out && unzip -o -q /tmp/ref/dec/sel.jar) || cp -r /tmp/ref/dec/* /tmp/ref/out/ || true
+          fi
+          find /tmp/ref/out -type f | sed 's|/tmp/ref/out/||' | sort > /tmp/ref/out/_files.txt
       - name: Push to temp branch
         run: |
           cd /tmp/ref/out
