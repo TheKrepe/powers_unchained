@@ -1,0 +1,99 @@
+# Visual smoke test: generates a flat test world with a dedicated server, then starts the real game
+# client on a virtual display (software OpenGL), lets the in-mod CI driver (client/dev/CiClientDriver)
+# set up scenes, and takes screenshots. Screenshots + logs are pushed to the 'ci-shots' branch.
+name: Client test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  client-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 25
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install virtual display tools
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q xvfb imagemagick mesa-utils libgl1-mesa-dri x11-utils
+
+      - name: Generate test world (dedicated server)
+        shell: bash
+        run: |
+          mkdir -p neoforge/runs/ciserver
+          echo "eula=true" > neoforge/runs/ciserver/eula.txt
+          cat > neoforge/runs/ciserver/server.properties <<'EOF'
+          level-name=world
+          level-type=minecraft\:flat
+          difficulty=peaceful
+          spawn-protection=0
+          online-mode=false
+          generate-structures=false
+          EOF
+          sed -i 's/^ *//' neoforge/runs/ciserver/server.properties
+          timeout 900 ./gradlew :neoforge:runCiServer --stacktrace 2>&1 | tee /tmp/server.log || true
+          mkdir -p neoforge/runs/ciclient/saves
+          cp -r neoforge/runs/ciserver/world neoforge/runs/ciclient/saves/ci
+          ls neoforge/runs/ciclient/saves/ci
+
+      - name: Run client and take screenshots
+        shell: bash
+        run: |
+          mkdir -p /tmp/out/shots
+          cat > neoforge/runs/ciclient/options.txt <<'EOF'
+          onboardAccessibility:false
+          pauseOnLostFocus:false
+          renderDistance:6
+          simulationDistance:6
+          tutorialStep:none
+          skipMultiplayerWarning:true
+          joinedFirstServer:true
+          EOF
+          sed -i 's/^ *//' neoforge/runs/ciclient/options.txt
+          Xvfb :99 -screen 0 1280x720x24 +extension GLX &
+          sleep 3
+          export DISPLAY=:99
+          export LIBGL_ALWAYS_SOFTWARE=1
+          glxinfo -B | head -20 || true
+          (./gradlew :neoforge:runCiClient --stacktrace > /tmp/client.log 2>&1; echo "[CI] gradle exited $?" >> /tmp/client.log) &
+          end=$((SECONDS + 1500))
+          taken=""
+          while [ $SECONDS -lt $end ]; do
+            for name in $(grep -o '\[CI-SHOT\] [a-z0-9_]*' /tmp/client.log | awk '{print $2}'); do
+              case " $taken " in *" $name "*) continue;; esac
+              import -display :99 -window root "/tmp/out/shots/$name.png" && taken="$taken $name"
+              echo "Captured $name"
+            done
+            if grep -q '\[CI\] gradle exited' /tmp/client.log; then break; fi
+            # periodic overview screenshot to debug loading problems
+            if [ $((SECONDS % 60)) -lt 3 ]; then import -display :99 -window root "/tmp/out/shots/progress_$SECONDS.png" || true; fi
+            sleep 2
+          done
+          import -display :99 -window root /tmp/out/shots/zz_final.png || true
+
+      - name: Publish screenshots and logs
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p /tmp/out
+          cp /tmp/client.log /tmp/out/ 2>/dev/null || true
+          cp /tmp/server.log /tmp/out/ 2>/dev/null || true
+          cp neoforge/runs/ciclient/logs/latest.log /tmp/out/client-latest.log 2>/dev/null || true
+          cp -r neoforge/runs/ciclient/crash-reports /tmp/out/ 2>/dev/null || true
+          echo "${{ github.sha }}" > /tmp/out/commit.txt
+          cd /tmp/out
+          git init -q -b ci-shots
+          git -c user.name=ci -c user.email=ci@local add -A
+          git -c user.name=ci -c user.email=ci@local commit -q -m "Client test for ${{ github.sha }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ci-shots:ci-shots

@@ -1,6 +1,7 @@
 package com.thekrepe.powersunchained.client;
 
 import com.thekrepe.powersunchained.Constants;
+import com.thekrepe.powersunchained.client.dev.CiClientDriver;
 import com.thekrepe.powersunchained.client.suit.SuitFirstPersonRenderer;
 import com.thekrepe.powersunchained.client.suit.SuitLayer;
 import com.thekrepe.powersunchained.client.suit.SuitModelLayers;
@@ -28,6 +29,7 @@ public class PowersUnchainedNeoForgeClient {
         modEventBus.addListener(PowersUnchainedNeoForgeClient::addLayers);
         modEventBus.addListener(PowersUnchainedNeoForgeClient::registerRenderStateModifiers);
         NeoForge.EVENT_BUS.addListener(PowersUnchainedNeoForgeClient::onRenderArm);
+        CiClientDriver.register();
     }
 
     private static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {

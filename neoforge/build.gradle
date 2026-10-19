@@ -31,6 +31,18 @@ neoForge {
             this.file('runs/server').createParentDirectories()
             gameDirectory = this.mkdir(this.file('runs/server'))
         }
+        // Used only by the CI client test workflow (.github/workflows/client-test.yml).
+        ciServer {
+            server()
+            gameDirectory = this.mkdir(this.file('runs/ciserver'))
+            systemProperty('powers_unchained.ci.server', 'true')
+        }
+        ciClient {
+            client()
+            gameDirectory = this.mkdir(this.file('runs/ciclient'))
+            systemProperty('powers_unchained.ci', 'true')
+            programArguments.addAll('--quickPlaySingleplayer', 'ci', '--width', '1280', '--height', '720')
+        }
     }
     mods {
         "${mod_id}" {
