@@ -51,25 +51,27 @@ public final class CiClientDriver {
                 run("item replace entity @p armor.legs with powers_unchained:spider_man_pants");
                 run("item replace entity @p armor.feet with powers_unchained:spider_man_boots");
             }
+            // Each scene: set up, wait ~5 s for it to render, log the shot marker, then hold ~10 s so the
+            // workflow (which polls the log) captures the screen before the next scene starts.
             case 160 -> mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
             case 260 -> shot("01_player_front");
-            case 280 -> mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
-            case 380 -> shot("02_player_back");
-            case 400 -> {
+            case 460 -> mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
+            case 560 -> shot("02_player_back");
+            case 760 -> {
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
                 summon(-2.4, WIDE, FULL_SUIT);
                 summon(-0.8, SLIM, FULL_SUIT);
                 summon(0.8, WIDE, MASK_AND_BOOTS);
                 summon(2.4, SLIM, SUIT_AND_PANTS);
             }
-            case 520 -> shot("03_mannequins_and_hand");
-            case 540 -> {
+            case 880 -> shot("03_mannequins_and_hand");
+            case 1080 -> {
                 run("item replace entity @p armor.chest with minecraft:air");
                 run("item replace entity @p armor.legs with minecraft:air");
                 mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
             }
-            case 640 -> shot("04_player_mask_and_boots_only");
-            case 680 -> {
+            case 1180 -> shot("04_player_mask_and_boots_only");
+            case 1380 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
