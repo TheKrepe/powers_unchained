@@ -45,7 +45,8 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   (`shots/*.png`, `client.log`, `client-latest.log`, crash reports). Use it to check rendering visually.
 - `mc-reference.yml` (manual dispatch with input `patterns` = space-separated path regexes) — decompiles matching
   Minecraft classes (Vineflower) / copies NeoForge sources and vanilla assets to branch **`mc-ref-tmp`**.
-  Use it to look up exact 26.3 APIs instead of guessing. Delete the branch afterwards.
+  Use it to look up exact 26.3 APIs instead of guessing. The branch is force-overwritten each run; Claude cannot
+  delete branches through the proxy (the owner can).
 - `gh` works only through the REST API (`gh api ...`); GraphQL-based commands (`gh run list`, `gh workflow run`) fail.
 
 ## Content so far
