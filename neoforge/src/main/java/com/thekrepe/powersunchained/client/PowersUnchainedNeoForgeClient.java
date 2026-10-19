@@ -2,14 +2,19 @@ package com.thekrepe.powersunchained.client;
 
 import com.thekrepe.powersunchained.Constants;
 import com.thekrepe.powersunchained.client.dev.CiClientDriver;
+import com.thekrepe.powersunchained.client.suit.SuitArmorStandLayer;
 import com.thekrepe.powersunchained.client.suit.SuitFirstPersonRenderer;
 import com.thekrepe.powersunchained.client.suit.SuitLayer;
 import com.thekrepe.powersunchained.client.suit.SuitModelLayers;
 import com.thekrepe.powersunchained.client.suit.SuitRendering;
 import net.minecraft.client.entity.ClientAvatarEntity;
+import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
+import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.world.entity.Avatar;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.PlayerModelType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -48,6 +53,10 @@ public class PowersUnchainedNeoForgeClient {
                 mannequin.addLayer(new SuitLayer(mannequin, event.getEntityModels(), slim));
             }
         }
+        ArmorStandRenderer armorStand = event.getRenderer(EntityTypes.ARMOR_STAND);
+        if (armorStand != null) {
+            armorStand.addLayer(new SuitArmorStandLayer(armorStand, event.getEntityModels()));
+        }
         SuitFirstPersonRenderer.bakeModels(event.getEntityModels());
     }
 
@@ -58,6 +67,8 @@ public class PowersUnchainedNeoForgeClient {
                 SuitRendering.extract(avatar, state);
             }
         });
+        event.registerEntityModifier(ArmorStandRenderer.class,
+                (ArmorStand armorStand, ArmorStandRenderState state) -> SuitRendering.extractEquipment(armorStand, state));
     }
 
     private static void onRenderArm(RenderArmEvent event) {

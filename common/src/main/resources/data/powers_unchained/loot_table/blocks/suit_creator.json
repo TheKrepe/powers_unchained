@@ -8,11 +8,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "powers_unchained:tailoring_table"
+          "name": "powers_unchained:suit_creator"
         }
       ],
       "rolls": 1
     }
   ],
-  "random_sequence": "powers_unchained:blocks/tailoring_table"
+  "random_sequence": "powers_unchained:blocks/suit_creator"
 }

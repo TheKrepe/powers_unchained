@@ -72,17 +72,26 @@ public final class CiClientDriver {
             }
             case 1180 -> shot("04_player_mask_and_boots_only");
             case 1380 -> {
-                // Tailoring tables: front (facing the player), side and back.
+                // Armor stands: full suit with arms, mask + boots, suit + pants posed, small one with the full suit.
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
-                run("tp @p 40.5 ~ 0.5 0 30");
-                run("execute at @p run setblock ~ ~ ~3 powers_unchained:tailoring_table[facing=north]");
-                run("execute at @p run setblock ~2 ~ ~3 powers_unchained:tailoring_table[facing=west]");
-                run("execute at @p run setblock ~-2 ~ ~3 powers_unchained:tailoring_table[facing=south]");
+                run("tp @p 40.5 ~ 0.5 0 15");
+                armorStand(-2.4, FULL_SUIT + ",ShowArms:1b");
+                armorStand(-0.8, MASK_AND_BOOTS);
+                armorStand(0.8, SUIT_AND_PANTS + ",ShowArms:1b,Pose:{RightArm:[-60f,0f,0f],LeftLeg:[-20f,0f,0f],Head:[0f,25f,0f]}");
+                armorStand(2.4, FULL_SUIT + ",ShowArms:1b,Small:1b");
             }
-            case 1480 -> shot("05_tailoring_tables");
+            case 1480 -> shot("05_armor_stands");
             case 1680 -> {
-                // All fabrics + the table item, shown big with item displays.
-                run("tp @p 80.5 ~ 0.5 0 -8");
+                // Suit Creator: front (facing the player), side and back.
+                run("tp @p 80.5 ~ 0.5 0 30");
+                run("execute at @p run setblock ~ ~ ~3 powers_unchained:suit_creator[facing=north]");
+                run("execute at @p run setblock ~2 ~ ~3 powers_unchained:suit_creator[facing=west]");
+                run("execute at @p run setblock ~-2 ~ ~3 powers_unchained:suit_creator[facing=south]");
+            }
+            case 1780 -> shot("06_suit_creators");
+            case 1980 -> {
+                // All fabrics + the Suit Creator item, shown big with item displays.
+                run("tp @p 120.5 ~ 0.5 0 -8");
                 String[] colors = {"white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray",
                         "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black"};
                 for (int i = 0; i < colors.length; i++) {
@@ -90,10 +99,10 @@ public final class CiClientDriver {
                     double y = 2.4 - (i / 8) * 0.7;
                     display(x, y, "powers_unchained:" + colors[i] + "_fabric");
                 }
-                display(0.0, 0.9, "powers_unchained:tailoring_table");
+                display(0.0, 0.9, "powers_unchained:suit_creator");
             }
-            case 1780 -> shot("06_fabrics_and_table_item");
-            case 1980 -> {
+            case 2080 -> shot("07_fabrics_and_suit_creator_item");
+            case 2280 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -104,6 +113,10 @@ public final class CiClientDriver {
 
     private static void summon(double x, String profile, String equipment) {
         run("execute at @p run summon minecraft:mannequin ~" + x + " ~ ~5 {Rotation:[180f,0f],immovable:1b," + profile + "," + equipment + "}");
+    }
+
+    private static void armorStand(double x, String nbt) {
+        run("execute at @p run summon minecraft:armor_stand ~" + x + " ~ ~4 {Rotation:[180f,0f]," + nbt + "}");
     }
 
     private static void display(double x, double y, String item) {

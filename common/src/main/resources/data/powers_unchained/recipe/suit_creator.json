@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "F": "#powers_unchained:fabrics",
+    "P": "#minecraft:planks"
+  },
+  "pattern": [
+    "II",
+    "FF",
+    "PP"
+  ],
+  "result": {
+    "id": "powers_unchained:suit_creator"
+  }
+}

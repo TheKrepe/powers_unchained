@@ -25,7 +25,7 @@ public final class PUItems {
     public static final Map<DyeColor, Supplier<Item>> FABRICS = registerFabrics();
 
     // Blocks
-    public static final Supplier<BlockItem> TAILORING_TABLE = blockItem("tailoring_table", PUBlocks.TAILORING_TABLE);
+    public static final Supplier<BlockItem> SUIT_CREATOR = blockItem("suit_creator", PUBlocks.SUIT_CREATOR);
 
     // Spider-Man
     public static final Supplier<SuitPieceItem> SPIDER_MAN_MASK = suitPiece("spider_man_mask", Suits.SPIDER_MAN, ArmorType.HELMET);

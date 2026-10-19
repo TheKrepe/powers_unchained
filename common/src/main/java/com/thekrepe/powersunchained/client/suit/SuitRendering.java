@@ -3,6 +3,7 @@ package com.thekrepe.powersunchained.client.suit;
 import com.thekrepe.powersunchained.item.SuitPieceItem;
 import com.thekrepe.powersunchained.suit.Suit;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
@@ -29,36 +30,51 @@ public final class SuitRendering {
      * </ul>
      */
     public static void extract(LivingEntity entity, AvatarRenderState state) {
-        ItemStack head = entity.getItemBySlot(EquipmentSlot.HEAD);
-        ItemStack chest = entity.getItemBySlot(EquipmentSlot.CHEST);
-        ItemStack legs = entity.getItemBySlot(EquipmentSlot.LEGS);
-        ItemStack feet = entity.getItemBySlot(EquipmentSlot.FEET);
-        boolean hasHead = SuitPieceItem.get(head, EquipmentSlot.HEAD) != null;
-        boolean hasChest = SuitPieceItem.get(chest, EquipmentSlot.CHEST) != null;
-        boolean hasLegs = SuitPieceItem.get(legs, EquipmentSlot.LEGS) != null;
-        boolean hasFeet = SuitPieceItem.get(feet, EquipmentSlot.FEET) != null;
-
-        if (hasHead) {
-            state.headEquipment = head;
-            state.headItem.clear();
+        boolean[] worn = extractEquipment(entity, state);
+        if (worn[0]) {
             state.showHat = false;
         }
-        if (hasChest) {
-            state.chestEquipment = chest;
+        if (worn[1]) {
             state.showJacket = false;
             state.showLeftSleeve = false;
             state.showRightSleeve = false;
         }
-        if (hasLegs) {
-            state.legsEquipment = legs;
-        }
-        if (hasFeet) {
-            state.feetEquipment = feet;
-        }
-        if (hasLegs || hasFeet) {
+        if (worn[2] || worn[3]) {
             state.showLeftPants = false;
             state.showRightPants = false;
         }
+    }
+
+    /**
+     * Copies worn suit pieces into a humanoid render state (players, mannequins, armor stands) and stops the
+     * mask from being drawn as a flat item on the head.
+     *
+     * @return which pieces are worn: head, chest, legs, feet
+     */
+    public static boolean[] extractEquipment(LivingEntity entity, HumanoidRenderState state) {
+        ItemStack head = entity.getItemBySlot(EquipmentSlot.HEAD);
+        ItemStack chest = entity.getItemBySlot(EquipmentSlot.CHEST);
+        ItemStack legs = entity.getItemBySlot(EquipmentSlot.LEGS);
+        ItemStack feet = entity.getItemBySlot(EquipmentSlot.FEET);
+        boolean[] worn = {
+                SuitPieceItem.get(head, EquipmentSlot.HEAD) != null,
+                SuitPieceItem.get(chest, EquipmentSlot.CHEST) != null,
+                SuitPieceItem.get(legs, EquipmentSlot.LEGS) != null,
+                SuitPieceItem.get(feet, EquipmentSlot.FEET) != null};
+        if (worn[0]) {
+            state.headEquipment = head;
+            state.headItem.clear();
+        }
+        if (worn[1]) {
+            state.chestEquipment = chest;
+        }
+        if (worn[2]) {
+            state.legsEquipment = legs;
+        }
+        if (worn[3]) {
+            state.feetEquipment = feet;
+        }
+        return worn;
     }
 
     public static Identifier texture(Suit suit, SuitModel.Part part, boolean slim) {

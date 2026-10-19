@@ -3,6 +3,7 @@ package com.thekrepe.powersunchained.client.suit;
 import com.thekrepe.powersunchained.Constants;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -23,6 +24,10 @@ public final class SuitModelLayers {
     public static final ModelLayerLocation SUIT_SLIM = location("suit_slim");
     public static final ModelLayerLocation BOOTS = location("suit_boots");
     public static final ModelLayerLocation BOOTS_SLIM = location("suit_boots_slim");
+    public static final ModelLayerLocation ARMOR_STAND = location("suit_armor_stand");
+    public static final ModelLayerLocation ARMOR_STAND_BOOTS = location("suit_boots_armor_stand");
+    public static final ModelLayerLocation ARMOR_STAND_SMALL = location("suit_armor_stand_small");
+    public static final ModelLayerLocation ARMOR_STAND_SMALL_BOOTS = location("suit_boots_armor_stand_small");
 
     private SuitModelLayers() {
     }
@@ -32,10 +37,19 @@ public final class SuitModelLayers {
         registrar.accept(SUIT_SLIM, () -> create(SUIT_INFLATE, true));
         registrar.accept(BOOTS, () -> create(BOOTS_INFLATE, false));
         registrar.accept(BOOTS_SLIM, () -> create(BOOTS_INFLATE, true));
+        registrar.accept(ARMOR_STAND, () -> createArmorStand(SUIT_INFLATE));
+        registrar.accept(ARMOR_STAND_BOOTS, () -> createArmorStand(BOOTS_INFLATE));
+        // small armor stands use the vanilla baby transform, like their own model and armor
+        registrar.accept(ARMOR_STAND_SMALL, () -> createArmorStand(SUIT_INFLATE).apply(HumanoidModel.BABY_TRANSFORMER));
+        registrar.accept(ARMOR_STAND_SMALL_BOOTS, () -> createArmorStand(BOOTS_INFLATE).apply(HumanoidModel.BABY_TRANSFORMER));
     }
 
     private static LayerDefinition create(float inflate, boolean slim) {
         return LayerDefinition.create(PlayerModel.createMesh(new CubeDeformation(inflate), slim), 64, 64);
+    }
+
+    private static LayerDefinition createArmorStand(float inflate) {
+        return LayerDefinition.create(SuitArmorStandModel.createMesh(new CubeDeformation(inflate)), 64, 64);
     }
 
     private static ModelLayerLocation location(String name) {

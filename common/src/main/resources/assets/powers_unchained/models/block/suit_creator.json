@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "powers_unchained:block/suit_creator_front",
+    "north": "powers_unchained:block/suit_creator_front",
+    "south": "powers_unchained:block/suit_creator_back",
+    "east": "powers_unchained:block/suit_creator_side",
+    "west": "powers_unchained:block/suit_creator_side",
+    "up": "powers_unchained:block/suit_creator_top",
+    "down": "minecraft:block/dark_oak_planks"
+  }
+}
