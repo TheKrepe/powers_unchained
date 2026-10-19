@@ -7,13 +7,13 @@ import com.thekrepe.powersunchained.suit.Suits;
 import java.util.Iterator;
 import java.util.List;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Suit variants in the Suits creative tab (like alt versions in Fisk's Superheroes, but every variant is its own
@@ -22,15 +22,21 @@ import net.minecraft.world.item.ItemStack;
  */
 public final class SuitVariantScroller {
 
+    /** The screen that is open right now (set by the loader from screen open / close events). */
+    private static @Nullable Screen openScreen;
+
     private SuitVariantScroller() {
     }
 
+    public static void setOpenScreen(@Nullable Screen screen) {
+        openScreen = screen;
+    }
+
     /** @return {@code true} if the scroll was used (then the creative list must not scroll) */
-    public static boolean onScroll(Screen screen, double scrollY) {
+    public static boolean onScroll(Screen screen, @Nullable Slot slot, double scrollY) {
         if (scrollY == 0 || !(screen instanceof CreativeModeInventoryScreen creative)) {
             return false;
         }
-        Slot slot = creative.getHoveredSlot();
         if (slot == null || slot.container instanceof Inventory
                 || !(slot.getItem().getItem() instanceof SuitPieceItem piece)
                 || Suits.variantPosition(piece.getSuit()) == null
@@ -55,7 +61,7 @@ public final class SuitVariantScroller {
             return;
         }
         int[] position = Suits.variantPosition(piece.getSuit());
-        if (position == null || !(Minecraft.getInstance().screen instanceof CreativeModeInventoryScreen creative)
+        if (position == null || !(openScreen instanceof CreativeModeInventoryScreen creative)
                 || !isSuitsTabOpen(creative)) {
             return;
         }

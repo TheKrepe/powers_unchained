@@ -9,6 +9,7 @@ import com.thekrepe.powersunchained.client.suit.SuitModelLayers;
 import com.thekrepe.powersunchained.client.suit.SuitRendering;
 import com.thekrepe.powersunchained.client.suit.SuitVariantScroller;
 import net.minecraft.client.entity.ClientAvatarEntity;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.PlayerModelType;
+import net.minecraft.world.inventory.Slot;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -38,10 +40,13 @@ public class PowersUnchainedNeoForgeClient {
         modEventBus.addListener(PowersUnchainedNeoForgeClient::registerRenderStateModifiers);
         NeoForge.EVENT_BUS.addListener(PowersUnchainedNeoForgeClient::onRenderArm);
         NeoForge.EVENT_BUS.addListener((ScreenEvent.MouseScrolled.Pre event) -> {
-            if (SuitVariantScroller.onScroll(event.getScreen(), event.getScrollDeltaY())) {
+            Slot hovered = event.getScreen() instanceof AbstractContainerScreen<?> container ? container.getHoveredSlot() : null;
+            if (SuitVariantScroller.onScroll(event.getScreen(), hovered, event.getScrollDeltaY())) {
                 event.setCanceled(true);
             }
         });
+        NeoForge.EVENT_BUS.addListener((ScreenEvent.Init.Post event) -> SuitVariantScroller.setOpenScreen(event.getScreen()));
+        NeoForge.EVENT_BUS.addListener((ScreenEvent.Closing event) -> SuitVariantScroller.setOpenScreen(null));
         NeoForge.EVENT_BUS.addListener((ItemTooltipEvent event) ->
                 SuitVariantScroller.appendTooltip(event.getItemStack(), event.getToolTip()));
         CiClientDriver.register();
