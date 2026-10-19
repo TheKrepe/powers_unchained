@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "powers_unchained:item/spider_man_mask"
+  }
+}

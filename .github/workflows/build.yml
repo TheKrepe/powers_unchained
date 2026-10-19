@@ -5,6 +5,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,7 +24,24 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build
-        run: ./gradlew build --stacktrace
+        shell: bash
+        run: |
+          set -o pipefail
+          ./gradlew build --stacktrace 2>&1 | tee /tmp/build.log
+
+      # The build log is pushed to the 'ci-log' branch when the build fails, so it can be read
+      # without access to the Actions log storage.
+      - name: Publish build log on failure
+        if: failure()
+        shell: bash
+        run: |
+          mkdir -p /tmp/ci-log && cd /tmp/ci-log
+          cp /tmp/build.log build.log || echo "no log" > build.log
+          echo "${{ github.sha }}" > commit.txt
+          git init -q -b ci-log
+          git -c user.name=ci -c user.email=ci@local add -A
+          git -c user.name=ci -c user.email=ci@local commit -q -m "Build log for ${{ github.sha }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ci-log:ci-log
 
       - name: Upload jars
         uses: actions/upload-artifact@v4

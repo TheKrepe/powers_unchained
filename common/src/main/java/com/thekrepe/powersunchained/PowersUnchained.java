@@ -1,6 +1,8 @@
 package com.thekrepe.powersunchained;
 
 import com.thekrepe.powersunchained.platform.Services;
+import com.thekrepe.powersunchained.registry.PUCreativeTabs;
+import com.thekrepe.powersunchained.registry.PUItems;
 
 /**
  * Loader-independent entry point. Both the NeoForge and Fabric entry points call {@link #init()}.
@@ -16,5 +18,7 @@ public final class PowersUnchained {
                 Constants.MOD_NAME,
                 Services.PLATFORM.getPlatformName(),
                 Services.PLATFORM.getEnvironmentName());
+        PUItems.init();
+        PUCreativeTabs.init();
     }
 }
