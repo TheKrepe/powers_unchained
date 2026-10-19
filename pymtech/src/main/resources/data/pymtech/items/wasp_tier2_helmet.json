@@ -1,0 +1,40 @@
+{
+	"type": "threecore:armor",
+	
+	"properties": {
+		"group": "suits_and_armor"
+	},
+	
+	"slot": "head",
+	
+	"armor_material": "iron",
+	
+	"layers": [
+		"pymtech:wasp_tier2_helmet",
+		"pymtech:wasp_tier2_helmet_lights"
+	],
+
+	"abilities": {
+		"opening": {
+			"ability": "threecore:opening_nbt_timer",
+			"max_timer": 11,
+			"icon": {
+				"type": "threecore:item",
+				"item": "pymtech:wasp_tier2_helmet"
+			},
+			"conditions": [
+				{
+					"type": "threecore:action",
+					"enabling": true
+				},
+				{
+					"type": "threecore:equipment_slot",
+					"slot": "head"
+				}
+			],
+			"additional_data": {
+				"pymtech:helmet_sound": true
+			}
+		}
+	}
+}

@@ -1,0 +1,40 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:material/circuits"
+      ]
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_quartz": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:gems/quartz"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "palladium:quartz_circuit"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_quartz"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "palladium:quartz_circuit"
+    ]
+  }
+}

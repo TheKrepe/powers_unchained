@@ -1,0 +1,106 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net/' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+version = "${minecraft_version}-${build_version}"
+group = "lucraft.mods"
+archivesBaseName = "LucraftCore"
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+
+//Define as core mod
+jar {
+    manifest {
+        attributes 'FMLCorePlugin': 'lucraft.mods.lucraftcore.core.LucraftCoreCoreMod', 'FMLCorePluginContainsFMLMod': 'true',
+		'FMLAT': 'lucraftcore_at.cfg'
+    }
+}
+
+minecraft {
+    mappings channel: 'snapshot', version: '20180814-1.12'
+
+    accessTransformer = file('src/main/resources/META-INF/lucraftcore_at.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+        }
+
+        server {
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+        }
+    }
+}
+
+repositories {
+    maven {
+        name = "JEI"
+        url = "https://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        name = "CoFH Maven"
+        url = "http://maven.covers1624.net"
+    }
+    maven {
+        url = "http://blamejared.com/maven"
+    }
+	maven {
+        url = "https://jitpack.io"
+    }
+    maven {
+        url "https://www.cursemaven.com"
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    compileOnly fileTree(dir: 'libs', include: '*.jar')
+
+	compileOnly ("mod.chiselsandbits:chiselsandbits:${chiselsandbits_version}") {
+		exclude group: 'MCMultiPart2'
+	}
+
+    compileOnly "slimeknights.mantle:Mantle:${mantle_version}"
+
+    compileOnly ("slimeknights:TConstruct:${tconstruct_version}") {
+		exclude group: 'mezz.jei'
+	}
+
+    compileOnly ("blusunrize:ImmersiveEngineering:0.12-+:deobf") {
+        exclude group: 'mezz.jei'
+    }
+
+    compileOnly "curse.maven:jei-238222:${jei_version}"
+	// -> LC needs to use a class of JEI which isnt existent in the API
+}
+
+// Create deobf dev jars
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+    manifest {
+        attributes 'FMLCorePlugin': 'lucraft.mods.lucraftcore.core.LucraftCoreCoreMod', 'FMLCorePluginContainsFMLMod': 'true',
+		'FMLAT': 'lucraftcore_at.cfg'
+    }
+}
+
+artifacts {
+    archives deobfJar
+}
+
+sourceSets {
+    main { output.resourcesDir = output.classesDir }
+}

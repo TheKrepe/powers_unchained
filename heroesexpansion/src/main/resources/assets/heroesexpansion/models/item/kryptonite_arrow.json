@@ -1,0 +1,9 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "lucraftcore:items/radiation",
+		"layer1": "heroesexpansion:items/kryptonite_arrow_overlay",
+		"layer2": "heroesexpansion:items/sharpened_arrow",
+		"layer3": "heroesexpansion:items/kryptonite_arrowhead"
+	}
+}

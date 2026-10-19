@@ -1,0 +1,10 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "threecore:block/hydraulic_press",
+	"textures": {
+		"side": "pymtech:block/structure_shrinker_side",
+		"particle": "pymtech:block/structure_shrinker_side",
+		"top": "pymtech:block/structure_shrinker_top",
+		"front": "pymtech:block/structure_shrinker_front"
+	}
+}

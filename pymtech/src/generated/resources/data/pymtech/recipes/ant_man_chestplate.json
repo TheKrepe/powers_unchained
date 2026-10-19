@@ -1,0 +1,35 @@
+{
+  "type": "threecore:chestplate_crafting",
+  "pattern": [
+    "RRIRR",
+    "BIRIB",
+    "BRRRB",
+    "IXI"
+  ],
+  "key": {
+    "R": {
+      "tag": "threecore:fabric/red"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "B": {
+      "tag": "threecore:fabric/black"
+    },
+    "X": {
+      "item": "pymtech:regulator"
+    }
+  },
+  "tool": {
+    "type": "threecore:tool",
+    "tool": "hammer"
+  },
+  "consumes_tool": false,
+  "result": {
+    "item": "pymtech:ant_man_chestplate",
+    "count": 1,
+    "nbt": {
+      "Damage": 0
+    }
+  }
+}

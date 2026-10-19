@@ -1,0 +1,58 @@
+{
+  "result": {
+    "nbt": "{Energy:0}",
+    "item": "heroesexpansion:falcon_chest",
+    "type": "minecraft:item_nbt"
+  },
+  "pattern": [
+    "PCP",
+    "MEM",
+    "IBI"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:falcon_chest",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "lucraftcore:tri_polymer_red",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "lucraftcore:servo_motor",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:elytra",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "lucraftcore:hv_capacitor",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "lucraftcore:tri_polymer_red"
+    },
+    "B": {
+      "nbt": "{Energy:0}",
+      "item": "lucraftcore:hv_capacitor",
+      "type": "minecraft:item_nbt"
+    },
+    "C": {
+      "item": "#CIRCUITADVANCED"
+    },
+    "E": {
+      "item": "minecraft:elytra"
+    },
+    "I": {
+      "item": "#PLATEIRON"
+    },
+    "M": {
+      "item": "lucraftcore:servo_motor"
+    }
+  },
+  "group": "heroesexpansion:falcon_suit"
+}

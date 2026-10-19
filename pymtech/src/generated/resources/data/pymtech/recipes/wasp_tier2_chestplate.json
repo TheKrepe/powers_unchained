@@ -1,0 +1,40 @@
+{
+  "type": "threecore:chestplate_crafting",
+  "pattern": [
+    "WRBRW",
+    "IYYYI",
+    "BWYWB",
+    "IXI"
+  ],
+  "key": {
+    "Y": {
+      "tag": "threecore:fabric/yellow"
+    },
+    "W": {
+      "item": "pymtech:fiber_composite_wing"
+    },
+    "R": {
+      "tag": "threecore:fabric/red"
+    },
+    "I": {
+      "tag": "forge:ingots/steel"
+    },
+    "B": {
+      "tag": "threecore:fabric/black"
+    },
+    "X": {
+      "item": "pymtech:regulator"
+    }
+  },
+  "tool": {
+    "item": "pymtech:wasp_chestplate"
+  },
+  "consumes_tool": true,
+  "result": {
+    "item": "pymtech:wasp_tier2_chestplate",
+    "count": 1,
+    "nbt": {
+      "Damage": 0
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:material/vibranium"
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "palladium:raw_vibranium_block"
+  ],
+  "result": {
+    "count": 9,
+    "id": "palladium:raw_vibranium"
+  }
+}

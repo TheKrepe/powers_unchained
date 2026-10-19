@@ -1,0 +1,13 @@
+{
+	"type": "threecore:default",
+	"model": "pymtech:ant_man_helmet",
+	"texture": {
+		"base": "pymtech:textures/models/armor/ant_man_tier2/helmet_#TIMER.png",
+		"variables": {
+			"TIMER": {
+				"type": "threecore:integer_nbt",
+				"nbt_tag": "Opening"
+			}
+		}
+	}
+}

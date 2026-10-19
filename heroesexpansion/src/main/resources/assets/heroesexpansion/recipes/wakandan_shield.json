@@ -1,0 +1,32 @@
+{
+  "result": {
+    "item": "heroesexpansion:wakandan_shield"
+  },
+  "pattern": [
+    " I ",
+    "VPV",
+    "VVV"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:wakandan_shield",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:piston",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "V": {
+      "item": "#PLATEVIBRANIUM"
+    },
+    "I": {
+      "item": "#INGOTVIBRANIUM"
+    }
+  }
+}

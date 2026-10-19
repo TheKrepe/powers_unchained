@@ -1,0 +1,31 @@
+{
+	"result": {
+		"fluid": "radioactive_acid",
+		"amount": 500
+	},
+  
+	"input_fluid": {
+		"fluid": "water",
+		"amount": 4000
+	},
+  
+	"energy": 2500,
+  
+	"ingredients": [
+		{
+			"item": "#URANIUMDUST"
+		},
+		{
+			"item": "#COALDUST"
+		},
+		{
+			"item": "minecraft:blaze_powder"
+		},
+		{
+			"item": "minecraft:nether_wart"
+		},
+		{
+			"item": "minecraft:fermented_spider_eye"
+		}
+	]
+}

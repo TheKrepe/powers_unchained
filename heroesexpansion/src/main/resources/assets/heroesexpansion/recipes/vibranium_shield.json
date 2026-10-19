@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "heroesexpansion:vibranium_shield"
+  },
+  "pattern": [
+    "XXX",
+    "XIX",
+    "XXX"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:vibranium_shield",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "X": {
+      "item": "#PLATEVIBRANIUM"
+    },
+    "I": {
+      "item": "#INGOTVIBRANIUM"
+    }
+  }
+}

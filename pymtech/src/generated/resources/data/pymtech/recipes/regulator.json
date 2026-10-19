@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NPN",
+    "SCG",
+    "NPN"
+  ],
+  "key": {
+    "P": {
+      "tag": "forge:plates/iron"
+    },
+    "S": {
+      "item": "pymtech:shrinking_size_coil"
+    },
+    "C": {
+      "item": "threecore:advanced_circuit"
+    },
+    "G": {
+      "item": "pymtech:enlargement_size_coil"
+    },
+    "N": {
+      "tag": "forge:nuggets/iron"
+    }
+  },
+  "result": {
+    "item": "pymtech:regulator"
+  }
+}

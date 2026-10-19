@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:material/lead"
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "palladium:lead_ingot"
+  ],
+  "result": {
+    "count": 9,
+    "id": "palladium:lead_nugget"
+  }
+}

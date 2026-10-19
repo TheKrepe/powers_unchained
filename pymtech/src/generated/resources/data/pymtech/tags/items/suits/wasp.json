@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "pymtech:wasp_helmet",
+    "pymtech:wasp_chestplate",
+    "pymtech:wasp_leggings",
+    "pymtech:wasp_boots"
+  ]
+}

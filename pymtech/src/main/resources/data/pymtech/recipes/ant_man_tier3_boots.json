@@ -1,0 +1,30 @@
+{
+  "type": "threecore:boots_crafting",
+  "pattern": [
+    "RR",
+    "II",
+    "BBBB"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/steel"
+    },
+    "R": {
+      "tag": "threecore:fabric/red"
+    },
+    "B": {
+      "tag": "threecore:fabric/black"
+    }
+  },
+  "tool": {
+    "item": "pymtech:ant_man_tier2_boots"
+  },
+  "consumes_tool": true,
+  "result": {
+    "item": "pymtech:ant_man_tier3_boots",
+    "count": 1,
+    "nbt": {
+      "Damage": 0
+    }
+  }
+}

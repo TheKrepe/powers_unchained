@@ -1,0 +1,22 @@
+{
+  "type": "threecore:armor",
+
+  "properties": {
+	"group": "suits_and_armor"
+  },
+
+  "slot": "head",
+
+  "armor_material": "iron",
+
+  "layers": [
+	{
+	  "type": "threecore:default",
+	  "model": "threecore:biped_0.5",
+	  "texture": "pymtech:textures/models/armor/zombie_giant_man/layer_0.png"
+	},
+	{
+	  "type": "pymtech:open_skull"
+	}
+  ]
+}

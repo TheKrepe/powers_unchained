@@ -1,0 +1,15 @@
+{
+  "output": {
+    "item": "heroesexpansion:green_arrow_chest"
+  },
+  "requirements": [
+    {
+      "item": "lucraftcore:tri_polymer_green",
+      "amount": 8
+    },
+    {
+      "item": "lucraftcore:tri_polymer_black",
+      "amount": 5
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"flight.propelled": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [
+						"palladium.flight_propulsion_scale() * (palladium.head_x_rotation() + 80) + 30 * palladium.flight_speed_forward() * (1 - palladium.flight_propulsion_scale())",
+						"palladium.flight_yaw_delta() * palladium.flight_propulsion_scale()",
+						"palladium.flight_roll() * palladium.flight_propulsion_scale() * -1 - 30 * palladium.flight_speed_sideways() * (1 - palladium.flight_propulsion_scale())"
+					],
+					"position": [0, "-9 * palladium.flight_propulsion_scale()", 0]
+				},
+				"torso": {
+					"rotation": ["pal.disabled", "palladium.attack_body_yaw()", "pal.disabled"]
+				},
+				"head": {
+					"rotation": [
+						"palladium.head_x_rotation() - palladium.flight_propulsion_scale() * (palladium.head_x_rotation() + 45) - 30 * palladium.flight_speed_forward() * (1 - palladium.flight_propulsion_scale())",
+						"pal.disabled",
+						"pal.disabled"
+					]
+				},
+				"right_arm": {
+					"rotation": [
+						"8 * palladium.flight_propulsion_scale() + 0.2 * math.abs(palladium.flight_speed_forward() * palladium.flight_yaw_delta() * palladium.flight_propulsion_scale()) + 5 * (1 - palladium.flight_propulsion_scale()) + palladium.attack_swing_x() * palladium.attack_on_right_arm()",
+						"18 * palladium.flight_propulsion_scale() + 20 * (1 - palladium.flight_propulsion_scale()) + palladium.attack_body_yaw() + palladium.attack_swing_y() * palladium.attack_on_right_arm()",
+						"12 * palladium.flight_propulsion_scale() + (10 + math.sin(query.anim_time * 100) * 3) * (1 - palladium.flight_propulsion_scale()) + palladium.attack_swing_z() * palladium.attack_on_right_arm()"
+					]
+				},
+				"left_arm": {
+					"rotation": [
+						"8 * palladium.flight_propulsion_scale() + 0.2 * math.abs(palladium.flight_speed_forward() * palladium.flight_yaw_delta() * palladium.flight_propulsion_scale()) + 5 * (1 - palladium.flight_propulsion_scale()) + palladium.attack_swing_x() * palladium.attack_on_left_arm()",
+						"-18 * palladium.flight_propulsion_scale() - 20 * (1 - palladium.flight_propulsion_scale()) + palladium.attack_body_yaw() + palladium.attack_swing_y() * palladium.attack_on_left_arm()",
+						"-12 * palladium.flight_propulsion_scale() - (10 + math.sin(query.anim_time * 100) * 3) * (1 - palladium.flight_propulsion_scale()) + palladium.attack_swing_z() * palladium.attack_on_left_arm()"
+					]
+				},
+				"right_leg": {
+					"rotation": [
+						"15 * palladium.flight_propulsion_scale() + 0.12 * palladium.flight_speed_forward() * palladium.flight_yaw_delta() * palladium.flight_propulsion_scale() + math.sin(query.anim_time * 75) * 6 * (1 - palladium.flight_propulsion_scale())",
+						"2 * palladium.flight_propulsion_scale() + 10 * (1 - palladium.flight_propulsion_scale())",
+						"3 * palladium.flight_propulsion_scale() + 2 * (1 - palladium.flight_propulsion_scale())"
+					]
+				},
+				"left_leg": {
+					"rotation": [
+						"15 * palladium.flight_propulsion_scale() - 0.12 * palladium.flight_speed_forward() * palladium.flight_yaw_delta() * palladium.flight_propulsion_scale() + math.cos(query.anim_time * 75) * 6 * (1 - palladium.flight_propulsion_scale())",
+						"-2 * palladium.flight_propulsion_scale() - 10 * (1 - palladium.flight_propulsion_scale())",
+						"-3 * palladium.flight_propulsion_scale() - 2 * (1 - palladium.flight_propulsion_scale())"
+					]
+				}
+			}
+		},
+		"flight.barrel_roll_left": {
+			"loop": false,
+			"animation_length": 0.6,
+			"bones": {
+				"body": {
+					"rotation": [
+						"palladium.head_x_rotation() + 80",
+						"pal.disabled",
+						"360 * (math.min(1, query.anim_time / 0.55) * math.min(1, query.anim_time / 0.55) * (3 - 2 * math.min(1, query.anim_time / 0.55)) - math.floor(math.min(1, query.anim_time / 0.55)))"
+					],
+					"position": [0, -9, 0]
+				},
+				"head": {
+					"rotation": ["-45", "pal.disabled", "pal.disabled"]
+				},
+				"right_arm": {
+					"rotation": [8, 5, 4]
+				},
+				"left_arm": {
+					"rotation": [8, -5, -4]
+				},
+				"right_leg": {
+					"rotation": [12, 2, 3]
+				},
+				"left_leg": {
+					"rotation": [12, -2, -3]
+				}
+			}
+		},
+		"flight.barrel_roll_right": {
+			"loop": false,
+			"animation_length": 0.6,
+			"bones": {
+				"body": {
+					"rotation": [
+						"palladium.head_x_rotation() + 80",
+						"pal.disabled",
+						"-360 * (math.min(1, query.anim_time / 0.55) * math.min(1, query.anim_time / 0.55) * (3 - 2 * math.min(1, query.anim_time / 0.55)) - math.floor(math.min(1, query.anim_time / 0.55)))"
+					],
+					"position": [0, -9, 0]
+				},
+				"head": {
+					"rotation": ["-45", "pal.disabled", "pal.disabled"]
+				},
+				"right_arm": {
+					"rotation": [8, 5, 4]
+				},
+				"left_arm": {
+					"rotation": [8, -5, -4]
+				},
+				"right_leg": {
+					"rotation": [12, 2, 3]
+				},
+				"left_leg": {
+					"rotation": [12, -2, -3]
+				}
+			}
+		},
+		"flight.levitating": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": ["30 * palladium.flight_speed_forward()", 0, "-30 * palladium.flight_speed_sideways()"]
+				},
+				"torso": {
+					"rotation": ["pal.disabled", "palladium.attack_body_yaw()", "pal.disabled"]
+				},
+				"head": {
+					"rotation": ["palladium.head_x_rotation() - 30 * palladium.flight_speed_forward()", "palladium.head_y_rotation()", "pal.disabled"]
+				},
+				"right_arm": {
+					"rotation": [
+						"0.2 * palladium.flight_speed_forward() + 0.1 * palladium.flight_speed_sideways() + palladium.attack_swing_x() * palladium.attack_on_right_arm()",
+						"20 + palladium.attack_body_yaw() + palladium.attack_swing_y() * palladium.attack_on_right_arm()",
+						"15 + 0.1 * math.abs(palladium.flight_speed_forward()) + 0.2 * palladium.flight_speed_sideways() + palladium.attack_swing_z() * palladium.attack_on_right_arm()"
+					]
+				},
+				"left_arm": {
+					"rotation": [
+						"0.2 * palladium.flight_speed_forward() - 0.1 * palladium.flight_speed_sideways() + palladium.attack_swing_x() * palladium.attack_on_left_arm()",
+						"-20 + palladium.attack_body_yaw() + palladium.attack_swing_y() * palladium.attack_on_left_arm()",
+						"-15 - 0.1 * math.abs(palladium.flight_speed_forward()) + 0.2 * palladium.flight_speed_sideways() + palladium.attack_swing_z() * palladium.attack_on_left_arm()"
+					]
+				},
+				"right_leg": {
+					"rotation": [
+						"0.3 * palladium.flight_speed_forward()",
+						5,
+						"2 + 0.05 * math.abs(palladium.flight_speed_forward()) + 0.4 * palladium.flight_speed_sideways()"
+					]
+				},
+				"left_leg": {
+					"rotation": [
+						"0.2 * palladium.flight_speed_forward()",
+						-5,
+						"-2 - 0.05 * math.abs(palladium.flight_speed_forward()) + 0.4 * palladium.flight_speed_sideways()"
+					]
+				}
+			}
+		}
+	}
+}

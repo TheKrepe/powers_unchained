@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:material/vibranium"
+      ]
+    }
+  ],
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 1.5,
+  "group": "vibranium_ingot",
+  "ingredient": "palladium:vibranium_ore",
+  "result": {
+    "id": "palladium:vibranium_ingot"
+  }
+}

@@ -1,0 +1,180 @@
+{
+	"type": "threecore:armor",
+
+	"properties": {
+		"group": "suits_and_armor"
+	},
+
+	"slot": "chest",
+
+	"armor_material": "leather",
+
+	"layers": [
+		"pymtech:ant_man_layer0",
+		"pymtech:ant_man_layer0_lights"
+	],
+
+	"abilities": {
+
+		"regulator": {
+			"ability": "pymtech:regulator",
+			"conditions": [
+				{
+					"type": "threecore:action",
+					"enabling": true
+				},
+				{
+					"type": "threecore:wearing_item_tag",
+					"item_tag": "pymtech:suits/ant_man",
+					"custom_title": {
+						"translate": "item.pymtech.ant_man_chestplate.wear_complete_suit"
+					}
+				}
+			]
+		},
+
+		"shrink": {
+			"ability": "pymtech:pym_particle_size_change",
+			"regulator_ability": "regulator",
+			"title": {
+				"translate": "ability.pymtech.pym_particle_size_change.shrink"
+			},
+			"size": 0.1,
+			"conditions": [
+				{
+					"type": "threecore:action",
+					"enabling": true
+				},
+				{
+					"type": "threecore:wearing_item_tag",
+					"item_tag": "pymtech:suits/ant_man",
+					"custom_title": {
+						"translate": "item.pymtech.ant_man_chestplate.wear_complete_suit"
+					}
+				}
+			],
+			"additional_data": {
+				"pymtech:button_sound": true
+			}
+		},
+
+		"grow": {
+			"ability": "pymtech:pym_particle_size_change",
+			"regulator_ability": "regulator",
+			"title": {
+				"translate": "ability.pymtech.pym_particle_size_change.enlarge"
+			},
+			"icon": {
+				"type": "pymtech:pym_particles",
+				"size": 1
+			},
+			"size": 1,
+			"conditions": [
+				{
+					"type": "threecore:action",
+					"enabling": true
+				},
+				{
+					"type": "threecore:wearing_item_tag",
+					"item_tag": "pymtech:suits/ant_man",
+					"custom_title": {
+						"translate": "item.pymtech.ant_man_chestplate.wear_complete_suit"
+					}
+				}
+			],
+			"additional_data": {
+				"pymtech:button_sound": true
+			}
+		},
+
+		"size_resistance": {
+			"ability": "threecore:attribute_modifier",
+			"hidden": true,
+			"title": {
+				"translate": "ability.pymtech.size_resistance"
+			},
+			"attribute": "pymtech:size_resistance",
+			"amount": 300,
+			"operation": 0,
+			"uuid": "403f82de-3e43-49a2-bc4c-a0509fcdc8cb",
+			"conditions": [
+				{
+					"type": "threecore:wearing_item_tag",
+					"item_tag": "pymtech:suits/ant_man",
+					"custom_title": {
+						"translate": "item.pymtech.ant_man_chestplate.wear_complete_suit"
+					}
+				}
+			]
+		},
+
+		"suffocation_resistance": {
+			"ability": "threecore:damage_immunity",
+			"hidden": true,
+			"damage_sources": "pymParticleSuffocate",
+			"conditions": [
+				{
+					"type": "threecore:wearing_item_tag",
+					"item_tag": "pymtech:suits/ant_man",
+					"custom_title": {
+						"translate": "item.pymtech.ant_man_chestplate.wear_complete_suit"
+					}
+				},
+				{
+					"type": "threecore:item_integer_nbt",
+					"enabling": true,
+					"custom_title": {
+						"translate": "item.pymtech.ant_man_chestplate.helmet_closed"
+					}
+				}
+			]
+		},
+
+		"water_breathing": {
+			"ability": "threecore:potion_effect",
+			"hidden": true,
+			"effect": "minecraft:water_breathing",
+			"duration": 110,
+			"show_icon": false,
+			"title": {
+				"translate": "effect.minecraft.water_breathing"
+			},
+			"icon": {
+				"type": "threecore:texture",
+				"texture": "minecraft:textures/mob_effect/water_breathing.png",
+				"u": 0,
+				"v": 0,
+				"width": 16,
+				"height": 16,
+				"texture_width": 16,
+				"texture_height": 16
+			},
+			"conditions": [
+				{
+					"type": "threecore:wearing_item_tag",
+					"item_tag": "pymtech:suits/ant_man",
+					"custom_title": {
+						"translate": "item.pymtech.ant_man_chestplate.wear_complete_suit"
+					}
+				},
+				{
+					"type": "threecore:item_integer_nbt",
+					"enabling": true,
+					"custom_title": {
+						"translate": "item.pymtech.ant_man_chestplate.helmet_closed"
+					}
+				},
+				{
+					"type": "threecore:eyes_in_fluid",
+					"fluid_tag": "minecraft:water",
+					"enabling": true,
+					"invert": true,
+					"custom_title": {
+						"translate": "item.pymtech.ant_man_chestplate.in_water"
+					}
+				}
+			]
+		}
+
+	}
+}

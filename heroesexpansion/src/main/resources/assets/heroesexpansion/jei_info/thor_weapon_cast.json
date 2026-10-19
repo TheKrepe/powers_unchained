@@ -1,0 +1,18 @@
+{
+	"items": [
+		{
+			"item": "heroesexpansion:mjolnir_head_cast"
+		},
+		{
+			"item": "heroesexpansion:ultimate_mjolnir_head_cast"
+		},
+		{
+			"item": "heroesexpansion:stormbreaker_head_cast"
+		}
+	],
+	
+	"text": {
+		"translate": "heroesexpansion.jei.thor_weapon_cast"
+	}
+
+}

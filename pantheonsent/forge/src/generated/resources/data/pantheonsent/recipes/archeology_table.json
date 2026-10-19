@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:brush"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "X": {
+      "item": "minecraft:book"
+    }
+  },
+  "pattern": [
+    "BX",
+    "PP"
+  ],
+  "result": {
+    "item": "pantheonsent:archeology_table"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,17 @@
+{
+  "output": {
+    "item": "heroesexpansion:spider_man_helmet"
+  },
+  "requirements": [
+    {
+      "item": "heroesexpansion:spider_man_homemade_helmet"
+    },
+    {
+      "item": "lucraftcore:tri_polymer_red",
+      "amount": 5
+    },
+    {
+      "item": "lucraftcore:basic_circuit"
+    }
+  ]
+}

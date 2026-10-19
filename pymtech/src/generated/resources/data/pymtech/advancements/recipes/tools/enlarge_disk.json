@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "pymtech:enlarge_disk"
+    ]
+  },
+  "criteria": {
+    "has_shrink_pym_particles": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pymtech:enlarge_pym_particles_bucket"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "pymtech:enlarge_disk"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_shrink_pym_particles",
+      "has_the_recipe"
+    ]
+  ]
+}

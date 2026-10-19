@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:material/vibranium"
+      ]
+    }
+  ],
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 1.5,
+  "group": "vibranium_ingot",
+  "ingredient": "palladium:deepslate_vibranium_ore",
+  "result": {
+    "id": "palladium:vibranium_ingot"
+  }
+}

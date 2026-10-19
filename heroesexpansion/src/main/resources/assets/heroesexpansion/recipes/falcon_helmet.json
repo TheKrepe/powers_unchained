@@ -1,0 +1,28 @@
+{
+  "result": {
+    "item": "heroesexpansion:falcon_helmet"
+  },
+  "pattern": [
+    "NIN",
+    "GNG"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:falcon_helmet",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "G": {
+      "item": "#PANEGLASSRED"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    },
+    "N": {
+      "item": "#NUGGETIRON"
+    }
+  },
+  "group": "heroesexpansion:falcon_suit"
+}

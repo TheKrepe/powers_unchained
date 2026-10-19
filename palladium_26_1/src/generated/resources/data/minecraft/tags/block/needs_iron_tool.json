@@ -1,0 +1,27 @@
+{
+  "values": [
+    "palladium:multiversal_iterator",
+    "palladium:meteorite_stone",
+    "palladium:meteorite_stone_stairs",
+    "palladium:meteorite_stone_wall",
+    "palladium:meteorite_stone_slab",
+    "palladium:meteorite_bricks",
+    "palladium:meteorite_brick_stairs",
+    "palladium:meteorite_brick_wall",
+    "palladium:meteorite_brick_slab",
+    "palladium:meteorite_gold_ore",
+    "palladium:meteorite_redstone_ore",
+    "palladium:meteorite_emerald_ore",
+    "palladium:meteorite_diamond_ore",
+    "palladium:lead_ore",
+    "palladium:deepslate_lead_ore",
+    "palladium:meteorite_lead_ore",
+    "palladium:lead_block",
+    "palladium:raw_lead_block",
+    "palladium:titanium_ore",
+    "palladium:deepslate_titanium_ore",
+    "palladium:meteorite_titanium_ore",
+    "palladium:titanium_block",
+    "palladium:raw_titanium_block"
+  ]
+}

@@ -1,0 +1,111 @@
+name: Build and Release Preview (26.1)
+
+on:
+  push:
+    branches:
+      - "26.1/dev"
+    paths:
+      - "src/**"
+
+jobs:
+  build:
+    name: "Build and Release Previews"
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v2
+        with:
+          java-version: 25
+          distribution: 'temurin'
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v2
+
+      - run: chmod +x gradlew
+
+      - name: Cache Gradle and NeoForm Runtime
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/caches/neoformruntime
+            ~/.gradle/wrapper/dists
+          key: gradle-${{ runner.os }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties', 'gradle.properties', 'build.gradle', 'settings.gradle') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Build Version
+        env:
+          JAVA_TOOL_OPTIONS: -Xmx4g
+        run: ./gradlew build --stacktrace --no-daemon --no-parallel
+
+      - name: Setting mod version
+        run: |
+          cat $GITHUB_WORKSPACE/gradle.properties | grep ^mod_id= >> $GITHUB_ENV
+          cat $GITHUB_WORKSPACE/gradle.properties | grep ^minecraft_version= >> $GITHUB_ENV
+
+      - name: Get short commit hash
+        id: vars
+        run: echo "mod_version=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Publish version
+        id: publish
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          name: Palladium Preview ${{ env.mod_version }} for NeoForge ${{ env.minecraft_version }}
+          version: ${{ env.mod_version }}+${{ env.minecraft_version }}
+          modrinth-id: 92dtp3u1
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          changelog: "https://git.threetag.net/ThreeTAG/Palladium/compare/${{ github.event.before }}...${{ github.sha }}"
+          loaders: |
+            neoforge
+          game-versions: |
+            ${{ env.minecraft_version }}
+          files: |
+            build/libs/!(*-@(dev-shadow|sources|javadoc)).jar
+          dependencies: |
+            playeranimationlibrary(embedded){modrinth:kkmrDlKT}{curseforge:940057}
+            terrablender(embedded){modrinth:ha1mEyJS}{curseforge:1283899}
+            geckolib(optional){modrinth:8BmcQJ2H}{curseforge:388172}
+            curios(optional){modrinth:vvuO3ImH}{curseforge:309927}
+
+      - name: Notify Discord
+        if: ${{ success() && steps.publish.outputs.modrinth-version != '' }}
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          MODRINTH_PROJECT: ${{ steps.publish.outputs.modrinth-id }}
+          MODRINTH_VERSION: ${{ steps.publish.outputs.modrinth-version }}
+          MODRINTH_URL: ${{ steps.publish.outputs.modrinth-url }}
+          MODRINTH_FILES: ${{ steps.publish.outputs.modrinth-files }}
+        run: |
+          node -e '
+            const tick = String.fromCharCode(96);
+            const file = (JSON.parse(process.env.MODRINTH_FILES || "[]")[0]) || {};
+            const payload = {
+              embeds: [{
+                title: "Palladium Preview " + process.env.mod_version + " for NeoForge " + process.env.minecraft_version,
+                url: process.env.MODRINTH_URL,
+                color: 1943551,
+                fields: [
+                  { name: "Project ID", value: tick + process.env.MODRINTH_PROJECT + tick, inline: true },
+                  { name: "Version ID", value: tick + process.env.MODRINTH_VERSION + tick, inline: true },
+                  { name: "File", value: "[" + (file.name || "unknown") + "](" + (file.url || "") + ")" }
+                ]
+              }]
+            };
+            console.log(JSON.stringify(payload, null, 2));
+            fetch(process.env.WEBHOOK, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            }).then(async r => {
+              if (!r.ok) { throw new Error("Discord returned " + r.status + ": " + await r.text()); }
+              console.log("Discord notified");
+            }).catch(e => { console.error(e.message); process.exit(1); });
+          '

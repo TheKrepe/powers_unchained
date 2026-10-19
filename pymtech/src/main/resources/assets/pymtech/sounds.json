@@ -1,0 +1,42 @@
+{
+    "shrink": {
+        "sounds": ["pymtech:shrink"],
+        "subtitle": "subtitles.pymtech.shrink"
+    },
+
+    "shrink_underwater": {
+        "sounds": ["pymtech:shrink_underwater"],
+        "subtitle": "subtitles.pymtech.shrink_underwater"
+    },
+
+    "enlarge": {
+        "sounds": ["pymtech:enlarge"],
+        "subtitle": "subtitles.pymtech.enlarge"
+    },
+
+    "enlarge_underwater": {
+        "sounds": ["pymtech:enlarge_underwater"],
+        "subtitle": "subtitles.pymtech.enlarge_underwater"
+    },
+
+    "helmet_opening": {
+        "sounds": ["pymtech:helmet_opening"],
+        "subtitle": "subtitles.pymtech.helmet_opening"
+    },
+
+    "helmet_closing": {
+        "sounds": ["pymtech:helmet_closing"],
+        "subtitle": "subtitles.pymtech.helmet_closing"
+    },
+
+    "button": {
+        "sounds": ["pymtech:button1", "pymtech:button2"],
+        "subtitle": "subtitles.pymtech.button"
+    },
+
+    "stinger_blaster": {
+        "sounds": ["pymtech:stinger_blaster"],
+        "subtitle": "subtitles.pymtech.stinger_blaster"
+    }
+
+}

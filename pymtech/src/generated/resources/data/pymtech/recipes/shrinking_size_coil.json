@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WIW",
+    "PXP",
+    "WRW"
+  ],
+  "key": {
+    "W": {
+      "tag": "forge:nuggets/copper"
+    },
+    "I": {
+      "tag": "forge:ingots/intertium"
+    },
+    "P": {
+      "tag": "forge:plates/iron"
+    },
+    "R": {
+      "tag": "forge:dusts/redstone"
+    },
+    "X": {
+      "tag": "forge:ingots/palladium"
+    }
+  },
+  "result": {
+    "item": "pymtech:shrinking_size_coil"
+  }
+}

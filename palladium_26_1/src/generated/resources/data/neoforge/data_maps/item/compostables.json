@@ -1,0 +1,15 @@
+{
+  "values": {
+    "palladium:heart_shaped_herb": {
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:feature_flags_enabled",
+          "flags": [
+            "palladium:block/heart_shaped_herb"
+          ]
+        }
+      ],
+      "chance": 0.65
+    }
+  }
+}

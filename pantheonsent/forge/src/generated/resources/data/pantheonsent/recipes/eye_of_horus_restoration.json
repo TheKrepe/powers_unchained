@@ -1,0 +1,12 @@
+{
+  "type": "pantheonsent:restoration",
+  "addition": {
+    "item": "pantheonsent:ancient_gold_shard"
+  },
+  "base": {
+    "item": "pantheonsent:broken_eye_of_horus"
+  },
+  "result": {
+    "item": "pantheonsent:eye_of_horus"
+  }
+}

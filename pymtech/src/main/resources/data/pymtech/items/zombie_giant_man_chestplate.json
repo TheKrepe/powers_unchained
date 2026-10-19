@@ -1,0 +1,124 @@
+{
+	"type": "threecore:armor",
+
+	"properties": {
+		"group": "suits_and_armor"
+	},
+
+	"slot": "chest",
+
+	"armor_material": "iron",
+
+	"abilities": {
+
+		"regulator": {
+			"ability": "pymtech:regulator_tier3",
+			"conditions": [
+				{
+					"type": "threecore:action",
+					"enabling": true
+				},
+				{
+					"type": "threecore:wearing_item_tag",
+					"item_tag": "pymtech:suits/zombie_giant_man",
+					"custom_title": {
+						"translate": "item.pymtech.zombie_giant_man_chestplate.wear_complete_suit"
+					}
+				}
+			]
+		},
+
+		"shrink": {
+			"ability": "pymtech:pym_particle_size_change",
+			"regulator_ability": "regulator",
+			"title": {
+				"translate": "ability.pymtech.pym_particle_size_change.shrink"
+			},
+			"size": 0.1,
+			"conditions": [
+				{
+					"type": "threecore:action",
+					"enabling": true
+				},
+				{
+					"type": "threecore:wearing_item_tag",
+					"item_tag": "pymtech:suits/zombie_giant_man",
+					"custom_title": {
+						"translate": "item.pymtech.zombie_giant_man_chestplate.wear_complete_suit"
+					}
+				}
+			],
+			"additional_data": {
+				"pymtech:button_sound": true
+			}
+		},
+
+		"grow": {
+			"ability": "pymtech:pym_particle_size_change",
+			"regulator_ability": "regulator",
+			"title": {
+				"translate": "ability.pymtech.pym_particle_size_change.enlarge"
+			},
+			"icon": {
+				"type": "pymtech:pym_particles",
+				"size": 1
+			},
+			"size": 5,
+			"conditions": [
+				{
+					"type": "threecore:action",
+					"enabling": true
+				},
+				{
+					"type": "threecore:wearing_item_tag",
+					"item_tag": "pymtech:suits/zombie_giant_man",
+					"custom_title": {
+						"translate": "item.pymtech.zombie_giant_man_chestplate.wear_complete_suit"
+					}
+				}
+			],
+			"additional_data": {
+				"pymtech:button_sound": true
+			}
+		},
+
+		"size_resistance": {
+			"ability": "threecore:attribute_modifier",
+			"hidden": true,
+			"title": {
+				"translate": "ability.pymtech.size_resistance"
+			},
+			"attribute": "pymtech:size_resistance",
+			"amount": 1700,
+			"operation": 0,
+			"uuid": "403f82de-3e43-49a2-bc4c-a0509fcdc8cb",
+			"conditions": [
+				{
+					"type": "threecore:wearing_item_tag",
+					"item_tag": "pymtech:suits/zombie_giant_man",
+					"custom_title": {
+						"translate": "item.pymtech.zombie_giant_man_chestplate.wear_complete_suit"
+					}
+				}
+			]
+		},
+
+		"suffocation_resistance": {
+			"ability": "threecore:damage_immunity",
+			"hidden": true,
+			"damage_sources": "pymParticleSuffocate",
+			"conditions": [
+				{
+					"type": "threecore:wearing_item_tag",
+					"item_tag": "pymtech:suits/zombie_giant_man",
+					"custom_title": {
+						"translate": "item.pymtech.zombie_giant_man_chestplate.wear_complete_suit"
+					}
+				}
+			]
+		}
+
+	},
+
+	"layers": "pymtech:zombie_giant_man_layer0"
+}

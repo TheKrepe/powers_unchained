@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:black_panther_suit"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.vibranium.suit.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.vibranium.suit.description"
+        }
+    },
+    "parent": "heroesexpansion:vibranium/powers",
+    "criteria": {
+        "chest": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:black_panther_suit"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,41 @@
+{
+  "block.khonshu_captured": {
+    "sounds": [
+      "block/beacon/activate"
+    ],
+    "subtitle": "subtitles.pantheonsent.block.khonshu_captured"
+  },
+  "entity.cape": {
+    "sounds": [
+      "pantheonsent:cape_1",
+      "pantheonsent:cape_2",
+      "pantheonsent:cape_3",
+      "pantheonsent:cape_4",
+      "pantheonsent:cape_5",
+      "pantheonsent:cape_6",
+      "pantheonsent:cape_7",
+      "pantheonsent:cape_8"
+    ],
+    "subtitle": "subtitles.pantheonsent.entity.cape"
+  },
+  "entity.moon_knight_transformation": {
+    "sounds": [
+      "pantheonsent:moon_knight_transformation"
+    ],
+    "subtitle": "subtitles.pantheonsent.entity.moon_knight_transformation"
+  },
+  "item.eye_of_horus.use": {
+    "sounds": [
+      "pantheonsent:eye_of_horus"
+    ],
+    "subtitle": "subtitles.pantheonsent.item.eye_of_horus.use"
+  },
+  "music_disc.chons": {
+    "sounds": [
+      {
+        "name": "pantheonsent:music_disc_chons",
+        "stream": true
+      }
+    ]
+  }
+}

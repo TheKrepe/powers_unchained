@@ -1,0 +1,36 @@
+{
+  "result": {
+    "item": "heroesexpansion:chitauri_gun"
+  },
+  "pattern": [
+    "RM ",
+    "MCM",
+    " MM"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:chitauri_gun",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:chitauri_metal",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:chitauri_energy_core",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "R": {
+      "item": "#DUSTREDSTONE"
+    },
+    "C": {
+      "item": "heroesexpansion:chitauri_energy_core"
+    },
+    "M": {
+      "item": "heroesexpansion:chitauri_metal"
+    }
+  }
+}

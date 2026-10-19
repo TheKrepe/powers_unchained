@@ -1,0 +1,40 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:block/heart_shaped_herb"
+      ]
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_heart_shaped_herb": {
+      "conditions": {
+        "items": [
+          {
+            "items": "palladium:heart_shaped_herb"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "palladium:purple_dye_from_heart_shaped_herb"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_heart_shaped_herb"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "palladium:purple_dye_from_heart_shaped_herb"
+    ]
+  }
+}

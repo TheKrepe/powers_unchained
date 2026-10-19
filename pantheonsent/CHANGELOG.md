@@ -1,0 +1,2 @@
+- Added Comic Moon Knight skin
+- Changed crescent dart to baton when using Mr Knight

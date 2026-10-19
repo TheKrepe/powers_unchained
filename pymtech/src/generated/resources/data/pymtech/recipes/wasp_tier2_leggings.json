@@ -1,0 +1,31 @@
+{
+  "type": "threecore:leggings_crafting",
+  "pattern": [
+    "YIY",
+    "YY",
+    "BB",
+    "BB"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/steel"
+    },
+    "Y": {
+      "tag": "threecore:fabric/yellow"
+    },
+    "B": {
+      "tag": "threecore:fabric/black"
+    }
+  },
+  "tool": {
+    "item": "pymtech:wasp_leggings"
+  },
+  "consumes_tool": true,
+  "result": {
+    "item": "pymtech:wasp_tier2_leggings",
+    "count": 1,
+    "nbt": {
+      "Damage": 0
+    }
+  }
+}

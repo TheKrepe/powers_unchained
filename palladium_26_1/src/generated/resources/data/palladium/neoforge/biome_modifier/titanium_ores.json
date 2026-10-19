@@ -1,0 +1,9 @@
+{
+  "type": "palladium:feature_flag_add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "#palladium:titanium_ores",
+  "flags": [
+    "palladium:material/titanium"
+  ],
+  "step": "underground_ores"
+}

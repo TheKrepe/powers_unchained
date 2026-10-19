@@ -1,0 +1,29 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:captain_america_shield"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.vibranium.cap_shield.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.vibranium.cap_shield.description"
+        }
+    },
+	"parent": "heroesexpansion:vibranium/shield",
+    "criteria": {
+        "crafting_table": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:captain_america_shield"
+                    }
+                ]
+            }
+        }
+    },
+	"rewards": {
+        "loot": ["heroesexpansion:captain_america_suit_instruction"]
+    }
+}

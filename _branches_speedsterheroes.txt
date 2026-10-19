@@ -1,0 +1,7 @@
+c22c2d86966d0058f5eebb8e6d2efcdd8e75c52e	refs/heads/1.10.2
+e37df373bf4551f782bafd5639ff7cf3b934b087	refs/heads/1.11.2
+dcbc9041330408595ca2193079f1a23927bb6476	refs/heads/1.12
+8c7d5642e5c06f2726d66ead13d1fa95b317c06d	refs/heads/1.12.2-2.0
+140d42ae64d91125d3bc42fc2bfde3de8e443dae	refs/heads/1.12.2-Lite
+ad4632472bf7b13e57fd6c949d2e53bde0317b34	refs/heads/1.8.9
+9d8b012a6d899acd9934b96eaef034b3259e6eeb	refs/heads/master

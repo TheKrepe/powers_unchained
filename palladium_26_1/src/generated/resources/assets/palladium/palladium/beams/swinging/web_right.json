@@ -1,0 +1,16 @@
+{
+  "body_part": "right_arm",
+  "offset": [
+    0.0,
+    -10.0,
+    0.0
+  ],
+  "renderer": {
+    "type": "palladium:flat_textured",
+    "texture": "palladium:textures/beam/web.png",
+    "texture_size": [
+      1.0,
+      64.0
+    ]
+  }
+}

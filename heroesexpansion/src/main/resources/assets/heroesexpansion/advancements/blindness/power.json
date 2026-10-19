@@ -1,0 +1,23 @@
+{
+    "display": {
+        "icon": {
+            "item": "forge:bucketFilled",
+			"nbt": "{FluidName:\"radioactive_acid\",Amount:1000}"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.blindness.power.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.blindness.power.description"
+        }
+    },
+    "parent": "heroesexpansion:root",
+    "criteria": {
+        "get_power": {
+            "trigger" : "lucraftcore:get_superpower",
+            "conditions": {
+                "superpower" : "heroesexpansion:blindness"
+            }
+        }
+    }
+}

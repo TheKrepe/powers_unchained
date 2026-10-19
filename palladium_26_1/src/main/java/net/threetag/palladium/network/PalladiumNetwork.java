@@ -1,0 +1,65 @@
+package net.threetag.palladium.network;
+
+import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.threetag.palladium.Palladium;
+
+@EventBusSubscriber(modid = Palladium.MOD_ID)
+public class PalladiumNetwork {
+
+    public static void init() {
+        DataSyncUtil.registerEntitySync((entity, consumer) -> {
+            if (entity instanceof LivingEntity livingEntity) {
+                consumer.accept(SyncEntityPowersPacket.create(livingEntity));
+                consumer.accept(SyncEntityCustomizationsPacket.create(livingEntity));
+                consumer.accept(SyncEntityEyeSelection.create(livingEntity));
+                consumer.accept(SyncEntitySizeChangePacket.create(livingEntity));
+                consumer.accept(SyncEntityFlightPacket.create(livingEntity));
+                SyncSwingAnchorStatePacket.create(livingEntity).ifPresent(consumer);
+            }
+        });
+    }
+
+    @SubscribeEvent
+    static void register(RegisterPayloadHandlersEvent event) {
+        final PayloadRegistrar registrar = event.registrar("1");
+        registrar.playToServer(ToggleOpenablePacket.TYPE, ToggleOpenablePacket.STREAM_CODEC, ToggleOpenablePacket::handle);
+        registrar.playToServer(AbilityKeyChangePacket.TYPE, AbilityKeyChangePacket.STREAM_CODEC, AbilityKeyChangePacket::handle);
+        registrar.playToServer(AbilityClickedPacket.TYPE, AbilityClickedPacket.STREAM_CODEC, AbilityClickedPacket::handle);
+        registrar.playToServer(BuyAbilityPacket.TYPE, BuyAbilityPacket.STREAM_CODEC, BuyAbilityPacket::handle);
+        registrar.playToServer(SelectCustomizationPacket.TYPE, SelectCustomizationPacket.STREAM_CODEC, SelectCustomizationPacket::handle);
+        registrar.playToServer(UnselectCustomizationPacket.TYPE, UnselectCustomizationPacket.STREAM_CODEC, UnselectCustomizationPacket::handle);
+        registrar.playToServer(ToggleEntityFlightPacket.TYPE, ToggleEntityFlightPacket.STREAM_CODEC, ToggleEntityFlightPacket::handle);
+        registrar.playToServer(TailoringCraftPacket.TYPE, TailoringCraftPacket.STREAM_CODEC, TailoringCraftPacket::handle);
+        registrar.playToServer(SetPlayerEyeSelection.TYPE, SetPlayerEyeSelection.STREAM_CODEC, SetPlayerEyeSelection::handle);
+        registrar.playToServer(BuyableCustomizationClickedPacket.TYPE, BuyableCustomizationClickedPacket.STREAM_CODEC, BuyableCustomizationClickedPacket::handle);
+        registrar.playToServer(BuyCustomizationPacket.TYPE, BuyCustomizationPacket.STREAM_CODEC, BuyCustomizationPacket::handle);
+        registrar.playToServer(CycleMultiversalVariantPacket.TYPE, CycleMultiversalVariantPacket.STREAM_CODEC, CycleMultiversalVariantPacket::handle);
+        registrar.playToServer(SyncSwingAnchorPacket.TYPE, SyncSwingAnchorPacket.STREAM_CODEC, SyncSwingAnchorPacket::handle);
+        registrar.playToServer(ComboAttackMissPacket.TYPE, ComboAttackMissPacket.STREAM_CODEC, ComboAttackMissPacket::handle);
+        registrar.playToServer(CycleArmorStandVariantPacket.TYPE, CycleArmorStandVariantPacket.STREAM_CODEC, CycleArmorStandVariantPacket::handle);
+
+        registrar.playToClient(SyncEntityPowersPacket.TYPE, SyncEntityPowersPacket.STREAM_CODEC, SyncEntityPowersPacket::handle);
+        registrar.playToClient(SyncAbilityComponentPacket.TYPE, SyncAbilityComponentPacket.STREAM_CODEC, SyncAbilityComponentPacket::handle);
+        registrar.playToClient(SyncEnergyBarPacket.TYPE, SyncEnergyBarPacket.STREAM_CODEC, SyncEnergyBarPacket::handle);
+        registrar.playToClient(OpenAbilityBuyScreenPacket.TYPE, OpenAbilityBuyScreenPacket.STREAM_CODEC, OpenAbilityBuyScreenPacket::handle);
+        registrar.playToClient(DisplayModeSwitchPacket.TYPE, DisplayModeSwitchPacket.STREAM_CODEC, DisplayModeSwitchPacket::handle);
+        registrar.playToClient(SyncEntityCustomizationsPacket.TYPE, SyncEntityCustomizationsPacket.STREAM_CODEC, SyncEntityCustomizationsPacket::handle);
+        registrar.playToClient(SyncEntityCustomizationPacket.TYPE, SyncEntityCustomizationPacket.STREAM_CODEC, SyncEntityCustomizationPacket::handle);
+        registrar.playToClient(SyncEntityUnselectCustomizationPacket.TYPE, SyncEntityUnselectCustomizationPacket.STREAM_CODEC, SyncEntityUnselectCustomizationPacket::handle);
+        registrar.playToClient(SyncUnlockedCustomizationsPacket.TYPE, SyncUnlockedCustomizationsPacket.STREAM_CODEC, SyncUnlockedCustomizationsPacket::handle);
+        registrar.playToClient(SyncUnlockedCustomizationPacket.TYPE, SyncUnlockedCustomizationPacket.STREAM_CODEC, SyncUnlockedCustomizationPacket::handle);
+        registrar.playToClient(SyncEntityEyeSelection.TYPE, SyncEntityEyeSelection.STREAM_CODEC, SyncEntityEyeSelection::handle);
+        registrar.playToClient(SyncAvailableTailoringRecipesPacket.TYPE, SyncAvailableTailoringRecipesPacket.STREAM_CODEC, SyncAvailableTailoringRecipesPacket::handle);
+        registrar.playToClient(OpenScreenPacket.TYPE, OpenScreenPacket.STREAM_CODEC, OpenScreenPacket::handle);
+        registrar.playToClient(OpenCustomizationScreenPacket.TYPE, OpenCustomizationScreenPacket.STREAM_CODEC, OpenCustomizationScreenPacket::handle);
+        registrar.playToClient(OpenCustomizationBuyModalPacket.TYPE, OpenCustomizationBuyModalPacket.STREAM_CODEC, OpenCustomizationBuyModalPacket::handle);
+        registrar.playToClient(SyncEntitySizeChangePacket.TYPE, SyncEntitySizeChangePacket.STREAM_CODEC, SyncEntitySizeChangePacket::handle);
+        registrar.playToClient(SyncEntityFlightPacket.TYPE, SyncEntityFlightPacket.STREAM_CODEC, SyncEntityFlightPacket::handle);
+        registrar.playToClient(SyncSwingAnchorStatePacket.TYPE, SyncSwingAnchorStatePacket.STREAM_CODEC, SyncSwingAnchorStatePacket::handle);
+        registrar.playToClient(PlayOpenableAnimationPacket.TYPE, PlayOpenableAnimationPacket.STREAM_CODEC, PlayOpenableAnimationPacket::handle);
+    }
+}

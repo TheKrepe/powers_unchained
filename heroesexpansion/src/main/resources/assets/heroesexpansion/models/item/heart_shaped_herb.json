@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "heroesexpansion:blocks/heart_shaped_herb"
+    }
+}

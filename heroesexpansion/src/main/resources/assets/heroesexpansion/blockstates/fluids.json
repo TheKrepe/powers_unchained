@@ -1,0 +1,30 @@
+{
+    "forge_marker" : 1, 
+    "defaults" : {
+        "model" : "forge:fluid"
+    }, 
+
+    "variants" : {
+        "web_fluid" : [ 
+            {
+                "custom" : {
+                    "fluid" : "web_fluid"
+                }
+            }
+        ],
+		"super_soldier_serum" : [ 
+            {
+                "custom" : {
+                    "fluid" : "super_soldier_serum"
+                }
+            }
+        ],
+		"radioactive_acid" : [ 
+            {
+                "custom" : {
+                    "fluid" : "radioactive_acid"
+                }
+            }
+        ]
+    }
+}

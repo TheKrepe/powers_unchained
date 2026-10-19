@@ -1,0 +1,46 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:mechanic/multiversal_variants"
+      ]
+    },
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:material/circuits"
+      ]
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_multiversal_extrapolator": {
+      "conditions": {
+        "items": [
+          {
+            "items": "palladium:multiversal_extrapolator"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "palladium:multiversal_extrapolator_reset"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_multiversal_extrapolator"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "palladium:multiversal_extrapolator_reset"
+    ]
+  }
+}

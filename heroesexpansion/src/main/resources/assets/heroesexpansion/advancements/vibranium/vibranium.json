@@ -1,0 +1,109 @@
+{
+    "display": {
+        "icon": {
+            "item": "lucraftcore:ingot_vibranium"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.vibranium.vibranium.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.vibranium.vibranium.description"
+        }
+    },
+	"parent": "heroesexpansion:root",
+    "criteria": {
+        "ingot": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "lucraftcore:ingot_vibranium"
+                    }
+                ]
+            }
+        },
+        "dust": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "lucraftcore:dust_vibranium"
+                    }
+                ]
+            }
+        },
+        "nugget": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "lucraftcore:nugget_vibranium"
+                    }
+                ]
+            }
+        },
+        "plate": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "lucraftcore:plate_vibranium"
+                    }
+                ]
+            }
+        },
+		"ore": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "lucraftcore:ore_vibranium"
+                    }
+                ]
+            }
+        },
+		"block": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "lucraftcore:block_vibranium"
+                    }
+                ]
+            }
+        },
+		"arrow": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:vibranium_arrow"
+                    }
+                ]
+            }
+        },
+        "shield": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:vibranium_shield"
+                    }
+                ]
+            }
+        },
+        "cap_shield": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:captain_america_shield"
+                    }
+                ]
+            }
+        }
+    },
+	"requirements": [
+		["ingot", "dust", "nugget", "plate", "ore", "block", "arrow", "shield", "cap_shield"]
+	]
+}

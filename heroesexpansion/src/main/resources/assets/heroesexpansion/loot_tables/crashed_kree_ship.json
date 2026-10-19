@@ -1,0 +1,140 @@
+{
+    "pools": [
+        {
+			"name": "heroesexpansion:crashed_kree_ship",
+            "rolls": {
+                "min": 3,
+                "max": 8
+            },
+            "entries": [
+                {
+                    "type": "item",
+					"name": "lucraftcore:instruction",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "set_data",
+							"data": 0
+						},
+						{
+							"function": "set_count",
+							"count": 1
+						},
+						{
+							"function": "set_nbt",
+							"tag": "{Recipes:[\"heroesexpansion:captain_marvel_helmet\", \"heroesexpansion:captain_marvel_chestplate\", \"heroesexpansion:captain_marvel_legs\", \"heroesexpansion:captain_marvel_boots\"]}"
+						}
+					]
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:iron_ingot",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 5
+                            }
+                        }
+                    ],
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:gold_ingot",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 3
+                            }
+                        }
+                    ],
+                    "weight": 5
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:cobblestone",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 3
+                            }
+                        }
+                    ],
+                    "weight": 15
+                },
+                {
+                    "type": "item",
+                    "name": "lucraftcore:ore_uru",
+                    "weight": 1,
+					"functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 2
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "lucraftcore:ore_vibranium",
+                    "weight": 6,
+					"functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 4
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "lucraftcore:ore_dwarf_star_alloy",
+                    "weight": 8,
+					"functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 6
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "lucraftcore:ore_iridium",
+                    "weight": 4,
+					"functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 2
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "heroesexpansion:kree_battle_axe",
+                    "weight": 5
+                },
+                {
+                    "type": "item",
+                    "name": "heroesexpansion:kryptonian_fossil",
+                    "weight": 2
+                }
+            ]
+        }
+    ]
+}

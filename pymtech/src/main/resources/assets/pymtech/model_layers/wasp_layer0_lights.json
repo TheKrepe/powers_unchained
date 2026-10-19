@@ -1,0 +1,10 @@
+{
+	"type": "threecore:default",
+	"model": "threecore:biped_fixed_arms_0.252",
+	"texture": "pymtech:textures/models/armor/wasp/layer_0_lights.png",
+	"glow": [
+		{
+			"type": "threecore:is_size_changing"
+		}
+	]
+}

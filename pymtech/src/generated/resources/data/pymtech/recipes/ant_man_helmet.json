@@ -1,0 +1,41 @@
+{
+  "type": "threecore:helmet_crafting",
+  "pattern": [
+    "AXXA",
+    "GPPG",
+    "PPPP",
+    "IFFI"
+  ],
+  "key": {
+    "X": {
+      "tag": "forge:ingots/intertium"
+    },
+    "A": {
+      "item": "pymtech:ant_antenna"
+    },
+    "P": {
+      "tag": "forge:plates/iron"
+    },
+    "G": {
+      "tag": "forge:glass_panes/red"
+    },
+    "F": {
+      "item": "pymtech:air_filter"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "tool": {
+    "type": "threecore:tool",
+    "tool": "hammer"
+  },
+  "consumes_tool": false,
+  "result": {
+    "item": "pymtech:ant_man_helmet",
+    "count": 1,
+    "nbt": {
+      "Damage": 0
+    }
+  }
+}

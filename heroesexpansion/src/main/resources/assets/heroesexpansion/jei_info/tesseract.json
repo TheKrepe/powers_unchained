@@ -1,0 +1,15 @@
+{
+	"items": [
+		{
+			"item": "heroesexpansion:tesseract"
+		},
+		{
+			"item": "heroesexpansion:space_stone"
+		}
+	],
+	
+	"text": {
+		"translate": "heroesexpansion.jei.tesseract"
+	}
+
+}

@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "drop_fossil=false": { "model": "heroesexpansion:kryptonite_block" },
+		"drop_fossil=true": { "model": "heroesexpansion:kryptonite_block" }
+    }
+}

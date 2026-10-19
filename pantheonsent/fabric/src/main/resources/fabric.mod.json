@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "id": "pantheonsent",
+  "version": "${version}",
+  "name": "PantheonSent",
+  "description": "Channel the power of the gods and serve their will!",
+  "authors": [
+    "Lucraft"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/project/pantheonsent",
+    "sources": "https://github.com/ThreeTAG/PantheonSent"
+  },
+  "license": "All rights reserved",
+  "icon": "pantheonsent_icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.threetag.pantheonsent.fabric.PantheonSentFabric"
+    ],
+    "client": [
+      "net.threetag.pantheonsent.fabric.PantheonSentFabricClient"
+    ],
+    "jei_mod_plugin": [
+      "net.threetag.pantheonsent.compat.jei.PantheonSentJEIPlugin"
+    ],
+    "rei_client": [
+      "net.threetag.pantheonsent.compat.rei.PantheonSentREIClientPlugin"
+    ],
+    "rei_server": [
+      "net.threetag.pantheonsent.compat.rei.PantheonSentREIServerPlugin"
+    ]
+  },
+  "mixins": [
+    "pantheonsent.mixins.json",
+    "pantheonsent-common.mixins.json"
+  ],
+  "depends": {
+    "fabric-api": "*",
+    "minecraft": ">=1.20.1",
+    "palladium": ">=4.2.0"
+  },
+  "suggests": {
+    "flamingo": "*"
+  },
+  "custom": {
+    "catalogue": {
+      "banner": "pantheonsent_banner.png"
+    }
+  }
+}

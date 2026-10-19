@@ -1,0 +1,44 @@
+package net.threetag.palladium.logic.value;
+
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.threetag.palladium.Palladium;
+import net.threetag.palladium.registry.PalladiumRegistryKeys;
+
+public class ValueSerializers {
+
+    public static final DeferredRegister<ValueSerializer<?>> VALUE_SERIALIZERS = DeferredRegister.create(PalladiumRegistryKeys.VALUE_SERIALIZER, Palladium.MOD_ID);
+
+    public static final DeferredHolder<ValueSerializer<?>, StaticValue.Serializer> STATIC = VALUE_SERIALIZERS.register("static", StaticValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, MaxNumberValue.Serializer> MAX_NUMBER = VALUE_SERIALIZERS.register("max_number", MaxNumberValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, MinNumberValue.Serializer> MIN_NUMBER = VALUE_SERIALIZERS.register("min_number", MinNumberValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, IntegerDataAttachmentValue.Serializer> INTEGER_DATA_ATTACHMENT = VALUE_SERIALIZERS.register("integer_data_attachment", IntegerDataAttachmentValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, FloatDataAttachmentValue.Serializer> FLOAT_DATA_ATTACHMENT = VALUE_SERIALIZERS.register("float_data_attachment", FloatDataAttachmentValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, StringDataAttachmentValue.Serializer> STRING_DATA_ATTACHMENT = VALUE_SERIALIZERS.register("string_data_attachment", StringDataAttachmentValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, TextComponentDataAttachmentValue.Serializer> TEXT_COMPONENT_DATA_ATTACHMENT = VALUE_SERIALIZERS.register("text_component_data_attachment", TextComponentDataAttachmentValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, MoLangIntegerValue.Serializer> MOLANG_INTEGER = VALUE_SERIALIZERS.register("molang_integer", MoLangIntegerValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, MoLangFloatValue.Serializer> MOLANG_FLOAT = VALUE_SERIALIZERS.register("molang_float", MoLangFloatValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, MoLangStringValue.Serializer> MOLANG_STRING = VALUE_SERIALIZERS.register("molang_string", MoLangStringValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, ConditionalValue.Serializer> CONDITIONAL = VALUE_SERIALIZERS.register("conditional", ConditionalValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, CrouchingValue.Serializer> CROUCHING = VALUE_SERIALIZERS.register("crouching", CrouchingValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, EntityTickCountValue.Serializer> ENTITY_TICK_COUNT = VALUE_SERIALIZERS.register("entity_tick_count", EntityTickCountValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, GlidingTickCountValue.Serializer> GLIDING_TICK_COUNT = VALUE_SERIALIZERS.register("gliding_tick_count", GlidingTickCountValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, EntityHealthValue.Serializer> ENTITY_HEALTH = VALUE_SERIALIZERS.register("entity_health", EntityHealthValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, ScoreValue.Serializer> SCORE = VALUE_SERIALIZERS.register("score", ScoreValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, WidePlayerModelValue.Serializer> WIDE_PLAYER_MODEL = VALUE_SERIALIZERS.register("wide_player_model", WidePlayerModelValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, SlimPlayerModelValue.Serializer> SLIM_PLAYER_MODEL = VALUE_SERIALIZERS.register("slim_player_model", SlimPlayerModelValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, AbilityTickCountValue.Serializer> ABILITY_TICK_COUNT = VALUE_SERIALIZERS.register("ability_tick_count", AbilityTickCountValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, AbilityAnimationTimerValue.Serializer> ABILITY_ANIMATION_TIMER_VALUE = VALUE_SERIALIZERS.register("ability_animation_timer_value", AbilityAnimationTimerValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, AbilityKeyValue.Serializer> ABILITY_KEY = VALUE_SERIALIZERS.register("ability_key", AbilityKeyValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, EnergyBarValue.Serializer> ENERGY_BAR = VALUE_SERIALIZERS.register("energy_bar", EnergyBarValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, MoonPhaseValue.Serializer> MOON_PHASE = VALUE_SERIALIZERS.register("moon_phase", MoonPhaseValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, ItemOpenValue.Serializer> ITEM_OPEN = VALUE_SERIALIZERS.register("item_open", ItemOpenValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, ItemOpenTimerValue.Serializer> ITEM_OPEN_TIMER = VALUE_SERIALIZERS.register("item_open_timer", ItemOpenTimerValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, SlotValue.Serializer> SLOT = VALUE_SERIALIZERS.register("slot", SlotValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, ConvertToIntegerValue.Serializer> CONVERT_TO_INTEGER = VALUE_SERIALIZERS.register("convert_to_integer", ConvertToIntegerValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, ConvertToFloatValue.Serializer> CONVERT_TO_FLOAT = VALUE_SERIALIZERS.register("convert_to_float", ConvertToFloatValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, SizeValue.Serializer> SIZE = VALUE_SERIALIZERS.register("size", SizeValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, ActiveModeValue.Serializer> ACTIVE_MODE = VALUE_SERIALIZERS.register("active_mode", ActiveModeValue.Serializer::new);
+    public static final DeferredHolder<ValueSerializer<?>, AttributeValue.Serializer> ATTRIBUTE = VALUE_SERIALIZERS.register("attribute", AttributeValue.Serializer::new);
+
+}

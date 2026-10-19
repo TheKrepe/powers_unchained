@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "speedsterheroes:particleAccelerator" },
+        "facing=south": { "model": "speedsterheroes:particleAccelerator", "y": 180 },
+        "facing=west":  { "model": "speedsterheroes:particleAccelerator", "y": 270 },
+        "facing=east":  { "model": "speedsterheroes:particleAccelerator", "y": 90 }
+    }
+}

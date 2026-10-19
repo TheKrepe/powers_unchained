@@ -1,0 +1,25 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:spider_man_homemade_helmet"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.spider_powers.power.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.spider_powers.power.description"
+        }
+    },
+    "parent": "heroesexpansion:root",
+    "criteria": {
+        "get_power": {
+            "trigger" : "lucraftcore:get_superpower",
+            "conditions": {
+                "superpower" : "heroesexpansion:spider_powers"
+            }
+        }
+    },
+	"rewards": {
+        "loot": ["heroesexpansion:spider_man_homemade_suit_instruction"]
+    }
+}

@@ -1,0 +1,18 @@
+{
+  "output": {
+    "item": "heroesexpansion:spider_man_chest"
+  },
+  "requirements": [
+    {
+      "item": "heroesexpansion:spider_man_homemade_chest"
+    },
+    {
+      "item": "lucraftcore:tri_polymer_red",
+      "amount": 8
+    },
+    {
+      "item": "minecraft:web",
+      "amount": 4
+    }
+  ]
+}

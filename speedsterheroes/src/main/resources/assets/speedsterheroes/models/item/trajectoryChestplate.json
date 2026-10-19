@@ -1,0 +1,7 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "speedsterheroes:items/trajectory/chestplate",
+		"layer1": "speedsterheroes:items/trajectory/desc"
+	}
+}

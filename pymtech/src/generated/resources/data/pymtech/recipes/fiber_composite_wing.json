@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IDS",
+    "ISD",
+    "IDS"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:nuggets/iron"
+    },
+    "S": {
+      "item": "minecraft:string"
+    },
+    "D": {
+      "tag": "forge:dusts/charcoal"
+    }
+  },
+  "result": {
+    "item": "pymtech:fiber_composite_wing"
+  }
+}

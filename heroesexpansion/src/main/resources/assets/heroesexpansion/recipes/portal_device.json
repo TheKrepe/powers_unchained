@@ -1,0 +1,40 @@
+{
+  "result": {
+    "item": "heroesexpansion:portal_device"
+  },
+  "pattern": [
+    "CIC",
+    "IBI",
+    "WIE"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:portal_device",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "lucraftcore:hv_capacitor",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "B": {
+      "nbt": "{Energy:0}",
+      "item": "lucraftcore:hv_capacitor",
+      "type": "minecraft:item_nbt"
+    },
+    "C": {
+      "item": "#CIRCUITADVANCED"
+    },
+    "E": {
+      "item": "#INGOTIRON"
+    },
+    "W": {
+      "item": "#WIRECOPPER"
+    },
+    "I": {
+      "item": "#PLATEIRIDIUM"
+    }
+  }
+}

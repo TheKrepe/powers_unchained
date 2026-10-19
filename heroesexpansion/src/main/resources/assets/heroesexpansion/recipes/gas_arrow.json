@@ -1,0 +1,36 @@
+{
+  "result": {
+    "item": "heroesexpansion:gas_arrow"
+  },
+  "ingredients": [
+    {
+      "item": "heroesexpansion:sharpened_arrow"
+    },
+    {
+      "item": "minecraft:coal",
+      "data": 0
+    },
+    {
+      "item": "minecraft:gunpowder"
+    }
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:gas_arrow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:sharpened_arrow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:coal",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:gunpowder",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

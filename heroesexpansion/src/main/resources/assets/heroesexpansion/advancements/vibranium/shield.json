@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:vibranium_shield"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.vibranium.shield.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.vibranium.shield.description"
+        }
+    },
+	"parent": "heroesexpansion:vibranium/vibranium",
+    "criteria": {
+        "crafting_table": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:vibranium_shield"
+                    }
+                ]
+            }
+        }
+    }
+}

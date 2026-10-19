@@ -1,0 +1,128 @@
+[
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "circuitAdvanced"
+    },
+    "name": "CIRCUITADVANCED"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "circuitBasic"
+    },
+    "name": "CIRCUITBASIC"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dustRedstone"
+    },
+    "name": "DUSTREDSTONE"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeGreen"
+    },
+    "name": "DYEGREEN"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeRed"
+    },
+    "name": "DYERED"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "name": "INGOTIRON"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotSteel"
+    },
+    "name": "INGOTSTEEL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotVibranium"
+    },
+    "name": "INGOTVIBRANIUM"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetIron"
+    },
+    "name": "NUGGETIRON"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetSteel"
+    },
+    "name": "NUGGETSTEEL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetVibranium"
+    },
+    "name": "NUGGETVIBRANIUM"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "paneGlassRed"
+    },
+    "name": "PANEGLASSRED"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateIridium"
+    },
+    "name": "PLATEIRIDIUM"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateIron"
+    },
+    "name": "PLATEIRON"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "name": "PLATESTEEL"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateVibranium"
+    },
+    "name": "PLATEVIBRANIUM"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    },
+    "name": "STICKWOOD"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "wireCopper"
+    },
+    "name": "WIRECOPPER"
+  }
+]

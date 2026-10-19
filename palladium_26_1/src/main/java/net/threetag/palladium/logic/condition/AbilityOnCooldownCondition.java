@@ -1,0 +1,65 @@
+package net.threetag.palladium.logic.condition;
+
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
+import net.threetag.palladium.documentation.CodecDocumentationBuilder;
+import net.threetag.palladium.logic.context.DataContext;
+import net.threetag.palladium.power.ability.AbilityInstance;
+import net.threetag.palladium.power.ability.AbilityReference;
+import net.threetag.palladium.power.ability.enabling.KeyBindEnablingHandler;
+
+public record AbilityOnCooldownCondition(AbilityReference ability) implements Condition {
+
+    public static final MapCodec<AbilityOnCooldownCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
+            .group(AbilityReference.CODEC.fieldOf("ability").forGetter(AbilityOnCooldownCondition::ability)
+            ).apply(instance, AbilityOnCooldownCondition::new)
+    );
+    public static final StreamCodec<RegistryFriendlyByteBuf, AbilityOnCooldownCondition> STREAM_CODEC = StreamCodec.composite(
+            AbilityReference.STREAM_CODEC, AbilityOnCooldownCondition::ability, AbilityOnCooldownCondition::new
+    );
+
+    @Override
+    public boolean test(DataContext context) {
+        var entity = context.getLivingEntity();
+        var holder = context.getPowerInstance();
+
+        if (entity == null) {
+            return false;
+        }
+
+        AbilityInstance<?> dependency = this.ability.getInstance(entity, holder);
+
+        return dependency != null
+                && dependency.getAbility().getStateManager().getEnablingHandler() instanceof KeyBindEnablingHandler key
+                && key.getRemainingCooldown(dependency) > 0;
+    }
+
+    @Override
+    public ConditionSerializer<AbilityOnCooldownCondition> getSerializer() {
+        return ConditionSerializers.ABILITY_ON_COOLDOWN.get();
+    }
+
+    public static class Serializer extends ConditionSerializer<AbilityOnCooldownCondition> {
+
+        @Override
+        public MapCodec<AbilityOnCooldownCondition> codec() {
+            return CODEC;
+        }
+
+        @Override
+        public void addDocumentation(CodecDocumentationBuilder<Condition, AbilityOnCooldownCondition> builder, HolderLookup.Provider provider) {
+            builder.setName("Ability on Cooldown")
+                    .setDescription("Checks if the ability is currently on cooldown. If the power is not null, it will look for the ability in the specified power. If the power is null, it will look for the ability in the current power.")
+                    .add("ability", TYPE_ABILITY_REFERENCE, "The ability that is being checked on.")
+                    .addExampleObject(new AbilityOnCooldownCondition(new AbilityReference(
+                            Identifier.fromNamespaceAndPath("example", "power"),
+                            "ability_key"
+                    )));
+        }
+
+    }
+}

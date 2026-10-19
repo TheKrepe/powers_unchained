@@ -1,0 +1,14 @@
+{
+  "flags": [
+    "palladium:mechanic/tailoring",
+    "palladium:mechanic/multiversal_variants",
+    "palladium:customization/eye_selection",
+    "palladium:material/circuits",
+    "palladium:material/lead",
+    "palladium:material/titanium",
+    "palladium:material/vibranium",
+    "palladium:worldgen/meteorite_biome",
+    "palladium:item/vials",
+    "palladium:block/heart_shaped_herb"
+  ]
+}

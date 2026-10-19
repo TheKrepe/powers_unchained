@@ -1,0 +1,31 @@
+{
+	"result": {
+		"fluid": "super_soldier_serum",
+		"amount": 500
+	},
+  
+	"input_fluid": {
+		"fluid": "water",
+		"amount": 1000
+	},
+  
+	"energy": 2500,
+  
+	"ingredients": [
+		{
+			"item": "minecraft:obsidian"
+		},
+		{
+			"item": "minecraft:blaze_powder"
+		},
+		{
+			"item": "minecraft:sugar"
+		},
+		{
+			"item": "minecraft:fire_charge"
+		},
+		{
+			"item": "#DUSTSTEEL"
+		}
+	]
+}

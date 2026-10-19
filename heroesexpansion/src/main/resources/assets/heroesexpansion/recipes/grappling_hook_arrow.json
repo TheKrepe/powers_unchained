@@ -1,0 +1,35 @@
+{
+  "result": {
+    "item": "heroesexpansion:grappling_hook_arrow"
+  },
+  "ingredients": [
+    {
+      "item": "heroesexpansion:sharpened_arrow"
+    },
+    {
+      "item": "minecraft:slime"
+    },
+    {
+      "item": "minecraft:lead"
+    }
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:grappling_hook_arrow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:sharpened_arrow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:slime",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:lead",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

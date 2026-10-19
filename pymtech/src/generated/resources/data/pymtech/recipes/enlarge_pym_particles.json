@@ -1,0 +1,23 @@
+{
+  "type": "threecore:fluid_composing",
+  "output": {
+    "fluid": "pymtech:enlarge_pym_particles",
+    "amount": 500
+  },
+  "ingredients": [
+    {
+      "tag": "forge:dusts/lead"
+    },
+    {
+      "tag": "forge:dusts/palladium"
+    },
+    {
+      "item": "minecraft:bone_meal"
+    }
+  ],
+  "fluid_input": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
+  "energy": 2500
+}

@@ -1,0 +1,22 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:thor_iw_chest"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.god_of_thunder.god_mode.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.god_of_thunder.god_mode.description"
+        }
+    },
+    "parent": "heroesexpansion:god_of_thunder/power",
+    "criteria": {
+        "god_mode" : {
+            "trigger" : "lucraftcore:execute_ability", 
+            "conditions" : {
+                "ability": "heroesexpansion:god_mode"
+            }
+        }
+    }
+}

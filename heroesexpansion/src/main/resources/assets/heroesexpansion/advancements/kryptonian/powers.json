@@ -1,0 +1,25 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:superman_chest"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.kryptonian.powers.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.kryptonian.powers.description"
+        }
+    },
+    "parent": "heroesexpansion:kryptonian/kryptonite",
+    "criteria": {
+        "get_power": {
+            "trigger" : "lucraftcore:get_superpower",
+            "conditions": {
+                "superpower" : "heroesexpansion:kryptonian"
+            }
+        }
+    },
+	"rewards": {
+        "loot": ["heroesexpansion:superman_suit_instruction"]
+    }
+}

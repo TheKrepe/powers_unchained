@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:material/titanium"
+      ]
+    }
+  ],
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 300,
+  "experience": 1.5,
+  "group": "titanium_ingot",
+  "ingredient": "palladium:deepslate_titanium_ore",
+  "result": {
+    "id": "palladium:titanium_ingot"
+  }
+}

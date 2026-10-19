@@ -1,0 +1,11 @@
+{
+  "earth-2149": {
+	"conditions": {
+	  "type": "threecore:date_without_year",
+	  "startDay": 15,
+	  "startMonth": 10,
+	  "endDay": 31,
+	  "endMonth": 10
+	}
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:mechanic/multiversal_variants"
+      ]
+    },
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:material/circuits"
+      ]
+    }
+  ],
+  "type": "palladium:multiversal_extrapolator_transfer",
+  "ingredients": {
+    "count": 1,
+    "ingredient": "palladium:quartz_circuit"
+  }
+}

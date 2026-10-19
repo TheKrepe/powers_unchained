@@ -1,0 +1,29 @@
+{
+  "result": {
+    "item": "heroesexpansion:smoke_arrow"
+  },
+  "ingredients": [
+    {
+      "item": "heroesexpansion:sharpened_arrow"
+    },
+    {
+      "item": "minecraft:coal",
+      "data": 0
+    }
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:smoke_arrow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:sharpened_arrow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:coal",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

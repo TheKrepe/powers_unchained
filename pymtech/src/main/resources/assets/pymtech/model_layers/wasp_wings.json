@@ -1,0 +1,19 @@
+{
+	"type": "threecore:default",
+	"model": "pymtech:wasp_wings",
+	"texture": "pymtech:textures/models/armor/wasp/wings.png",
+    "predicates": [
+        {
+            "type": "threecore:or",
+            "predicates": [
+                {
+                    "type": "threecore:flying"
+                },
+                {
+                    "type": "threecore:entity_tag",
+                    "entity_tag": "threecore:armor_stands"
+                }
+            ]
+        }
+    ]
+}

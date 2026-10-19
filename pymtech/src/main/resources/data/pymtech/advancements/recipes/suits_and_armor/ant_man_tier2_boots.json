@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "pymtech:ant_man_tier2_boots"
+    ]
+  },
+  "criteria": {
+    "has_silver": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/silver"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "pymtech:ant_man_tier2_boots"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_silver",
+      "has_the_recipe"
+    ]
+  ]
+}

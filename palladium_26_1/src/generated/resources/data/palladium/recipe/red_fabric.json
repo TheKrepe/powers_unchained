@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:mechanic/tailoring"
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "fabrics",
+  "key": {
+    "S": "#c:rods/wooden",
+    "W": "minecraft:red_wool",
+    "X": "#c:strings"
+  },
+  "pattern": [
+    " WS",
+    "WXW",
+    "SW "
+  ],
+  "result": {
+    "count": 8,
+    "id": "palladium:red_fabric"
+  }
+}

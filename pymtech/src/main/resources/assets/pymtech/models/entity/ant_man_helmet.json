@@ -1,0 +1,279 @@
+{
+  "type": "threecore:biped",
+  "scale": 0.5,
+  "texture_width": 64,
+  "texture_height": 32,
+  "disabled": ["chest", "chest_overlay", "right_arm", "right_arm_overlay", "left_arm", "left_arm_overlay", "right_leg", "right_leg_overlay", "left_left", "left_leg_overlay"],
+  "cubes": [
+    {
+      "name": "mouth_piece",
+      "parent": "head",
+      "scale": 0.0,
+      "mirror": false,
+      "texture_offset": [
+        0,
+        25
+      ],
+      "offset": [
+        -1.0,
+        -1.0,
+        -6.0
+      ],
+      "rotation_point": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "size": [
+        2,
+        2,
+        2
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "connector_left",
+      "parent": "head",
+      "scale": 0.0,
+      "mirror": false,
+      "texture_offset": [
+        0,
+        29
+      ],
+      "offset": [
+        -5.6,
+        -0.1,
+        -5.5
+      ],
+      "rotation_point": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "size": [
+        5,
+        1,
+        1
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        15.0
+      ]
+    },
+    {
+      "name": "connector_right",
+      "parent": "head",
+      "scale": 0.0,
+      "mirror": true,
+      "texture_offset": [
+        0,
+        29
+      ],
+      "offset": [
+        0.6,
+        -0.1,
+        -5.5
+      ],
+      "rotation_point": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "size": [
+        5,
+        1,
+        1
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        -15.0
+      ]
+    },
+    {
+      "name": "connector_left_2",
+      "parent": "head",
+      "scale": 0.0,
+      "mirror": false,
+      "texture_offset": [
+        12,
+        21
+      ],
+      "offset": [
+        -5.5,
+        -4.1,
+        -3.8
+      ],
+      "rotation_point": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "size": [
+        1,
+        1,
+        4
+      ],
+      "rotation": [
+        33.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "connector_right_2",
+      "parent": "head",
+      "scale": 0.0,
+      "mirror": true,
+      "texture_offset": [
+        12,
+        21
+      ],
+      "offset": [
+        4.5,
+        -4.1,
+        -3.8
+      ],
+      "rotation_point": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "size": [
+        1,
+        1,
+        4
+      ],
+      "rotation": [
+        33.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "ear_piece_left",
+      "parent": "head",
+      "scale": 0.0,
+      "mirror": false,
+      "texture_offset": [
+        0,
+        16
+      ],
+      "offset": [
+        -6.2,
+        -4.3,
+        0.0
+      ],
+      "rotation_point": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "size": [
+        2,
+        2,
+        4
+      ],
+      "rotation": [
+        33.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "ear_piece_right",
+      "parent": "head",
+      "scale": 0.0,
+      "mirror": true,
+      "texture_offset": [
+        0,
+        16
+      ],
+      "offset": [
+        4.2,
+        -4.3,
+        0.0
+      ],
+      "rotation_point": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "size": [
+        2,
+        2,
+        4
+      ],
+      "rotation": [
+        33.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "antenna_left",
+      "parent": "head",
+      "scale": 0.0,
+      "mirror": false,
+      "texture_offset": [
+        12,
+        16
+      ],
+      "offset": [
+        -6.0,
+        -2.9,
+        4.4
+      ],
+      "rotation_point": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "size": [
+        1,
+        1,
+        4
+      ],
+      "rotation": [
+        46.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "antenna_right",
+      "parent": "head",
+      "scale": 0.0,
+      "mirror": true,
+      "texture_offset": [
+        12,
+        16
+      ],
+      "offset": [
+        5.0,
+        -2.9,
+        4.4
+      ],
+      "rotation_point": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "size": [
+        1,
+        1,
+        4
+      ],
+      "rotation": [
+        46.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

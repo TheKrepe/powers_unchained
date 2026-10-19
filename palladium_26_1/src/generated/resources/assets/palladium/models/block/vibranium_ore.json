@@ -1,0 +1,7 @@
+{
+  "parent": "palladium:block/cube_emissive_overlay",
+  "textures": {
+    "all": "palladium:block/vibranium_ore",
+    "emissive": "palladium:block/vibranium_ore_emissive"
+  }
+}

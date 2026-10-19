@@ -1,0 +1,21 @@
+modLoader="javafml"
+loaderVersion="[34,)"
+issueTrackerURL="https://gitlab.com/threetag/PymTech/issues"
+license="All rights reserved"
+
+[[mods]]
+modId="pymtech"
+version="${file.jarVersion}"
+displayName="PymTech"
+credits="Sheriff, Neon, dhi, Doom_"
+authors="Lucraft"
+description='''
+Go subatomic using Pym Technologies
+'''
+
+[[dependencies.pymtech]]
+    modId="threecore"
+    mandatory=true
+    versionRange="[1.16.3-3.2.0,)"
+    ordering="AFTER"
+    side="BOTH"

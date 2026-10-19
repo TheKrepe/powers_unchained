@@ -1,0 +1,329 @@
+# Superpowers
+superpower.god_of_thunder.name=Gott des Donners
+superpower.kryptonian.name=Kryptonier
+superpower.black_panther.name=Black Panther
+superpower.super_soldier.name=Supersoldat
+superpower.kree_hybrid.name=Kreehybrid
+superpower.spider_powers.name=Spinnenkräfte
+superpower.blindness.name=Blindheit
+
+
+# Abilities
+heroesexpansion.abilities.god_mode.name=Gottmodus
+heroesexpansion.abilities.god_mode.desc=Erhöht deine Kraft.
+heroesexpansion.abilities.lightning_strike.name=Blitzschlag
+heroesexpansion.abilities.lightning_strike.desc=Schießt Blitze an Objekt die du anschaust
+heroesexpansion.abilities.lightning_attack.name=Blitzattacke
+heroesexpansion.abilities.lightning_attack.desc=Erzeugt einen Blitz wo auch immer du hinschaust
+heroesexpansion.abilities.solar_energy.name=Sonnenenergie
+heroesexpansion.abilities.solar_energy.desc=Lässt dich Energie durch die Sonne gewinnen
+heroesexpansion.abilities.heat_vision.name=Laserblick
+heroesexpansion.abilities.heat_vision.desc=Schießt Laser aus deinen Augen
+heroesexpansion.abilities.kinetic_energy_absorption.name=Kinetische Energie Absorption
+heroesexpansion.abilities.kinetic_energy_absorption.desc=Absorbiert kinetische Energie und macht eine Druckwelle bereit
+heroesexpansion.abilities.call_weapon.name=Waffe rufen
+heroesexpansion.abilities.call_weapon.desc=Lässt dich deine Waffe von überall rufen
+heroesexpansion.abilities.energy_absorption.name=Energie Absorption
+heroesexpansion.abilities.energy_absorption.desc=Sammelt Energie um dich stärker zu machen
+heroesexpansion.abilities.i_dont_feel_so_good.name=Ich fühl mich nicht so gut
+heroesexpansion.abilities.i_dont_feel_so_good.desc=Ich möchte nicht gehen...
+heroesexpansion.abilities.spider_sense.name=Spinnensinn
+heroesexpansion.abilities.spider_sense.desc=Verbessert deine Sinne und warnt dich vor Gefahr
+heroesexpansion.abilities.wall_crawling.name=An Wänden krabbeln
+heroesexpansion.abilities.wall_crawling.desc=Erlaubt es dir Wände entlang zu krabbeln
+heroesexpansion.abilities.web_wings.name=Netzflügel
+heroesexpansion.abilities.web_wings.desc=Aktiviert Netzflügel zum Gleiten
+heroesexpansion.abilities.blindness.name=Blindheit
+heroesexpansion.abilities.blindness.desc=Verstärkt deine Sinne während du blind bist
+heroesexpansion.abilities.precision.name=Präzision
+heroesexpansion.abilities.precision.desc=Erlaubt es dir Gegenstände perfekt zu werfen
+heroesexpansion.abilities.portal.name=Portal
+heroesexpansion.abilities.portal.desc=Öffnet ein Portal
+heroesexpansion.abilities.grab_entity.name=Gegenstand bewegen
+heroesexpansion.abilities.grab_entity.desc=Erlaubt es dir Lebewesen und Blöcke zu bewegen
+heroesexpansion.abilities.photon_blast.name=Photonenstrahl
+heroesexpansion.abilities.photon_blast.desc=Schieße einen Photonenstrahl aus deiner Hand
+heroesexpansion.abilities.force_field.name=Kraftfeld
+heroesexpansion.abilities.force_field.desc=Schützt dich vor Schaden
+heroesexpansion.abilities.black_hole.name=Schwarzes Loch
+heroesexpansion.abilities.black_hole.desc=Erschafft ein schwarzes Loch welches alles in sich hineinsaugt
+heroesexpansion.abilities.freeze_breath.name=Eisatem
+heroesexpansion.abilities.freeze_breath.desc=Friere alles in deinem Weg ein
+heroesexpansion.abilities.x_ray.name=X-Ray Sicht
+heroesexpansion.abilities.x_ray.desc=Erlaubt es dir Lebewesen und Blöcke durch Wände zu sehen
+
+heroesexpansion.ability.condition.thor_weapon=Benötigt eine Thor Waffe in deiner Hand
+heroesexpansion.ability.condition.solar_energy=Benötigt eine Sonnenenergie von %s
+
+
+# Items
+item.cape.name=Umhang
+item.supporter_cloak.name=Unterstützerumhang
+item.mjolnir.name=Mjölnir
+item.ultimate_mjolnir.name=Ultimate-Mjölnir
+item.stormbreaker.name=Sturmbrecher
+item.mjolnir_head.name=Mjölnirkopf
+item.ultimate_mjolnir_head.name=Ultimate-Mjölnirkopf
+item.stormbreaker_head.name=Sturmbrecherkopf
+item.mjolnir_head_cast.name=Mjölnirkopfgussform
+item.ultimate_mjolnir_head_cast.name=Ultimate-Mjölnirkopfgussform
+item.stormbreaker_head_cast.name=Sturmbrecherkopfgussform
+item.compound_bow.name=Compoundbogen
+item.quiver.name=Köcher
+item.sharpened_arrow.name=Scharfer Pfeil
+item.explosive_arrow.name=Explosionspfeil
+item.smoke_arrow.name=Rauchpfeil
+item.gas_arrow.name=Gaspfeil
+item.grappling_hook_arrow.name=Enterhakenpfeil
+item.kryptonite_arrow.name=Kryptonitpfeil
+item.vibranium_arrow.name=Vibraniumpfeil
+item.kryptonite.name=Kryptonit
+item.kryptonian_fossil.name=Kryptonisches Fossil
+item.heart_shaped_herb_potion.name=Trank des herzförmigen Krauts
+item.vibranium_shield.name=Vibraniumschild
+item.captain_america_shield.name=Captain Americas Schild
+item.wakandan_shield.name=Wakandanischer Schild
+item.chitauri_gun.name=Chitauri Waffe
+item.chitauri_metal.name=Chitauri Metall
+item.chitauri_energy_core.name=Chitauri Energiekern
+item.kree_battle_axe.name=Kree Kampfaxt
+item.kree_flesh.name=Kreefleisch
+item.web_shooter_1.name=Web-Shooter
+item.web_shooter_2.name=Web-Shooter
+item.billy_club.name=Schlagstock
+item.billy_club_separate.name=Schlagstock (getrennt)
+item.tesseract.name=Tesserakt
+item.space_stone.name=Raumstein
+
+
+# Blocks
+tile.kryptonite_block.name=Kryptonitblock
+tile.heart_shaped_herb.name=Herzförmiges Kraut
+tile.portal_device.name=Portalgerät
+
+
+# Fluids
+fluid.web_fluid=Netzflüssigkeit
+fluid.super_soldier_serum=Supersoldatenserum
+fluid.radioactive_acid=Radioaktive Säure
+
+
+# Suits
+heroesexpansion.suit.green_arrow.name=Green Arrow
+item.green_arrow_chestplate.name=Green Arrows Anzug
+item.green_arrow_legs.name=Green Arrows Hose
+item.green_arrow_boots.name=Green Arrows Schuhe
+
+heroesexpansion.suit.superman.name=Superman
+item.superman_chestplate.name=Supermans Anzug
+item.superman_legs.name=Supermans Hose
+item.superman_boots.name=Supermans Schuhe
+
+heroesexpansion.suit.black_panther.name=Black Panther
+item.black_panther_chestplate.name=Black Panthers Anzug
+
+heroesexpansion.suit.thor.name=Thor
+item.thor_chestplate.name=Thors Brustpanzer
+item.thor_legs.name=Thors Hose
+item.thor_boots.name=Thors Schuhe
+
+heroesexpansion.suit.thor_iw.name=Thor
+item.thor_iw_chestplate.name=Thors Brustpanzer
+item.thor_iw_legs.name=Thors Hose
+item.thor_iw_boots.name=Thors Schuhe
+
+heroesexpansion.suit.captain_america.name=Captain America
+item.captain_america_helmet.name=Captain Americas Helm
+item.captain_america_chestplate.name=Captain Americas Anzug
+item.captain_america_legs.name=Captain Americas Hose
+item.captain_america_boots.name=Captain Americas Schuhe
+
+heroesexpansion.suit.captain_marvel.name=Captain Marvel
+item.captain_marvel_helmet.name=Captain Marvels Maske
+item.captain_marvel_chestplate.name=Captain Marvels Anzug
+item.captain_marvel_legs.name=Captain Marvels Hose
+item.captain_marvel_boots.name=Captain Marvels Schuhe
+
+heroesexpansion.suit.spider_man_homemade.name=Spider-Man
+item.spider_man_homemade_helmet.name=Spider-Mans Maske
+item.spider_man_homemade_chestplate.name=Spider-Mans Anzug
+item.spider_man_homemade_legs.name=Spider-Mans Hose
+item.spider_man_homemade_boots.name=Spider-Mans Schuhe
+
+heroesexpansion.suit.spider_man.name=Spider-Man
+item.spider_man_helmet.name=Spider-Mans Maske
+item.spider_man_chestplate.name=Spider-Mans Anzug
+item.spider_man_legs.name=Spider-Mans Hose
+item.spider_man_boots.name=Spider-Mans Schuhe
+
+heroesexpansion.suit.falcon.name=Falcon
+item.falcon_helmet.name=Falcons Brille
+item.falcon_chestplate.name=Falcons Anzug
+item.falcon_legs.name=Falcons Hose
+item.falcon_boots.name=Falcons Schuhe
+
+heroesexpansion.suit.vulture.name=Vulture
+item.vulture_helmet.name=Vultures Helm
+item.vulture_chestplate.name=Vultures Anzug
+item.vulture_legs.name=Vultures Hose
+item.vulture_boots.name=Vultures Schuhe
+
+heroesexpansion.suit.daredevil_homemade.name=Der Teufel von Hell's Kitchen
+item.daredevil_homemade_helmet.name=Maske des Teufels von Hell's Kitchen
+item.daredevil_homemade_chestplate.name=Anzug des Teufels von Hell's Kitchen
+item.daredevil_homemade_legs.name=Hose des Teufels von Hell's Kitchen
+item.daredevil_homemade_boots.name=Schuhe des Teufels von Hell's Kitchen
+
+heroesexpansion.suit.daredevil.name=Daredevil
+item.daredevil_helmet.name=Daredevils Helm
+item.daredevil_chestplate.name=Daredevils Anzug
+item.daredevil_legs.name=Daredevils Hose
+item.daredevil_boots.name=Daredevils Schuhe
+
+
+# Entities
+entity.chitauri.name=Chitauri
+entity.leviathan.name=Leviathan
+entity.kree.name=Kree
+entity.radioactive_spider.name=Radioaktive Spinne
+entity.Villager.heroesexpansion:spider_scientist=Spinnenforscher
+
+
+# Potions
+potion.kryptonite_poison=Kryptonitgift
+potion.chitauri_virus=Chitauri Virus
+potion.frozen=Eingefroren
+
+
+# Enchantments
+enchantment.chitauri_virus=Chitauri Virus
+enchantment.worthiness=Würdigkeit
+
+
+# Advancements
+heroesexpansion.advancements.root.title=Eine Heldenreise
+heroesexpansion.advancements.root.description=Installiere HeroesExpansion
+
+heroesexpansion.advancements.vibranium.vibranium.title=Die vielseitigste Substanz auf dem Planeten
+heroesexpansion.advancements.vibranium.vibranium.description=Finde Vibranium
+heroesexpansion.advancements.vibranium.heart_shaped_herb.title=Auf Vibranium gepflanzt
+heroesexpansion.advancements.vibranium.heart_shaped_herb.description=Finde das herzförmige Kraut
+heroesexpansion.advancements.vibranium.powers.title=Der Beschützer von Wakanda
+heroesexpansion.advancements.vibranium.powers.description=Werde der Black Panther
+heroesexpansion.advancements.vibranium.suit.title=Vibraniumgewebe
+heroesexpansion.advancements.vibranium.suit.description=Erstelle einen Black Panther Anzug
+heroesexpansion.advancements.vibranium.shield.title=Frisbee
+heroesexpansion.advancements.vibranium.shield.description=Stelle ein Vibraniumschild her
+heroesexpansion.advancements.vibranium.cap_shield.title=When Captain America Throws His Mighty Shield...
+heroesexpansion.advancements.vibranium.cap_shield.description=Stelle ein Captain Americas Schild her
+heroesexpansion.advancements.vibranium.wakandan_shield.title=Gebt diesem Mann einen Schild!
+heroesexpansion.advancements.vibranium.wakandan_shield.description=Stelle ein Wakandanischen Schild her
+
+heroesexpansion.advancements.kryptonian.kryptonite.title=Kryptons Überrest
+heroesexpansion.advancements.kryptonian.kryptonite.description=Finde Kryptonit
+heroesexpansion.advancements.kryptonian.fossil.title=Versteck in Kryptonit
+heroesexpansion.advancements.kryptonian.fossil.description=Finde ein Kryptonisches Fossil
+heroesexpansion.advancements.kryptonian.powers.title=Der letzte Sohne Kryptons
+heroesexpansion.advancements.kryptonian.powers.description=Werde ein Kryptonier
+
+heroesexpansion.advancements.archery.compound_bow.title=Du hast diese Stadt zu Grunde gerichtet
+heroesexpansion.advancements.archery.compound_bow.description=Baue einen Compoundbogen
+
+heroesexpansion.advancements.infinity.space.title=Das Juwel in Odins Schatzkammer
+heroesexpansion.advancements.infinity.space.description=Finde den Tesserakt
+heroesexpansion.advancements.infinity.space_stone.title=Raum
+heroesexpansion.advancements.infinity.space_stone.description=Zerbreche den Tesserakt
+
+heroesexpansion.advancements.spider_powers.power.title=Aus großer Kraft folgt große Verantwortung
+heroesexpansion.advancements.spider_powers.power.description=Bekomme Spinnenkräfte
+heroesexpansion.advancements.spider_powers.web_shooter.title=Go, web, go!
+heroesexpansion.advancements.spider_powers.web_shooter.description=Baue einen Web-Shooter
+heroesexpansion.advancements.spider_powers.suit.title=Freundliche Spinne aus der Nachbarschaft
+heroesexpansion.advancements.spider_powers.suit.description=Baue den Spider-Man Anzug
+heroesexpansion.advancements.spider_powers.spider_sense.title=Mein Spinnensinn meldet sich!
+heroesexpansion.advancements.spider_powers.spider_sense.description=Aktivieren deinen Spinnensinn
+heroesexpansion.advancements.spider_powers.web_wings.title=Fliegende Spinne
+heroesexpansion.advancements.spider_powers.web_wings.description=Benutze die Webflügel
+
+heroesexpansion.advancements.god_of_thunder.power.title=Gott des Hammers
+heroesexpansion.advancements.god_of_thunder.power.description=Finde Mjölnir und lass es dir Kräfte verleihen
+heroesexpansion.advancements.god_of_thunder.new_weapon.title="Bringt mir Thanos!"
+heroesexpansion.advancements.god_of_thunder.new_weapon.description=Schmiede eine neue Waffe
+heroesexpansion.advancements.god_of_thunder.god_mode.title=Gott des Donners
+heroesexpansion.advancements.god_of_thunder.god_mode.description=Aktiviere deinen Gottmodus
+heroesexpansion.advancements.god_of_thunder.team_up.title=Team Up
+heroesexpansion.advancements.god_of_thunder.team_up.description=Schlage auf Captain Americas Schild
+
+heroesexpansion.advancements.blindness.power.title=Wer hat das Licht ausgemacht?
+heroesexpansion.advancements.blindness.power.description=Werde...blind?
+heroesexpansion.advancements.blindness.suit.title=The Man Without Fear
+heroesexpansion.advancements.blindness.suit.description=Stelle den Anzug des Teufel von Hells Kitchen her
+heroesexpansion.advancements.blindness.suit_2.title=Der Teufel
+heroesexpansion.advancements.blindness.suit_2.description=Stelle den Daredevil-Anzug her
+heroesexpansion.advancements.blindness.billy_clubs.title=Schlagstöcker
+heroesexpansion.advancements.blindness.billy_clubs.description=Stelle Schlagstöcker her
+
+
+# Commands
+commands.solarenergy.usage=/solarenergy <set|add|remove> <Wert> [Spieler] [Ability ID]
+commands.solarenergy.setenergyto=%ss Solarenergie wurde auf %s gesetzt. [Max: %s]
+commands.solarenergy.noability=Dieser Spieler hat keine Solarenergie Fähigkeit!
+commands.solarenergy.nogivenid=Dieser Spieler hat mehrere Solarenergie Fähigkeiten. Gib eine Ability ID an um eine auszuwählen.
+commands.solarenergy.nosuchability=Dieser Spieler hat keine Solarenergie Fähigkeit mit dieser ID.
+
+
+# JEI Info
+heroesexpansion.jei.captain_america_suit=Um eine Anleitung für diesen Anzug zu erhalten, musst du den Fortschritt "When Captain America Throws His Mighty Shield..." erledigen.
+heroesexpansion.jei.black_panther_suit=Um eine Anleitung für diesen Anzug zu erhalten, musst du den Fortschritt "Der Beschützer von Wakanda" erledigen.
+heroesexpansion.jei.superman_suit=Um eine Anleitung für diesen Anzug zu erhalten, musst du den Fortschritt "Der letzte Sohne Kryptons" erledigen.
+heroesexpansion.jei.captain_marvel_suit=Du kannst eine Anleitung für diesen Anzug in abgestürzten Kree Schiffen finden.
+heroesexpansion.jei.green_arrow_suit=Um eine Anleitung für diesen Anzug zu erhalten, musst du den Fortschritt "Du hast diese Stadt zu Grunde gerichtet" erledigen.
+heroesexpansion.jei.spider_man_homemade_suit=Um eine Anleitung für diesen Anzug zu erhalten, musst du den Fortschritt "Aus großer Kraft folgt große Verantwortung" erledigen.
+heroesexpansion.jei.spider_man_suit=Um eine Anleitung für diesen Anzug zu erhalten, musst du den Fortschritt "Go, web, go!" erledigen.
+heroesexpansion.jei.daredevil_suit=Um eine Anleitung für diesen Anzug zu erhalten, musst du den Fortschritt "The Man Without Fear" erledigen.
+heroesexpansion.jei.thor_weapon_cast=Du kannst diese Gussformen in nordischen Dörfern finden.
+heroesexpansion.jei.kryptonian_fossil=Kryptonische Fossile droppen mit einer 5 Prozent Chance aus Kryptonit Blöcken, die in Meteoren zu finden sind. Mithilfe einer Spitzhacke mit der Glücks-Verzauberung kann die Chance erhöht werden.
+heroesexpansion.jei.tesseract=Das Juwel aus Odins Schatzkammer wurde vor langer Zeit auf der Erde versteckt. In einem nordischen Dorf hast du die Chance dies zu finden. Gerüchten zu folge, befindet sich der Tesserakt hinter der Skulptur von Yggdrasil, dem Weltenbaum.
+
+
+# Web Modes
+heroesexpansion.web_mode.pull=Ziehnetz
+heroesexpansion.web_mode.swing=Schwingnetz
+heroesexpansion.web_mode.taser=Tasernetz
+heroesexpansion.web_mode.impact=Netzschuss
+heroesexpansion.web_mode.web_grenade=Netzgranate
+
+
+# Misc
+itemGroup.tabHeroesExpansion=HeroesExpansion
+itemGroup.tabSupporterCloaks=Unterstützerumhänge
+death.attack.lightningBolt=%1$s wurde in ein schwarzes Loch gezogen
+heroesexpansion.info.get_god_of_thunder_power=Wer auch immer diesen Hammer hält, der solle, sofern er würdig ist, die Macht von Thor besitzen.
+heroesexpansion.info.hammer_belongs_to=Diese Waffe gehört %s
+heroesexpansion.info.not_worthy=§cDu bist nicht würdig diese Waffe zu tragen!
+heroesexpansion.info.not_worthy_for_item=§cDu bist nicht würdig diesen Gegenstand zu tragen!
+heroesexpansion.info.remove_possession=Du besitzt diese Waffe nun nicht mehr.
+heroesexpansion.info.weapon_belongs_you=Diese Waffe ist nun deine.
+heroesexpansion.info.thor_weapon_tooltip=Halte Rechtsklick und springe um zu fliegen.§nRechtsklick und Schleichen um die Waffe an dich zu binden.
+heroesexpansion.into.owner=Besitzer: %s
+heroesexpansion.into.weapon_not_found=Es konnte keine Waffe gefunden werden
+heroesexpansion.info.quiver_desc=Köcherslot wechseln
+heroesexpansion.info.necklace_desc=Halskette benutzen
+heroesexpansion.info.equip_shield=Schild nehmen
+heroesexpansion.info.open_portal=Portal öffnen
+heroesexpansion.info.close_portal=Portal schließen
+heroesexpansion.info.dim_not_exist=§cDiese Dimension existiert nicht!
+heroesexpansion.info.portal_location=Dieses Portal führt zu %s, %s, %s in %s
+heroesexpansion.info.set_destination=Ziel setzen
+heroesexpansion.info.outside_worldborder=§cDu kannst dich nicht außerhalb der Weltgrenze teleportieren!
+heroesexpansion.info.invasion=§cInvasion
+heroesexpansion.info.set_invasion=Das Portal wird zu einem mysteriösen Ort führen...
+heroesexpansion.info.assign_cloak=Rechtsklicke um diesen Umhang dir zuzuweisen
+heroesexpansion.info.no_cloak=Dir steht kein Umhang zur Verfügung!
+heroesexpansion.info.tier=Stufe %s
+heroesexpansion.info.homemade=Hausgemacht
+heroesexpansion.info.ability_cooling_down=Du musst warten ehe du diese Fähigkeit wieder benutzen kannst!
+
+heroesexpansion.ability.condition.potion_weakness=Turns off when exposed to %s
+
+heroesexpansion.ability.condition.suit_closed=On when the suit is closed

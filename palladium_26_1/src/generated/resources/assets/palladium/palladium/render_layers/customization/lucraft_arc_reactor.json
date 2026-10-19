@@ -1,0 +1,6 @@
+{
+  "type": "palladium:render_layer",
+  "light_emission": 15,
+  "render_type": "palladium:glow",
+  "texture": "palladium:textures/customization/lucraft_arc_reactor.png"
+}

@@ -1,0 +1,28 @@
+{
+  "result": {
+    "nbt": "{Injection:\"heroesexpansion:super_soldier\"}",
+    "item": "lucraftcore:injection",
+    "type": "minecraft:item_nbt"
+  },
+  "ingredients": [
+    {
+      "nbt": "{FluidName:\"super_soldier_serum\",Amount:1000}",
+      "item": "forge:bucketfilled",
+      "type": "minecraft:item_nbt"
+    },
+    {
+      "item": "lucraftcore:injection"
+    }
+  ],
+  "conditions": [
+    {
+      "item": "lucraftcore:injection",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "forge:bucketfilled",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

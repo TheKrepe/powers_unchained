@@ -1,0 +1,40 @@
+{
+  "result": {
+    "item": "heroesexpansion:falcon_legs"
+  },
+  "pattern": [
+    "PRP",
+    "B B",
+    "N N"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:falcon_legs",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "lucraftcore:tri_polymer_red",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "lucraftcore:tri_polymer_black",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "#PLATEIRON"
+    },
+    "R": {
+      "item": "lucraftcore:tri_polymer_red"
+    },
+    "B": {
+      "item": "lucraftcore:tri_polymer_black"
+    },
+    "N": {
+      "item": "#NUGGETIRON"
+    }
+  },
+  "group": "heroesexpansion:falcon_suit"
+}

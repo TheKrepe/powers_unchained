@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "pymtech:enlarge_pym_particles"
+    ]
+  },
+  "criteria": {
+    "has_lead": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/lead"
+          }
+        ]
+      }
+    },
+    "has_palladium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/palladium"
+          }
+        ]
+      }
+    },
+    "has_bones": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:bone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "pymtech:enlarge_pym_particles"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_lead",
+      "has_palladium",
+      "has_bones",
+      "has_the_recipe"
+    ]
+  ]
+}

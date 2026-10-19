@@ -1,0 +1,42 @@
+{
+  "result": {
+    "item": "heroesexpansion:web_shooter_1"
+  },
+  "pattern": [
+    "PDP",
+    "BWB",
+    "PCP"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:web_shooter_1",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:dispenser",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:bucket",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "#PLATEIRON"
+    },
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "C": {
+      "item": "#CIRCUITBASIC"
+    },
+    "D": {
+      "item": "minecraft:dispenser"
+    },
+    "W": {
+      "item": "#WIRECOPPER"
+    }
+  }
+}

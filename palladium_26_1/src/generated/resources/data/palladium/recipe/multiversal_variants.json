@@ -1,0 +1,11 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:mechanic/multiversal_variants"
+      ]
+    }
+  ],
+  "type": "palladium:multiversal_variants"
+}

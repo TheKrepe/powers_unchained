@@ -1,0 +1,19 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecraft:spider_eye"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.spider_powers.spider_sense.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.spider_powers.spider_sense.description"
+        }
+    },
+    "parent": "heroesexpansion:spider_powers/power",
+    "criteria": {
+        "spider_sense" : {
+            "trigger" : "heroesexpansion:spider_sense"
+        }
+    }
+}

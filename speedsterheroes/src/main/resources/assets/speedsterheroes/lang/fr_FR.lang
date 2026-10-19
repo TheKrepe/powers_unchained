@@ -1,0 +1,320 @@
+itemGroup.tabSpeedster=SpeedsterHeroes
+itemGroup.tabSpeedsterArmor=Combinaisons SpeedsterHeroes
+
+superpower.speedforce.name=SuperVitesse
+superpower.speedforce.description=La SuperVitesse permet au joueur de rendre ses mouvements et reflexes très rapides. Elle peut etre obtenue via l'Accelerateur de Particules.
+
+tile.particleAccelerator.name=Block de Contrôle d'Accelerateur de Particules
+tile.particleAcceleratorPart.name=Block Simple de l'Accelerateur de Particules
+tile.speedforceDampener.name=Amortisseur de SuperVitesse
+tile.philosophersStoneChest.name=Coffret de la Pierre Philosophale
+
+item.speedStealer.name=Voleur de SuperVitesse
+item.velocity9.name=Velocity 9
+item.tachyonPrototype.name=Prototype Tachyon
+item.tachyonCharge.name=Charge Tachyon
+item.ring.name=Anneau de Combinaison
+item.ringUpgrade.name=Amélioration de Combinaison avec Anneau
+item.philosophersStone.name=Pierre Philosophale
+
+item.flashHelmet.name=Masque de Flash
+item.flashChestplate.name=Plastron de Flash
+item.flashLegs.name=Jambières de Flash
+item.flashBoots.name=Bottes de Flash
+
+item.reverseflashHelmet.name=Masque de Reverse Flash
+item.reverseflashChestplate.name=Plastron de Reverse Flash
+item.reverseflashLegs.name=Jambières de Reverse Flash
+item.reverseflashBoots.name=Bottes de Reverse Flash
+
+item.zoomHelmet.name=Masque de Zoom
+item.zoomChestplate.name=Plastron de Zoom
+item.zoomLegs.name=Jambières de Zoom
+item.zoomBoots.name=Bottes de Zoom
+
+item.jaygarrickHelmet.name=Masque de Jay Garrick
+item.jaygarrickChestplate.name=Plastron de Jay Garrick
+item.jaygarrickLegs.name=Jambières de Jay Garrick
+item.jaygarrickBoots.name=Bottes de Jay Garrick
+
+item.jaygarrick2Chestplate.name=Plastron de Jay Garrick
+item.jaygarrick2Legs.name=Jambières de Jay Garrick
+item.jaygarrick2Boots.name=Bottes de Jay Garrick
+
+item.kidflashHelmet.name=Masque de Kid Flash
+item.kidflashChestplate.name=Plastron de Kid Flash
+item.kidflashLegs.name=Jambières de Kid Flash
+item.kidflashBoots.name=Bottes de Kid Flash
+
+item.therivalHelmet.name=Masque du Rival
+item.therivalChestplate.name=Plastron du Rival
+item.therivalLegs.name=Jambières du Rival
+item.therivalBoots.name=Bottes du Rival
+
+item.trajectoryHelmet.name=Masque de Trajectory
+item.trajectoryChestplate.name=Plastron de Trajectory
+item.trajectoryLegs.name=Jambières de Trajectory
+item.trajectoryBoots.name=Bottes de Trajectory
+
+item.jessequickHelmet.name=Masque de Jesse Quick
+item.jessequickChestplate.name=Plastron de Jesse Quick
+item.jessequickLegs.name=Jambières de Jesse Quick
+item.jessequickBoots.name=Bottes de Jesse Quick
+
+item.savitarHelmet.name=Masque de Savitar
+item.savitarChestplate.name=Plastron de Savitar
+item.savitarLegs.name=Jambières de Savitar
+item.savitarBoots.name=Bottes de Savitar
+
+item.blackflashHelmet.name=Masque de Black Flash
+item.blackflashChestplate.name=Plastron de Black Flash
+item.blackflashLegs.name=Jambières de Black Flash
+item.blackflashBoots.name=Bottes de Black Flash
+
+item.dceuflashHelmet.name=Masque de Flash
+item.dceuflashChestplate.name=Plastron de Flash
+item.dceuflashLegs.name=Jambières de Flash
+item.dceuflashBoots.name=Bottes de Flash
+
+item.comicflashHelmet.name=Masque de Flash
+item.comicflashChestplate.name=Plastron de Flash
+item.comicflashLegs.name=Jambières de Flash
+item.comicflashBoots.name=Bottes de Flash
+
+item.comicreverseflashHelmet.name=Masque de Reverse-Flash
+item.comicreverseflashChestplate.name=Plastron de Reverse-Flash
+item.comicreverseflashLegs.name=Jambières de Reverse-Flash
+item.comicreverseflashBoots.name=Bottes de Reverse-Flash
+
+item.professorzoomHelmet.name=Masque de Professeur Zoom
+item.professorzoomChestplate.name=Plastron de Professeur Zoom
+item.professorzoomLegs.name=Jambières de Professeur Zoom
+item.professorzoomBoots.name=Bottes de Professeur Zoom
+
+item.new52flashHelmet.name=Masque de Flash
+item.new52flashChestplate.name=Plastron de Flash
+item.new52flashLegs.name=Jambières de Flash
+item.new52flashBoots.name=Bottes de Flash
+
+item.wallywestcomicflashHelmet.name=Masque de Wally West
+item.wallywestcomicflashChestplate.name=Plastron de Wally West
+item.wallywestcomicflashLegs.name=Jambières de Wally West
+item.wallywestcomicflashBoots.name=Bottes de Wally West
+
+item.wallywestcomickidflashHelmet.name=Masque de Wally West
+item.wallywestcomickidflashChestplate.name=Plastron de Wally West
+item.wallywestcomickidflashLegs.name=Jambières de Wally West
+item.wallywestcomickidflashBoots.name=Bottes de Wally West
+
+item.rebirthwallywestHelmet.name=Masque de Wally West
+item.rebirthwallywestChestplate.name=Plastron de Wally West
+item.rebirthwallywestLegs.name=Jambières de Wally West
+item.rebirthwallywestBoots.name=Bottes de Wally West
+
+item.comicjessequickHelmet.name=Masque de Jesse Quick
+item.comicjessequickChestplate.name=Plastron de Jesse Quick
+item.comicjessequickLegs.name=Jambières de Jesse Quick
+item.comicjessequickBoots.name=Bottes de Jesse Quick
+
+item.godspeedHelmet.name=Masque de Godspeed
+item.godspeedChestplate.name=Plastron de Godspeed
+item.godspeedLegs.name=Jambières de Godspeed
+item.godspeedBoots.name=Bottes de Godspeed
+
+item.quicksilverChestplate.name=Plastron de Quicksilver
+item.quicksilverLegs.name=Jambières de Quicksilver
+item.quicksilverBoots.name=Bottes de Quicksilver
+
+item.xmenquicksilverHelmet.name=Lunettes et Ecouteurs de Quicksilver
+item.xmenquicksilverChestplate.name=Veste de Quicksilver
+item.xmenquicksilverLegs.name=Pantalons de Quicksilver
+item.xmenquicksilverBoots.name=Bottes de Quicksilver
+
+item.comicquicksilverChestplate.name=Plastron de Quicksilver
+item.comicquicksilverLegs.name=Jambières de Quicksilver
+item.comicquicksilverBoots.name=Bottes de Quicksilver
+
+item.speedHelmet.name=Lunettes de Speed
+item.speedChestplate.name=Plastron de Speed
+item.speedLegs.name=Jambières de Speed
+item.speedBoots.name=Bottes de Speed
+
+item.flayChestplate.name=Chemise de Flay
+item.flayLegs.name=Pantalons de Flay
+item.flayBoots.name=Bottes de Flay
+
+item.starlabstrainingHelmet.name=Capuche d'Entrainement S.T.A.R. Labs
+item.starlabstrainingChestplate.name=Pull d'Entrainement S.T.A.R. Labs
+item.starlabstrainingLegs.name=Pantalons d'Entrainement S.T.A.R. Labs
+item.starlabstrainingBoots.name=Chaussures d'Entrainement S.T.A.R. Labs
+
+potion.velocity9=Velocity 9
+potion.speedShock=Speed Shock
+entity.speedsterheroes.timeRemnant.name=Vestige Memoriel
+entity.speedsterheroes.timeWraith.name=Spectre Temporel
+entity.speedsterheroes.blackFlash.name=Black Flash
+
+speedsterheroes.info.helmet.name=Casque
+speedsterheroes.info.chestplate.name=Plastron
+speedsterheroes.info.legs.name=Jambières
+speedsterheroes.info.boots.name=Bottes
+speedsterheroes.info.applicableto=Applicable à
+speedsterheroes.info.speedlevel=Niveau de Vitesse
+speedsterheroes.info.abilities=Capacités
+speedsterheroes.info.trail=Trainée
+speedsterheroes.info.extraspeedlevel=Niveau de Vitesse Supplémentaire
+speedsterheroes.info.levelup=Vous avez atteint le Niveau %L!
+speedsterheroes.info.speedsterpoints=Points de Supersonic
+speedsterheroes.info.buyability=Débloquer la Capacité
+speedsterheroes.info.notenoughspeedsterpoints=Nombre de Points Supersonic insuffisant!
+speedsterheroes.info.activated=activé
+speedsterheroes.info.deactivated=desactivé
+speedsterheroes.info.unlock=Débloquer
+speedsterheroes.info.issuitneeded=Combinaison Requise
+speedsterheroes.info.symbolprefix=Symbol de
+speedsterheroes.info.canbecrafted=Peut être crafté
+speedsterheroes.info.canbefoundindungeons=Peut être trouvé dans des donjons
+speedsterheroes.info.teleport=Teleporter
+speedsterheroes.info.save=Enregistrer
+speedsterheroes.info.red=Rouge
+speedsterheroes.info.green=Vert
+speedsterheroes.info.blue=Bleu
+speedsterheroes.info.tachyoncharge=Peut être chargé en courant en SuperVitesse
+speedsterheroes.info.abilitydisabled=Cette capacité est desactivée
+speedsterheroes.info.specialcolors=Couleurs Spéciales
+speedsterheroes.info.repairingitem=Réparation d'objets
+speedsterheroes.info.putsuitinring=Stock l'anneau dans la combinaison
+speedsterheroes.info.description=Description
+speedsterheroes.info.cooldown=Temps de réutilisation
+speedsterheroes.info.seconds=Secondes
+speedsterheroes.info.doublexp=Vous donne le double de XP en courant
+speedsterheroes.info.containsstone=Contient la Pierre
+speedsterheroes.info.enableability=Activer la capacité
+speedsterheroes.info.disableability=Désactiver la capacité 
+speedsterheroes.info.primarycolor=Couleur Primaire
+speedsterheroes.info.secondarycolor=Couleur Secondaire
+
+speedsterheroes.abilities.advancedStepAssist.name=Assistance de Pas Avancé
+speedsterheroes.abilities.advancedStepAssist.desc=Vous serez capable de descendre automatiquement des blocks.
+speedsterheroes.abilities.wallRunning.name=Courir sur les Murs
+speedsterheroes.abilities.wallRunning.desc=Sautez contre les murs pour pouvoir courir sur eux.
+speedsterheroes.abilities.waterRunning.name=Courir sur l'Eau
+speedsterheroes.abilities.waterRunning.desc=Courez au niveau de vitesse 5 ou plus et sprintez pour courir sur l'Eau.
+speedsterheroes.abilities.lightningThrowing.name=Lancer d'Eclair
+speedsterheroes.abilities.lightningThrowing.desc=Tapez dans l'air en courant et en sautant pour lancer des éclairs.
+speedsterheroes.abilities.phasing.name=Phaser à travers des murs
+speedsterheroes.abilities.phasing.desc=Appuiez sur l'Action d'Armure 1 (%ARMOR_KEY_1) pour phaser à travers des murs.
+speedsterheroes.abilities.slowmo.name=Ralenti
+speedsterheroes.abilities.slowmo.desc=Appuiez sur l'Action d'Armure 3 (%ARMOR_KEY_3) pour mettre le monde au ralenti. (Marche seulement en Solo!)
+speedsterheroes.abilities.dimensionBreach.name=Brèches Dimensionelles
+speedsterheroes.abilities.dimensionBreach.desc=Appuiez sur l'Action d'Armure 3 (%ARMOR_KEY_3) et sprintez au niveau de vitesse 8 ou plus pour créer une Brèche Dimensionelle.
+speedsterheroes.abilities.timeRemnant.name=Vestige Memoriel
+speedsterheroes.abilities.timeRemnant.desc=Appuiez sur l'Action d'Armure 2 (%ARMOR_KEY_2) et sprintez au niveau de vitesse 8 ou plus pour invoquer un Vestige Memoriel de vous même.
+speedsterheroes.abilities.speedforceJump.name=Saut de SuperVitesse
+speedsterheroes.abilities.speedforceJump.desc=Accroupissez vous en atterissant pour créer une onde de choc. (Marche seulement en Survie!)
+speedsterheroes.abilities.invisibility.name=Invisibilité
+speedsterheroes.abilities.invisibility.desc=Quand activé, seulement les Supersonics peuvent vous voir.
+speedsterheroes.abilities.speedforcePortal.name=Portail de Supervitesse.
+speedsterheroes.abilities.speedforcePortal.desc=Appuiez sur l'Action d'Armure 4 (%ARMOR_KEY_4) et soyez au niveau de vitesse 12 ou plus pour courir dans la Force Véloce.
+
+speedsterheroes.speedstertypes.flash.name=Flash
+speedsterheroes.speedstertypes.reverseFlash.name=Reverse Flash
+speedsterheroes.speedstertypes.zoom.name=Zoom
+speedsterheroes.speedstertypes.jayGarrick.name=Jay Garrick
+speedsterheroes.speedstertypes.jayGarrick2.name=Jay Garrick
+speedsterheroes.speedstertypes.kidFlash.name=Kid Flash
+speedsterheroes.speedstertypes.theRival.name=Le Rival
+speedsterheroes.speedstertypes.trajectory.name=Trajectory
+speedsterheroes.speedstertypes.jesseQuick.name=Jesse Quick
+speedsterheroes.speedstertypes.savitar.name=Savitar
+speedsterheroes.speedstertypes.blackFlash.name=Black Flash
+speedsterheroes.speedstertypes.dceuFlash.name=Flash
+speedsterheroes.speedstertypes.comicFlash.name=Flash
+speedsterheroes.speedstertypes.comicReverseFlash.name=Reverse Flash
+speedsterheroes.speedstertypes.professorZoom.name=Professor Zoom
+speedsterheroes.speedstertypes.new52Flash.name=Flash
+speedsterheroes.speedstertypes.wallyWestComicFlash.name=Wally West
+speedsterheroes.speedstertypes.wallyWestComicKidFlash.name=Wally West
+speedsterheroes.speedstertypes.rebirthWallyWest.name=Wally West
+speedsterheroes.speedstertypes.comicJesseQuick.name=Jesse Quick
+speedsterheroes.speedstertypes.godspeed.name=Godspeed
+speedsterheroes.speedstertypes.quicksilver.name=Quicksilver
+speedsterheroes.speedstertypes.xmenQuicksilver.name=Quicksilver
+speedsterheroes.speedstertypes.comicQuicksilver.name=Quicksilver
+speedsterheroes.speedstertypes.speed.name=Speed
+speedsterheroes.speedstertypes.flay.name=Flay
+speedsterheroes.speedstertypes.starLabsTraining.name=Combinaison d'Entrainement S.T.A.R. Labs
+
+speedsterheroes.trailtype.normal.name=Standard
+speedsterheroes.trailtype.lightnings.name=Eclairs
+speedsterheroes.trailtype.lightnings_orange.name=Eclairs Oranges
+speedsterheroes.trailtype.lightnings_red.name=Eclairs Rouges
+speedsterheroes.trailtype.lightnings_blue.name=Eclairs Bleus
+speedsterheroes.trailtype.lightnings_gold.name=Eclairs Dorés
+speedsterheroes.trailtype.lightnings_brightgold.name=Eclairs Dorés Brillant
+speedsterheroes.trailtype.lightnings_white.name=Eclairs Blancs
+speedsterheroes.trailtype.lightnings_lightblue.name=Eclairs Bleus Ciel
+speedsterheroes.trailtype.randomlightnings.name=Electricité
+speedsterheroes.trailtype.randomlightnings_lightblue.name=Electricité Bleu
+speedsterheroes.trailtype.particles.name=Particules
+speedsterheroes.trailtype.particles_blue.name=Particules Bleues
+speedsterheroes.trailtype.particles_green.name=Particules Vertes
+
+speedsterheroes.keybinding.keySpeed=Activer/Désactiver la Vitesse
+speedsterheroes.keybinding.keyFaster=Accelérer
+speedsterheroes.keybinding.keySlower=Ralentir
+speedsterheroes.keybinding.keyLeveling=Menu de Capacités
+speedsterheroes.keybinding.keyTrail=Personnalisateur de Trainée
+
+achievement.becomeSpeedster=Vous n'avez pas vu cela arriver?
+achievement.becomeSpeedster.desc=Devenir un Supersonic
+achievement.frictionBurn=Torche Humaine
+achievement.frictionBurn.desc=Brûler à cause de la Friction
+achievement.velocity9=Drogue de Vitesse
+achievement.velocity9.desc=Prendre un Velocity 9
+achievement.brahmastra=Brahmastra
+achievement.brahmastra.desc=Trouver la Pierre Philosophale
+achievement.advancedStepAssist=Assistance de Pas Avancé
+achievement.advancedStepAssist.desc=Trouvez votre manière avancée de courir
+achievement.wallRunning=Courir sur les murs
+achievement.wallRunning.desc=Etre capable de courir sur les murs
+achievement.waterRunning=Jesus
+achievement.waterRunning.desc=Marchez sur l'Eau
+achievement.lightningThrowing=Lancer d'Eclair
+achievement.lightningThrowing.desc=Pouvoir lancer des Eclairs
+achievement.phasing=Etre un Fantôme
+achievement.phasing.desc=Courir à travers un mur
+achievement.timeRemnant=1 est un nombre solitaire
+achievement.timeRemnant.desc=Pouvoir créer un Vestige Mémoriel
+achievement.speedforceJump=Electrisant
+achievement.speedforceJump.desc=Pouvoir créer des ondes de choc de Supervitesse.
+achievement.invisibility=Invisibilité
+achievement.invisibility.desc=Seul les Supersonics peuvent vous voir
+achievement.speedforcePortal=Voyage Rapide
+achievement.speedforcePortal.desc=Pouvoir ouvrir des Portails de Force Véloce
+achievement.dimensionBreach=Explorez d'autres mondes
+achievement.dimensionBreach.desc=Etre capable de créer des brèches dimensionelles.
+achievement.slowmo=Le temps dans une bouteille
+achievement.slowmo.desc=Mettre le monde au ralenti
+
+commands.speedforce.usage=/speedforce [joueur] [allumer/éteindre]
+commands.speedforce.success.self=Votre SuperVitesse était %s
+commands.speedforce.success.other=La SuperVitesse de %s était %s
+commands.setspeedsterlevel.usage=/setspeedsterlevel [joueur] [niveau]
+commands.setspeedsterlevel.success.self=Votre Niveau de Supersonic a été mit à %s
+commands.setspeedsterlevel.success.other=Le Niveau de Supersonic de %s a été mit à %s
+commands.setspeedsterlevel.nopower=Ce joueur n'a pas de pouvoirs de SuperVitesse.
+commands.setspeedsterpoints.usage=/setspeedsterpoints [joueur] [points]
+commands.setspeedsterpoints.success.self=Vos points de Supersonic ont été mit à %s
+commands.setspeedsterpoints.success.other=Les points de Supersonic de %s ont été mit à %s
+commands.setspeedsterpoints.nopower=Ce joueur n'a pas de pouvoirs de SuperVitesse.
+commands.setextraspeedlevels.usage=/setextraspeedlevels [joueur] [niveaux supplémentaires]
+commands.setextraspeedlevels.success.self=Vos niveaux de Vitesse supplémentaires ont été mit à %s
+commands.setextraspeedlevels.success.other=Les niveaux de Vitesse supplémentaires de %s ont été mit a %s
+commands.setextraspeedlevels.nopower=Ce joueur n'a pas de pouvoirs de SuperVitesse.
+
+subtitles.flicker=Joueur Vacillant
+subtitles.vibrating=Joueur Vibrant
+
+book.chapter.speedsters.name=Supersonics
+book.ancientArtifacts.philosophersStone.desc=La Pierre Philosophale, ou Brahmastra, est le premier artéfact à être capable de créer des meta-humains. Elle est responsable de la création de Savitar et elle peut donner aux joueurs la SuperVitesse.

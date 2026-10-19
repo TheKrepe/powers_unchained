@@ -1,0 +1,44 @@
+[
+	{
+		"ingredient": {
+			"type": "forge:ore_dict",
+			"ore": "nuggetTin"
+		},
+		"name": "TINNUGGET"
+	},
+	{
+		"ingredient": {
+			"type": "forge:ore_dict",
+			"ore": "slimeball"
+		},
+		"name": "SLIMEBALL"
+	},
+	{
+		"ingredient": {
+			"type": "forge:ore_dict",
+			"ore": "string"
+		},
+		"name": "STRING"
+	},
+	{
+		"ingredient": {
+			"type": "forge:ore_dict",
+			"ore": "dustSteel"
+		},
+		"name": "DUSTSTEEL"
+	},
+	{
+		"ingredient": {
+			"type": "forge:ore_dict",
+			"ore": "dustUranium"
+		},
+		"name": "URANIUMDUST"
+	},
+	{
+		"ingredient": {
+			"type": "forge:ore_dict",
+			"ore": "dustCoal"
+		},
+		"name": "COALDUST"
+	}
+]

@@ -1,0 +1,18 @@
+{
+	"items": [
+		{
+			"item": "heroesexpansion:green_arrow_chest"
+		},
+		{
+			"item": "heroesexpansion:green_arrow_legs"
+		},
+		{
+			"item": "heroesexpansion:green_arrow_boots"
+		}
+	],
+	
+	"text": {
+		"translate": "heroesexpansion.jei.green_arrow_suit"
+	}
+
+}

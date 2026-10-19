@@ -1,0 +1,28 @@
+{
+  "result": {
+    "item": "heroesexpansion:mjolnir"
+  },
+  "pattern": [
+    "H",
+    "S"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:mjolnir",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:mjolnir_head",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "S": {
+      "item": "#STICKWOOD"
+    },
+    "H": {
+      "item": "heroesexpansion:mjolnir_head"
+    }
+  }
+}

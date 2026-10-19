@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#pymtech:suits/ant_man",
+    "#pymtech:suits/ant_man_tier2",
+    "#pymtech:suits/ant_man_tier3",
+    "#pymtech:suits/giant_man",
+    "#pymtech:suits/zombie_giant_man"
+  ]
+}

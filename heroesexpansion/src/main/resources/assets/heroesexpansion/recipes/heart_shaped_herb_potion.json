@@ -1,0 +1,28 @@
+{
+  "result": {
+    "item": "heroesexpansion:heart_shaped_herb_potion"
+  },
+  "ingredients": [
+    {
+      "item": "heroesexpansion:heart_shaped_herb"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:heart_shaped_herb_potion",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:heart_shaped_herb",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:bowl",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

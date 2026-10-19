@@ -1,0 +1,13 @@
+{
+	"type": "threecore:armor",
+	
+	"properties": {
+		"group": "suits_and_armor"
+	},
+	
+	"slot": "feet",
+	
+	"armor_material": "leather",
+	
+	"layers": "pymtech:ant_man_layer0"
+}

@@ -1,0 +1,277 @@
+package lucraft.mods.heroesexpansion.client.models;
+
+import lucraft.mods.lucraftcore.util.helper.LCRenderHelper;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+
+/**
+ * BigGreenChicken - Neon Created using Tabula 4.1.1
+ */
+public class ModelVultureWings extends ModelBase {
+
+    public ModelRenderer base;
+    public ModelRenderer wingholder;
+    public ModelRenderer wingcoreLeft;
+    public ModelRenderer wingcoreRight;
+    public ModelRenderer reactorbase;
+    public ModelRenderer wingcore2;
+    public ModelRenderer wingfill;
+    public ModelRenderer reactor1;
+    public ModelRenderer reactor2;
+    public ModelRenderer reactor3;
+    public ModelRenderer helixcenter;
+    public ModelRenderer blade;
+    public ModelRenderer wing;
+    public ModelRenderer wing2;
+    public ModelRenderer wing3;
+    public ModelRenderer featherbase;
+    public ModelRenderer feather1;
+    public ModelRenderer feather2;
+    public ModelRenderer feather3;
+    public ModelRenderer feather4dontmovethisone;
+    public ModelRenderer reactorbase_1;
+    public ModelRenderer wingcore2_1;
+    public ModelRenderer shape46;
+    public ModelRenderer reactor1_1;
+    public ModelRenderer reactor2_1;
+    public ModelRenderer reactor3_1;
+    public ModelRenderer helixcenter_1;
+    public ModelRenderer blade_1;
+    public ModelRenderer wing_1;
+    public ModelRenderer wing2_1;
+    public ModelRenderer wing3_1;
+    public ModelRenderer featherbase_1;
+    public ModelRenderer feather1_1;
+    public ModelRenderer feather2_1;
+    public ModelRenderer feather3_1;
+    public ModelRenderer feather4dontmovethisone_1;
+
+    public ModelVultureWings() {
+        this.textureWidth = 128;
+        this.textureHeight = 64;
+        this.featherbase = new ModelRenderer(this, 0, 53);
+        this.featherbase.setRotationPoint(-3.0F, 7.0F, 0.0F);
+        this.featherbase.addBox(0.0F, 0.0F, 0.0F, 4, 4, 1, 0.0F);
+        this.setRotateAngle(featherbase, 0.0F, 0.0F, -0.8196066167365371F);
+        this.wing2 = new ModelRenderer(this, 56, 0);
+        this.wing2.setRotationPoint(-3.0F, 4.0F, 0.0F);
+        this.wing2.addBox(0.0F, 0.0F, 0.0F, 3, 9, 1, 0.0F);
+        this.setRotateAngle(wing2, 0.0F, 0.0F, -1.3203415791337103F);
+        this.wingcore2 = new ModelRenderer(this, 29, 0);
+        this.wingcore2.setRotationPoint(4.0F, -2.0F, 0.0F);
+        this.wingcore2.addBox(-3.0F, 0.0F, 0.0F, 3, 5, 1, 0.0F);
+        this.setRotateAngle(wingcore2, 0.0F, 0.0F, -0.7853981633974483F);
+        this.wingfill = new ModelRenderer(this, 15, 39);
+        this.wingfill.setRotationPoint(4.0F, -3.0F, 0.5F);
+        this.wingfill.addBox(0.0F, 0.0F, 0.0F, 24, 10, 0, 0.0F);
+        this.setRotateAngle(wingfill, 0.0F, 0.0F, 0.7853981633974483F);
+        this.feather2 = new ModelRenderer(this, 66, 13);
+        this.feather2.setRotationPoint(2.0F, 4.0F, 0.0F);
+        this.feather2.addBox(-1.0F, 0.0F, 0.0F, 2, 9, 1, 0.0F);
+        this.setRotateAngle(feather2, 0.0F, 0.0F, 0.8196066167365371F);
+        this.feather1 = new ModelRenderer(this, 66, 13);
+        this.feather1.setRotationPoint(4.0F, 4.0F, 0.0F);
+        this.feather1.addBox(-2.0F, 0.0F, 0.0F, 2, 11, 1, 0.0F);
+        this.setRotateAngle(feather1, 0.0F, 0.0F, 0.40980330836826856F);
+        this.reactorbase = new ModelRenderer(this, 6, 34);
+        this.reactorbase.setRotationPoint(0.0F, -0.5F, 0.0F);
+        this.reactorbase.addBox(-1.0F, 0.0F, 0.0F, 2, 5, 1, 0.0F);
+        this.setRotateAngle(reactorbase, 0.0F, 0.0F, 0.5462880558742251F);
+        this.blade_1 = new ModelRenderer(this, 16, 51);
+        this.blade_1.mirror = true;
+        this.blade_1.setRotationPoint(0.0F, 0.0F, 0.5F);
+        this.blade_1.addBox(-2.5F, -0.5F, 0.0F, 5, 1, 1, 0.0F);
+        this.base = new ModelRenderer(this, 92, 0);
+        this.base.setRotationPoint(0.0F, 0.5F, 2.0F);
+        this.base.addBox(-2.0F, 0.0F, 0.0F, 4, 11, 1, 0.0F);
+        this.wingcore2_1 = new ModelRenderer(this, 29, 0);
+        this.wingcore2_1.mirror = true;
+        this.wingcore2_1.setRotationPoint(-4.0F, -2.0F, 0.0F);
+        this.wingcore2_1.addBox(0.0F, 0.0F, 0.0F, 3, 5, 1, 0.0F);
+        this.setRotateAngle(wingcore2_1, 0.0F, 0.0F, 0.7853981633974483F);
+        this.feather1_1 = new ModelRenderer(this, 66, 13);
+        this.feather1_1.mirror = true;
+        this.feather1_1.setRotationPoint(-4.0F, 4.0F, 0.0F);
+        this.feather1_1.addBox(0.0F, 0.0F, 0.0F, 2, 11, 1, 0.0F);
+        this.setRotateAngle(feather1_1, 0.0F, 0.0F, -0.40980330836826856F);
+        this.wing3_1 = new ModelRenderer(this, 109, 0);
+        this.wing3_1.setRotationPoint(-3.0F, 9.0F, 0.0F);
+        this.wing3_1.addBox(0.0F, 0.0F, 0.0F, 3, 7, 1, 0.0F);
+        this.setRotateAngle(wing3_1, 0.0F, 0.0F, -0.9105382707654417F);
+        this.wing3 = new ModelRenderer(this, 109, 0);
+        this.wing3.setRotationPoint(3.0F, 9.0F, 0.0F);
+        this.wing3.addBox(-3.0F, 0.0F, 0.0F, 3, 7, 1, 0.0F);
+        this.setRotateAngle(wing3, 0.0F, 0.0F, 0.9105382707654417F);
+        this.wingholder = new ModelRenderer(this, 72, 0);
+        this.wingholder.setRotationPoint(0.0F, 0.5F, -0.5F);
+        this.wingholder.addBox(-3.0F, 0.0F, 0.0F, 6, 7, 2, 0.0F);
+        this.reactor2 = new ModelRenderer(this, 0, 44);
+        this.reactor2.setRotationPoint(0.5F, 4.5F, 0.0F);
+        this.reactor2.addBox(0.0F, 0.0F, 0.0F, 5, 1, 1, 0.0F);
+        this.reactor3 = new ModelRenderer(this, 0, 34);
+        this.reactor3.setRotationPoint(5.0F, 0.0F, 0.0F);
+        this.reactor3.addBox(0.0F, 0.0F, 0.0F, 1, 5, 1, 0.0F);
+        this.feather3 = new ModelRenderer(this, 66, 29);
+        this.feather3.setRotationPoint(1.0F, 2.8F, 0.0F);
+        this.feather3.addBox(-8.0F, -1.0F, 0.0F, 8, 2, 1, 0.0F);
+        this.setRotateAngle(feather3, 0.0F, 0.0F, -0.4553564018453205F);
+        this.reactor1 = new ModelRenderer(this, 0, 44);
+        this.reactor1.setRotationPoint(0.5F, -1.5F, 0.0F);
+        this.reactor1.addBox(0.0F, 0.0F, 0.0F, 5, 2, 1, 0.0F);
+        this.reactor1_1 = new ModelRenderer(this, 0, 44);
+        this.reactor1_1.mirror = true;
+        this.reactor1_1.setRotationPoint(-5.5F, -1.5F, 0.0F);
+        this.reactor1_1.addBox(0.0F, 0.0F, 0.0F, 5, 2, 1, 0.0F);
+        this.wing = new ModelRenderer(this, 35, 8);
+        this.wing.setRotationPoint(0.0F, 5.0F, 0.0F);
+        this.wing.addBox(-3.0F, 0.0F, 0.0F, 3, 4, 1, 0.0F);
+        this.setRotateAngle(wing, 0.0F, 0.0F, 0.7853981633974483F);
+        this.wingcoreLeft = new ModelRenderer(this, 41, 0);
+        this.wingcoreLeft.setRotationPoint(3.0F, 2.0F, 1.0F);
+        this.wingcoreLeft.addBox(0.0F, -2.0F, 0.0F, 4, 2, 1, 0.0F);
+        this.setRotateAngle(wingcoreLeft, 0.0F, 0.0F, -0.7853981633974483F);
+        this.feather2_1 = new ModelRenderer(this, 66, 13);
+        this.feather2_1.mirror = true;
+        this.feather2_1.setRotationPoint(-2.0F, 4.0F, 0.0F);
+        this.feather2_1.addBox(-1.0F, 0.0F, 0.0F, 2, 9, 1, 0.0F);
+        this.setRotateAngle(feather2_1, 0.0F, 0.0F, -0.8196066167365371F);
+        this.featherbase_1 = new ModelRenderer(this, 0, 53);
+        this.featherbase_1.mirror = true;
+        this.featherbase_1.setRotationPoint(3.0F, 7.0F, 0.0F);
+        this.featherbase_1.addBox(-4.0F, 0.0F, 0.0F, 4, 4, 1, 0.0F);
+        this.setRotateAngle(featherbase_1, 0.0F, 0.0F, 0.8196066167365371F);
+        this.wing_1 = new ModelRenderer(this, 35, 8);
+        this.wing_1.mirror = true;
+        this.wing_1.setRotationPoint(0.0F, 5.0F, 0.0F);
+        this.wing_1.addBox(0.0F, 0.0F, 0.0F, 3, 4, 1, 0.0F);
+        this.setRotateAngle(wing_1, 0.0F, 0.0F, -0.7853981633974483F);
+        this.reactor2_1 = new ModelRenderer(this, 0, 44);
+        this.reactor2_1.mirror = true;
+        this.reactor2_1.setRotationPoint(-5.5F, 4.5F, 0.0F);
+        this.reactor2_1.addBox(0.0F, 0.0F, 0.0F, 5, 1, 1, 0.0F);
+        this.wing2_1 = new ModelRenderer(this, 56, 0);
+        this.wing2_1.mirror = true;
+        this.wing2_1.setRotationPoint(3.0F, 4.0F, 0.0F);
+        this.wing2_1.addBox(-3.0F, 0.0F, 0.0F, 3, 9, 1, 0.0F);
+        this.setRotateAngle(wing2_1, 0.0F, 0.0F, 1.3203415791337103F);
+        this.feather4dontmovethisone_1 = new ModelRenderer(this, 89, 29);
+        this.feather4dontmovethisone_1.mirror = true;
+        this.feather4dontmovethisone_1.setRotationPoint(-0.5F, 0.0F, 0.0F);
+        this.feather4dontmovethisone_1.addBox(0.0F, 0.0F, 0.0F, 7, 2, 1, 0.0F);
+        this.setRotateAngle(feather4dontmovethisone_1, 0.0F, 0.0F, 0.22759093446006054F);
+        this.helixcenter_1 = new ModelRenderer(this, 16, 55);
+        this.helixcenter_1.mirror = true;
+        this.helixcenter_1.setRotationPoint(-3.0F, 2.5F, -0.5F);
+        this.helixcenter_1.addBox(-0.5F, -0.5F, 0.0F, 1, 1, 2, 0.0F);
+        this.setRotateAngle(helixcenter_1, 0.0F, 0.0F, -0.7853981633974483F);
+        this.feather4dontmovethisone = new ModelRenderer(this, 89, 29);
+        this.feather4dontmovethisone.setRotationPoint(0.5F, 0.0F, 0.0F);
+        this.feather4dontmovethisone.addBox(-7.0F, 0.0F, 0.0F, 7, 2, 1, 0.0F);
+        this.setRotateAngle(feather4dontmovethisone, 0.0F, 0.0F, -0.22759093446006054F);
+        this.feather3_1 = new ModelRenderer(this, 66, 29);
+        this.feather3_1.mirror = true;
+        this.feather3_1.setRotationPoint(-1.0F, 2.9F, 0.0F);
+        this.feather3_1.addBox(0.0F, -1.0F, 0.0F, 8, 2, 1, 0.0F);
+        this.setRotateAngle(feather3_1, 0.0F, 0.0F, 0.4553564018453205F);
+        this.reactor3_1 = new ModelRenderer(this, 0, 34);
+        this.reactor3_1.mirror = true;
+        this.reactor3_1.setRotationPoint(-6.0F, 0.0F, 0.0F);
+        this.reactor3_1.addBox(0.0F, 0.0F, 0.0F, 1, 5, 1, 0.0F);
+        this.shape46 = new ModelRenderer(this, 15, 39);
+        this.shape46.mirror = true;
+        this.shape46.setRotationPoint(-4.0F, -3.0F, 0.5F);
+        this.shape46.addBox(-24.0F, 0.0F, 0.0F, 24, 10, 0, 0.0F);
+        this.setRotateAngle(shape46, 0.0F, 0.0F, -0.7853981633974483F);
+        this.blade = new ModelRenderer(this, 16, 51);
+        this.blade.setRotationPoint(0.0F, 0.0F, 0.5F);
+        this.blade.addBox(-2.5F, -0.5F, 0.0F, 5, 1, 1, 0.0F);
+        this.wingcoreRight = new ModelRenderer(this, 41, 0);
+        this.wingcoreRight.mirror = true;
+        this.wingcoreRight.setRotationPoint(-3.0F, 2.0F, 1.0F);
+        this.wingcoreRight.addBox(-4.0F, -2.0F, 0.0F, 4, 2, 1, 0.0F);
+        this.setRotateAngle(wingcoreRight, 0.0F, 0.0F, 0.7853981633974483F);
+        this.reactorbase_1 = new ModelRenderer(this, 6, 34);
+        this.reactorbase_1.mirror = true;
+        this.reactorbase_1.setRotationPoint(0.0F, -0.5F, 0.0F);
+        this.reactorbase_1.addBox(-1.0F, 0.0F, 0.0F, 2, 5, 1, 0.0F);
+        this.setRotateAngle(reactorbase_1, 0.0F, 0.0F, -0.5462880558742251F);
+        this.helixcenter = new ModelRenderer(this, 16, 55);
+        this.helixcenter.setRotationPoint(3.0F, 2.5F, -0.5F);
+        this.helixcenter.addBox(-0.5F, -0.5F, 0.0F, 1, 1, 2, 0.0F);
+        this.setRotateAngle(helixcenter, 0.0F, 0.0F, 0.7853981633974483F);
+        this.wing3.addChild(this.featherbase);
+        this.wing.addChild(this.wing2);
+        this.wingcoreLeft.addChild(this.wingcore2);
+        this.wingcoreLeft.addChild(this.wingfill);
+        this.featherbase.addChild(this.feather2);
+        this.featherbase.addChild(this.feather1);
+        this.wingcoreLeft.addChild(this.reactorbase);
+        this.helixcenter_1.addChild(this.blade_1);
+        // this.body.addChild(this.base);
+        this.wingcoreRight.addChild(this.wingcore2_1);
+        this.featherbase_1.addChild(this.feather1_1);
+        this.wing2_1.addChild(this.wing3_1);
+        this.wing2.addChild(this.wing3);
+        this.base.addChild(this.wingholder);
+        this.reactorbase.addChild(this.reactor2);
+        this.reactorbase.addChild(this.reactor3);
+        this.featherbase.addChild(this.feather3);
+        this.reactorbase.addChild(this.reactor1);
+        this.reactorbase_1.addChild(this.reactor1_1);
+        this.wingcore2.addChild(this.wing);
+        this.wingholder.addChild(this.wingcoreLeft);
+        this.featherbase_1.addChild(this.feather2_1);
+        this.wing3_1.addChild(this.featherbase_1);
+        this.wingcore2_1.addChild(this.wing_1);
+        this.reactorbase_1.addChild(this.reactor2_1);
+        this.wing_1.addChild(this.wing2_1);
+        this.featherbase_1.addChild(this.feather4dontmovethisone_1);
+        this.reactorbase_1.addChild(this.helixcenter_1);
+        this.featherbase.addChild(this.feather4dontmovethisone);
+        this.featherbase_1.addChild(this.feather3_1);
+        this.reactorbase_1.addChild(this.reactor3_1);
+        this.wingcoreRight.addChild(this.shape46);
+        this.helixcenter.addChild(this.blade);
+        this.wingholder.addChild(this.wingcoreRight);
+        this.wingcoreRight.addChild(this.reactorbase_1);
+        this.reactorbase.addChild(this.helixcenter);
+    }
+
+    @Override
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+        this.base.render(f5);
+    }
+
+    @Override
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        float rotation = (entityIn.ticksExisted + LCRenderHelper.renderTick) * 2F;
+        this.helixcenter.rotateAngleZ = rotation;
+        this.helixcenter_1.rotateAngleZ = -rotation;
+        //this.wing.rotateAngleY = (float) Math.toRadians(40D);
+//		this.wingfill.showModel = false;
+//		this.featherbase.rotateAngleX = (float) Math.toRadians(-40D);
+//		this.feather1.rotateAngleX = (float) Math.toRadians(-40D);
+//		this.feather2.rotateAngleX = (float) Math.toRadians(-40D);
+//		this.feather3.rotateAngleY = (float) Math.toRadians(-40D);
+//		this.feather4dontmovethisone.rotateAngleY = (float) Math.toRadians(-40D);
+//
+//		this.wing_1.rotateAngleY = (float) Math.toRadians(-40D);
+//		this.shape46.showModel = false;
+//		this.featherbase_1.rotateAngleX = (float) Math.toRadians(-40D);
+//		this.feather1_1.rotateAngleX = (float) Math.toRadians(-40D);
+//		this.feather2_1.rotateAngleX = (float) Math.toRadians(-40D);
+//		this.feather3_1.rotateAngleY = (float) Math.toRadians(40D);
+//		this.feather4dontmovethisone_1.rotateAngleY = (float) Math.toRadians(40D);
+    }
+
+    /**
+     * This is a helper function from Tabula to set the rotation of model parts
+     */
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+        modelRenderer.rotateAngleX = x;
+        modelRenderer.rotateAngleY = y;
+        modelRenderer.rotateAngleZ = z;
+    }
+}

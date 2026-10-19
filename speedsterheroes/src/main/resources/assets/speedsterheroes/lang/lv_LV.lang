@@ -1,0 +1,323 @@
+itemGroup.tabSpeedster=SpeedsterHeroes
+itemGroup.tabSpeedsterArmor=SpeedsterHeroes kostîmi
+
+superpower.speedforce.name=Speedforce
+superpower.speedforce.description=Speedforce atïauj spçlçtâjam uzlabot savu âtrumu un rleksus. To ir iespçjams dabût lietojot dïiòu paâtrinâtâju.
+
+tile.particleAccelerator.name=Daïiòu paâtrinâtâja kontroles bloks	
+tile.particleAcceleratorPart.name=Daïiòu paâtrinâtâja bloks
+tile.speedforceDampener.name=Speedforce svârstîbu slâpçtâjs
+tile.philosophersStoneChest.name=Filozofa akmeòa konteineris
+
+item.speedStealer.name=Âtruma zaglis
+item.velocity9.name=Velocity 9
+item.tachyonPrototype.name=Takiona prototips
+item.tachyonCharge.name=Takiona lâdçtâjs
+item.ring.name=Kostîma gredzens
+item.ringUpgrade.name=Kostîma gredzena uzlabojums
+item.philosophersStone.name=Filozofa akmens
+
+item.flashHelmet.name=Zibðòa Maska
+item.flashChestplate.name=Zibðòa krûðu daïa
+item.flashLegs.name=Zibðòa kâjas
+item.flashBoots.name=Zibðòa apavi
+
+item.reverseflashHelmet.name=Pretçjâ Zibðòa maska
+item.reverseflashChestplate.name=Pretçjâ Zibðòa Krûðû daïa
+item.reverseflashLegs.name=Pretçjâ Zibðòa kâjas
+item.reverseflashBoots.name=Pretçjâ Zibðòa apavi
+
+item.zoomHelmet.name=Zooma Maska
+item.zoomChestplate.name=Zooma krûðu daïa
+item.zoomLegs.name=Zooma kâjas
+item.zoomBoots.name=Zooma apavi
+
+item.jaygarrickHelmet.name=Jay Garrick's íivere
+item.jaygarrickChestplate.name=Dþeja Garika krûðu daïa
+item.jaygarrickLegs.name=Dþeja Garika kâjas
+item.jaygarrickBoots.name=Dþeja Garika apavi
+
+item.jaygarrick2Chestplate.name=Dþeja Garika krûðu daïa
+item.jaygarrick2Legs.name=Dþeja Garika kâjas
+item.jaygarrick2Boots.name=Dþeja Garika apavi
+
+item.kidflashHelmet.name=Mazâ Zibðòa maska
+item.kidflashChestplate.name=Mazâ Zibðòa krûðu daïa
+item.kidflashLegs.name=Mazâ Zibðòa kâjas
+item.kidflashBoots.name=Mazâ Zibðòa apavi
+
+item.therivalHelmet.name=Konkurenta maska
+item.therivalChestplate.name=Konkurenta krûðu daïa
+item.therivalLegs.name=Konkurenta kâjas
+item.therivalBoots.name=Konkurenta apavi
+
+item.trajectoryHelmet.name=Trajektorijas maska
+item.trajectoryChestplate.name=Trajektorijas krûðu daïa
+item.trajectoryLegs.name=Trajektorijas kâjas
+item.trajectoryBoots.name=Trajektorijas apavi
+
+item.jessequickHelmet.name=Dþesijas Kvikas maska
+item.jessequickChestplate.name=Dþesijas Kvikas krûðu daïa
+item.jessequickLegs.name=Dþesijas Kvikas kâjas
+item.jessequickBoots.name=Dþesijas Kvikas apavi
+
+item.savitarHelmet.name=Savitâra maska
+item.savitarChestplate.name=Savitâra krûðu daïa
+item.savitarLegs.name=Savitâra kâjas
+item.savitarBoots.name=Savitâra apavi
+
+item.blackflashHelmet.name=Melnâ Zibðòa maska
+item.blackflashChestplate.name=Melnâ Zibðòa krûðu daïa
+item.blackflashLegs.name=Melnâ Zibðòa kâjas
+item.blackflashBoots.name=Melnâ Zibðòa apavi
+
+item.dceuflashHelmet.name=Zibðòa maska
+item.dceuflashChestplate.name=Zibðòa krûðu daïa
+item.dceuflashLegs.name=Zibðòa kâjas
+item.dceuflashBoots.name=Zibðòa apavi
+
+item.comicflashHelmet.name=Zibðòa maska
+item.comicflashChestplate.name=Zibðòa krûðu daïa
+item.comicflashLegs.name=Zibðòa kâjas
+item.comicflashBoots.name=Zibðòa apavi
+
+item.comicreverseflashHelmet.name=Pretçjâ Zibðòa maska
+item.comicreverseflashChestplate.name=Pretçjâ Zibðòa krûðu daïa
+item.comicreverseflashLegs.name=Pretçjâ Zibðòa kâjas
+item.comicreverseflashBoots.name=Pretçjâ Zibðòa apavi
+
+item.professorzoomHelmet.name=Profesora Zooma maska
+item.professorzoomChestplate.name=Profesora Zooma krûðu daïa
+item.professorzoomLegs.name=Profesora Zooma kâjas
+item.professorzoomBoots.name=Profesora Zooma apavi
+
+item.new52flashHelmet.name=Zibðòa maska
+item.new52flashChestplate.name=Zibðòa krûðu daïa
+item.new52flashLegs.name=Zibðòa kâjas
+item.new52flashBoots.name=Zibðòa apavi
+
+item.wallywestcomicflashHelmet.name=Vallija Vesta maska
+item.wallywestcomicflashChestplate.name=Vallija Vesta krûðu daïa
+item.wallywestcomicflashLegs.name=Vallija Vesta kâjas
+item.wallywestcomicflashBoots.name=Vallija Vesta apavi
+
+item.wallywestcomickidflashHelmet.name=Vallija Vesta maska
+item.wallywestcomickidflashChestplate.name=Vallija Vesta krûðu daïa
+item.wallywestcomickidflashLegs.name=Vallija Vesta kâjas
+item.wallywestcomickidflashBoots.name=Vallija Vesta apavi
+
+item.rebirthwallywestHelmet.name=Vallija Vesta maska
+item.rebirthwallywestChestplate.name=Vallija Vesta krûðu daïa
+item.rebirthwallywestLegs.name=Vallija Vesta kâjas
+item.rebirthwallywestBoots.name=Vallija Vesta apavi
+
+item.comicjessequickHelmet.name=Dþesijas Kvikas maska
+item.comicjessequickChestplate.name=Dþesijas Kvikas krûðu daïa
+item.comicjessequickLegs.name=Dþesijas Kvikas kâjas
+item.comicjessequickBoots.name=Dþesijas Kvikas apavi
+
+item.godspeedHelmet.name=Dievpalîga maska
+item.godspeedChestplate.name=Dievpalîga krûðu daïa
+item.godspeedLegs.name=Dievpalîga kâjas
+item.godspeedBoots.name=Dievpalîga apavi
+
+item.quicksilverChestplate.name=Dzîvsudraba krûðu daïa
+item.quicksilverLegs.name=Dzîvsudraba kâjas
+item.quicksilverBoots.name=Dzîvsudraba apavi
+
+item.xmenquicksilverHelmet.name=Dzîvsudraba Brilles and Headphones
+item.xmenquicksilverChestplate.name=Dzîvsudraba Jacket
+item.xmenquicksilverLegs.name=Dzîvsudraba Bikses
+item.xmenquicksilverBoots.name=Dzîvsudraba apavi
+
+item.comicquicksilverChestplate.name=Dzîvsudraba krûðu daïa
+item.comicquicksilverLegs.name=Dzîvsudraba kâjas
+item.comicquicksilverBoots.name=Dzîvsudraba apavi
+
+item.speedHelmet.name=Âtrâ Brilles
+item.speedChestplate.name=Âtrâ krûðu daïa
+item.speedLegs.name=Âtrâ kâjas
+item.speedBoots.name=Âtrâ apavi
+
+item.flayChestplate.name=Fleja Krekls
+item.flayLegs.name=Fleja Bikses
+item.flayBoots.name=Fleja apavi
+
+item.starlabstrainingHelmet.name=S.T.A.R. Laboratorijas Trenniòa Kapuce
+item.starlabstrainingChestplate.name=S.T.A.R. Laboratorijas Trenniòa Dþemperis
+item.starlabstrainingLegs.name=S.T.A.R. Laboratorijas Trenniòa Bikses
+item.starlabstrainingBoots.name=S.T.A.R. Laboratorijas Trenniòa apavi
+
+potion.velocity9=Velocity 9
+potion.speedShock=Âtruma Ðoks
+entity.speedsterheroes.timeRemnant.name=Dubultnieks
+entity.speedsterheroes.timeWraith.name=Lika spoks
+entity.speedsterheroes.blackFlash.name=Melnais Zibsnis
+
+speedsterheroes.info.helmet.name=íivere
+speedsterheroes.info.chestplate.name=Krûðû bruòas
+speedsterheroes.info.legs.name=kâjas
+speedsterheroes.info.boots.name=apavi
+speedsterheroes.info.applicableto=Piemçrots lai
+speedsterheroes.info.speedlevel=Âtruma lîmenis
+speedsterheroes.info.abilities=Spçjas
+speedsterheroes.info.trail=Taka
+speedsterheroes.info.extraspeedlevel=Ekstra âtruma lîmeòi
+speedsterheroes.info.levelup=Jûs esat sasniedzis %L lîmeni!
+speedsterheroes.info.speedsterpoints=Speedstera punkti
+speedsterheroes.info.buyability=Atbloíçt spçju
+speedsterheroes.info.notenoughspeedsterpoints=Nav pietiekami Speedstera punkti!
+speedsterheroes.info.activated=aktivizçts
+speedsterheroes.info.deactivated=deaktivizçts
+speedsterheroes.info.unlock=Atbloíçt
+speedsterheroes.info.issuitneeded=Kostîms vajadzîgs
+speedsterheroes.info.symbolprefix= Simbols
+speedsterheroes.info.canbecrafted=Var bût izgatavots
+speedsterheroes.info.canbefoundindungeons=Var tikt atrasts cietumos
+speedsterheroes.info.teleport=Teleportçties
+speedsterheroes.info.save=Saglabât
+speedsterheroes.info.red=Sarkans
+speedsterheroes.info.green=Zaïð
+speedsterheroes.info.blue=Zils
+speedsterheroes.info.tachyoncharge=Var tikt uzlâdçts kamçr skrien lietojot speedforce
+speedsterheroes.info.abilitydisabled=Ðî spçja ir bloíçta
+speedsterheroes.info.specialcolors=Speciâla krâsa
+speedsterheroes.info.repairingitem=Salabot lietu
+speedsterheroes.info.putsuitinring=Ielikt kostîmu gredzenâ
+speedsterheroes.info.description=Apraksts
+speedsterheroes.info.cooldown=Starplaiks
+speedsterheroes.info.seconds=Sekundes
+speedsterheroes.info.doublexp=Dod tev dubult XP kamçr skrien
+speedsterheroes.info.containsstone=Ietver akmeni
+speedsterheroes.info.enableability=Aktivizçt spçju
+speedsterheroes.info.disableability=Deaktivizçt spçju
+speedsterheroes.info.primarycolor=Primârâ krâsa
+speedsterheroes.info.secondarycolor=Sekundârâ krâsa
+
+speedsterheroes.abilities.advancedStepAssist.name=Uzlabota soïu palîdzîba
+speedsterheroes.abilities.advancedStepAssist.desc=Tu bûsi spçjîgs automâtiski kâpt uz blokiem.
+speedsterheroes.abilities.wallRunning.name=Skrieðana pa sienu
+speedsterheroes.abilities.wallRunning.desc=Lec uz sienas, lai bûtu spçjîgs staigât pa tâm
+speedsterheroes.abilities.waterRunning.name=Skrieðana pa ûeni
+speedsterheroes.abilities.waterRunning.desc=Esi 5 lîmeòa skrieðânâ un sprinto, lai skrietu pa ûdeni
+speedsterheroes.abilities.lightningThrowing.name=Zibens metiens
+speedsterheroes.abilities.lightningThrowing.desc=Uzsit pa gaisu kamçr skrien un lecot, lai mestu ar zibeni.
+speedsterheroes.abilities.phasing.name=Fâzç caur sienâm
+speedsterheroes.abilities.phasing.desc=Nospied (%ARMOR_KEY_1) lai fâzçtu caur sienâm.
+speedsterheroes.abilities.slowmo.name=Palçlinâjums
+speedsterheroes.abilities.slowmo.desc=Nospied (%ARMOR_KEY_3) lai ieslçgtu palçlinâjumu (Strâdâ tikai vienspçlçtâju reþimâ!)
+speedsterheroes.abilities.dimensionBreach.name=Dimensijas caurums
+speedsterheroes.abilities.dimensionBreach.desc=Nospied (%ARMOR_KEY_3) un sprinto ar âtruma lîmeni 8 vai augstâk lai radîtu dimensionâlo caurumu.
+speedsterheroes.abilities.timeRemnant.name=Dubultnieks
+speedsterheroes.abilities.timeRemnant.desc=Nospied (%ARMOR_KEY_2) un sprinto ar âtruma lîmeni 8 vai vairâk lai izsauktu savu dubultnieku.
+speedsterheroes.abilities.speedforceJump.name=Speedforce lçciens
+speedsterheroes.abilities.speedforceJump.desc=Pietupies kamçr nokrîti, lai izveidotu speedforce ðoka vilni. (Strâdâ tikai izdzîvoðânas reþîmâ!)
+speedsterheroes.abilities.invisibility.name=Neredzemîba
+speedsterheroes.abilities.invisibility.desc=Kad aktivizçts tikai tie kuri ir speedsteri var redzçt tevi .
+speedsterheroes.abilities.speedforcePortal.name=Speedforce portâls
+speedsterheroes.abilities.speedforcePortal.desc=Nospied (%ARMOR_KEY_4) un skrien ar âtruma lîmeni 12 vai vairâk, lai tiktu iekðâ speedforce.
+
+speedsterheroes.speedstertypes.flash.name=Zibsnis
+speedsterheroes.speedstertypes.reverseFlash.name=Pretçjais Zibsnis
+speedsterheroes.speedstertypes.zoom.name=Zooms
+speedsterheroes.speedstertypes.jayGarrick.name=Dþeis Gariks
+speedsterheroes.speedstertypes.jayGarrick2.name=Dþeis Gariks
+speedsterheroes.speedstertypes.kidFlash.name=Mazais Zibsnis
+speedsterheroes.speedstertypes.theRival.name=Konkurents
+speedsterheroes.speedstertypes.trajectory.name=Trajektorija
+speedsterheroes.speedstertypes.jesseQuick.name=Dþesija Kvika
+speedsterheroes.speedstertypes.savitar.name=Savitârs
+speedsterheroes.speedstertypes.blackFlash.name=Melnais Zibsnis
+speedsterheroes.speedstertypes.dceuFlash.name=Zibsnis
+speedsterheroes.speedstertypes.comicFlash.name=Zibsnis
+speedsterheroes.speedstertypes.comicReverseFlash.name=Pretçjais Zibsnis
+speedsterheroes.speedstertypes.professorZoom.name=Profesors Zooms
+speedsterheroes.speedstertypes.new52Flash.name=Zibsnis
+speedsterheroes.speedstertypes.wallyWestComicFlash.name=Vallijs Vests
+speedsterheroes.speedstertypes.wallyWestComicKidFlash.name=Vallijs Vests
+speedsterheroes.speedstertypes.rebirthWallyWest.name=Vallijs Vests
+speedsterheroes.speedstertypes.comicJesseQuick.name=Dþesija Kvika
+speedsterheroes.speedstertypes.godspeed.name=Dievpalîgs
+speedsterheroes.speedstertypes.quicksilver.name=Dzîvsudrabs
+speedsterheroes.speedstertypes.xmenQuicksilver.name=Dzîvsudrabs
+speedsterheroes.speedstertypes.comicQuicksilver.name=Dzîvsudrabs
+speedsterheroes.speedstertypes.speed.name=Âtrais
+speedsterheroes.speedstertypes.flay.name=Flejs
+speedsterheroes.speedstertypes.starLabsTraining.name=S.T.A.R. Laboratorijas Trenniòa Apìçrbs
+
+speedsterheroes.trailtype.normal.name=Standarts
+speedsterheroes.trailtype.lightnings.name=Zibens
+speedsterheroes.trailtype.lightnings_orange.name=Oranþa Zibens
+speedsterheroes.trailtype.lightnings_red.name=Sarkana Zibens
+speedsterheroes.trailtype.lightnings_blue.name=Zila Zibens
+speedsterheroes.trailtype.lightnings_gold.name=Zelta Zibens
+speedsterheroes.trailtype.lightnings_brightgold.name=Gaiði zelta Zibens
+speedsterheroes.trailtype.lightnings_white.name=Balta Zibens
+speedsterheroes.trailtype.lightnings_lightblue.name=Gaiþi Zila Zibens
+speedsterheroes.trailtype.randomlightnings.name=Elektrîba
+speedsterheroes.trailtype.randomlightnings_lightblue.name=Zila Elektrîba
+speedsterheroes.trailtype.particles.name=Daïiòas
+speedsterheroes.trailtype.particles_blue.name=Zilas Daïiòas
+speedsterheroes.trailtype.particles_green.name=Zaïas Daïiòas
+
+speedsterheroes.keybinding.keySpeed=Ieslçgt Âtrumu
+speedsterheroes.keybinding.keyFaster=Âtrâí
+speedsterheroes.keybinding.keySlower=Lçnâk
+speedsterheroes.keybinding.keyLeveling=Spçju izvçlne
+speedsterheroes.keybinding.keyTrail=Takas pielâgoðâna
+
+achievement.becomeSpeedster=Nezinâji, ka tas notiks?
+achievement.becomeSpeedster.desc=Kïût par speedster
+achievement.frictionBurn=Cilvçks lâpa
+achievement.frictionBurn.desc=Sadega dçï berzes
+achievement.velocity9=Âtruma zâles
+achievement.velocity9.desc=Òem Velocity 9
+achievement.brahmastra=Brahmastra
+achievement.brahmastra.desc=Atrodi filozofu akmeni
+achievement.advancedStepAssist=Uzlabota soïu palîdzîba
+achievement.advancedStepAssist.desc=Dabun uzlabotu veidu lai pagriestos
+achievement.wallRunning=Skrien pa sienâm
+achievement.wallRunning.desc=Esi spçîgs lai skrietu pa sienâ
+achievement.waterRunning=Jçzus
+achievement.waterRunning.desc=Satigâ uz ûdens
+achievement.lightningThrowing=Zibens metiens
+achievement.lightningThrowing.desc=Esi spçjîgs, lai mestu zibeni
+achievement.phasing=Esi spoks
+achievement.phasing.desc=Izskrien cauri sienai
+achievement.timeRemnant=1 ir vientïð sakitlis
+achievement.timeRemnant.desc=Esi spçjîgs radît dubultnieku
+achievement.speedforceJump=Elektrisks
+achievement.speedforceJump.desc=Esi spçjîgs lietos speedforce ðoka viïòus
+achievement.invisibility=Neredzamîba
+achievement.invisibility.desc=Tikai speedsteri redz tevi
+achievement.speedforcePortal=Âtrâ pârvietoðânâð
+achievement.speedforcePortal.desc=Esi spçjîgs tikt
+achievement.dimensionBreach=Izpçti citas pasaules
+achievement.dimensionBreach.desc=Esi spçjîgs avçrt dimensiju caurumus
+achievement.slowmo=Laiks pudelç
+achievement.slowmo.desc=Ieslçdz pasaulç palçlinâjumu
+
+commands.speedforce.usage=/speedforce [player] [on/off]
+commands.speedforce.success.self=Your speedforce was %s
+commands.speedforce.success.other=%s's speedforce was %s
+commands.setspeedsterlevel.usage=/setspeedsterlevel [player] [level]
+commands.setspeedsterlevel.success.self=Set speedster level to %s
+commands.setspeedsterlevel.success.other=Set %s's speedster level to %s
+commands.setspeedsterlevel.nopower=That player doesn't have Speedforce superpower.
+commands.setspeedsterpoints.usage=/setspeedsterpoints [player] [points]
+commands.setspeedsterpoints.success.self=Set speedster points to %s
+commands.setspeedsterpoints.success.other=Set %s's speedster points to %s
+commands.setspeedsterpoints.nopower=That player doesn't have Speedforce superpower.
+commands.setextraspeedlevels.usage=/setextraspeedlevels [player] [extra levels]
+commands.setextraspeedlevels.success.self=Set extra speed levels to %s
+commands.setextraspeedlevels.success.other=Set %s's extra speed levels to %s
+commands.setextraspeedlevels.nopower=That player doesn't have Speedforce superpower.
+
+subtitles.flicker=Spçlçtâs mirgo
+subtitles.vibrating=Spçlçtâs vibrç
+subtitles.blackflash_ambient=Melnâ Zibðòa vaidi
+subtitles.blackflash_hurt=Melnais Zibsnis savainojas
+subtitles.blackflash_death=Melnais Zibsnis mirst
+
+book.chapter.speedsters.name=Speedsters
+book.ancientArtifacts.philosophersStone.desc=Filozofu akmens jeb Brahmastra ir pirmais artifakts, kas bija spçjîgs veidot pârcilvçkus. Dçï tâ tika izveidots Savitârs un var dot spçlçtâiem speedforce. 

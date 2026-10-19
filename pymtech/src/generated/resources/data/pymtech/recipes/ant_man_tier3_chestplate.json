@@ -1,0 +1,34 @@
+{
+  "type": "threecore:chestplate_crafting",
+  "pattern": [
+    "RRIRR",
+    "BIRIB",
+    "BRRRB",
+    "IXI"
+  ],
+  "key": {
+    "R": {
+      "tag": "threecore:fabric/red"
+    },
+    "I": {
+      "tag": "forge:ingots/steel"
+    },
+    "B": {
+      "tag": "threecore:fabric/black"
+    },
+    "X": {
+      "item": "pymtech:regulator"
+    }
+  },
+  "tool": {
+    "item": "pymtech:ant_man_tier2_chestplate"
+  },
+  "consumes_tool": true,
+  "result": {
+    "item": "pymtech:ant_man_tier3_chestplate",
+    "count": 1,
+    "nbt": {
+      "Damage": 0
+    }
+  }
+}

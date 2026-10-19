@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  I",
+    " I ",
+    "P  "
+  ],
+  "key": {
+    "P": {
+      "item": "pymtech:emp_communication_device"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "result": {
+    "item": "pymtech:ant_antenna"
+  }
+}

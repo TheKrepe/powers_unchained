@@ -1,0 +1,28 @@
+{
+  "result": {
+    "item": "heroesexpansion:billy_club_separate"
+  },
+  "pattern": [
+    " P ",
+    "RSR",
+    " P "
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:billy_club_separate",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "P": {
+      "item": "#PLATEIRON"
+    },
+    "R": {
+      "item": "#DYERED"
+    },
+    "S": {
+      "item": "#STICKWOOD"
+    }
+  }
+}

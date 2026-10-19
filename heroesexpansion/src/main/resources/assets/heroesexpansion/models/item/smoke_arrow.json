@@ -1,0 +1,7 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "heroesexpansion:items/smoke_arrow",
+        "layer1": "heroesexpansion:items/arrow_overlay"
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"items": [
+		{
+			"item": "heroesexpansion:daredevil_helmet"
+		},
+		{
+			"item": "heroesexpansion:daredevil_chest"
+		},
+		{
+			"item": "heroesexpansion:daredevil_legs"
+		},
+		{
+			"item": "heroesexpansion:daredevil_boots"
+		}
+	],
+	
+	"text": {
+		"translate": "heroesexpansion.jei.daredevil_suit"
+	}
+
+}

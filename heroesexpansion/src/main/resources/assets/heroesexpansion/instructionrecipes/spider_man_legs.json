@@ -1,0 +1,14 @@
+{
+  "output": {
+    "item": "heroesexpansion:spider_man_legs"
+  },
+  "requirements": [
+    {
+      "item": "heroesexpansion:spider_man_homemade_legs"
+    },
+    {
+      "item": "lucraftcore:tri_polymer_red",
+      "amount": 7
+    }
+  ]
+}

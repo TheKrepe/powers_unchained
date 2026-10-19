@@ -1,0 +1,146 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "heroesexpansion:captain_america_shield.obj",
+		"custom": {
+			"tintmap": {
+				"Object.64": 0,
+				"Object.65": 0,
+				"Object.66": 0,
+				"Object.67": 0,
+				"Object.68": 0,
+				"Object.69": 0,
+				"Object.70": 0,
+				"Object.71": 0,
+				"Object.72": 0,
+				"Object.73": 0,
+				"Object.74": 0,
+				"Object.75": 0,
+				"Object.76": 1,
+				"Object.77": 1,
+				"Object.78": 1,
+				"Object.79": 1,
+				"Object.80": 1,
+				"Object.81": 1,
+				"Object.82": 1,
+				"Object.83": 1,
+				"Object.84": 1,
+				"Object.85": 1,
+				"Object.86": 1,
+				"Object.87": 1,
+				"Object.88": 1,
+				"Object.89": 1,
+				"Object.90": 1,
+				"Object.91": 1,
+				"Object.92": 1,
+				"Object.93": 1,
+				"Object.94": 1,
+				"Object.95": 1,
+				"Object.96": 1,
+				"Object.97": 1,
+				"Object.98": 1,
+				"Object.99": 1
+			}
+		}
+	},
+
+	"variants": {
+		"inventory": [{
+				"transform": {
+					"thirdperson_lefthand": {
+						"rotation": [{
+								"x": 90
+							},{
+								"y": 0
+							},{
+								"z": -90
+							}],
+
+						"translation": [0.17,-0.12,0.24],
+
+						"scale": 0.001
+					},
+
+					"thirdperson_righthand": {
+						"rotation": [{
+								"x": 90
+							},{
+								"y": 0
+							},{
+								"z": -90
+							}],
+
+						"translation": [0.17,-0.12,0.24],
+
+						"scale": 0.001
+					},
+
+					"gui": {
+						"rotation": [{
+								"x": -25
+							},{
+								"y": 75
+							},{
+								"z": 90
+							}],
+
+						"translation": [0,0,0],
+
+						"scale": 0.0007
+					},
+
+					"fixed": {
+						"rotation": [{
+								"x": -90
+							},{
+								"y": 0
+							},{
+								"z": 0
+							}],
+
+						"scale": 0.001
+					},
+
+					"firstperson_righthand": {
+						"rotation": [{
+								"x": 90
+							},{
+								"y": 0
+							},{
+								"z": -90
+							}],
+
+						"translation": [0,-0.1,0],
+
+						"scale": 0.001
+					},
+
+					"firstperson_lefthand": {
+						"rotation": [{
+								"x": 90
+							},{
+								"y": 0
+							},{
+								"z": -90
+							}],
+
+						"translation": [0,-0.1,0],
+
+						"scale": 0.001
+					},
+
+					"ground": {
+						"rotation": [{
+								"x": 0
+							},{
+								"y": 0
+							},{
+								"z": 0
+							}],
+
+						"scale": 0.001
+					}
+				}
+			}]
+	}
+}

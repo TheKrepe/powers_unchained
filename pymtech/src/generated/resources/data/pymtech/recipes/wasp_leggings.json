@@ -1,0 +1,31 @@
+{
+  "type": "threecore:leggings_crafting",
+  "pattern": [
+    "IBI",
+    "RR",
+    "BB",
+    "RR"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "R": {
+      "tag": "threecore:fabric/red"
+    },
+    "B": {
+      "tag": "threecore:fabric/black"
+    }
+  },
+  "tool": {
+    "item": "pymtech:ant_man_leggings"
+  },
+  "consumes_tool": true,
+  "result": {
+    "item": "pymtech:wasp_leggings",
+    "count": 1,
+    "nbt": {
+      "Damage": 0
+    }
+  }
+}

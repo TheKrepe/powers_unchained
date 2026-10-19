@@ -1,0 +1,29 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:web_shooter_1"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.spider_powers.web_shooter.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.spider_powers.web_shooter.description"
+        }
+    },
+    "parent": "heroesexpansion:spider_powers/power",
+    "criteria": {
+        "item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:web_shooter_1"
+                    }
+                ]
+            }
+        }
+    },
+	"rewards": {
+        "loot": ["heroesexpansion:spider_man_suit_instruction"]
+    }
+}

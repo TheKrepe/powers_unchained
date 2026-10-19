@@ -1,0 +1,18 @@
+{
+  "output": {
+    "item": "heroesexpansion:daredevil_boots"
+  },
+  "requirements": [
+    {
+      "item": "lucraftcore:tri_polymer_red",
+      "amount": 4
+    },
+    {
+      "item": "lucraftcore:tri_polymer_black"
+    },
+    {
+      "item": "minecraft:iron_ingot",
+      "amount": 3
+    }
+  ]
+}

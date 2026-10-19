@@ -1,0 +1,19 @@
+{
+  "output": {
+    "item": "heroesexpansion:daredevil_chest"
+  },
+  "requirements": [
+    {
+      "item": "lucraftcore:tri_polymer_red",
+      "amount": 8
+    },
+    {
+      "item": "lucraftcore:tri_polymer_black",
+      "amount": 5
+    },
+    {
+      "item": "minecraft:iron_ingot",
+      "amount": 3
+    }
+  ]
+}

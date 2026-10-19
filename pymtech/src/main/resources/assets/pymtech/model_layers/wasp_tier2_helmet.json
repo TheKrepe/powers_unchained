@@ -1,0 +1,20 @@
+{
+	"type": "threecore:default",
+	"model": "pymtech:ant_man_helmet",
+	"texture": {
+		"base": "pymtech:textures/models/armor/wasp_tier2/helmet.png",
+		"transformers": [
+			{
+				"type": "threecore:alpha_mask",
+				"mask": "pymtech:textures/models/alpha_masks/ant_man_helmet_#TIMER.png"
+			}
+		],
+		"variables": {
+			"TIMER": {
+				"type": "threecore:integer_nbt",
+				"nbt_tag": "Opening"
+			}
+		},
+		"output": "pymtech:textures/models/armor/wasp_tier2/helmet_#TIMER.png"
+	}
+}

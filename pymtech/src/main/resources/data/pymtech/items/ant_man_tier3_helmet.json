@@ -1,0 +1,41 @@
+{
+	"type": "threecore:armor",
+	
+	"properties": {
+		"group": "suits_and_armor"
+	},
+	
+	"slot": "head",
+	
+	"armor_material": "iron",
+	
+	"layers": [
+		"pymtech:ant_man_tier3_helmet",
+		"pymtech:ant_man_tier3_helmet_lights_red",
+		"pymtech:ant_man_tier3_helmet_lights_blue"
+	],
+	
+	"abilities": {
+		"opening": {
+			"ability": "threecore:opening_nbt_timer",
+			"max_timer": 11,
+			"icon": {
+				"type": "threecore:item",
+				"item": "pymtech:ant_man_tier3_helmet"
+			},
+			"conditions": [
+				{
+					"type": "threecore:action",
+					"enabling": true
+				},
+				{
+					"type": "threecore:equipment_slot",
+					"slot": "head"
+				}
+			],
+			"additional_data": {
+				"pymtech:helmet_sound": true
+			}
+		}
+	}
+}

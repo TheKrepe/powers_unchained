@@ -1,0 +1,29 @@
+{
+  "pools": [
+    {
+	  "name": "heroesexpansion:daredevil_suit_instruction",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "lucraftcore:instruction",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_data",
+              "data": 0
+            },
+            {
+              "function": "set_count",
+              "count": 1
+            },
+            {
+              "function": "set_nbt",
+              "tag": "{Recipes:[\"heroesexpansion:daredevil_helmet\", \"heroesexpansion:daredevil_chestplate\", \"heroesexpansion:daredevil_legs\", \"heroesexpansion:daredevil_boots\"]}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

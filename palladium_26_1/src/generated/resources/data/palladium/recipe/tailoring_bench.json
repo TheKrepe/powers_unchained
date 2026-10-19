@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:mechanic/tailoring"
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": "#palladium:fabrics",
+    "S": "#c:tools/shear",
+    "W": "#minecraft:planks"
+  },
+  "pattern": [
+    "SF",
+    "WW"
+  ],
+  "result": {
+    "id": "palladium:tailoring_bench"
+  },
+  "show_notification": false
+}

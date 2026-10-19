@@ -1,0 +1,31 @@
+{
+  "result": {
+    "item": "heroesexpansion:sharpened_arrow",
+    "count": 2
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:arrow"
+    },
+    {
+      "item": "minecraft:arrow"
+    },
+    {
+      "item": "#DYEGREEN"
+    },
+    {
+      "item": "#NUGGETIRON"
+    }
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:sharpened_arrow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:arrow",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

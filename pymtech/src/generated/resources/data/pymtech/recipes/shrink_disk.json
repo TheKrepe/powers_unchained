@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "IBI",
+    " I "
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "B": {
+      "item": "pymtech:shrink_pym_particles_bucket"
+    }
+  },
+  "result": {
+    "item": "pymtech:shrink_disk",
+    "count": 8
+  }
+}

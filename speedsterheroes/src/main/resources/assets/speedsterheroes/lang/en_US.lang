@@ -1,0 +1,360 @@
+itemGroup.tabSpeedster=SpeedsterHeroes
+itemGroup.tabSpeedsterArmor=SpeedsterHeroes Suits
+
+superpower.speedforce.name=Speedforce
+superpower.speedforce.description=The Speedforce allows the player to enhance their movement and reflexes. It can be gained via the particle accelerator.
+
+tile.particleAccelerator.name=Particle Accelerator Control Block
+tile.particleAcceleratorPart.name=Particle Accelerator Part Block
+tile.speedforceDampener.name=Speedforce Dampener
+tile.philosophersStoneChest.name=Philosopher's Stone Container
+
+item.speedStealer.name=Speed Stealer
+item.velocity9.name=Velocity 9
+item.tachyonPrototype.name=Tachyon Prototype
+item.tachyonDevice.name=Tachyon Device
+item.smallTachyonDevice.name=Small Tachyon Device
+item.tachyonCharge.name=Tachyon Charge
+item.ring.name=Suit Ring
+item.ringUpgrade.name=Suit Ring Upgrade
+item.philosophersStone.name=Philosopher's Stone
+item.savitarBlade.name=Savitar's Blade
+
+item.flashs1Helmet.name=Flash's Mask
+item.flashs1Chestplate.name=Flash's Chestpiece
+item.flashs1Legs.name=Flash's Legs
+item.flashs1Boots.name=Flash's Boots
+
+item.flashHelmet.name=Flash's Mask
+item.flashChestplate.name=Flash's Chestpiece
+item.flashLegs.name=Flash's Legs
+item.flashBoots.name=Flash's Boots
+
+item.futureflashHelmet.name=Flash's Mask
+item.futureflashChestplate.name=Flash's Chestpiece
+item.futureflashLegs.name=Flash's Legs
+item.futureflashBoots.name=Flash's Boots
+
+item.reverseflashHelmet.name=Reverse Flash's Mask
+item.reverseflashChestplate.name=Reverse Flash's Chestpiece
+item.reverseflashLegs.name=Reverse Flash's Legs
+item.reverseflashBoots.name=Reverse Flash's Boots
+
+item.zoomHelmet.name=Zoom's Mask
+item.zoomChestplate.name=Zoom's Chestpiece
+item.zoomLegs.name=Zoom's Legs
+item.zoomBoots.name=Zoom's Boots
+
+item.jaygarrickHelmet.name=Jay Garrick's Helmet
+item.jaygarrickChestplate.name=Jay Garrick's Chestpiece
+item.jaygarrickLegs.name=Jay Garrick's Legs
+item.jaygarrickBoots.name=Jay Garrick's Boots
+
+item.jaygarrick2Chestplate.name=Jay Garrick's Chestpiece
+item.jaygarrick2Legs.name=Jay Garrick's Legs
+item.jaygarrick2Boots.name=Jay Garrick's Boots
+
+item.kidflashHelmet.name=Kid Flash's Mask
+item.kidflashChestplate.name=Kid Flash's Chestpiece
+item.kidflashLegs.name=Kid Flash's Legs
+item.kidflashBoots.name=Kid Flash's Boots
+
+item.therivalHelmet.name=The Rival's Mask
+item.therivalChestplate.name=The Rival's Chestpiece
+item.therivalLegs.name=The Rival's Legs
+item.therivalBoots.name=The Rival's Boots
+
+item.trajectoryHelmet.name=Trajectory's Mask
+item.trajectoryChestplate.name=Trajectory's Chestpiece
+item.trajectoryLegs.name=Trajectory's Legs
+item.trajectoryBoots.name=Trajectory's Boots
+
+item.jessequickHelmet.name=Jesse Quick's Mask
+item.jessequickChestplate.name=Jesse Quick's Chestpiece
+item.jessequickLegs.name=Jesse Quick's Legs
+item.jessequickBoots.name=Jesse Quick's Boots
+
+item.savitarHelmet.name=Savitar's Mask
+item.savitarChestplate.name=Savitar's Chestpiece
+item.savitarLegs.name=Savitar's Legs
+item.savitarBoots.name=Savitar's Boots
+
+item.blackflashHelmet.name=Black Flash's Mask
+item.blackflashChestplate.name=Black Flash's Chestpiece
+item.blackflashLegs.name=Black Flash's Legs
+item.blackflashBoots.name=Black Flash's Boots
+
+item.acceleratedmanHelmet.name=Accelerated Man's Goggles
+item.acceleratedmanChestplate.name=Accelerated Man's Chestpiece
+item.acceleratedmanLegs.name=Accelerated Man's Legs
+item.acceleratedmanBoots.name=Accelerated Man's Boots
+
+item.dceuflashHelmet.name=Flash's Mask
+item.dceuflashChestplate.name=Flash's Chestpiece
+item.dceuflashLegs.name=Flash's Legs
+item.dceuflashBoots.name=Flash's Boots
+
+item.comicflashHelmet.name=Flash's Mask
+item.comicflashChestplate.name=Flash's Chestpiece
+item.comicflashLegs.name=Flash's Legs
+item.comicflashBoots.name=Flash's Boots
+
+item.comicreverseflashHelmet.name=Professor Zoom's Mask
+item.comicreverseflashChestplate.name=Professor Zoom's Chestpiece
+item.comicreverseflashLegs.name=Professor Zoom's Legs
+item.comicreverseflashBoots.name=Professor Zoom's Boots
+
+item.professorzoomHelmet.name=Zoom's Mask
+item.professorzoomChestplate.name=Zoom's Chestpiece
+item.professorzoomLegs.name=Zoom's Legs
+item.professorzoomBoots.name=Zoom's Boots
+
+item.new52flashHelmet.name=Flash's Mask
+item.new52flashChestplate.name=Flash's Chestpiece
+item.new52flashLegs.name=Flash's Legs
+item.new52flashBoots.name=Flash's Boots
+
+item.wallywestcomicflashHelmet.name=Wally West's Mask
+item.wallywestcomicflashChestplate.name=Wally West's Chestpiece
+item.wallywestcomicflashLegs.name=Wally West's Legs
+item.wallywestcomicflashBoots.name=Wally West's Boots
+
+item.wallywestcomickidflashHelmet.name=Wally West's Mask
+item.wallywestcomickidflashChestplate.name=Wally West's Chestpiece
+item.wallywestcomickidflashLegs.name=Wally West's Legs
+item.wallywestcomickidflashBoots.name=Wally West's Boots
+
+item.rebirthwallywestHelmet.name=Wally West's Mask
+item.rebirthwallywestChestplate.name=Wally West's Chestpiece
+item.rebirthwallywestLegs.name=Wally West's Legs
+item.rebirthwallywestBoots.name=Wally West's Boots
+
+item.comicjessequickHelmet.name=Jesse Quick's Mask
+item.comicjessequickChestplate.name=Jesse Quick's Chestpiece
+item.comicjessequickLegs.name=Jesse Quick's Legs
+item.comicjessequickBoots.name=Jesse Quick's Boots
+
+item.godspeedHelmet.name=Godspeed's Mask
+item.godspeedChestplate.name=Godspeed's Chestpiece
+item.godspeedLegs.name=Godspeed's Legs
+item.godspeedBoots.name=Godspeed's Boots
+
+item.quicksilverChestplate.name=Quicksilver's Chestpiece
+item.quicksilverLegs.name=Quicksilver's Legs
+item.quicksilverBoots.name=Quicksilver's Boots
+
+item.xmenquicksilverHelmet.name=Quicksilver's Glasses and Headphones
+item.xmenquicksilverChestplate.name=Quicksilver's Jacket
+item.xmenquicksilverLegs.name=Quicksilver's Pants
+item.xmenquicksilverBoots.name=Quicksilver's Boots
+
+item.comicquicksilverChestplate.name=Quicksilver's Chestpiece
+item.comicquicksilverLegs.name=Quicksilver's Legs
+item.comicquicksilverBoots.name=Quicksilver's Boots
+
+item.speedHelmet.name=Speed's Glasses
+item.speedChestplate.name=Speed's Chestpiece
+item.speedLegs.name=Speed's Legs
+item.speedBoots.name=Speed's Boots
+
+item.flayChestplate.name=Flay's Shirt
+item.flayLegs.name=Flay's Pants
+item.flayBoots.name=Flay's Boots
+
+item.starlabstrainingHelmet.name=S.T.A.R. Labs Training Hood
+item.starlabstrainingChestplate.name=S.T.A.R. Labs Training Sweater
+item.starlabstrainingLegs.name=S.T.A.R. Labs Training Pants
+item.starlabstrainingBoots.name=S.T.A.R. Labs Training Shoes
+
+potion.velocity9=Velocity 9
+potion.speedShock=Speed Shock
+entity.speedsterheroes.timeRemnant.name=Time Remnant
+entity.speedsterheroes.timeWraith.name=Time Wraith
+entity.speedsterheroes.blackFlash.name=Black Flash
+
+speedsterheroes.info.helmet.name=Helmet
+speedsterheroes.info.chestplate.name=Chestplate
+speedsterheroes.info.legs.name=Legs
+speedsterheroes.info.boots.name=Boots
+speedsterheroes.info.applicableto=Applicable to
+speedsterheroes.info.speedlevel=Speed Level
+speedsterheroes.info.abilities=Abilities
+speedsterheroes.info.trail=Trail
+speedsterheroes.info.extraspeedlevel=Extra Speed Levels
+speedsterheroes.info.levelup=You've reached Level %L!
+speedsterheroes.info.speedsterpoints=Speedster Points
+speedsterheroes.info.buyability=Unlock ability
+speedsterheroes.info.notenoughspeedsterpoints=Not enough Speedster Points!
+speedsterheroes.info.activated=activated
+speedsterheroes.info.deactivated=deactivated
+speedsterheroes.info.unlock=Unlock
+speedsterheroes.info.issuitneeded=Suit needed
+speedsterheroes.info.symbolprefix='s Symbol
+speedsterheroes.info.canbecrafted=Can be crafted
+speedsterheroes.info.canbefoundindungeons=Can be found in dungeons
+speedsterheroes.info.teleport=Teleport
+speedsterheroes.info.save=Save
+speedsterheroes.info.red=Red
+speedsterheroes.info.green=Green
+speedsterheroes.info.blue=Blue
+speedsterheroes.info.tachyoncharge=Can be charged while running with the speedforce
+speedsterheroes.info.abilitydisabled=This ability is disabled!
+speedsterheroes.info.specialcolors=Special Colors
+speedsterheroes.info.repairingitem=Repairing Item
+speedsterheroes.info.putsuitinring=Store Suit in Ring
+speedsterheroes.info.description=Description
+speedsterheroes.info.cooldown=Cooldown
+speedsterheroes.info.seconds=Seconds
+speedsterheroes.info.doublexp=Gives you double XP while running
+speedsterheroes.info.containsstone=Contains the stone
+speedsterheroes.info.enableability=Enable Ability
+speedsterheroes.info.disableability=Disable Ability
+speedsterheroes.info.primarycolor=Primary Color
+speedsterheroes.info.secondarycolor=Secondary Color
+speedsterheroes.info.season=Season %SEASON
+speedsterheroes.info.createdtimeremnant=§4%s created a Time Remnant!
+speedsterheroes.info.addwaypoint=Add Waypoint
+
+speedsterheroes.abilities.super_speed.name=Super Speed
+speedsterheroes.abilities.super_speed.desc=Toggles your super speed
+speedsterheroes.abilities.accelerate.name=Accelerate
+speedsterheroes.abilities.accelerate.desc=Increases your speed level
+speedsterheroes.abilities.decelerate.name=Decelerate
+speedsterheroes.abilities.decelerate.desc=Decreases your speed level
+speedsterheroes.abilities.advancedStepAssist.name=Advanced Step Assist
+speedsterheroes.abilities.advancedStepAssist.desc=You will be able to automatically walk down blocks.
+speedsterheroes.abilities.wall_running.name=Wall Running
+speedsterheroes.abilities.wall_running.desc=Jump on walls to be able to walk on them.
+speedsterheroes.abilities.water_running.name=Water Running
+speedsterheroes.abilities.water_running.desc=Be speed level 5 or above and sprint to walk on water.
+speedsterheroes.abilities.lightning_throwing.name=Lightning Throwing
+speedsterheroes.abilities.lightning_throwing.desc=Punch in the air while running and jumping to throw lightning.
+speedsterheroes.abilities.phasing.name=Phasing
+speedsterheroes.abilities.phasing.desc=Let's you phase through walls and make more damage to other entities.
+speedsterheroes.abilities.slow_motion.name=Slow Motion
+speedsterheroes.abilities.slow_motion.desc=Let's you set the world in slow motion. (Works only in singeplayer!)
+speedsterheroes.abilities.dimension_breach.name=Dimension Breaches
+speedsterheroes.abilities.dimension_breach.desc=Press the button to open a breach. Sneak and press the button to open the menu for your waypoints, in there you can specify which of your waypoints will be used for your breaches. 
+speedsterheroes.abilities.time_remnant.name=Time Remnant
+speedsterheroes.abilities.time_remnant.desc=Sprint with speed level 8 or above to spawn a time remnant of yourself.
+speedsterheroes.abilities.speedforce_jump.name=Speedforce Jump
+speedsterheroes.abilities.speedforce_jump.desc=Sneak while landing to create a speedforce shockwave. (Works only in survival!)
+speedsterheroes.abilities.invisibility.name=Invisibility
+speedsterheroes.abilities.invisibility.desc=When enabled only speedsters can see you.
+speedsterheroes.abilities.speedforcePortal.name=Speedforce Portal
+speedsterheroes.abilities.speedforcePortal.desc=Press Armor Action 4 (%ARMOR_KEY_4) and be speed level 12 or above to get into the speedforce.
+speedsterheroes.abilities.blade.name=Blade
+speedsterheroes.abilities.blade.desc=When enabled you make more damage using your blade.
+speedsterheroes.abilities.suit_ring.name=Suit Ring
+speedsterheroes.abilities.suit_ring.desc=Allows you to store your suit in a ring when the Suit Ring Upgrade is installed on the chestplate.
+speedsterheroes.abilities.speedforce_vision.name=Speedforce Vision
+speedsterheroes.abilities.speedforce_vision.desc=Allows you to see other speedsters when they have their speed enabled.
+
+speedsterheroes.speedstertypes.flashS1.name=Flash
+speedsterheroes.speedstertypes.flash.name=Flash
+speedsterheroes.speedstertypes.futureFlash.name=Flash
+speedsterheroes.speedstertypes.reverseFlash.name=Reverse Flash
+speedsterheroes.speedstertypes.zoom.name=Zoom
+speedsterheroes.speedstertypes.jayGarrick.name=Jay Garrick
+speedsterheroes.speedstertypes.jayGarrick2.name=Jay Garrick
+speedsterheroes.speedstertypes.kidFlash.name=Kid Flash
+speedsterheroes.speedstertypes.theRival.name=The Rival
+speedsterheroes.speedstertypes.trajectory.name=Trajectory
+speedsterheroes.speedstertypes.jesseQuick.name=Jesse Quick
+speedsterheroes.speedstertypes.savitar.name=Savitar
+speedsterheroes.speedstertypes.blackFlash.name=Black Flash
+speedsterheroes.speedstertypes.acceleratedMan.name=Accelerated Man
+speedsterheroes.speedstertypes.dceuFlash.name=Flash
+speedsterheroes.speedstertypes.comicFlash.name=Flash
+speedsterheroes.speedstertypes.comicReverseFlash.name=Professor Zoom
+speedsterheroes.speedstertypes.professorZoom.name=Zoom
+speedsterheroes.speedstertypes.new52Flash.name=Flash
+speedsterheroes.speedstertypes.wallyWestComicFlash.name=Wally West
+speedsterheroes.speedstertypes.wallyWestComicKidFlash.name=Wally West
+speedsterheroes.speedstertypes.rebirthWallyWest.name=Wally West
+speedsterheroes.speedstertypes.comicJesseQuick.name=Jesse Quick
+speedsterheroes.speedstertypes.godspeed.name=Godspeed
+speedsterheroes.speedstertypes.quicksilver.name=Quicksilver
+speedsterheroes.speedstertypes.xmenQuicksilver.name=Quicksilver
+speedsterheroes.speedstertypes.comicQuicksilver.name=Quicksilver
+speedsterheroes.speedstertypes.speed.name=Speed
+speedsterheroes.speedstertypes.flay.name=Flay
+speedsterheroes.speedstertypes.starLabsTraining.name=S.T.A.R. Labs Training Suit
+
+speedsterheroes.trailtype.normal.name=Standard
+speedsterheroes.trailtype.lightnings.name=Lightnings
+speedsterheroes.trailtype.lightnings_orange.name=Orange Lightnings
+speedsterheroes.trailtype.lightnings_red.name=Red Lightnings
+speedsterheroes.trailtype.lightnings_blue.name=Blue Lightnings
+speedsterheroes.trailtype.lightnings_gold.name=Golden Lightnings
+speedsterheroes.trailtype.lightnings_brightgold.name=Bright golden Lightnings
+speedsterheroes.trailtype.lightnings_white.name=White Lightnings
+speedsterheroes.trailtype.lightnings_lightblue.name=Light blue Lightnings
+speedsterheroes.trailtype.lightnings_purple.name=Purple Lightnings
+speedsterheroes.trailtype.randomlightnings.name=Electricity
+speedsterheroes.trailtype.randomlightnings_lightblue.name=Blue Electricity
+speedsterheroes.trailtype.particles.name=Particles
+speedsterheroes.trailtype.particles_blue.name=Blue Particles
+speedsterheroes.trailtype.particles_green.name=Green Particles
+
+speedsterheroes.keybinding.keySpeed=Toggle Speed
+speedsterheroes.keybinding.keyFaster=Faster
+speedsterheroes.keybinding.keySlower=Slower
+speedsterheroes.keybinding.keyLeveling=Ability Menu
+speedsterheroes.keybinding.keyTrail=Trail Customizer
+
+achievement.becomeSpeedster=You didn't see that coming?
+achievement.becomeSpeedster.desc=Become a speedster
+achievement.frictionBurn=Human Torch
+achievement.frictionBurn.desc=Burn because of friction
+achievement.velocity9=Speed Drug
+achievement.velocity9.desc=Take Velocity 9
+achievement.velocity9Death=Disintegrated
+achievement.velocity9Death.desc=Die because of Velocity-9
+achievement.brahmastra=Brahmastra
+achievement.brahmastra.desc=Find the Philosopher's Stone
+achievement.savitarBlade=I am the Future(,) Flash!
+achievement.savitarBlade.desc=Use Savitar's blades
+achievement.suit=I might have something that helps
+achievement.suit.desc=Craft your first suit
+achievement.timeRemnant=Two heads are better than one
+achievement.timeRemnant.desc=Make a Time Remnant
+achievement.timeWraith=Holy Harry Potter
+achievement.timeWraith.desc=Summon a Time Wraith
+achievement.blackFlash=It's not a who...it's a what...
+achievement.blackFlash.desc=Summon Black Flash
+achievement.becomeBlackFlash=A Speedster's Death
+achievement.becomeBlackFlash.desc=Become Black Flash
+achievement.phasing=The Natural Frequency of Air
+achievement.phasing.desc=Vibrate to phase through objects
+achievement.suitRing=Microtechnology
+achievement.suitRing.desc=Use a Suit Ring
+achievement.dimensionBreach=The Multiverse
+achievement.dimensionBreach.desc=Open a Dimension Breach
+
+commands.speedforce.usage=/speedforce [player] [on/off]
+commands.speedforce.success.self=Your speedforce was %s
+commands.speedforce.success.other=%s's speedforce was %s
+commands.setspeedsterlevel.usage=/setspeedsterlevel [player] [level]
+commands.setspeedsterlevel.success.self=Set speedster level to %s
+commands.setspeedsterlevel.success.other=Set %s's speedster level to %s
+commands.setspeedsterlevel.nopower=That player doesn't have Speedforce superpower.
+commands.setspeedsterpoints.usage=/setspeedsterpoints [player] [points]
+commands.setspeedsterpoints.success.self=Set speedster points to %s
+commands.setspeedsterpoints.success.other=Set %s's speedster points to %s
+commands.setspeedsterpoints.nopower=That player doesn't have Speedforce superpower.
+commands.setextraspeedlevels.usage=/setextraspeedlevels [player] [extra levels]
+commands.setextraspeedlevels.success.self=Set extra speed levels to %s
+commands.setextraspeedlevels.success.other=Set %s's extra speed levels to %s
+commands.setextraspeedlevels.nopower=That player doesn't have Speedforce superpower.
+
+subtitles.flicker=Player Flickering
+subtitles.vibrating=Player Vibrating
+subtitles.blackflash_ambient=Black Flash groans
+subtitles.blackflash_hurt=Black Flash hurt
+subtitles.blackflash_death=Black Flash dies
+subtitles.savitarBladeDraw=Blade drawn
+subtitles.savitarBladeBack=Blade drawn
+
+book.chapter.speedsters.name=Speedsters
+book.ancientArtifacts.philosophersStone.desc=The Philosopher's Stone, or Brahmastra, is the first ever artifact to be able to create meta-humans. It was responsible for the creation of Savitar and can give players the Speedforce. 

@@ -1,0 +1,29 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:compound_bow"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.archery.compound_bow.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.archery.compound_bow.description"
+        }
+    },
+    "parent": "adventure/shoot_arrow",
+    "criteria": {
+        "item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:compound_bow"
+                    }
+                ]
+            }
+        }
+    },
+	"rewards": {
+        "loot": ["heroesexpansion:green_arrow_suit_instruction"]
+    }
+}

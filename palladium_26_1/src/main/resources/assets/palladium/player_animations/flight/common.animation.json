@@ -1,0 +1,80 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"flight.super_hero_landing_1": {
+			"loop": true,
+			"animation_length": 0.9167,
+			"bones": {
+				"body": {
+					"rotation": {
+						"vector": ["35 * math.min(1, query.anim_time * 6)", "pal.disabled", "pal.disabled"]
+					},
+					"position": {
+						"vector": [0, "-7 * math.min(1, query.anim_time * 6)", 0]
+					}
+				},
+				"head": {
+					"rotation": {
+						"vector": ["palladium.head_x_rotation() - 25 * math.min(1, query.anim_time * 6)", "pal.disabled", "pal.disabled"]
+					}
+				},
+				"right_arm": {
+					"rotation": {
+						"vector": ["-35 * math.min(1, query.anim_time * 6)", "pal.disabled", "8 * math.min(1, query.anim_time * 6)"]
+					},
+					"position": {
+						"vector": ["-pal.disabled", "-3 * math.min(1, query.anim_time * 6)", "-1 * math.min(1, query.anim_time * 6)"]
+					}
+				},
+				"left_arm": {
+					"rotation": {
+						"vector": ["30 * math.min(1, query.anim_time * 6)", "pal.disabled", "-20 * math.min(1, query.anim_time * 6)"]
+					}
+				},
+				"right_leg": {
+					"rotation": {
+						"vector": ["35 * math.min(1, query.anim_time * 6)", "pal.disabled", "5 * math.min(1, query.anim_time * 6)"]
+					}
+				},
+				"left_leg": {
+					"rotation": {
+						"vector": ["-50 * math.min(1, query.anim_time * 6)", "pal.disabled", "-5 * math.min(1, query.anim_time * 6)"]
+					},
+					"position": {
+						"vector": [0, "9 * math.min(1, query.anim_time * 6)", "-2 * math.min(1, query.anim_time * 6)"]
+					}
+				}
+			}
+		},
+		"flight.super_hero_landing_2": {
+			"loop": true,
+			"bones": {
+				"head": {
+					"position": [0, -11, -9],
+					"rotation": {
+						"vector": ["palladium.head_x_rotation()", "pal.disabled", "pal.disabled"]
+					}
+				},
+				"torso": {
+					"rotation": [57.5, 0, 0],
+					"position": [0, -11, -9]
+				},
+				"right_arm": {
+					"position": [2, -13, -10]
+				},
+				"left_arm": {
+					"rotation": [50, 0, -117.5],
+					"position": [1, -11, -6]
+				},
+				"right_leg": {
+					"rotation": [33.6453, 12.809, -12.025],
+					"position": [-5, -3, -6]
+				},
+				"left_leg": {
+					"rotation": [-60.6266, -52.8521, -13.8488],
+					"position": [1, -6, 0]
+				}
+			}
+		}
+	}
+}

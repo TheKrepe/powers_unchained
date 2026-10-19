@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:tesseract"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.infinity.space.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.infinity.space.description"
+        }
+    },
+    "parent": "lucraftcore:infinity/root",
+    "criteria": {
+        "item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:tesseract"
+                    }
+                ]
+            }
+        }
+    }
+}

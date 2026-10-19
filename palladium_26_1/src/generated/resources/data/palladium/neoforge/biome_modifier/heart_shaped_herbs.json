@@ -1,0 +1,10 @@
+{
+  "type": "palladium:feature_flag_add_features",
+  "biomes": "#palladium:contains_heart_shaped_herbs",
+  "features": "#palladium:heart_shaped_herbs",
+  "flags": [
+    "palladium:block/heart_shaped_herb",
+    "palladium:worldgen/meteorite_biome"
+  ],
+  "step": "vegetal_decoration"
+}

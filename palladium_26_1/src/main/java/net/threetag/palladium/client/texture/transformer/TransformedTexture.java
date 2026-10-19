@@ -1,0 +1,62 @@
+package net.threetag.palladium.client.texture.transformer;
+
+import com.mojang.blaze3d.platform.NativeImage;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.client.renderer.texture.SimpleTexture;
+import net.minecraft.client.renderer.texture.TextureContents;
+import net.minecraft.client.resources.metadata.texture.TextureMetadataSection;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.function.Function;
+
+public class TransformedTexture extends SimpleTexture {
+
+    private final Identifier baseTexture;
+    private final List<TextureTransformer> transformers;
+    private final Function<String, String> stringConverter;
+
+    public TransformedTexture(Identifier resourceId, Identifier baseTexture, List<TextureTransformer> transformers, Function<String, String> stringConverter) {
+        super(resourceId);
+        this.baseTexture = baseTexture;
+        this.transformers = transformers;
+        this.stringConverter = stringConverter;
+    }
+
+    @Override
+    public @NotNull TextureContents loadContents(ResourceManager manager) throws IOException {
+        if (Minecraft.getInstance().getTextureManager().byPath.get(this.baseTexture) instanceof DynamicTexture dynamicTexture
+                && !dynamicTexture.getPixels().isClosed()) {
+            NativeImage pixels = dynamicTexture.getPixels();
+            NativeImage nativeImage = new NativeImage(pixels.format(), pixels.getWidth(), pixels.getHeight(), false);
+            nativeImage.copyFrom(pixels);
+
+            for (TextureTransformer transformer : this.transformers) {
+                nativeImage = transformer.transform(nativeImage, manager, this.stringConverter);
+            }
+
+            return new TextureContents(nativeImage, null);
+        }
+
+        Resource resource = manager.getResourceOrThrow(this.baseTexture);
+        TextureMetadataSection metadata = resource.metadata().getSection(TextureMetadataSection.TYPE).orElse(null);
+        NativeImage nativeImage;
+
+        try (InputStream inputStream = resource.open()) {
+            nativeImage = NativeImage.read(inputStream);
+
+            for (TextureTransformer transformer : this.transformers) {
+                nativeImage = transformer.transform(nativeImage, manager, this.stringConverter);
+            }
+        }
+
+        return new TextureContents(nativeImage, metadata);
+    }
+
+}

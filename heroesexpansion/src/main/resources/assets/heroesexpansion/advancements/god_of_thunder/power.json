@@ -1,0 +1,22 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:mjolnir"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.god_of_thunder.power.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.god_of_thunder.power.description"
+        }
+    },
+    "parent": "heroesexpansion:root",
+    "criteria": {
+        "get_power": {
+            "trigger" : "lucraftcore:get_superpower",
+            "conditions": {
+                "superpower" : "heroesexpansion:god_of_thunder"
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "threecore:boots_crafting",
+  "pattern": [
+    "RR",
+    "II",
+    "RBBR"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "R": {
+      "tag": "threecore:fabric/red"
+    },
+    "B": {
+      "tag": "threecore:fabric/black"
+    }
+  },
+  "tool": {
+    "item": "pymtech:ant_man_boots"
+  },
+  "consumes_tool": true,
+  "result": {
+    "item": "pymtech:wasp_boots",
+    "count": 1,
+    "nbt": {
+      "Damage": 0
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:kryptonite"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.kryptonian.kryptonite.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.kryptonian.kryptonite.description"
+        }
+    },
+    "parent": "heroesexpansion:root",
+    "criteria": {
+        "block": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:kryptonite_block"
+                    }
+                ]
+            }
+        },
+        "item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:kryptonite"
+                    }
+                ]
+            }
+        }
+    },
+	"requirements": [
+		["block", "item"]
+	]
+}

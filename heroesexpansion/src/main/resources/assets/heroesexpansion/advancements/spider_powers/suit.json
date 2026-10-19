@@ -1,0 +1,56 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:spider_man_helmet"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.spider_powers.suit.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.spider_powers.suit.description"
+        }
+    },
+    "parent": "heroesexpansion:spider_powers/web_shooter",
+    "criteria": {
+        "helmet": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:spider_man_helmet"
+                    }
+                ]
+            }
+        },
+		"chestplate": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:spider_man_chest"
+                    }
+                ]
+            }
+        },
+		"legs": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:spider_man_legs"
+                    }
+                ]
+            }
+        },
+		"boots": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:spider_man_boots"
+                    }
+                ]
+            }
+        }
+    }
+}

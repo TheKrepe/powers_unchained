@@ -1,0 +1,39 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:billy_club_separate"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.blindness.billy_clubs.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.blindness.billy_clubs.description"
+        }
+    },
+    "parent": "heroesexpansion:blindness/power",
+    "criteria": {
+        "separate": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:billy_club_separate"
+                    }
+                ]
+            }
+        },
+		"full": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:billy_club"
+                    }
+                ]
+            }
+        }
+    },
+	"requirements": [
+		["separate", "full"]
+	]
+}

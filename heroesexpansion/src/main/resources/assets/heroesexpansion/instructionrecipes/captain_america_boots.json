@@ -1,0 +1,18 @@
+{
+  "output": {
+    "item": "heroesexpansion:captain_america_boots"
+  },
+  "requirements": [
+    {
+      "item": "lucraftcore:tri_polymer_blue",
+      "amount": 4
+    },
+    {
+      "item": "lucraftcore:tri_polymer_red"
+    },
+    {
+      "item": "minecraft:iron_ingot",
+      "amount": 3
+    }
+  ]
+}

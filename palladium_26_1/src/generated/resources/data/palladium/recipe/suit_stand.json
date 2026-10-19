@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": "#c:gems/quartz",
+    "S": [
+      "minecraft:quartz_slab",
+      "minecraft:smooth_quartz_slab"
+    ],
+    "X": "minecraft:smooth_stone_slab"
+  },
+  "pattern": [
+    " B ",
+    "SBS",
+    "SXS"
+  ],
+  "result": {
+    "id": "palladium:suit_stand"
+  }
+}

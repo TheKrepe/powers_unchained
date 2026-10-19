@@ -1,0 +1,88 @@
+package net.threetag.pantheonsent.ability;
+
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.threetag.palladium.power.IPowerHolder;
+import net.threetag.palladium.power.ability.*;
+import net.threetag.palladium.util.property.IntegerProperty;
+import net.threetag.palladium.util.property.PalladiumProperty;
+import net.threetag.palladium.util.property.PropertyManager;
+import net.threetag.palladium.util.property.SyncType;
+import net.threetag.pantheonsent.sound.PSSoundEvents;
+
+public class MoonKnightGlidingAbility extends Ability implements AnimationTimer {
+
+    public static final PalladiumProperty<Integer> TIME_IN_AIR = new IntegerProperty("time_in_air").sync(SyncType.NONE);
+    public static final PalladiumProperty<Integer> PREV_TIME_IN_AIR = new IntegerProperty("prev_time_in_air").sync(SyncType.NONE);
+
+    @Override
+    public void registerUniqueProperties(PropertyManager manager) {
+        manager.register(TIME_IN_AIR, 0);
+        manager.register(PREV_TIME_IN_AIR, 0);
+    }
+
+    @Override
+    public void tick(LivingEntity entity, AbilityInstance instance, IPowerHolder holder, boolean enabled) {
+        if (entity.level().isClientSide) {
+            int timer = instance.getProperty(TIME_IN_AIR);
+            instance.setUniqueProperty(PREV_TIME_IN_AIR, timer);
+
+            if ((entity.onGround() || entity.isInWater() || entity.isColliding(entity.blockPosition(), entity.level().getBlockState(entity.blockPosition().below(2)))) && timer > 0) {
+                instance.setUniqueProperty(TIME_IN_AIR, timer = timer - 1);
+            } else if (enabled && !entity.onGround() && timer < 10) {
+                instance.setUniqueProperty(TIME_IN_AIR, timer = timer + 1);
+            }
+
+            if (timer == 1) {
+                entity.playSound(PSSoundEvents.CAPE.get());
+            }
+        }
+        if (enabled && !entity.onGround()) {
+            var lookVec = entity.getLookAngle().scale(0.1D);
+            entity.setDeltaMovement(entity.getDeltaMovement().x + lookVec.x, Mth.clamp(lookVec.y, -0.8F, -0.2F), entity.getDeltaMovement().z + lookVec.z);
+            entity.fallDistance = 0F;
+            var movement = entity.getDeltaMovement();
+
+            for (Entity target : entity.level().getEntities(entity, entity.getBoundingBox())) {
+                target.hurt(entity instanceof Player ? entity.level().damageSources().playerAttack((Player) entity) : entity.level().damageSources().mobAttack(entity), (float) movement.length());
+                if (target instanceof LivingEntity livingEntity) {
+                    livingEntity.knockback(movement.x * 2.5F, movement.y * 2.5F, movement.z * 2.5F);
+                }
+            }
+        }
+    }
+
+    @Override
+    public float getAnimationValue(AbilityInstance instance, float partialTick) {
+        return Mth.lerp(partialTick, instance.getProperty(PREV_TIME_IN_AIR), instance.getProperty(TIME_IN_AIR)) / 10F;
+    }
+
+    @Override
+    public float getAnimationTimer(AbilityInstance entry, float partialTick, boolean maxedOut) {
+        if (maxedOut) {
+            return 10;
+        }
+        return entry.getProperty(TIME_IN_AIR);
+    }
+
+    public static float getProgress(LivingEntity entity, float partialTicks) {
+        float max = 0;
+        var instances = AbilityUtil.getInstances(entity, PSAbilities.MOON_KNIGHT_GLIDING.get());
+
+        if (instances.isEmpty()) {
+            return 0F;
+        }
+
+        for (AbilityInstance entry : instances) {
+            float timeInAir = ((MoonKnightGlidingAbility) PSAbilities.MOON_KNIGHT_GLIDING.get()).getAnimationValue(entry, partialTicks);
+
+            if (timeInAir > max) {
+                max = timeInAir;
+            }
+        }
+
+        return Mth.clamp(max, 0F, 1F);
+    }
+}

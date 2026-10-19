@@ -1,0 +1,80 @@
+{
+  "initial_state": "hovering",
+  "blend_transition": 20,
+  "animations": {
+    "hover": "palladium:flight.propelled",
+    "move": "palladium:flight.levitating",
+    "propelled": "palladium:flight.propelled",
+    "roll_left": "palladium:flight.barrel_roll_left",
+    "roll_right": "palladium:flight.barrel_roll_right",
+    "descend": "palladium:flight.propelled",
+    "land": [
+      "palladium:flight.super_hero_landing_1",
+      "palladium:flight.super_hero_landing_2"
+    ]
+  },
+  "states": {
+    "hovering": {
+      "animation": "#hover",
+      "transitions": {
+        "propelled": "palladium.flight_phase() == 3",
+        "moving": "palladium.flight_phase() == 2",
+        "descending": "palladium.flight_phase() == 4",
+        "landing": "palladium.flight_phase() == 5"
+      }
+    },
+    "moving": {
+      "animation": "#move",
+      "transitions": {
+        "propelled": "palladium.flight_phase() == 3",
+        "hovering": "palladium.flight_phase() == 1 && math.abs(palladium.flight_speed_forward()) < 0.1 && math.abs(palladium.flight_speed_sideways()) < 0.1",
+        "descending": "palladium.flight_phase() == 4",
+        "landing": "palladium.flight_phase() == 5"
+      }
+    },
+    "propelled": {
+      "animation": "#propelled",
+      "transitions": {
+        "rolling_left": "palladium.flight_phase() == 3 && palladium.flight_yaw_delta() < -18",
+        "rolling_right": "palladium.flight_phase() == 3 && palladium.flight_yaw_delta() > 18",
+        "hovering": "palladium.flight_phase() == 1 && palladium.flight_propulsion_scale() <= 0.0 && math.abs(palladium.flight_speed_forward()) < 0.1 && math.abs(palladium.flight_speed_sideways()) < 0.1",
+        "moving": "palladium.flight_phase() == 2 && palladium.flight_propulsion_scale() <= 0.0",
+        "descending": "palladium.flight_phase() == 4",
+        "landing": "palladium.flight_phase() == 5"
+      }
+    },
+    "rolling_left": {
+      "animation": "#roll_left",
+      "blend_transition": 5,
+      "transitions": {
+        "propelled": "palladium.any_animation_finished() && math.abs(palladium.flight_yaw_delta()) < 6",
+        "descending": "palladium.flight_phase() == 4",
+        "landing": "palladium.flight_phase() == 5"
+      }
+    },
+    "rolling_right": {
+      "animation": "#roll_right",
+      "blend_transition": 5,
+      "transitions": {
+        "propelled": "palladium.any_animation_finished() && math.abs(palladium.flight_yaw_delta()) < 6",
+        "descending": "palladium.flight_phase() == 4",
+        "landing": "palladium.flight_phase() == 5"
+      }
+    },
+    "descending": {
+      "animation": "#descend",
+      "transitions": {
+        "hovering": "palladium.flight_phase() == 1",
+        "moving": "palladium.flight_phase() == 2",
+        "propelled": "palladium.flight_phase() == 3",
+        "landing": "palladium.flight_phase() == 5"
+      }
+    },
+    "landing": {
+      "animation": "#land",
+      "transitions": {
+        "descending": "palladium.flight_phase() == 4"
+      }
+    }
+  }
+}

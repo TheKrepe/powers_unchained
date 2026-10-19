@@ -1,0 +1,72 @@
+{
+  "initial_state": "launching",
+  "blend_transition": 10,
+  "animations": {
+    "launch": "palladium:swinging.launch",
+    "swing": [
+      "palladium:swinging.swing",
+      "palladium:swinging.swing_both_arms"
+    ],
+    "hang": [
+      "palladium:swinging.hanging_1",
+      "palladium:swinging.hanging_2"
+    ],
+    "release": [
+      "palladium:swinging.released_1",
+      "palladium:swinging.released_1",
+      "palladium:swinging.released_1",
+      "palladium:swinging.released_1",
+      "palladium:swinging.released_flip_forward",
+      "palladium:swinging.released_flip_backward"
+    ],
+    "dive": [
+      "palladium:swinging.dive_1",
+      "palladium:swinging.dive_2"
+    ],
+    "land": [
+      "palladium:flight.super_hero_landing_1",
+      "palladium:flight.super_hero_landing_2"
+    ]
+  },
+  "states": {
+    "launching": {
+      "animation": "#launch",
+      "transitions": {
+        "swinging": "palladium.swinging_phase() == 2",
+        "diving": "palladium.swinging_phase() == 4"
+      }
+    },
+    "swinging": {
+      "animation": "#swing",
+      "transitions": {
+        "hanging": "palladium.swinging_phase() == 2 && palladium.swinging_is_hanging()",
+        "released": "palladium.swinging_phase() == 3",
+        "diving": "palladium.swinging_phase() == 4"
+      }
+    },
+    "hanging": {
+      "animation": "#hang",
+      "transitions": {
+        "swinging": "palladium.swinging_phase() == 2 && palladium.swinging_is_hanging() == false",
+        "released": "palladium.swinging_phase() == 3",
+        "diving": "palladium.swinging_phase() == 4"
+      }
+    },
+    "released": {
+      "animation": "#release",
+      "transitions": {
+        "swinging": "palladium.swinging_phase() == 2",
+        "diving": "palladium.swinging_phase() == 4"
+      }
+    },
+    "diving": {
+      "animation": "#dive",
+      "transitions": {
+        "landing": "palladium.swinging_phase() == 5"
+      }
+    },
+    "landing": {
+      "animation": "#land"
+    }
+  }
+}

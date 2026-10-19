@@ -1,0 +1,15 @@
+{
+  "output": {
+    "item": "heroesexpansion:black_panther_suit"
+  },
+  "requirements": [
+    {
+      "item": "lucraftcore:tri_polymer_black",
+      "amount": 14
+    },
+    {
+      "item": "lucraftcore:plate_vibranium",
+      "amount": 15
+    }
+  ]
+}

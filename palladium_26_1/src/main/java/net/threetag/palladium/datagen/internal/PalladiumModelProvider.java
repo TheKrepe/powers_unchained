@@ -1,0 +1,126 @@
+package net.threetag.palladium.datagen.internal;
+
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.MultiVariant;
+import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.data.PackOutput;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.threetag.palladium.Palladium;
+import net.threetag.palladium.block.PalladiumBlocks;
+import net.threetag.palladium.component.PalladiumDataComponents;
+import net.threetag.palladium.datagen.ExtendedModelProvider;
+import net.threetag.palladium.item.PalladiumItems;
+
+public class PalladiumModelProvider extends ExtendedModelProvider {
+
+    public static final TextureSlot EMISSIVE_SLOT = TextureSlot.create("emissive");
+    public static final ModelTemplate EMISSIVE_OVERLAY = ModelTemplates.create(Palladium.id("cube_emissive_overlay").toString(), TextureSlot.ALL, EMISSIVE_SLOT);
+
+    public PalladiumModelProvider(PackOutput output) {
+        super(output, Palladium.MOD_ID);
+    }
+
+    @Override
+    protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+        // Blocks
+        blockModels.createHorizontallyRotatedBlock(PalladiumBlocks.TAILORING_BENCH.get(),
+                TexturedModel.createDefault(block -> new TextureMapping()
+                                .put(TextureSlot.UP, TextureMapping.getBlockTexture(block, "_top"))
+                                .put(TextureSlot.DOWN, TextureMapping.getBlockTexture(block, "_bottom"))
+                                .put(TextureSlot.NORTH, TextureMapping.getBlockTexture(block, "_front"))
+                                .put(TextureSlot.SOUTH, TextureMapping.getBlockTexture(block, "_back"))
+                                .put(TextureSlot.EAST, TextureMapping.getBlockTexture(block, "_side"))
+                                .put(TextureSlot.WEST, TextureMapping.getBlockTexture(block, "_side"))
+                                .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block, "_side")),
+                        ModelTemplates.CUBE));
+        blockModels.createHorizontallyRotatedBlock(PalladiumBlocks.MULTIVERSAL_ITERATOR.get(),
+                TexturedModel.createDefault(block -> new TextureMapping()
+                                .put(TextureSlot.UP, TextureMapping.getBlockTexture(block, "_top"))
+                                .put(TextureSlot.DOWN, TextureMapping.getBlockTexture(block, "_bottom"))
+                                .put(TextureSlot.NORTH, TextureMapping.getBlockTexture(block, "_front"))
+                                .put(TextureSlot.SOUTH, TextureMapping.getBlockTexture(block, "_side"))
+                                .put(TextureSlot.EAST, TextureMapping.getBlockTexture(block, "_side"))
+                                .put(TextureSlot.WEST, TextureMapping.getBlockTexture(block, "_side"))
+                                .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block, "_side")),
+                        ModelTemplates.CUBE));
+        blockModels.createPlantWithDefaultItem(PalladiumBlocks.HEART_SHAPED_HERB.get(), PalladiumBlocks.POTTED_HEART_SHAPED_HERB.get(), BlockModelGenerators.PlantType.NOT_TINTED);
+        blockModels.family(PalladiumBlocks.METEORITE_STONE.get())
+                .stairs(PalladiumBlocks.METEORITE_STONE_STAIRS.get())
+                .wall(PalladiumBlocks.METEORITE_STONE_WALL.get())
+                .slab(PalladiumBlocks.METEORITE_STONE_SLAB.get());
+        blockModels.family(PalladiumBlocks.METEORITE_BRICKS.get())
+                .stairs(PalladiumBlocks.METEORITE_BRICK_STAIRS.get())
+                .wall(PalladiumBlocks.METEORITE_BRICK_WALL.get())
+                .slab(PalladiumBlocks.METEORITE_BRICK_SLAB.get());
+        blockModels.createTrivialCube(PalladiumBlocks.METEORITE_COAL_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.METEORITE_IRON_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.METEORITE_COPPER_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.METEORITE_GOLD_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.METEORITE_REDSTONE_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.METEORITE_EMERALD_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.METEORITE_LAPIS_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.METEORITE_DIAMOND_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.LEAD_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.DEEPSLATE_LEAD_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.METEORITE_LEAD_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.LEAD_BLOCK.get());
+        blockModels.createTrivialCube(PalladiumBlocks.RAW_LEAD_BLOCK.get());
+        blockModels.createTrivialCube(PalladiumBlocks.TITANIUM_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.DEEPSLATE_TITANIUM_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.METEORITE_TITANIUM_ORE.get());
+        blockModels.createTrivialCube(PalladiumBlocks.TITANIUM_BLOCK.get());
+        blockModels.createTrivialCube(PalladiumBlocks.RAW_TITANIUM_BLOCK.get());
+        this.withEmissiveOverlay(blockModels, PalladiumBlocks.VIBRANIUM_ORE.get(), "vibranium_ore_emissive");
+        this.withEmissiveOverlay(blockModels, PalladiumBlocks.DEEPSLATE_VIBRANIUM_ORE.get(), "vibranium_ore_emissive");
+        this.withEmissiveOverlay(blockModels, PalladiumBlocks.METEORITE_VIBRANIUM_ORE.get(), "vibranium_ore_emissive");
+        this.withEmissiveOverlay(blockModels, PalladiumBlocks.METEORITE_VIBRANIUM_VEIN.get(), "meteorite_vibranium_vein_emissive");
+        blockModels.createTrivialCube(PalladiumBlocks.VIBRANIUM_BLOCK.get());
+        blockModels.createTrivialCube(PalladiumBlocks.RAW_VIBRANIUM_BLOCK.get());
+
+        // Items
+        this.registerExtrapolatorModel(itemModels);
+        itemModels.generateFlatItem(PalladiumItems.SUIT_STAND.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.VIAL.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.LEAD_CIRCUIT.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.QUARTZ_CIRCUIT.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.VIBRANIUM_CIRCUIT.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.RAW_LEAD.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.LEAD_INGOT.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.LEAD_NUGGET.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.RAW_TITANIUM.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.TITANIUM_INGOT.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.TITANIUM_NUGGET.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.RAW_VIBRANIUM.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.VIBRANIUM_INGOT.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(PalladiumItems.VIBRANIUM_NUGGET.get(), ModelTemplates.FLAT_ITEM);
+
+        for (DeferredItem<Item> item : PalladiumItems.FABRIC_BY_COLOR.values()) {
+            itemModels.generateFlatItem(item.get(), ModelTemplates.FLAT_ITEM);
+        }
+    }
+
+    private void registerExtrapolatorModel(ItemModelGenerators itemModels) {
+        var extrapolator = PalladiumItems.MULTIVERSAL_EXTRAPOLATOR.get();
+        var activeModel = itemModels.createFlatItemModel(extrapolator, ModelTemplates.FLAT_ITEM);
+        var inactiveModel = ModelTemplates.FLAT_ITEM.create(
+                ModelLocationUtils.getModelLocation(extrapolator, "_inactive"),
+                TextureMapping.layer0(TextureMapping.getItemTexture(extrapolator, "_inactive")),
+                itemModels.modelOutput);
+
+        itemModels.itemModelOutput.accept(extrapolator, ItemModelUtils.conditional(
+                ItemModelUtils.hasComponent(PalladiumDataComponents.Items.EXTRAPOLATOR_UNIVERSE.get()),
+                ItemModelUtils.plainModel(activeModel),
+                ItemModelUtils.plainModel(inactiveModel)));
+    }
+
+    private void withEmissiveOverlay(BlockModelGenerators blockModels, Block block, String overlay) {
+        MultiVariant multivariant = BlockModelGenerators.plainVariant(
+                EMISSIVE_OVERLAY.create(block, TextureMapping.cube(block).put(EMISSIVE_SLOT, new Material(Palladium.id("block/" + overlay))), blockModels.modelOutput)
+        );
+        blockModels.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(block, multivariant));
+    }
+}

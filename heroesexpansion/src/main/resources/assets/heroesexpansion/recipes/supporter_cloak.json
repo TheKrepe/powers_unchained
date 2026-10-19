@@ -1,0 +1,27 @@
+{
+  "result": {
+    "item": "heroesexpansion:supporter_cloak"
+  },
+  "pattern": [
+    "XX",
+    "XX",
+    "XX"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:supporter_cloak",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:wool",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "minecraft:wool",
+      "data": 1
+    }
+  }
+}

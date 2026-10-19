@@ -1,0 +1,35 @@
+{
+	"type": "threecore:default",
+	"model": "pymtech:ant_man_helmet",
+	"texture": {
+		"base": "pymtech:textures/models/armor/ant_man_tier3/helmet_lights_blue.png",
+		"transformers": [
+			{
+				"type": "threecore:alpha_mask",
+				"mask": "pymtech:textures/models/alpha_masks/ant_man_helmet_#TIMER.png"
+			}
+		],
+		"variables": {
+			"TIMER": {
+				"type": "threecore:integer_nbt",
+				"nbt_tag": "Opening"
+			}
+		},
+		"output": "pymtech:textures/models/armor/ant_man_tier3/helmet_lights_blue_#TIMER.png"
+	},
+	"glow": [
+		{
+			"type": "threecore:is_size_changing"
+		}
+	],
+	"predicates": [
+		{
+			"type": "threecore:not",
+			"predicate": {
+				"type": "threecore:size",
+				"min": 0,
+				"max": 1
+			}
+		}
+	]
+}

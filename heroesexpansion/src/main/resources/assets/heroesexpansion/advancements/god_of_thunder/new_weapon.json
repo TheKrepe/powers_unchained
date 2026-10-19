@@ -1,0 +1,39 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:stormbreaker"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.god_of_thunder.new_weapon.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.god_of_thunder.new_weapon.description"
+        }
+    },
+	"parent": "heroesexpansion:god_of_thunder/power",
+    "criteria": {
+        "ultimate_mjolnir": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:ultimate_mjolnir"
+                    }
+                ]
+            }
+        },
+        "stormbreaker": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:stormbreaker"
+                    }
+                ]
+            }
+        }
+    },
+	"requirements": [
+		["ultimate_mjolnir", "stormbreaker"]
+	]
+}

@@ -1,0 +1,15 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "component": "palladium:extrapolator_universe",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "palladium:item/multiversal_extrapolator_inactive"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "palladium:item/multiversal_extrapolator"
+    },
+    "property": "minecraft:has_component"
+  }
+}

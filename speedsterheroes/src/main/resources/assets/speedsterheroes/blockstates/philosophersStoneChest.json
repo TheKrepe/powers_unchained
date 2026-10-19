@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "speedsterheroes:philosophersStoneChest" },
+        "facing=south": { "model": "speedsterheroes:philosophersStoneChest", "y": 180 },
+        "facing=west":  { "model": "speedsterheroes:philosophersStoneChest", "y": 270 },
+        "facing=east":  { "model": "speedsterheroes:philosophersStoneChest", "y": 90 }
+    }
+}

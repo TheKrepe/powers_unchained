@@ -1,0 +1,27 @@
+{
+  "result": {
+    "item": "heroesexpansion:vibranium_arrow"
+  },
+  "ingredients": [
+    {
+      "item": "heroesexpansion:sharpened_arrow"
+    },
+    {
+      "item": "#NUGGETVIBRANIUM"
+    },
+    {
+      "item": "#NUGGETVIBRANIUM"
+    }
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:vibranium_arrow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:sharpened_arrow",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

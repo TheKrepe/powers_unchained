@@ -1,0 +1,18 @@
+{
+	"items": [
+		{
+			"item": "heroesexpansion:superman_chest"
+		},
+		{
+			"item": "heroesexpansion:superman_legs"
+		},
+		{
+			"item": "heroesexpansion:superman_boots"
+		}
+	],
+	
+	"text": {
+		"translate": "heroesexpansion.jei.superman_suit"
+	}
+
+}

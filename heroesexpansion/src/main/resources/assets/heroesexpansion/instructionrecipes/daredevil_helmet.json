@@ -1,0 +1,19 @@
+{
+  "output": {
+    "item": "heroesexpansion:daredevil_helmet"
+  },
+  "requirements": [
+    {
+      "item": "lucraftcore:tri_polymer_red",
+      "amount": 5
+    },
+    {
+      "item": "lucraftcore:tri_polymer_black",
+      "amount": 2
+    },
+    {
+      "item": "minecraft:iron_ingot",
+      "amount": 3
+    }
+  ]
+}

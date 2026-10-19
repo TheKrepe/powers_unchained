@@ -1,0 +1,44 @@
+{
+	"flicker": {
+		"category": "player",
+		"sounds": ["speedsterheroes:flicker"],
+		"subtitle": "subtitles.flicker"
+	},
+	
+	"vibrating": {
+		"category": "player",
+		"sounds": ["speedsterheroes:vibrating"],
+		"subtitle": "subtitles.vibrating"
+	},
+	
+	"blackflash_ambient": {
+		"category": "hostile",
+		"sounds": ["speedsterheroes:blackflash_ambient1", "speedsterheroes:blackflash_ambient2", "speedsterheroes:blackflash_ambient3", "speedsterheroes:blackflash_ambient4"],
+		"subtitle": "subtitles.blackflash_ambient"
+	},
+	
+	"blackflash_hurt": {
+		"category": "hostile",
+		"sounds": ["speedsterheroes:blackflash_hurt1", "speedsterheroes:blackflash_hurt2"],
+		"subtitle": "subtitles.blackflash_hurt"
+	},
+	
+	"blackflash_death": {
+		"category": "hostile",
+		"sounds": ["speedsterheroes:blackflash_death1", "speedsterheroes:blackflash_death2", "speedsterheroes:blackflash_death3"],
+		"subtitle": "subtitles.blackflash_death"
+	},
+	
+	"savitarBladeDraw": {
+		"category": "player",
+		"sounds": ["speedsterheroes:savitarBladeDraw"],
+		"subtitle": "subtitles.savitarBladeDraw"
+	},
+	
+	"savitarBladeBack": {
+		"category": "player",
+		"sounds": ["speedsterheroes:savitarBladeBack"],
+		"subtitle": "subtitles.savitarBladeBack"
+	}
+
+}

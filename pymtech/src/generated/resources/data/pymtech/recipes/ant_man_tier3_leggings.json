@@ -1,0 +1,31 @@
+{
+  "type": "threecore:leggings_crafting",
+  "pattern": [
+    "RIR",
+    "RR",
+    "BB",
+    "BB"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/steel"
+    },
+    "R": {
+      "tag": "threecore:fabric/red"
+    },
+    "B": {
+      "tag": "threecore:fabric/black"
+    }
+  },
+  "tool": {
+    "item": "pymtech:ant_man_tier2_leggings"
+  },
+  "consumes_tool": true,
+  "result": {
+    "item": "pymtech:ant_man_tier3_leggings",
+    "count": 1,
+    "nbt": {
+      "Damage": 0
+    }
+  }
+}

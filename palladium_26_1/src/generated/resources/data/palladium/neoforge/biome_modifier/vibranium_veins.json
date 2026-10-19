@@ -1,0 +1,9 @@
+{
+  "type": "palladium:feature_flag_add_features",
+  "biomes": "#palladium:contains_vibranium_veins",
+  "features": "#palladium:vibranium_veins",
+  "flags": [
+    "palladium:material/vibranium"
+  ],
+  "step": "underground_ores"
+}

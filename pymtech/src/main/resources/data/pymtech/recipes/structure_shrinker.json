@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "POP",
+    "BCX",
+    "PRP"
+  ],
+  "key": {
+    "P": {
+      "tag": "forge:plates/lead"
+    },
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "R": {
+      "item": "pymtech:regulator"
+    },
+    "C": {
+      "item": "pymtech:shrinking_size_coil"
+    },
+    "X": {
+      "item": "threecore:capacitor"
+    },
+    "O": {
+      "tag": "forge:storage_blocks/redstone"
+    }
+  },
+  "result": {
+    "item": "pymtech:structure_shrinker"
+  }
+}

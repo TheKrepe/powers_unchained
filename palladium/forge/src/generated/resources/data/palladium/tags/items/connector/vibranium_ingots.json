@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#forge:ingots/vibranium",
+      "required": false
+    },
+    {
+      "id": "#c:vibranium_ingots",
+      "required": false
+    }
+  ]
+}

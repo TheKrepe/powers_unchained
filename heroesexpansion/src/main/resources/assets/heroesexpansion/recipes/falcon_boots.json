@@ -1,0 +1,33 @@
+{
+  "result": {
+    "item": "heroesexpansion:falcon_boots"
+  },
+  "pattern": [
+    "B B",
+    "R R"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:falcon_boots",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "lucraftcore:tri_polymer_black",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "lucraftcore:tri_polymer_red",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "lucraftcore:tri_polymer_black"
+    },
+    "R": {
+      "item": "lucraftcore:tri_polymer_red"
+    }
+  },
+  "group": "heroesexpansion:falcon_suit"
+}

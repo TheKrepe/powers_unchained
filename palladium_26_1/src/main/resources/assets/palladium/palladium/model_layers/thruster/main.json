@@ -1,0 +1,34 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.unknown",
+				"texture_width": 4,
+				"texture_height": 4,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "thruster",
+					"pivot": [0, 3, 0],
+					"cubes": [
+						{
+							"origin": [-1, 1, -1],
+							"size": [2, 2, 2],
+							"inflate": 0.25,
+							"uv": {
+								"north": {"uv": [0, 0], "uv_size": [3, 3]},
+								"east": {"uv": [0, 0], "uv_size": [3, 3]},
+								"south": {"uv": [0, 0], "uv_size": [3, 3]},
+								"west": {"uv": [0, 0], "uv_size": [3, 3]}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,116 @@
+{
+	"claws_out": {
+		"category": "player",
+		"sounds": ["heroesexpansion:claws_out"],
+		"subtitle": "subtitles.claws"
+	},
+	
+	"claws_in": {
+		"category": "player",
+		"sounds": ["heroesexpansion:claws_in"],
+		"subtitle": "subtitles.claws"
+	},
+	
+	"shield_throw": {
+		"category": "player",
+		"sounds": ["heroesexpansion:shield_throw1", "heroesexpansion:shield_throw2", "heroesexpansion:shield_throw3"],
+		"subtitle": "subtitles.shield_throw"
+	},
+	
+	"shield_hit": {
+		"category": "player",
+		"sounds": ["heroesexpansion:shield_hit1", "heroesexpansion:shield_hit2", "heroesexpansion:shield_hit3"],
+		"subtitle": "subtitles.shield_hit"
+	},
+	
+	"hammer_swing": {
+		"category": "player",
+		"sounds": ["heroesexpansion:hammer_swing1", "heroesexpansion:hammer_swing2", "heroesexpansion:hammer_swing3"],
+		"subtitle": "subtitles.hammer_swing"
+	},
+	
+	"hammer_drop": {
+		"category": "player",
+		"sounds": ["heroesexpansion:hammer_drop"],
+		"subtitle": "subtitles.hammer_drop"
+	},
+	
+	"hammer_hit": {
+		"category": "player",
+		"sounds": ["heroesexpansion:hammer_hit1", "heroesexpansion:hammer_hit2", "heroesexpansion:hammer_hit3"],
+		"subtitle": "subtitles.hammer_hit"
+	},
+
+	"hammer_throw": {
+		"category": "player",
+		"sounds": ["heroesexpansion:hammer_throw"],
+		"subtitle": "subtitles.hammer_throw"
+	},
+	
+	"web_shoot": {
+		"category": "player",
+		"sounds": ["heroesexpansion:web_shoot1", "heroesexpansion:web_shoot2", "heroesexpansion:web_shoot3"],
+		"subtitle": "subtitles.web_shoot"
+	},
+	
+	"spider_sense": {
+		"category": "player",
+		"sounds": ["heroesexpansion:spider_sense"],
+		"subtitle": "subtitles.spider_sense"
+	},
+	
+	"leviathan_ambient": {
+		"category": "neutral",
+		"sounds": ["heroesexpansion:leviathan_ambient1", "heroesexpansion:leviathan_ambient2"],
+		"subtitle": "subtitles.leviathan_ambient"
+	},
+	
+	"chitauri_ambient": {
+		"category": "hostile",
+		"sounds": ["heroesexpansion:chitauri_ambient1", "heroesexpansion:chitauri_ambient2", "heroesexpansion:chitauri_ambient3"],
+		"subtitle": "subtitles.chitauri_ambient"
+	},
+	
+	"chitauri_hurt": {
+		"category": "hostile",
+		"sounds": ["heroesexpansion:chitauri_hurt1", "heroesexpansion:chitauri_hurt2", "heroesexpansion:chitauri_hurt3"],
+		"subtitle": "subtitles.chitauri_hurt"
+	},
+	
+	"chitauri_death": {
+		"category": "hostile",
+		"sounds": ["heroesexpansion:chitauri_death1", "heroesexpansion:chitauri_death2"],
+		"subtitle": "subtitles.chitauri_death"
+	},
+	
+	"boing": {
+		"category": "player",
+		"sounds": ["heroesexpansion:boing"],
+		"subtitle": "subtitles.boing"
+	},
+	
+	"wakandan_shield_open": {
+		"category": "player",
+		"sounds": ["heroesexpansion:wakandan_shield_open"],
+		"subtitle": "subtitles.wakandan_shield_open"
+	},
+	
+	"wakandan_shield_close": {
+		"category": "player",
+		"sounds": ["heroesexpansion:wakandan_shield_close"],
+		"subtitle": "subtitles.wakandan_shield_close"
+	},
+	
+	"heat_vision": {
+		"category": "player",
+		"sounds": ["heroesexpansion:heat_vision"],
+		"subtitle": "subtitles.heat_vision"
+	},
+	
+	"freeze_breath": {
+		"category": "player",
+		"sounds": ["heroesexpansion:freeze_breath"],
+		"subtitle": "subtitles.freeze_breath"
+	}
+
+}

@@ -1,0 +1,50 @@
+package net.threetag.palladium.logic.condition;
+
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.util.ExtraCodecs;
+import net.threetag.palladium.documentation.CodecDocumentationBuilder;
+import net.threetag.palladium.logic.context.DataContext;
+
+import java.util.Arrays;
+import java.util.List;
+
+public record OrCondition(List<Condition> conditions) implements Condition {
+
+    public static final MapCodec<OrCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
+            .group(ExtraCodecs.compactListCodec(Condition.MOLANG_WRAPPED_CODEC).fieldOf("conditions").forGetter(OrCondition::conditions)
+            ).apply(instance, OrCondition::new)
+    );
+
+    @Override
+    public boolean test(DataContext context) {
+        for (Condition condition : this.conditions) {
+            if (condition.test(context)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public ConditionSerializer<OrCondition> getSerializer() {
+        return ConditionSerializers.OR.get();
+    }
+
+    public static class Serializer extends ConditionSerializer<OrCondition> {
+
+        @Override
+        public MapCodec<OrCondition> codec() {
+            return CODEC;
+        }
+
+        @Override
+        public void addDocumentation(CodecDocumentationBuilder<Condition, OrCondition> builder, HolderLookup.Provider provider) {
+            builder.setName("OR")
+                    .setDescription("Allows you to group multiple conditions into one using the OR logic. At least one of the given conditions must be true for this one to be true aswell.")
+                    .add("conditions", TYPE_CONDITION_LIST, "List of conditions")
+                    .addExampleObject(new OrCondition(Arrays.asList(new CrouchingCondition(), new DayCondition())));
+        }
+    }
+}

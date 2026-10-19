@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AI",
+    "CI",
+    "II"
+  ],
+  "key": {
+    "A": {
+      "item": "pymtech:ant_antenna"
+    },
+    "C": {
+      "item": "threecore:circuit"
+    },
+    "I": {
+      "tag": "forge:plates/iron"
+    }
+  },
+  "result": {
+    "item": "pymtech:structure_shrinker_remote"
+  }
+}

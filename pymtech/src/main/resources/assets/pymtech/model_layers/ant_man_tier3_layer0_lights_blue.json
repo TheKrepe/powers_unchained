@@ -1,0 +1,20 @@
+{
+	"type": "threecore:default",
+	"model": "threecore:biped_fixed_arms_0.252",
+	"texture": "pymtech:textures/models/armor/ant_man_tier3/layer_0_lights_blue.png",
+	"glow": [
+		{
+			"type": "threecore:is_size_changing"
+		}
+	],
+	"predicates": [
+		{
+			"type": "threecore:not",
+			"predicate": {
+				"type": "threecore:size",
+				"min": 0,
+				"max": 1
+			}
+		}
+	]
+}

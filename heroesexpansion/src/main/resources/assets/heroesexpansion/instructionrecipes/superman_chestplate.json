@@ -1,0 +1,15 @@
+{
+  "output": {
+    "item": "heroesexpansion:superman_chest"
+  },
+  "requirements": [
+    {
+      "item": "lucraftcore:tri_polymer_blue",
+      "amount": 8
+    },
+    {
+      "item": "lucraftcore:tri_polymer_red",
+      "amount": 5
+    }
+  ]
+}

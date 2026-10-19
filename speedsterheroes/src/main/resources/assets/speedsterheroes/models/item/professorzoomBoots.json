@@ -1,0 +1,7 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "speedsterheroes:items/professorzoom/boots",
+		"layer1": "speedsterheroes:items/professorzoom/desc"
+	}
+}

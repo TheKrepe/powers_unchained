@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "pantheonsent:khonshu_temple",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 23789457,
+    "spacing": 80,
+    "separation": 20,
+    "type": "minecraft:random_spread"
+  }
+}

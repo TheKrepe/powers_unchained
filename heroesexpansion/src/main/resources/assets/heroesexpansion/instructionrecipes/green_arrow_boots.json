@@ -1,0 +1,14 @@
+{
+  "output": {
+    "item": "heroesexpansion:green_arrow_boots"
+  },
+  "requirements": [
+    {
+      "item": "lucraftcore:tri_polymer_green",
+      "amount": 4
+    },
+    {
+      "item": "lucraftcore:tri_polymer_black"
+    }
+  ]
+}

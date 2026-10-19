@@ -1,0 +1,28 @@
+{
+	"input": {
+		"item": "heroesexpansion:kryptonian_fossil"
+	},
+	
+	"input_container": {
+		"item": "lucraftcore:injection"
+	},
+	
+	"input_fluid": {
+		"fluid": "water",
+		"amount": 1000
+	},
+	
+	"energy": 5000,
+	
+	"outputs": {
+		"primary": {
+			"item": "lucraftcore:injection",
+			"nbt": "{\"Injection\": \"heroesexpansion:kryptonian\"}",
+			"chance": 0.2
+		},
+		"secondary": {
+			"item": "heroesexpansion:kryptonite",
+			"chance": 0.4
+		}
+	}
+}

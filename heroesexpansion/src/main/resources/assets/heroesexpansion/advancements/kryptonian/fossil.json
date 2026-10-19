@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:kryptonian_fossil"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.kryptonian.fossil.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.kryptonian.fossil.description"
+        }
+    },
+    "parent": "heroesexpansion:kryptonian/kryptonite",
+    "criteria": {
+        "fossil": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:kryptonian_fossil"
+                    }
+                ]
+            }
+        }
+    }
+}

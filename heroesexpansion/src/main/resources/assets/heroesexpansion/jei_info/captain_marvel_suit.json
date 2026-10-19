@@ -1,0 +1,21 @@
+{
+	"items": [
+		{
+			"item": "heroesexpansion:captain_marvel_helmet"
+		},
+		{
+			"item": "heroesexpansion:captain_marvel_chest"
+		},
+		{
+			"item": "heroesexpansion:captain_marvel_legs"
+		},
+		{
+			"item": "heroesexpansion:captain_marvel_boots"
+		}
+	],
+	
+	"text": {
+		"translate": "heroesexpansion.jei.captain_marvel_suit"
+	}
+
+}

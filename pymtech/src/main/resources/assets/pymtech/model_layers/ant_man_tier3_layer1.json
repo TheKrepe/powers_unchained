@@ -1,0 +1,5 @@
+{
+	"type": "threecore:default",
+	"model": "threecore:biped_0.25",
+	"texture": "pymtech:textures/models/armor/ant_man_tier3/layer_1.png"
+}

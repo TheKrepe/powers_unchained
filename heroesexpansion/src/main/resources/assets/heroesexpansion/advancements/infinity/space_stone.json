@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:space_stone"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.infinity.space_stone.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.infinity.space_stone.description"
+        },
+		"frame": "goal"
+    },
+    "parent": "heroesexpansion:infinity/space",
+    "criteria": {
+        "item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:space_stone"
+                    }
+                ]
+            }
+        }
+    }
+}

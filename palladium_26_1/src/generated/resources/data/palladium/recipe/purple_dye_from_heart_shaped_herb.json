@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:block/heart_shaped_herb"
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "purple_dye",
+  "ingredients": [
+    "palladium:heart_shaped_herb"
+  ],
+  "result": {
+    "id": "minecraft:purple_dye"
+  }
+}

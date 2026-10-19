@@ -1,0 +1,374 @@
+package net.threetag.palladium.compat.geckolib.renderlayer;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HeadedModel;
+import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
+import net.threetag.palladium.client.renderer.renderlayer.IPackRenderLayer;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
+import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.cache.texture.AnimatableTexture;
+import software.bernie.geckolib.constant.DataTickets;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.molang.MolangParser;
+import software.bernie.geckolib.core.molang.MolangQueries;
+import software.bernie.geckolib.core.object.Color;
+import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.renderer.GeoRenderer;
+import software.bernie.geckolib.util.RenderUtils;
+
+public class GeckoRenderLayerModel extends HumanoidModel<AbstractClientPlayer> implements GeoRenderer<GeckoLayerState> {
+
+    protected final GeoModel<GeckoLayerState> modelProvider;
+    protected EntityModel<?> baseModel;
+    protected float scaleWidth = 1;
+    protected float scaleHeight = 1;
+
+    protected Entity currentEntity = null;
+    protected GeckoLayerState currentState = null;
+    protected Color currentColor = Color.WHITE;
+
+    protected Matrix4f entityRenderTranslations = new Matrix4f();
+
+    public String headBone = "armorHead";
+    public String bodyBone = "armorBody";
+    public String rightArmBone = "armorRightArm";
+    public String leftArmBone = "armorLeftArm";
+    public String rightLegBone = "armorRightLeg";
+    public String leftLegBone = "armorLeftLeg";
+
+    protected BakedGeoModel lastModel = null;
+    protected GeoBone head = null;
+    protected GeoBone body = null;
+    protected GeoBone rightArm = null;
+    protected GeoBone leftArm = null;
+    protected GeoBone rightLeg = null;
+    protected GeoBone leftLeg = null;
+
+    public GeckoRenderLayerModel(GeckoRenderLayer renderLayer) {
+        super(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.PLAYER_INNER_ARMOR));
+        this.modelProvider = new GeoModel<>() {
+            @Override
+            public ResourceLocation getModelResource(GeckoLayerState animatable) {
+                return renderLayer.cachedModel;
+            }
+
+            @Override
+            public ResourceLocation getTextureResource(GeckoLayerState animatable) {
+                return renderLayer.cachedTexture;
+            }
+
+            @Override
+            public ResourceLocation getAnimationResource(GeckoLayerState animatable) {
+                return renderLayer.animationLocation;
+            }
+
+            @Override
+            public void applyMolangQueries(GeckoLayerState animatable, double animTime) {
+                MolangParser parser = MolangParser.INSTANCE;
+                Minecraft mc = Minecraft.getInstance();
+                if (mc.level == null) return;
+
+                parser.setMemoizedValue(MolangQueries.LIFE_TIME, () -> animTime / 20d);
+                parser.setMemoizedValue(MolangQueries.ACTOR_COUNT, mc.level::getEntityCount);
+                parser.setMemoizedValue(MolangQueries.TIME_OF_DAY, () -> mc.level.getDayTime() / 24000f);
+                parser.setMemoizedValue(MolangQueries.MOON_PHASE, mc.level::getMoonPhase);
+
+                if (animatable.layer.getModel().currentEntity != null) {
+                    var entity = animatable.layer.getModel().currentEntity;
+                    parser.setMemoizedValue(MolangQueries.DISTANCE_FROM_CAMERA, () -> mc.gameRenderer.getMainCamera().getPosition().distanceTo(entity.position()));
+                    parser.setMemoizedValue(MolangQueries.IS_ON_GROUND, () -> RenderUtils.booleanToFloat(entity.onGround()));
+                    parser.setMemoizedValue(MolangQueries.IS_IN_WATER, () -> RenderUtils.booleanToFloat(entity.isInWater()));
+                    parser.setMemoizedValue(MolangQueries.IS_IN_WATER_OR_RAIN, () -> RenderUtils.booleanToFloat(entity.isInWaterRainOrBubble()));
+
+                    if (entity instanceof LivingEntity livingEntity) {
+                        parser.setMemoizedValue(MolangQueries.HEALTH, livingEntity::getHealth);
+                        parser.setMemoizedValue(MolangQueries.MAX_HEALTH, livingEntity::getMaxHealth);
+                        parser.setMemoizedValue(MolangQueries.IS_ON_FIRE, () -> RenderUtils.booleanToFloat(livingEntity.isOnFire()));
+                        parser.setMemoizedValue(MolangQueries.GROUND_SPEED, () -> {
+                            Vec3 velocity = livingEntity.getDeltaMovement();
+
+                            return Mth.sqrt((float) ((velocity.x * velocity.x) + (velocity.z * velocity.z)));
+                        });
+                        parser.setMemoizedValue(MolangQueries.YAW_SPEED, () -> livingEntity.getViewYRot((float) animTime - livingEntity.getViewYRot((float) animTime - 0.1f)));
+                    }
+                }
+            }
+        };
+    }
+
+    @Override
+    public long getInstanceId(GeckoLayerState animatable) {
+        return GeoRenderer.super.getInstanceId(animatable) + this.currentEntity.getId();
+    }
+
+    public void setCurrentRenderingFields(GeckoLayerState state, Entity entity, EntityModel<?> baseModel) {
+        this.currentState = state;
+        this.baseModel = baseModel;
+        this.currentEntity = entity;
+    }
+
+    @Override
+    public void preRender(PoseStack poseStack, GeckoLayerState animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        this.entityRenderTranslations = new Matrix4f(poseStack.last().pose());
+
+        applyBaseModel(this.baseModel);
+        grabRelevantBones(getGeoModel().getBakedModel(getGeoModel().getModelResource(this.currentState)));
+        applyBaseTransformations(this.baseModel);
+        scaleModelForRender(this.scaleWidth, this.scaleHeight, poseStack, animatable, model, isReRender, partialTick, packedLight, packedOverlay);
+    }
+
+    @Override
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        Minecraft mc = Minecraft.getInstance();
+        MultiBufferSource bufferSource = mc.levelRenderer.renderBuffers.bufferSource();
+
+        if (mc.levelRenderer.shouldShowEntityOutlines() && mc.shouldEntityAppearGlowing(this.currentEntity))
+            bufferSource = mc.levelRenderer.renderBuffers.outlineBufferSource();
+
+        float partialTick = mc.getFrameTime();
+        buffer = this.currentState.layer.renderType.createVertexConsumer(bufferSource, this.getTextureLocation(this.currentState), false);
+
+        poseStack.pushPose();
+        poseStack.translate(0, 24 / 16f, 0);
+        poseStack.scale(-1, -1, 1);
+
+        AnimationState<GeckoLayerState> animationState = new AnimationState<>(this.currentState, 0, 0, partialTick, false);
+        long instanceId = getInstanceId(this.currentState);
+
+        animationState.setData(DataTickets.TICK, this.currentState.getTick(this.currentEntity));
+        animationState.setData(DataTickets.ENTITY, this.currentEntity);
+        this.modelProvider.addAdditionalStateData(this.currentState, instanceId, animationState::setData);
+        this.modelProvider.handleAnimations(this.currentState, instanceId, animationState);
+
+        defaultRender(poseStack, this.currentState, bufferSource, null, buffer,
+                0, partialTick, this.currentState.layer.renderType.getPackedLight(packedLight));
+        poseStack.popPose();
+    }
+
+    @Override
+    public Color getRenderColor(GeckoLayerState animatable, float partialTick, int packedLight) {
+        return this.currentColor;
+    }
+
+    protected void grabRelevantBones(BakedGeoModel bakedModel) {
+        if (this.lastModel == bakedModel)
+            return;
+
+        this.lastModel = bakedModel;
+        this.head = getHeadBone();
+        this.body = getBodyBone();
+        this.rightArm = getRightArmBone();
+        this.leftArm = getLeftArmBone();
+        this.rightLeg = getRightLegBone();
+        this.leftLeg = getLeftLegBone();
+    }
+
+    protected void applyBaseModel(EntityModel<?> baseModel) {
+        this.young = baseModel.young;
+        this.riding = baseModel.riding;
+
+        if (baseModel instanceof HumanoidModel<?> humanoidModel) {
+            this.crouching = humanoidModel.crouching;
+            this.rightArmPose = humanoidModel.rightArmPose;
+            this.leftArmPose = humanoidModel.leftArmPose;
+        }
+    }
+
+    @Nullable
+    public GeoBone getHeadBone() {
+        return this.modelProvider.getBone(this.headBone).orElse(null);
+    }
+
+    @Nullable
+    public GeoBone getBodyBone() {
+        return this.modelProvider.getBone(this.bodyBone).orElse(null);
+    }
+
+    @Nullable
+    public GeoBone getRightArmBone() {
+        return this.modelProvider.getBone(this.rightArmBone).orElse(null);
+    }
+
+    @Nullable
+    public GeoBone getLeftArmBone() {
+        return this.modelProvider.getBone(this.leftArmBone).orElse(null);
+    }
+
+    @Nullable
+    public GeoBone getRightLegBone() {
+        return this.modelProvider.getBone(this.rightLegBone).orElse(null);
+    }
+
+    @Nullable
+    public GeoBone getLeftLegBone() {
+        return this.modelProvider.getBone(this.leftLegBone).orElse(null);
+    }
+
+    protected void applyBaseTransformations(EntityModel<?> baseModel) {
+        resetBoneTransforms();
+
+        if (this.head != null) {
+            if (baseModel instanceof HeadedModel headedModel) {
+                ModelPart headPart = headedModel.getHead();
+
+                RenderUtils.matchModelPartRot(headPart, this.head);
+                copyScaleAndVisibility(headPart, super.head, this.head);
+                this.head.updatePosition(headPart.x, -headPart.y, headPart.z);
+            }
+        }
+
+        if (baseModel instanceof HumanoidModel<?> humanoidModel) {
+            IPackRenderLayer.copyModelProperties(this.currentEntity, humanoidModel, this);
+
+            if (this.body != null) {
+                ModelPart bodyPart = humanoidModel.body;
+                RenderUtils.matchModelPartRot(bodyPart, this.body);
+                copyScaleAndVisibility(bodyPart, super.body, this.body);
+                this.body.updatePosition(bodyPart.x, -bodyPart.y, bodyPart.z);
+            }
+
+            if (this.rightArm != null) {
+                ModelPart rightArmPart = humanoidModel.rightArm;
+                RenderUtils.matchModelPartRot(rightArmPart, this.rightArm);
+                copyScaleAndVisibility(rightArmPart, super.rightArm, this.rightArm);
+                this.rightArm.updatePosition(rightArmPart.x + 5, 2 - rightArmPart.y, rightArmPart.z);
+            }
+
+            if (this.leftArm != null) {
+                ModelPart leftArmPart = humanoidModel.leftArm;
+                RenderUtils.matchModelPartRot(leftArmPart, this.leftArm);
+                copyScaleAndVisibility(leftArmPart, super.leftArm, this.leftArm);
+                this.leftArm.updatePosition(leftArmPart.x - 5f, 2f - leftArmPart.y, leftArmPart.z);
+            }
+
+            if (this.rightLeg != null) {
+                ModelPart rightLegPart = humanoidModel.rightLeg;
+                RenderUtils.matchModelPartRot(rightLegPart, this.rightLeg);
+                copyScaleAndVisibility(rightLegPart, super.rightLeg, this.rightLeg);
+                this.rightLeg.updatePosition(rightLegPart.x + 2, 12 - rightLegPart.y, rightLegPart.z);
+            }
+
+            if (this.leftLeg != null) {
+                ModelPart leftLegPart = humanoidModel.leftLeg;
+                RenderUtils.matchModelPartRot(leftLegPart, this.leftLeg);
+                copyScaleAndVisibility(leftLegPart, super.leftLeg, this.leftLeg);
+                this.leftLeg.updatePosition(leftLegPart.x - 2, 12 - leftLegPart.y, leftLegPart.z);
+            }
+        } else if (baseModel instanceof HierarchicalModel<?> hierarchicalModel) {
+            ModelPart root = hierarchicalModel.root();
+
+            if (this.body != null && root.hasChild("body")) {
+                ModelPart bodyPart = root.getChild("body");
+                RenderUtils.matchModelPartRot(bodyPart, this.body);
+                copyScaleAndVisibility(bodyPart, super.body, this.body);
+                this.body.updatePosition(bodyPart.x, -bodyPart.y, bodyPart.z);
+            }
+
+            if (this.rightLeg != null) {
+                if (root.hasChild("right_leg")) {
+                    ModelPart rightLegPart = root.getChild("right_leg");
+                    RenderUtils.matchModelPartRot(rightLegPart, this.rightLeg);
+                    copyScaleAndVisibility(rightLegPart, super.rightLeg, this.rightLeg);
+                } else if (root.hasChild("leg0")) {
+                    ModelPart leg0 = root.getChild("leg0");
+                    RenderUtils.matchModelPartRot(leg0, this.rightLeg);
+                    copyScaleAndVisibility(leg0, super.rightLeg, this.rightLeg);
+                }
+            }
+
+            if (this.leftLeg != null) {
+                if (root.hasChild("left_leg")) {
+                    ModelPart leftLegPart = root.getChild("left_leg");
+                    RenderUtils.matchModelPartRot(leftLegPart, this.leftLeg);
+                    copyScaleAndVisibility(leftLegPart, super.leftLeg, this.leftLeg);
+                } else if (root.hasChild("leg1")) {
+                    ModelPart leg1 = root.getChild("leg1");
+                    RenderUtils.matchModelPartRot(leg1, this.leftLeg);
+                    copyScaleAndVisibility(leg1, super.leftLeg, this.leftLeg);
+                }
+            }
+        }
+    }
+
+    private void resetBoneTransforms() {
+        resetBone(this.head);
+        resetBone(this.body);
+        resetBone(this.rightArm);
+        resetBone(this.leftArm);
+        resetBone(this.rightLeg);
+        resetBone(this.leftLeg);
+    }
+
+    private void resetBone(GeoBone bone) {
+        if (bone != null) {
+            bone.setHidden(false);
+            bone.setRotX(0);
+            bone.setRotY(0);
+            bone.setRotZ(0);
+            bone.setPosX(0);
+            bone.setPosY(0);
+            bone.setPosZ(0);
+            bone.setScaleX(1);
+            bone.setScaleY(1);
+            bone.setScaleZ(1);
+        }
+    }
+
+    public static void copyScaleAndVisibility(ModelPart from, CoreGeoBone to) {
+        copyScaleAndVisibility(from, from, to);
+    }
+
+    public static void copyScaleAndVisibility(ModelPart from, ModelPart visibilitySource, CoreGeoBone to) {
+        to.setScaleX(from.xScale);
+        to.setScaleY(from.yScale);
+        to.setScaleZ(from.zScale);
+        to.setHidden(!visibilitySource.visible);
+    }
+
+    @Override
+    public GeoModel<GeckoLayerState> getGeoModel() {
+        return this.modelProvider;
+    }
+
+    @Override
+    public GeckoLayerState getAnimatable() {
+        return this.currentState;
+    }
+
+    @Override
+    public void fireCompileRenderLayersEvent() {
+
+    }
+
+    @Override
+    public boolean firePreRenderEvent(PoseStack poseStack, BakedGeoModel model, MultiBufferSource bufferSource, float partialTick, int packedLight) {
+        return true;
+    }
+
+    @Override
+    public void firePostRenderEvent(PoseStack poseStack, BakedGeoModel model, MultiBufferSource bufferSource, float partialTick, int packedLight) {
+
+    }
+
+    @Override
+    public void updateAnimatedTextureFrame(GeckoLayerState animatable) {
+        if (this.currentEntity != null)
+            AnimatableTexture.setAndUpdate(getTextureLocation(animatable), this.currentEntity.getId() + this.currentEntity.tickCount);
+    }
+}

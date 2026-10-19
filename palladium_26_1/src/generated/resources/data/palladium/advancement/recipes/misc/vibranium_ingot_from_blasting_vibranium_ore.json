@@ -1,0 +1,40 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:material/vibranium"
+      ]
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "palladium:vibranium_ingot_from_blasting_vibranium_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_vibranium_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "palladium:vibranium_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_vibranium_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "palladium:vibranium_ingot_from_blasting_vibranium_ore"
+    ]
+  }
+}

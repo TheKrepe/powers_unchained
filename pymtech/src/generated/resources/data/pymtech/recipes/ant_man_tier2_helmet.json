@@ -1,0 +1,37 @@
+{
+  "type": "threecore:helmet_crafting",
+  "pattern": [
+    "APPA",
+    "GPPG",
+    "PPPP",
+    "IFFI"
+  ],
+  "key": {
+    "A": {
+      "item": "pymtech:ant_antenna"
+    },
+    "P": {
+      "tag": "forge:plates/silver"
+    },
+    "G": {
+      "tag": "forge:glass_panes/red"
+    },
+    "F": {
+      "item": "pymtech:air_filter"
+    },
+    "I": {
+      "tag": "forge:ingots/silver"
+    }
+  },
+  "tool": {
+    "item": "pymtech:ant_man_helmet"
+  },
+  "consumes_tool": true,
+  "result": {
+    "item": "pymtech:ant_man_tier2_helmet",
+    "count": 1,
+    "nbt": {
+      "Damage": 0
+    }
+  }
+}

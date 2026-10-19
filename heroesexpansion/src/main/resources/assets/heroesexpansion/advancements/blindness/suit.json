@@ -1,0 +1,59 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:daredevil_homemade_helmet"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.blindness.suit.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.blindness.suit.description"
+        }
+    },
+    "parent": "heroesexpansion:blindness/power",
+    "criteria": {
+        "helmet": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:daredevil_homemade_helmet"
+                    }
+                ]
+            }
+        },
+		"chestplate": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:daredevil_homemade_chest"
+                    }
+                ]
+            }
+        },
+		"legs": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:daredevil_homemade_legs"
+                    }
+                ]
+            }
+        },
+		"boots": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:daredevil_homemade_boots"
+                    }
+                ]
+            }
+        }
+    },
+	"rewards": {
+        "loot": ["heroesexpansion:daredevil_suit_instruction"]
+    }
+}

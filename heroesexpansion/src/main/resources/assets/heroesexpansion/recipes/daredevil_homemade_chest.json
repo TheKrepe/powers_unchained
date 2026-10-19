@@ -1,0 +1,34 @@
+{
+  "result": {
+    "item": "heroesexpansion:daredevil_homemade_chest"
+  },
+  "pattern": [
+    "B B",
+    "LBL",
+    "BLB"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:daredevil_homemade_chest",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:leather",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "lucraftcore:tri_polymer_black",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "lucraftcore:tri_polymer_black"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    }
+  },
+  "group": "heroesexpansion:daredevil_1_suit"
+}

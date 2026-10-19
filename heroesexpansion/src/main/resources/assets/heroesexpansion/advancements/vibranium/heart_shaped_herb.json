@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:heart_shaped_herb"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.vibranium.heart_shaped_herb.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.vibranium.heart_shaped_herb.description"
+        }
+    },
+	"parent": "heroesexpansion:vibranium/vibranium",
+    "criteria": {
+        "crafting_table": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:heart_shaped_herb"
+                    }
+                ]
+            }
+        }
+    }
+}

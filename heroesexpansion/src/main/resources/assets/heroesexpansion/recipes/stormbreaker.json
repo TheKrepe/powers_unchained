@@ -1,0 +1,28 @@
+{
+  "result": {
+    "item": "heroesexpansion:stormbreaker"
+  },
+  "pattern": [
+    "H",
+    "S"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:stormbreaker",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:stormbreaker_head",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "S": {
+      "item": "#STICKWOOD"
+    },
+    "H": {
+      "item": "heroesexpansion:stormbreaker_head"
+    }
+  }
+}

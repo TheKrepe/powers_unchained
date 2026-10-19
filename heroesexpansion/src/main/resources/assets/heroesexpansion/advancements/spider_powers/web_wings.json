@@ -1,0 +1,22 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecraft:web"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.spider_powers.web_wings.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.spider_powers.web_wings.description"
+        }
+    },
+    "parent": "heroesexpansion:spider_powers/spider_sense",
+    "criteria": {
+        "web_wings" : {
+            "trigger" : "lucraftcore:execute_ability", 
+            "conditions" : {
+                "ability": "heroesexpansion:web_wings"
+            }
+        }
+    }
+}

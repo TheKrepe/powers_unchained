@@ -1,0 +1,21 @@
+{
+	"items": [
+		{
+			"item": "heroesexpansion:spider_man_helmet"
+		},
+		{
+			"item": "heroesexpansion:spider_man_chest"
+		},
+		{
+			"item": "heroesexpansion:spider_man_legs"
+		},
+		{
+			"item": "heroesexpansion:spider_man_boots"
+		}
+	],
+	
+	"text": {
+		"translate": "heroesexpansion.jei.spider_man_suit"
+	}
+
+}

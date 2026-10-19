@@ -1,0 +1,9 @@
+{
+  "type": "palladium:feature_flag_add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "#palladium:lead_ores",
+  "flags": [
+    "palladium:material/lead"
+  ],
+  "step": "underground_ores"
+}

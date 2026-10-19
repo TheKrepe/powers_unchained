@@ -1,0 +1,72 @@
+{
+  "name": {
+    "translate": "power.pantheonsent.moon_knight"
+  },
+  "icon": "pantheonsent:textures/icon/moon_knight.png",
+  "abilities": {
+    "render_layer": {
+      "type": "palladium:render_layer",
+      "render_layer": "pantheonsent:moon_knight_transformation"
+    },
+    "activate": {
+      "type": "palladium:animation_timer",
+      "max_value": 57,
+      "hidden": true,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_ticks",
+            "ability": "render_layer",
+            "min": 0,
+            "max": 160
+          }
+        ]
+      }
+    },
+    "shrink_overlay": {
+      "type": "palladium:shrink_body_overlay",
+      "max_value": 20,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:ability_integer_property",
+          "power": "pantheonsent:moon_knight_transformation",
+          "ability": "activate",
+          "property": "value",
+          "min": 1,
+          "max": 60
+        }
+      }
+    },
+    "switch_power": {
+      "type": "palladium:command",
+      "commands": [
+        "superpower add pantheonsent:moon_knight",
+        "superpower remove pantheonsent:moon_knight_transformation"
+      ],
+      "hidden": true,
+      "conditions": {
+        "unlocking": [
+          {
+            "type": "palladium:ability_ticks",
+            "ability": "render_layer",
+            "min": 217,
+            "max": 217
+          }
+        ]
+      }
+    },
+    "restrict_slots": {
+      "type": "palladium:restrict_slots",
+      "hidden": true,
+      "slots": [
+        "head", "chest", "legs", "feet"
+      ],
+      "conditions": {
+        "unlocking": {
+          "type": "palladium:ability_enabled",
+          "ability": "activate"
+        }
+      }
+    }
+  }
+}

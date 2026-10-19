@@ -1,0 +1,6 @@
+{
+  "type": "palladium:flight",
+  "propelled_sound": "palladium:player.flight.propelled",
+  "speed": 1,
+  "sprint_speed": 3
+}

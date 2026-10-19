@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:material/titanium"
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "palladium:titanium_ingot"
+  ],
+  "result": {
+    "count": 9,
+    "id": "palladium:titanium_nugget"
+  }
+}

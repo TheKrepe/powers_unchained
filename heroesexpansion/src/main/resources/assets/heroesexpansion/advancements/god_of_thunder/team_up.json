@@ -1,0 +1,19 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:captain_america_shield"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.god_of_thunder.team_up.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.god_of_thunder.team_up.description"
+        }
+    },
+    "parent": "heroesexpansion:god_of_thunder/power",
+    "criteria": {
+        "team_up" : {
+            "trigger" : "heroesexpansion:team_up"
+        }
+    }
+}

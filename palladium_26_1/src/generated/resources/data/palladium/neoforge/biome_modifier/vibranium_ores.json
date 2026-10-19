@@ -1,0 +1,9 @@
+{
+  "type": "palladium:feature_flag_add_features",
+  "biomes": "#palladium:contains_vibranium_ore",
+  "features": "#palladium:vibranium_ores",
+  "flags": [
+    "palladium:material/vibranium"
+  ],
+  "step": "underground_ores"
+}

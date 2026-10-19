@@ -1,0 +1,28 @@
+{
+  "result": {
+    "item": "heroesexpansion:explosive_arrow"
+  },
+  "ingredients": [
+    {
+      "item": "heroesexpansion:sharpened_arrow"
+    },
+    {
+      "item": "minecraft:tnt"
+    }
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:explosive_arrow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:sharpened_arrow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:tnt",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

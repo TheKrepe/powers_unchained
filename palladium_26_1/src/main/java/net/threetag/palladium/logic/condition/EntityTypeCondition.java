@@ -1,0 +1,64 @@
+package net.threetag.palladium.logic.condition;
+
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.world.entity.EntityType;
+import net.neoforged.neoforge.registries.holdersets.OrHolderSet;
+import net.threetag.palladium.documentation.CodecDocumentationBuilder;
+import net.threetag.palladium.logic.context.DataContext;
+import net.threetag.palladium.logic.context.DataContextKeys;
+import net.threetag.palladium.util.PalladiumHolderSet;
+
+import java.util.List;
+
+public record EntityTypeCondition(PalladiumHolderSet<EntityType<?>> entityType) implements Condition {
+
+    public static final MapCodec<EntityTypeCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+                    PalladiumHolderSet.codec(Registries.ENTITY_TYPE).fieldOf("entity_type").forGetter(EntityTypeCondition::entityType)
+            ).apply(instance, EntityTypeCondition::new)
+    );
+
+    @Override
+    public boolean test(DataContext context) {
+        var entity = context.get(DataContextKeys.ENTITY);
+
+        if (entity == null) {
+            return false;
+        }
+
+        var holder = BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(entity.getType());
+        return this.entityType.contains(holder);
+    }
+
+    @Override
+    public ConditionSerializer<EntityTypeCondition> getSerializer() {
+        return ConditionSerializers.ENTITY_TYPE.get();
+    }
+
+    public static class Serializer extends ConditionSerializer<EntityTypeCondition> {
+
+        @Override
+        public MapCodec<EntityTypeCondition> codec() {
+            return CODEC;
+        }
+
+        @Override
+        public void addDocumentation(CodecDocumentationBuilder<Condition, EntityTypeCondition> builder, HolderLookup.Provider provider) {
+            builder.setName("Entity Type")
+                    .setDescription("Checks if the entity is of a specific entity type")
+                    .add("entity_type", TYPE_ENTITY_TYPE_HOLDER_SET, "IDs or tags of the required entity type.")
+                    .addExampleObject(new EntityTypeCondition(PalladiumHolderSet.direct(HolderSet.direct(provider.holderOrThrow(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("sheep")))))))
+                    .addExampleObject(new EntityTypeCondition(PalladiumHolderSet.direct(new OrHolderSet<>(List.of(
+                            provider.lookupOrThrow(Registries.ENTITY_TYPE).getOrThrow(EntityTypeTags.BURN_IN_DAYLIGHT),
+                            HolderSet.direct(provider.holderOrThrow(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("sheep"))))
+                    )))));
+        }
+    }
+}

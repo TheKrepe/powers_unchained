@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "heroesexpansion:kryptonite_block"
+  },
+  "pattern": [
+    "XX",
+    "XX"
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:kryptonite_block",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:kryptonite",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "heroesexpansion:kryptonite"
+    }
+  }
+}

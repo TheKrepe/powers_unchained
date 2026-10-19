@@ -1,0 +1,7 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "speedsterheroes:items/zoom/helmet",
+		"layer1": "speedsterheroes:items/zoom/desc"
+	}
+}

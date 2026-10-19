@@ -1,0 +1,25 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:heart_shaped_herb_potion"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.vibranium.powers.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.vibranium.powers.description"
+        }
+    },
+    "parent": "heroesexpansion:vibranium/heart_shaped_herb",
+    "criteria": {
+        "get_power": {
+            "trigger" : "lucraftcore:get_superpower",
+            "conditions": {
+                "superpower" : "heroesexpansion:black_panther"
+            }
+        }
+    },
+	"rewards": {
+        "loot": ["heroesexpansion:black_panther_suit_instruction"]
+    }
+}

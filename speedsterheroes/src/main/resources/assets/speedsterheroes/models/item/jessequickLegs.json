@@ -1,0 +1,7 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "speedsterheroes:items/jessequick/legs",
+		"layer1": "speedsterheroes:items/jessequick/desc"
+	}
+}

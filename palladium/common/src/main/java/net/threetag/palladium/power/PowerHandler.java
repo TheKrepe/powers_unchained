@@ -1,0 +1,179 @@
+package net.threetag.palladium.power;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
+import net.threetag.palladium.network.UpdatePowersMessage;
+import net.threetag.palladium.power.provider.PowerProvider;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class PowerHandler implements IPowerHandler {
+
+    private final Map<ResourceLocation, IPowerHolder> powers = new HashMap<>();
+    private final LivingEntity entity;
+    private CompoundTag powerData = new CompoundTag();
+    private final List<IPowerHolder> tickRemoveBuffer = new ArrayList<>();
+    private final List<DefaultPowerHolder> tickAddBuffer = new ArrayList<>();
+
+    public PowerHandler(LivingEntity entity) {
+        this.entity = entity;
+    }
+
+    @Override
+    public Map<ResourceLocation, IPowerHolder> getPowerHolders() {
+        return Collections.unmodifiableMap(this.powers);
+    }
+
+    @Override
+    public void tick() {
+        if (!this.entity.level().isClientSide) {
+            this.tickRemoveBuffer.clear();
+            this.tickAddBuffer.clear();
+            PowerCollector collector = new PowerCollector(this.entity, this, this.tickRemoveBuffer, this.tickAddBuffer);
+
+            // Find invalid
+            for (IPowerHolder holder : this.powers.values()) {
+                if (holder.isInvalid()) {
+                    this.tickRemoveBuffer.add(holder);
+                }
+            }
+
+            // Get new ones
+            for (PowerProvider provider : PowerProvider.REGISTRY.getValues()) {
+                provider.providePowers(this.entity, this, collector);
+            }
+
+            // Remove old ones
+            for (IPowerHolder holder : this.tickRemoveBuffer) {
+                this.removePowerHolder(holder.getPower());
+            }
+
+            // Add new ones
+            for (DefaultPowerHolder holder : this.tickAddBuffer) {
+                this.setPowerHolder(holder.getPower(), holder);
+            }
+
+            // Sync
+            if (!this.tickRemoveBuffer.isEmpty() || !this.tickAddBuffer.isEmpty()) {
+                var removed = this.tickRemoveBuffer.stream().map(p -> p.getPower().getId()).toList();
+                var added = this.tickAddBuffer.stream().map(p -> p.getPower().getId()).toList();
+                var msg = new UpdatePowersMessage(this.entity, removed, added);
+                if (this.entity instanceof ServerPlayer serverPlayer) {
+                    msg.sendToTrackingAndSelf(serverPlayer);
+                } else {
+                    msg.sendToTracking(this.entity);
+                }
+            }
+        } else {
+//            List<Power> toRemove = new ArrayList<>();
+//            List<Power> toAdd = new ArrayList<>();
+//            for (IPowerHolder holder : this.powers.values()) {
+//                if(holder.getPower().isInvalid()) {
+//                    var newPower = PowerManager.getInstance(this.entity.level).getPower(holder.getPower().getId());
+//                    toRemove.add(holder.getPower());
+//                    if(newPower != null) {
+//                        toAdd.add(newPower);
+//                    }
+//                }
+//            }
+//
+//            if(!toRemove.isEmpty() || !toAdd.isEmpty()) {
+//                this.removeAndAddPowers(toRemove, toAdd);
+//            }
+        }
+
+        // Tick
+        for (IPowerHolder holder : this.powers.values()) {
+            holder.tick();
+        }
+    }
+
+    public void setPowerHolder(Power power, IPowerHolder holder) {
+        if (this.hasPower(power)) {
+            this.powers.put(power.getId(), holder);
+        } else {
+            this.powers.put(power.getId(), holder);
+            holder.fromNBT(this.powerData.getCompound(power.getId().toString()));
+            holder.firstTick();
+        }
+    }
+
+    public void removePowerHolder(Power power) {
+        this.removePowerHolder(power.getId());
+    }
+
+    public void removePowerHolder(ResourceLocation powerId) {
+        var holder = this.powers.remove(powerId);
+        if (holder != null) {
+            boolean isStillValid = !holder.getPower().isInvalid();
+            boolean hasPersistentData = holder.getPower().hasPersistentData();
+            holder.lastTick();
+
+            if (hasPersistentData) {
+                this.savePowerNbt(holder);
+            } else if (isStillValid) {
+                this.powerData.remove(powerId.toString());
+            }
+        }
+    }
+
+    @Override
+    public IPowerHolder getPowerHolder(Power power) {
+        return this.powers.get(power.getId());
+    }
+
+    @Override
+    public boolean hasPower(Power power) {
+        return this.powers.containsKey(power.getId());
+    }
+
+    @Override
+    public void removeAndAddPowers(List<Power> toRemove, List<Power> toAdd) {
+        if (this.entity.level().isClientSide) {
+            for (Power power : toRemove) {
+                this.removePowerHolder(power);
+            }
+
+            for (Power power : toAdd) {
+                this.setPowerHolder(power, new DefaultPowerHolder(this.entity, power, IPowerValidator.ALWAYS_ACTIVE));
+            }
+        }
+    }
+
+    @Override
+    public void fromNBT(CompoundTag nbt) {
+        this.powerData = nbt;
+    }
+
+    @Override
+    public CompoundTag toNBT() {
+        for (IPowerHolder holder : this.powers.values()) {
+            this.savePowerNbt(holder);
+        }
+        this.cleanPowerData();
+        return this.powerData;
+    }
+
+    public void savePowerNbt(IPowerHolder holder) {
+        this.powerData.put(holder.getPower().getId().toString(), holder.toNBT(true));
+    }
+
+    public void cleanPowerData() {
+        List<String> toRemove = new ArrayList<>();
+        for (String key : this.powerData.getAllKeys()) {
+            if (PowerManager.getInstance(this.entity.level()).getPower(new ResourceLocation(key)) == null) {
+                toRemove.add(key);
+            }
+        }
+        for (String key : toRemove) {
+            this.powerData.remove(key);
+        }
+    }
+
+}

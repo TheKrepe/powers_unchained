@@ -1,0 +1,231 @@
+itemGroup.tabSpeedster=極速者英雄
+itemGroup.tabSpeedsterArmor=極速者裝甲
+
+superpower.speedforce.name=神速力
+superpower.speedforce.description=神速力可以通過粒子加速器獲得,它能增強玩家的動作和反應能力。
+
+tile.particleAccelerator.name=粒子加速器控制方塊
+tile.particleAcceleratorPart.name=粒子加速器部件方塊
+tile.speedforceDampener.name=神速力阻礙器
+
+item.speedStealer.name=速度偷取器
+item.velocity9.name=終極速度 9
+item.tachyonPrototype.name=超光速粒子增強器
+item.tachyonCharge.name=超光速粒子充電器
+
+item.flashHelmet.name=閃電俠 面罩
+item.flashChestplate.name=閃電俠 胸甲
+item.flashLegs.name=閃電俠 護腿
+item.flashBoots.name=閃電俠 靴子
+
+item.reverseflashHelmet.name=逆閃電 面罩
+item.reverseflashChestplate.name=逆閃電 胸甲
+item.reverseflashLegs.name=逆閃電 護腿
+item.reverseflashBoots.name=逆閃電 靴子
+
+item.zoomHelmet.name=極速 面罩
+item.zoomChestplate.name=極速 胸甲
+item.zoomLegs.name=極速 護腿
+item.zoomBoots.name=極速 靴子
+
+item.jaygarrickHelmet.name=傑伊·加里克 頭盔
+item.jaygarrickChestplate.name=傑伊·加里克 胸甲
+item.jaygarrickLegs.name=傑伊·加里克 護腿
+item.jaygarrickBoots.name=傑伊·加里克 靴子
+
+item.jaygarrick2Chestplate.name=傑伊·加里克 胸甲
+item.jaygarrick2Legs.name=傑伊·加里克 護腿
+item.jaygarrick2Boots.name=傑伊·加里克 靴子
+
+item.kidflashHelmet.name=閃電小子 面罩
+item.kidflashChestplate.name=閃電小子 胸甲
+item.kidflashLegs.name=閃電小子 護腿
+item.kidflashBoots.name=閃電小子 靴子
+
+item.therivalHelmet.name=競爭者 面罩
+item.therivalChestplate.name=競爭者 胸甲
+item.therivalLegs.name=競爭者 護腿
+item.therivalBoots.name=競爭者 靴子
+
+item.trajectoryHelmet.name=彈道 眼罩
+item.trajectoryChestplate.name=彈道 胸甲
+item.trajectoryLegs.name=彈道 護腿
+item.trajectoryBoots.name=彈道 靴子
+
+item.dceuflashHelmet.name=閃電俠 面罩
+item.dceuflashChestplate.name=閃電俠 胸甲
+item.dceuflashLegs.name=閃電俠 護腿
+item.dceuflashBoots.name=閃電俠 靴子
+
+item.comicflashHelmet.name=閃電俠 面罩
+item.comicflashChestplate.name=閃電俠 胸甲
+item.comicflashLegs.name=閃電俠 護腿
+item.comicflashBoots.name=閃電俠 靴子
+
+item.comicreverseflashHelmet.name=逆閃電 面罩
+item.comicreverseflashChestplate.name=逆閃電 胸甲
+item.comicreverseflashLegs.name=逆閃電 護腿
+item.comicreverseflashBoots.name=逆閃電 靴子
+
+item.professorzoomHelmet.name=極速教授 面罩
+item.professorzoomChestplate.name=極速教授 胸甲
+item.professorzoomLegs.name=極速教授 護腿
+item.professorzoomBoots.name=極速教授 靴子
+
+item.new52flashHelmet.name=閃電俠 面罩
+item.new52flashChestplate.name=閃電俠 胸甲
+item.new52flashLegs.name=閃電俠 護腿
+item.new52flashBoots.name=閃電俠 靴子
+
+item.godspeedHelmet.name=神速 頭罩
+item.godspeedChestplate.name=神速 胸甲
+item.godspeedLegs.name=神速 護腿
+item.godspeedBoots.name=神速 靴子
+
+item.quicksilverChestplate.name=快銀 上衣
+item.quicksilverLegs.name=快銀 護腿
+item.quicksilverBoots.name=快銀 靴子
+
+item.xmenquicksilverHelmet.name=快銀的護目鏡和耳機
+item.xmenquicksilverChestplate.name=快銀 外衣
+item.xmenquicksilverLegs.name=快銀 褲子
+item.xmenquicksilverBoots.name=快銀 靴子
+
+item.speedHelmet.name=速度 護目鏡
+item.speedChestplate.name=速度 上衣
+item.speedLegs.name=速度 護腿
+item.speedBoots.name=速度 靴子
+
+item.flayChestplate.name=菲利 襯衫
+item.flayLegs.name=菲利 褲子
+item.flayBoots.name=菲利 靴子
+
+potion.velocity9=終極速度 9
+potion.speedShock=速度衝擊
+entity.SpeedsterHeroes.timeRemnant.name=時間殘餘
+entity.SpeedsterHeroes.timeWraith.name=時間亡靈
+
+speedsterheroes.info.helmet.name=頭盔/面罩
+speedsterheroes.info.chestplate.name=胸甲/上衣
+speedsterheroes.info.legs.name=護腿
+speedsterheroes.info.boots.name=靴子
+speedsterheroes.info.applicableto=適用於
+speedsterheroes.info.speedlevel=速度等級
+speedsterheroes.info.abilities=能力
+speedsterheroes.info.trail=特效
+speedsterheroes.info.extraspeedlevel=額外速度等級
+speedsterheroes.info.levelup=你已經達到 %L 等級!
+speedsterheroes.info.speedsterpoints=極速者點數
+speedsterheroes.info.buyability=解鎖能力
+speedsterheroes.info.notenoughspeedsterpoints=沒有足夠的極速者點數!
+speedsterheroes.info.activated=已啟用
+speedsterheroes.info.deactivated=未啟用
+speedsterheroes.info.unlock=解鎖
+speedsterheroes.info.issuitneeded=需要裝甲
+speedsterheroes.info.symbolprefix=的胸章
+speedsterheroes.info.canbecrafted=可以合成
+speedsterheroes.info.canbefoundindungeons=可以在地牢找到
+speedsterheroes.info.teleport=傳送
+speedsterheroes.info.save=保存
+speedsterheroes.info.red=紅色
+speedsterheroes.info.green=綠色
+speedsterheroes.info.blue=藍色
+speedsterheroes.info.tachyoncharge=用神速力跑步時可以充電
+speedsterheroes.info.abilitydisabled=這個能力無法使用！
+speedsterheroes.info.specialcolors=特別顏色
+speedsterheroes.info.repairingitem=修復物品
+speedsterheroes.info.description=Description
+speedsterheroes.info.cooldown=Cooldown
+speedsterheroes.info.seconds=Seconds
+
+speedsterheroes.abilities.wallRunning.name=牆上行走
+speedsterheroes.abilities.wallRunning.desc=跳上牆並能跑在牆上
+speedsterheroes.abilities.waterRunning.name=水上行走
+speedsterheroes.abilities.waterRunning.desc=在速度5級或以上跑步,即可在水上行走
+speedsterheroes.abilities.lightningThrowing.name=投擲閃電
+speedsterheroes.abilities.lightningThrowing.desc=跑步+跳躍+攻擊空氣,即可投擲閃電
+speedsterheroes.abilities.phasing.name=穿牆
+speedsterheroes.abilities.phasing.desc=按 裝甲動作 1 即可穿牆
+speedsterheroes.abilities.slowmo.name=時間減慢
+speedsterheroes.abilities.slowmo.desc=按 裝甲動作 3 即可將時間減慢 (只適用於單人遊戲!)
+speedsterheroes.abilities.dimensionBreach.name=次元裂縫
+speedsterheroes.abilities.dimensionBreach.desc=按 裝甲動作 3 並且 以速度等級8的速度衝刺着,即可制造次元裂縫
+speedsterheroes.abilities.timeRemnant.name=時間殘餘
+speedsterheroes.abilities.timeRemnant.desc=按 裝甲動作 2 並且 以速度等級8的速度衝刺着,即可制造時間殘餘
+speedsterheroes.abilities.speedforceJump.name=神速力跳躍
+speedsterheroes.abilities.speedforceJump.desc=在降落時按 潛行 ,即可制造衝擊波 (只適用於生存模式)
+
+speedsterheroes.speedstertypes.flash.name=閃電俠
+speedsterheroes.speedstertypes.reverseFlash.name=逆閃電
+speedsterheroes.speedstertypes.zoom.name=極速
+speedsterheroes.speedstertypes.jayGarrick.name=傑伊·加里克
+speedsterheroes.speedstertypes.jayGarrick2.name=傑伊·加里克
+speedsterheroes.speedstertypes.kidFlash.name=閃電小子
+speedsterheroes.speedstertypes.theRival.name=競爭者
+speedsterheroes.speedstertypes.trajectory.name=彈道
+speedsterheroes.speedstertypes.dceuFlash.name=閃電俠
+speedsterheroes.speedstertypes.comicFlash.name=閃電俠
+speedsterheroes.speedstertypes.comicReverseFlash.name=逆閃電
+speedsterheroes.speedstertypes.professorZoom.name=極速教授
+speedsterheroes.speedstertypes.new52Flash.name=閃電俠
+speedsterheroes.speedstertypes.godspeed.name=神速
+speedsterheroes.speedstertypes.quicksilver.name=快銀
+speedsterheroes.speedstertypes.xmenQuicksilver.name=快銀
+speedsterheroes.speedstertypes.speed.name=速度
+speedsterheroes.speedstertypes.flay.name=菲利
+
+speedsterheroes.trailtype.normal.name=標準
+speedsterheroes.trailtype.lightnings.name=閃電
+speedsterheroes.trailtype.lightnings_orange.name=橙色閃電
+speedsterheroes.trailtype.lightnings_red.name=紅色閃電
+speedsterheroes.trailtype.lightnings_blue.name=藍色閃電
+speedsterheroes.trailtype.lightnings_gold.name=金色閃電
+speedsterheroes.trailtype.randomlightnings.name=電光
+speedsterheroes.trailtype.randomlightnings_lightblue.name=藍色電光
+speedsterheroes.trailtype.particles.name=幻影
+speedsterheroes.trailtype.particles_blue.name=藍色幻影
+speedsterheroes.trailtype.particles_green.name=綠色幻影
+
+speedsterheroes.keybinding.keySpeed=開啟速度
+speedsterheroes.keybinding.keyFaster=加快速度
+speedsterheroes.keybinding.keySlower=減慢速度
+speedsterheroes.keybinding.keyLeveling=能力表
+speedsterheroes.keybinding.keyTrail=自定特效
+
+achievement.becomeSpeedster=你沒料到這招吧?
+achievement.becomeSpeedster.desc=成為極速者
+achievement.frictionBurn=霹靂火
+achievement.frictionBurn.desc=因為摩擦而燒傷
+achievement.velocity9=速度藥物
+achievement.velocity9.desc=使用終極速度 9
+achievement.wallRunning=牆上跑
+achievement.wallRunning.desc=在牆上跑
+achievement.waterRunning=耶穌
+achievement.waterRunning.desc=在水上跑
+achievement.lightningThrowing=投擲閃電
+achievement.lightningThrowing.desc=投擲閃電
+achievement.phasing=幽靈
+achievement.phasing.desc=穿牆
+achievement.timeRemnant=1是個孤獨的數字
+achievement.timeRemnant.desc=制造時間殘餘
+achievement.speedforceJump=帶電的
+achievement.speedforceJump.desc=制造 衝擊波
+achievement.dimensionBreach=探索其他世界
+achievement.dimensionBreach.desc=打開次元裂縫
+achievement.slowmo=時間瓶子
+achievement.slowmo.desc=將時間減慢
+
+commands.speedforce.usage=/speedforce [玩家名稱] [on/off]
+commands.speedforce.success.self=你的神速力已 %s
+commands.speedforce.success.other=%s的神速力已 %s
+commands.setspeedsterlevel.usage=/setspeedsterlevel [玩家名稱] [等級]
+commands.setspeedsterlevel.success.self=已設置等級為 %s
+commands.setspeedsterlevel.success.other=%s的等級已設置為 %s
+commands.setspeedsterpoints.usage=/setspeedsterpoints [玩家名稱] [點數]
+commands.setspeedsterpoints.success.self=已設置點數為 %s
+commands.setspeedsterpoints.success.other=%s的點數已設置為 %s
+commands.setextraspeedlevels.usage=/setextraspeedlevels [玩家名稱] [額外速度等級]
+commands.setextraspeedlevels.success.self=已設置額外速度等級為 %s
+commands.setextraspeedlevels.success.other=%s的額外速度等級已設置為 %s
+
+book.chapter.speedsters.name=極速者

@@ -1,0 +1,42 @@
+{
+  "result": {
+    "item": "heroesexpansion:compound_bow"
+  },
+  "pattern": [
+    "NIS",
+    "IBF",
+    "SF "
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:compound_bow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:bow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:string",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "B": {
+      "item": "minecraft:bow"
+    },
+    "S": {
+      "item": "#INGOTSTEEL"
+    },
+    "F": {
+      "item": "minecraft:string"
+    },
+    "I": {
+      "item": "#INGOTIRON"
+    },
+    "N": {
+      "item": "#NUGGETSTEEL"
+    }
+  }
+}

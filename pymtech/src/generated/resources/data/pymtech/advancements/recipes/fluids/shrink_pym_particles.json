@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "pymtech:shrink_pym_particles"
+    ]
+  },
+  "criteria": {
+    "has_intertium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/intertium"
+          }
+        ]
+      }
+    },
+    "has_palladium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/palladium"
+          }
+        ]
+      }
+    },
+    "has_redstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:dusts/redstone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "pymtech:shrink_pym_particles"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_intertium",
+      "has_palladium",
+      "has_redstone",
+      "has_the_recipe"
+    ]
+  ]
+}

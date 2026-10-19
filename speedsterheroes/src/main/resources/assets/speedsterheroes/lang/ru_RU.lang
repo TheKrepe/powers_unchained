@@ -1,0 +1,305 @@
+itemGroup.tabSpeedster=SpeedsterHeroes
+itemGroup.tabSpeedsterArmor=Костюми Спидстеров 
+
+superpower.speedforce.name=Сила Скорости
+superpower.speedforce.description=Сила Скорости позволяет игроку повысить их движения и рефлексы. Она может быть получена с помощью ускорителя частиц.
+
+tile.particleAccelerator.name=Управляющий Блок Укорителся Частиц
+tile.particleAcceleratorPart.name=Часть Укорителся Частиц
+tile.speedforceDampener.name=Глушитель Сили Скорости
+tile.philosophersStoneChest.name=Контейнер Философского камня
+
+item.speedStealer.name=Ворователь СилиСкорости
+item.velocity9.name=Скорость 9
+item.tachyonPrototype.name=Тахионный Прототип
+item.tachyonCharge.name=Тахионный Заряд
+item.ring.name=Кольцо с Костюмом
+item.ringUpgrade.name=Кольцо с Костюмом Абгрейд
+item.philosophersStone.name=Философский Камень
+
+item.flashHelmet.name=Маска Флэша
+item.flashChestplate.name=Нагрудник Флэша
+item.flashLegs.name=Штаны Флэша
+item.flashBoots.name=Ботинки Флэша
+
+item.reverseflashHelmet.name=Маска Обратного флэша
+item.reverseflashChestplate.name=Нагрудник Обратный Флэша
+item.reverseflashLegs.name=Штаны Обратный Флэша
+item.reverseflashBoots.name=Ботинки Обратный Флэша
+
+item.zoomHelmet.name=Маска Зума
+item.zoomChestplate.name=Нагрудник Зума
+item.zoomLegs.name=Штаны Зума
+item.zoomBoots.name=Ботинки Зума
+
+item.jaygarrickHelmet.name=Шлем Джея Гаррика
+item.jaygarrickChestplate.name=Нагрудник Джея Гаррика
+item.jaygarrickLegs.name=Штаны Джея Гаррика
+item.jaygarrickBoots.name=Ботинки Джея Гаррика
+
+item.jaygarrick2Chestplate.name=Нагрудник Джея Гаррика
+item.jaygarrick2Legs.name=Штаны Джея Гаррика
+item.jaygarrick2Boots.name=Ботинки Джея Гаррика
+
+item.kidflashHelmet.name=Маска Кид флэша
+item.kidflashChestplate.name=Нагрудник Кид флэша
+item.kidflashLegs.name=Штаны Кид флэша
+item.kidflashBoots.name=Ботинки Кид флэша
+
+item.therivalHelmet.name=Маска Конкурента
+item.therivalChestplate.name=Нагрудник Конкурента
+item.therivalLegs.name=Штаны Конкурента
+item.therivalBoots.name=Ботинки Конкурента
+
+item.trajectoryHelmet.name=Маска Траектории
+item.trajectoryChestplate.name=Нагрудник Траектории
+item.trajectoryLegs.name=Штаны Траектории
+item.trajectoryBoots.name=Ботинки Траектории
+
+item.jessequickHelmet.name=Маска Джесси Квик
+item.jessequickChestplate.name=Нагрудник Джесси Квик
+item.jessequickLegs.name=Штаны Джесси Квик
+item.jessequickBoots.name=Ботинки Джесси Квик
+
+item.savitarHelmet.name=Маска Савитара
+item.savitarChestplate.name=Нагрудник Савитара
+item.savitarLegs.name=Штаны Савитара
+item.savitarBoots.name=Ботинки Савитара
+
+item.dceuflashHelmet.name=Маска Флэша
+item.dceuflashChestplate.name=Нагрудник Флэша
+item.dceuflashLegs.name=Штаны Флэша
+item.dceuflashBoots.name=Ботинки Флэша
+
+item.comicflashHelmet.name=Маска Флэша
+item.comicflashChestplate.name=Нагрудник Флэша
+item.comicflashLegs.name=Штаны Флэша
+item.comicflashBoots.name=Ботинки Флэша
+
+item.comicreverseflashHelmet.name=Маска Обратного флэша
+item.comicreverseflashChestplate.name=Нагрудник Обратного флэша
+item.comicreverseflashLegs.name=Штаны Обратного флэша
+item.comicreverseflashBoots.name=Ботинки Обратного флэша
+
+item.professorzoomHelmet.name=Маска Профессора Зума
+item.professorzoomChestplate.name=Нагрудник Профессора Зума
+item.professorzoomLegs.name=Штаны Профессора Зума
+item.professorzoomBoots.name=Ботинки Профессора Зума
+
+item.new52flashHelmet.name=Маска Флэша
+item.new52flashChestplate.name=Нагрудник Флэша
+item.new52flashLegs.name=Штаны Флэша
+item.new52flashBoots.name=Ботинки Флэша
+
+item.wallywestcomicflashHelmet.name=Маска Уолли Уэста
+item.wallywestcomicflashChestplate.name=Нагрудник Уолли Уэста
+item.wallywestcomicflashLegs.name=Штаны Уолли Уэста
+item.wallywestcomicflashBoots.name=Ботинки Уолли Уэста
+
+item.wallywestcomickidflashHelmet.name=Маска Уолли Уэста
+item.wallywestcomickidflashChestplate.name=Нагрудник Уолли Уэста
+item.wallywestcomickidflashLegs.name=Штаны Уолли Уэста
+item.wallywestcomickidflashBoots.name=Ботинки Уолли Уэста
+
+item.rebirthwallywestHelmet.name=Маска Уолли Уэста
+item.rebirthwallywestChestplate.name=Нагрудник Уолли Уэста
+item.rebirthwallywestLegs.name=Штаны Уолли Уэста
+item.rebirthwallywestBoots.name=Ботинки Уолли Уэста
+
+item.comicjessequickHelmet.name=Маска Джесси Квик
+item.comicjessequickChestplate.name=Нагрудник Джесси Квик
+item.comicjessequickLegs.name=Штаны Джесси Квик
+item.comicjessequickBoots.name=Ботинки Джесси Квик
+
+item.godspeedHelmet.name=Маска Бога Скорости
+item.godspeedChestplate.name=Нагрудник Бога Скорости
+item.godspeedLegs.name=Штаны Бога Скорости
+item.godspeedBoots.name=Ботинки Бога Скорости
+
+item.quicksilverChestplate.name=Нагрудник Ртути
+item.quicksilverLegs.name=Штаны Ртути
+item.quicksilverBoots.name=Ботинки Ртути
+
+item.xmenquicksilverHelmet.name=Очки и Наушники Ртути
+item.xmenquicksilverChestplate.name=Куртка Ртути
+item.xmenquicksilverLegs.name=Брюки Ртути
+item.xmenquicksilverBoots.name=Ботинки Ртути
+
+item.comicquicksilverChestplate.name=Нагрудник Ртути
+item.comicquicksilverLegs.name=Штаны Ртути
+item.comicquicksilverBoots.name=Ботинки Ртути
+
+item.speedHelmet.name=Очки Скорости
+item.speedChestplate.name=Нагрудник Скорости
+item.speedLegs.name=Штаны Скорости
+item.speedBoots.name=Ботинки Скорости
+
+item.flayChestplate.name=Рубашка Флея
+item.flayLegs.name=Брюки Флея
+item.flayBoots.name=Ботинки Флея
+
+item.starlabstrainingHelmet.name=S.T.A.R. Labs Тренеровачный Капюшон
+item.starlabstrainingChestplate.name=S.T.A.R. Labs Тренеровачный Свитер 
+item.starlabstrainingLegs.name=S.T.A.R. Labs Тренеровачные Брюки
+item.starlabstrainingBoots.name=S.T.A.R. Labs Тренировочная обувь
+
+potion.velocity9=Скорость 9
+potion.speedShock=Скоросной Шок
+entity.speedsterheroes.timeRemnant.name=Временной Реликт
+entity.speedsterheroes.timeWraith.name=Призрак Времени
+
+speedsterheroes.info.helmet.name=Шлем
+speedsterheroes.info.chestplate.name=Нагрудник
+speedsterheroes.info.legs.name=Штаны
+speedsterheroes.info.boots.name=Ботинки
+speedsterheroes.info.applicableto=Применимый к
+speedsterheroes.info.speedlevel=Уровень Скорости
+speedsterheroes.info.abilities=Способности
+speedsterheroes.info.trail=След
+speedsterheroes.info.extraspeedlevel=Дополнительные Уровни Скорости
+speedsterheroes.info.levelup=Вы Достигли Уровня %L!
+speedsterheroes.info.speedsterpoints=Очки Спидстера
+speedsterheroes.info.buyability=Разблокировка способность
+speedsterheroes.info.notenoughspeedsterpoints=Не хватает Спидстерских очков!
+speedsterheroes.info.activated=Активированный
+speedsterheroes.info.deactivated=Дезактивированный
+speedsterheroes.info.unlock=Разблокировать
+speedsterheroes.info.issuitneeded=Нужен Костюм
+speedsterheroes.info.symbolprefix='s Символ
+speedsterheroes.info.canbecrafted=Может Быть Игтоволен
+speedsterheroes.info.canbefoundindungeons=Можно Найти в Данжах
+speedsterheroes.info.teleport=Телепорт
+speedsterheroes.info.save=Сохренить
+speedsterheroes.info.red=Красный
+speedsterheroes.info.green=Зеленый
+speedsterheroes.info.blue=синий
+speedsterheroes.info.tachyoncharge=Может Бить Заряжен Когда Бежиш с Силой Скорости
+speedsterheroes.info.abilitydisabled=Эта способность отключена!
+speedsterheroes.info.specialcolors=Специальные цвета
+speedsterheroes.info.repairingitem=Ремонт Вещи
+speedsterheroes.info.putsuitinring=Запихнуть Костюм в Кольцо
+speedsterheroes.info.description=Описание
+speedsterheroes.info.cooldown=Перезарижаетса
+speedsterheroes.info.seconds=Секунди
+speedsterheroes.info.doublexp=Придает вам в два раза больше XP во время бега
+speedsterheroes.info.containsstone=Содержит камень
+speedsterheroes.info.enableability=Включить Способность
+speedsterheroes.info.disableability=Виключить Способность
+
+speedsterheroes.abilities.wallRunning.name=Бег По стене 
+speedsterheroes.abilities.wallRunning.desc=Пригни на стену, чтобы иметь возможность ходить по ней.
+speedsterheroes.abilities.waterRunning.name=Бег По воде
+speedsterheroes.abilities.waterRunning.desc=Будь на уровне скорости 5 или више и спринтуй штоб ходить по воде.
+speedsterheroes.abilities.lightningThrowing.name=Кинуть Молнию
+speedsterheroes.abilities.lightningThrowing.desc=Ударь воздух когда разогнался и пригнул штоб кинуть молнию.
+speedsterheroes.abilities.phasing.name=Провебрировать Сквозь Стену
+speedsterheroes.abilities.phasing.desc=Нажми Действие-Брони1 (%ARMOR_KEY_1) Штоб пройти через стену.
+speedsterheroes.abilities.slowmo.name=слоу моушн
+speedsterheroes.abilities.slowmo.desc=Нажми Действие-Брони3 (%ARMOR_KEY_3) Штоб включить в мире Слоу Моушн. (Роботает только в одиночной Игре!)
+speedsterheroes.abilities.dimensionBreach.name=Мост измерений
+speedsterheroes.abilities.dimensionBreach.desc=Нажми Действие-Брони3 (%ARMOR_KEY_3) и спринтуй с уровнем скорости 8 или више штоб призвать Мост измерений.
+speedsterheroes.abilities.timeRemnant.name=Временной Реликт
+speedsterheroes.abilities.timeRemnant.desc=Нажми Действие-Брони2 (%ARMOR_KEY_2) и спринтуй с уровнем скорости 8 или више штоб призвать Временной Реликт Самовосебя.
+speedsterheroes.abilities.speedforceJump.name=Прижок Сили Скорости
+speedsterheroes.abilities.speedforceJump.desc=Нажми Shift когда падаеш штоб визвать скоросную волну. (Работает только в Выживании!)
+speedsterheroes.abilities.invisibility.name=Невидимость
+speedsterheroes.abilities.invisibility.desc=Когда ключено только спидстери могут видеть тебя.
+speedsterheroes.abilities.speedforcePortal.name=Портал Сили Скорости
+speedsterheroes.abilities.speedforcePortal.desc=Нажми Действие-Брони4 (%ARMOR_KEY_4) И буть на уровне скорости 12 или више штоб войти в портал Сили Скорости.
+
+speedsterheroes.speedstertypes.flash.name=Флэш
+speedsterheroes.speedstertypes.reverseFlash.name=Обратный Флэша
+speedsterheroes.speedstertypes.zoom.name=Зум
+speedsterheroes.speedstertypes.jayGarrick.name=Джей Гаррик
+speedsterheroes.speedstertypes.jayGarrick2.name=Джей Гаррик
+speedsterheroes.speedstertypes.kidFlash.name=Кид Флэш
+speedsterheroes.speedstertypes.theRival.name=Конкурент
+speedsterheroes.speedstertypes.trajectory.name=Траекториа
+speedsterheroes.speedstertypes.jesseQuick.name=Джесси Квик
+speedsterheroes.speedstertypes.savitar.name=Савитар
+speedsterheroes.speedstertypes.dceuFlash.name=Флэш
+speedsterheroes.speedstertypes.comicFlash.name=Флэш
+speedsterheroes.speedstertypes.comicReverseFlash.name=Обратный Флэша
+speedsterheroes.speedstertypes.professorZoom.name=Профессор Зум
+speedsterheroes.speedstertypes.new52Flash.name=Флэш
+speedsterheroes.speedstertypes.wallyWestComicFlash.name=Уолли Уэст
+speedsterheroes.speedstertypes.wallyWestComicKidFlash.name=Уолли Уэст
+speedsterheroes.speedstertypes.rebirthWallyWest.name=Уолли Уэст
+speedsterheroes.speedstertypes.comicJesseQuick.name=Джесси Квик
+speedsterheroes.speedstertypes.godspeed.name=Бог Скорости
+speedsterheroes.speedstertypes.quicksilver.name=Ртуть
+speedsterheroes.speedstertypes.xmenQuicksilver.name=Ртуть
+speedsterheroes.speedstertypes.comicQuicksilver.name=Ртуть
+speedsterheroes.speedstertypes.speed.name=Скорость
+speedsterheroes.speedstertypes.flay.name=Флей
+speedsterheroes.speedstertypes.starLabsTraining.name=S.T.A.R. Labs Тренеровачный Костюм
+
+speedsterheroes.trailtype.normal.name=Standard
+speedsterheroes.trailtype.lightnings.name=Молнии
+speedsterheroes.trailtype.lightnings_orange.name=Оранжевые Молнии
+speedsterheroes.trailtype.lightnings_red.name=Красные Молнии
+speedsterheroes.trailtype.lightnings_blue.name=Синие Молнии
+speedsterheroes.trailtype.lightnings_gold.name=золотые Молнии
+speedsterheroes.trailtype.lightnings_brightgold.name=ярко золотые Молнии
+speedsterheroes.trailtype.lightnings_white.name=Белие Молнии
+speedsterheroes.trailtype.lightnings_lightblue.name=Светло-Синие Молнии
+speedsterheroes.trailtype.randomlightnings.name=Электричество
+speedsterheroes.trailtype.randomlightnings_lightblue.name=Синие Электричество
+speedsterheroes.trailtype.particles.name=Частицы
+speedsterheroes.trailtype.particles_blue.name=Синие Частицы
+speedsterheroes.trailtype.particles_green.name=зеленые Частицы
+
+speedsterheroes.keybinding.keySpeed=Включить/Виключить Скорость
+speedsterheroes.keybinding.keyFaster=Бистрее
+speedsterheroes.keybinding.keySlower=Медленее
+speedsterheroes.keybinding.keyLeveling=Меню Способностей
+speedsterheroes.keybinding.keyTrail=Кастюмезировать След
+
+achievement.becomeSpeedster=Ты не видел, что случитса?
+achievement.becomeSpeedster.desc=Стать спидстером
+achievement.frictionBurn=человек факел
+achievement.frictionBurn.desc=Сгореть из-за трения
+achievement.velocity9=Скоросние наркотики
+achievement.velocity9.desc=Принять Скорость-9
+achievement.wallRunning=Беги по стенам
+achievement.wallRunning.desc=Уметь бежать по стенам
+achievement.waterRunning=Иисус
+achievement.waterRunning.desc=Ходить по воде
+achievement.lightningThrowing=Кидать Молнии
+achievement.lightningThrowing.desc=Уметь Кидать Молнии
+achievement.phasing=Бить призраком
+achievement.phasing.desc=Бежать через стену
+achievement.timeRemnant=1 одинокий номер
+achievement.timeRemnant.desc=Уметь делать Временной Реликт
+achievement.speedforceJump=Электризующий
+achievement.speedforceJump.desc=Уметь делать скоросную волну
+achievement.invisibility=Невидимость
+achievement.invisibility.desc=Только Спидстери Видят тебя
+achievement.speedforcePortal=Быстрое путешествие
+achievement.speedforcePortal.desc=Уметь откривать портали Сили Скорости
+achievement.dimensionBreach=Исследуйте другие миры
+achievement.dimensionBreach.desc=Уметь откривать мост к другим вселеним
+achievement.slowmo=Время в бутилке
+achievement.slowmo.desc=Включить Слоу Мо
+
+commands.speedforce.usage=/speedforce [player] [on/off]
+commands.speedforce.success.self=Your speedforce was %s
+commands.speedforce.success.other=%s's speedforce was %s
+commands.setspeedsterlevel.usage=/setspeedsterlevel [player] [level]
+commands.setspeedsterlevel.success.self=Set speedster level to %s
+commands.setspeedsterlevel.success.other=Set %s's speedster level to %s
+commands.setspeedsterlevel.nopower=That player doesn't have Speedforce superpower.
+commands.setspeedsterpoints.usage=/setspeedsterpoints [player] [points]
+commands.setspeedsterpoints.success.self=Set speedster points to %s
+commands.setspeedsterpoints.success.other=Set %s's speedster points to %s
+commands.setspeedsterpoints.nopower=That player doesn't have Speedforce superpower.
+commands.setextraspeedlevels.usage=/setextraspeedlevels [player] [extra levels]
+commands.setextraspeedlevels.success.self=Set extra speed levels to %s
+commands.setextraspeedlevels.success.other=Set %s's extra speed levels to %s
+commands.setextraspeedlevels.nopower=That player doesn't have Speedforce superpower.
+
+subtitles.flicker=Мерцание молнии игрока и звуков
+subtitles.vibrating=Звуки и вибрация игрока
+
+book.chapter.speedsters.name=Спидстери
+book.ancientArtifacts.philosophersStone.desc=Философский камень, или брахмастры, является первым артефакт, чтобы иметь возможность создать мета-людей. Он был ответственен за создание Savitar и может дать игрокам Силу Скорости. 

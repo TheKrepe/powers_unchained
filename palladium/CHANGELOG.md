@@ -1,0 +1,7 @@
+- Added "gui_frame_type" property to abilities
+- Fixed various flight bugs
+- Fixed Palladium Addons button appearing twice sometimes on Fabric
+- Fixed beams being messed up in first person sometimes
+- Fixed power screen not allowing to scroll by dragging scrollbar
+- Fixed messed up trail scale & lightning sparks when scaled by Pehkui
+- Fixed crash with Patchouli

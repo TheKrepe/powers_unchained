@@ -1,0 +1,8 @@
+{
+  "icon": "test:basic_item",
+  "items": [
+    "minecraft:stick",
+    "minecraft:diamond",
+    "minecraft:cobblestone"
+  ]
+}

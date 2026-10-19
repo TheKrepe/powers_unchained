@@ -1,0 +1,28 @@
+{
+  "result": {
+    "item": "heroesexpansion:kryptonite_arrow"
+  },
+  "ingredients": [
+    {
+      "item": "heroesexpansion:sharpened_arrow"
+    },
+    {
+      "item": "heroesexpansion:kryptonite"
+    }
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:kryptonite_arrow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:sharpened_arrow",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "heroesexpansion:kryptonite",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

@@ -1,0 +1,40 @@
+{
+  "result": {
+    "item": "heroesexpansion:quiver"
+  },
+  "pattern": [
+    "XSX",
+    "XAX",
+    " X "
+  ],
+  "conditions": [
+    {
+      "item": "heroesexpansion:quiver",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:leather",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:string",
+      "type": "minecraft:item_exists"
+    },
+    {
+      "item": "minecraft:arrow",
+      "type": "minecraft:item_exists"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:arrow"
+    },
+    "S": {
+      "item": "minecraft:string"
+    },
+    "X": {
+      "item": "minecraft:leather"
+    }
+  }
+}

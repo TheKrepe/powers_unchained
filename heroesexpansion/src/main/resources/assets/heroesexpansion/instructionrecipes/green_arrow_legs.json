@@ -1,0 +1,15 @@
+{
+  "output": {
+    "item": "heroesexpansion:green_arrow_legs"
+  },
+  "requirements": [
+    {
+      "item": "lucraftcore:tri_polymer_green",
+      "amount": 7
+    },
+    {
+      "item": "lucraftcore:tri_polymer_black",
+      "amount": 4
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:feature_flags_enabled",
+      "flags": [
+        "palladium:item/vials"
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": "#c:glass_blocks",
+    "I": "#c:ingots/iron"
+  },
+  "pattern": [
+    "GIG",
+    "G G",
+    "GIG"
+  ],
+  "result": {
+    "count": 3,
+    "id": "palladium:vial"
+  }
+}

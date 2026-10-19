@@ -1,0 +1,42 @@
+{
+  "initial_state": "hovering",
+  "blend_transition": 10,
+  "animations": {
+    "hover": "palladium:flight.propelled",
+    "move": "palladium:flight.levitating",
+    "descend": "palladium:flight.propelled",
+    "land": "palladium:flight.super_hero_landing"
+  },
+  "states": {
+    "hovering": {
+      "animation": "#hover",
+      "transitions": {
+        "moving": "palladium.flight_phase() == 2",
+        "descending": "palladium.flight_phase() == 4",
+        "landing": "palladium.flight_phase() == 5"
+      }
+    },
+    "moving": {
+      "animation": "#move",
+      "transitions": {
+        "hovering": "palladium.flight_phase() == 1 && math.abs(palladium.flight_speed_forward()) < 0.1 && math.abs(palladium.flight_speed_sideways()) < 0.1",
+        "descending": "palladium.flight_phase() == 4",
+        "landing": "palladium.flight_phase() == 5"
+      }
+    },
+    "descending": {
+      "animation": "#descend",
+      "transitions": {
+        "hovering": "palladium.flight_phase() == 1",
+        "moving": "palladium.flight_phase() == 2",
+        "landing": "palladium.flight_phase() == 5"
+      }
+    },
+    "landing": {
+      "animation": "#land",
+      "transitions": {
+        "descending": "palladium.flight_phase() == 4"
+      }
+    }
+  }
+}

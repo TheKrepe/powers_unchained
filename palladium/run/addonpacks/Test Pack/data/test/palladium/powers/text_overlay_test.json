@@ -1,0 +1,62 @@
+{
+  "name": "Text Overlay Test",
+  "icon": "minecraft:red_stained_glass_pane",
+  "abilities": {
+    "top_left": {
+      "type": "palladium:text_overlay",
+      "title": "Top Left",
+      "text": "Top Left",
+      "hidden": false,
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:toggle"
+        }
+      }
+    },
+    "center": {
+      "type": "palladium:text_overlay",
+      "title": "Center",
+      "text": "Center",
+      "alignment": "center",
+      "translate": [0, 0, -30],
+      "rotate": [0, 0, 45],
+      "hidden": false,
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:toggle"
+        }
+      }
+    },
+    "bottom_right": {
+      "type": "palladium:text_overlay",
+      "title": "Bottom Right",
+      "text": "Bottom Right",
+      "alignment": "bottom_right",
+      "text_alignment": "right",
+      "translate": [0, -10, 0],
+      "hidden": false,
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:toggle"
+        }
+      }
+    },
+    "bottom_center": {
+      "type": "palladium:text_overlay",
+      "title": "Bottom Center",
+      "text": "Bottom Center",
+      "alignment": "bottom_center",
+      "translate": [0, -10, 0],
+      "hidden": false,
+      "hidden_in_bar": false,
+      "conditions": {
+        "enabling": {
+          "type": "palladium:toggle"
+        }
+      }
+    }
+  }
+}

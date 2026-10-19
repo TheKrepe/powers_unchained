@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "heroesexpansion:wakandan_shield"
+        },
+        "title": {
+            "translate": "heroesexpansion.advancements.vibranium.wakandan_shield.title"
+        },
+        "description": {
+            "translate": "heroesexpansion.advancements.vibranium.wakandan_shield.description"
+        }
+    },
+	"parent": "heroesexpansion:vibranium/vibranium",
+    "criteria": {
+        "crafting_table": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "heroesexpansion:wakandan_shield"
+                    }
+                ]
+            }
+        }
+    }
+}

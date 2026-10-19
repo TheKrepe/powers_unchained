@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "pymtech:block/shrink_pym_particles" }
+    }
+}

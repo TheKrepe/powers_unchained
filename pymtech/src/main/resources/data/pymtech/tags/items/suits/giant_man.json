@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "pymtech:giant_man_helmet",
+    "pymtech:giant_man_chestplate",
+    "pymtech:giant_man_leggings",
+    "pymtech:giant_man_boots"
+  ]
+}
