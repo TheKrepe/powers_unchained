@@ -1,0 +1,37 @@
+# Dev helper: unpacks an archive uploaded to the 'upload-tmp' branch (rar/zip/7z) and pushes
+# downscaled JPEG copies of the images to 'upload-unpacked-tmp' so they can be viewed.
+name: Unpack upload
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch upload
+        run: git clone -q --depth 1 -b upload-tmp "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" /tmp/up
+      - name: Unpack
+        run: |
+          sudo apt-get install -y -q unar imagemagick >/dev/null
+          mkdir -p /tmp/x /tmp/out
+          for a in /tmp/up/*; do unar -q -o /tmp/x "$a" || true; done
+          find /tmp/x -type f | sort > /tmp/out/_all_files.txt
+          i=0
+          find /tmp/x -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.bmp' -o -iname '*.gif' \) | sort | while read -r f; do
+            i=$((i+1))
+            name=$(printf '%03d' $i)_$(basename "${f%.*}" | tr -c 'A-Za-z0-9_\n-' '_')
+            convert "$f[0]" -resize '1280x1280>' -quality 85 "/tmp/out/$name.jpg"
+            echo "$name.jpg <- ${f#/tmp/x/}" >> /tmp/out/_index.txt
+          done
+          du -sh /tmp/out
+      - name: Push
+        run: |
+          cd /tmp/out
+          git init -q -b u
+          git -c user.name=ci -c user.email=ci@local add -A
+          git -c user.name=ci -c user.email=ci@local commit -q -m "Unpacked upload"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" u:upload-unpacked-tmp
