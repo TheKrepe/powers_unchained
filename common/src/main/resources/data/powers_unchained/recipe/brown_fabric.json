@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "powers_unchained_fabric",
+  "ingredients": [
+    "minecraft:brown_wool",
+    "minecraft:brown_wool",
+    "minecraft:stick"
+  ],
+  "result": {
+    "count": 4,
+    "id": "powers_unchained:brown_fabric"
+  }
+}

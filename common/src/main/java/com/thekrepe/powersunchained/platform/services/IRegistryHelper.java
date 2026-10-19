@@ -8,6 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 /**
  * Loader-specific registration. Common code declares content through this interface,
@@ -16,6 +18,9 @@ import net.minecraft.world.item.ItemStack;
 public interface IRegistryHelper {
 
     /** Registers an item. The id is set on the properties automatically. */
+    /** Registers a block. The id is set on the properties automatically. */
+    <T extends Block> Supplier<T> registerBlock(String name, Function<BlockBehaviour.Properties, T> factory, UnaryOperator<BlockBehaviour.Properties> properties);
+
     <T extends Item> Supplier<T> registerItem(String name, Function<Item.Properties, T> factory, UnaryOperator<Item.Properties> properties);
 
     /**

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "powers_unchained:block/tailoring_table"
+    },
+    "facing=east": {
+      "model": "powers_unchained:block/tailoring_table",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "powers_unchained:block/tailoring_table",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "powers_unchained:block/tailoring_table",
+      "y": 270
+    }
+  }
+}

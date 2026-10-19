@@ -72,6 +72,28 @@ public final class CiClientDriver {
             }
             case 1180 -> shot("04_player_mask_and_boots_only");
             case 1380 -> {
+                // Tailoring tables: front (facing the player), side and back.
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+                run("tp @p 40.5 ~ 0.5 0 30");
+                run("execute at @p run setblock ~ ~ ~3 powers_unchained:tailoring_table[facing=north]");
+                run("execute at @p run setblock ~2 ~ ~3 powers_unchained:tailoring_table[facing=west]");
+                run("execute at @p run setblock ~-2 ~ ~3 powers_unchained:tailoring_table[facing=south]");
+            }
+            case 1480 -> shot("05_tailoring_tables");
+            case 1680 -> {
+                // All fabrics + the table item, shown big with item displays.
+                run("tp @p 80.5 ~ 0.5 0 -8");
+                String[] colors = {"white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray",
+                        "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black"};
+                for (int i = 0; i < colors.length; i++) {
+                    double x = 2.1 - (i % 8) * 0.6;
+                    double y = 2.4 - (i / 8) * 0.7;
+                    display(x, y, "powers_unchained:" + colors[i] + "_fabric");
+                }
+                display(0.0, 0.9, "powers_unchained:tailoring_table");
+            }
+            case 1780 -> shot("06_fabrics_and_table_item");
+            case 1980 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -82,6 +104,12 @@ public final class CiClientDriver {
 
     private static void summon(double x, String profile, String equipment) {
         run("execute at @p run summon minecraft:mannequin ~" + x + " ~ ~5 {Rotation:[180f,0f],immovable:1b," + profile + "," + equipment + "}");
+    }
+
+    private static void display(double x, double y, String item) {
+        run("execute at @p run summon minecraft:item_display ~" + x + " ~" + y + " ~4 {item:{id:\"" + item + "\",count:1},"
+                + "billboard:\"center\",transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],"
+                + "translation:[0f,0f,0f],scale:[0.55f,0.55f,0.55f]}}");
     }
 
     private static void shot(String name) {

@@ -3,5 +3,22 @@
   "item.powers_unchained.spider_man_mask": "Spider-Man Mask",
   "item.powers_unchained.spider_man_suit": "Spider-Man Suit",
   "item.powers_unchained.spider_man_pants": "Spider-Man Pants",
-  "item.powers_unchained.spider_man_boots": "Spider-Man Boots"
+  "item.powers_unchained.spider_man_boots": "Spider-Man Boots",
+  "item.powers_unchained.white_fabric": "White Fabric",
+  "item.powers_unchained.orange_fabric": "Orange Fabric",
+  "item.powers_unchained.magenta_fabric": "Magenta Fabric",
+  "item.powers_unchained.light_blue_fabric": "Light Blue Fabric",
+  "item.powers_unchained.yellow_fabric": "Yellow Fabric",
+  "item.powers_unchained.lime_fabric": "Lime Fabric",
+  "item.powers_unchained.pink_fabric": "Pink Fabric",
+  "item.powers_unchained.gray_fabric": "Gray Fabric",
+  "item.powers_unchained.light_gray_fabric": "Light Gray Fabric",
+  "item.powers_unchained.cyan_fabric": "Cyan Fabric",
+  "item.powers_unchained.purple_fabric": "Purple Fabric",
+  "item.powers_unchained.blue_fabric": "Blue Fabric",
+  "item.powers_unchained.brown_fabric": "Brown Fabric",
+  "item.powers_unchained.green_fabric": "Green Fabric",
+  "item.powers_unchained.red_fabric": "Red Fabric",
+  "item.powers_unchained.black_fabric": "Black Fabric",
+  "block.powers_unchained.tailoring_table": "Tailoring Table"
 }

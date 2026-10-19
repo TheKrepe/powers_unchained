@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "F": "#powers_unchained:fabrics",
+    "S": "minecraft:string",
+    "P": "#minecraft:planks"
+  },
+  "pattern": [
+    "III",
+    "FSF",
+    "PPP"
+  ],
+  "result": {
+    "id": "powers_unchained:tailoring_table"
+  }
+}
