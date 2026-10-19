@@ -8,3 +8,4 @@
 - `gen_fabrics.py <repo> <vanilla block textures dir>` — fabric icons (palette from vanilla wool), item models,
   recipes, `fabrics` tag.
 - `gen_spider_textures.py <resources dir>` — placeholder Spider-Man suit textures.
+- `gen_tech_table.py <out root>` — tech tailoring table concepts T1-T3 (T1 is used in the mod).

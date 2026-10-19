@@ -164,7 +164,7 @@ def render(model, roots, size=512, yaw=225.0, pitch=30.0, y_rot=0, scale=None, b
             fdir = fname
             for _ in range((y_rot // 90) % 4):
                 fdir = ROT_FACE[fdir]
-            shade = SHADE[fdir]
+            shade = 1.0 if el.get("light_emission", 0) > 0 else SHADE[fdir]
             tex = texture(fd["texture"], textures, roots)
             th, tw = tex.shape[:2]
             uv = fd.get("uv", default_uv(fname, f, t))

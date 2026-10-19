@@ -12,11 +12,10 @@ public final class PUBlocks {
             "tailoring_table",
             TailoringTableBlock::new,
             properties -> properties
-                    .mapColor(MapColor.WOOD)
-                    .strength(2.5F)
-                    .sound(SoundType.WOOD)
-                    .noOcclusion()
-                    .ignitedByLava());
+                    .mapColor(MapColor.METAL)
+                    .strength(3.0F, 6.0F)
+                    .sound(SoundType.METAL)
+                    .noOcclusion());
 
     private PUBlocks() {
     }

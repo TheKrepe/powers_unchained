@@ -18,17 +18,19 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Tailoring table: a low spruce table with a sewing machine on top. Where suits will be sewn.
+ * Tailoring table: an iron &amp; copper cabinet with an automatic sewing head on a gantry over the work bed
+ * and a glowing pattern screen at the back. Where suits will be made.
  * For now only the block itself (placement direction, shape) — no menu yet.
  */
 public class TailoringTableBlock extends Block {
 
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
 
-    /** Table (0-10 px high) + sewing machine on top, defined for a north-facing table. */
+    /** Cabinet (0-9 px), gantry with the sewing head, screen at the back; defined for a north-facing table. */
     private static final Map<Direction, VoxelShape> SHAPES = Shapes.rotateHorizontal(Shapes.or(
-            Block.box(0.0, 0.0, 0.0, 16.0, 10.0, 16.0),
-            Block.box(3.0, 10.0, 5.0, 14.0, 16.0, 11.0)));
+            Block.box(0.0, 0.0, 0.0, 16.0, 9.0, 16.0),
+            Block.box(0.0, 9.0, 5.0, 16.0, 16.0, 9.0),
+            Block.box(2.0, 9.0, 13.0, 14.0, 16.0, 15.0)));
 
     public TailoringTableBlock(Properties properties) {
         super(properties);
@@ -37,7 +39,7 @@ public class TailoringTableBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        // The sewing machine side faces the player who placed the table.
+        // The drawer / sewing head side faces the player who placed the table.
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
