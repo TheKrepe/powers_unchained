@@ -47,6 +47,10 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   Minecraft classes (Vineflower) / copies NeoForge sources and vanilla assets to branch **`mc-ref-tmp`**.
   Use it to look up exact 26.3 APIs instead of guessing. The branch is force-overwritten each run; Claude cannot
   delete branches through the proxy (the owner can).
+- `external-reference.yml` (manual dispatch, input `repos` = `name=url[#branch] ...`) — clones other mods'
+  repos (text files only) to branch **`ext-ref-tmp`** for study. git.threetag.net / gitlab.com are not reachable
+  from the sandbox directly. Last dump: Palladium (1.20 + `26.1/dev`), PantheonSent, PymTech (1.16.4),
+  SpeedsterHeroes (1.11.2), HeroesExpansion / LucraftCore (1.12.2).
 - `gh` works only through the REST API (`gh api ...`); GraphQL-based commands (`gh run list`, `gh workflow run`) fail.
 
 ## Content so far
@@ -58,3 +62,19 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   worn pieces and the flat head item), `SuitFirstPersonRenderer` (first-person sleeve).
 - Suit textures use the 64x64 player skin layout: `textures/suit/<suit>/<suit>.png`, `<suit>_slim.png`
   (3px arms), optional `<suit>_boots.png`.
+
+## Lessons from Palladium 5 (`26.1/dev`, NeoForge 26.1.2, closest reference to our target)
+- Abilities are codec-based (`Codec` dispatch by registry), not property bags. State is split into
+  `unlocking` (condition / buyable) and `enabling` (condition / keybind handler) handlers.
+- Per-ability runtime state lives in a `PatchedDataComponentMap` on the ability instance; changes are synced to
+  tracking players as `DataComponentPatch` packets. Good pattern for our own ability state.
+- Conditions/values support MoLang; actions + triggers + costs are separate registries.
+- Suits/armor geometry comes from Bedrock-format JSON model layers (Blockbench-editable), wide + slim variants;
+  tight suit inflate: base 0.1, overlay 0.35. Render layers copy poses from the parent model by part name and
+  snapshot them because model submission is deferred.
+- Skin overlay under a suit can be *shrunk* to 0.9 scale (`shrink_player_parts`) instead of hidden, so the
+  skin's outer layer stays visible through transparent suit pixels — consider offering both modes.
+- Web swinging is implemented as a flight type (`SwingingFlightType`, phases: swing/release/dive/landing,
+  client-authoritative for the local player). Other built-ins: wall climbing, grapple, combo attack, multi-jump,
+  carry, guard, slide, beams, trails, screen shake, customization (cosmetics), power dampening.
+- Palladium 5 is NeoForge-only and depends on player-animation-lib, GeckoLib 5, Curios — all exist for 26.1.
