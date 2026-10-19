@@ -2,12 +2,15 @@ package com.thekrepe.powersunchained.platform;
 
 import com.thekrepe.powersunchained.Constants;
 import com.thekrepe.powersunchained.platform.services.IRegistryHelper;
+import java.util.Collection;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -28,7 +31,12 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     }
 
     @Override
-    public Supplier<CreativeModeTab> registerCreativeTab(String name, UnaryOperator<CreativeModeTab.Builder> tab) {
-        return CREATIVE_TABS.register(name, () -> tab.apply(CreativeModeTab.builder()).build());
+    public Supplier<CreativeModeTab> registerCreativeTab(String name, Component title, Supplier<ItemStack> icon,
+            Supplier<? extends Collection<? extends Supplier<? extends Item>>> items) {
+        return CREATIVE_TABS.register(name, () -> CreativeModeTab.builder()
+                .title(title)
+                .icon(icon)
+                .displayItems((parameters, output) -> items.get().forEach(item -> output.accept(item.get())))
+                .build());
     }
 }

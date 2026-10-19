@@ -7,11 +7,11 @@ import net.minecraft.world.item.CreativeModeTab;
 
 public final class PUCreativeTabs {
 
-    public static final Supplier<CreativeModeTab> MAIN = Services.REGISTRY.registerCreativeTab("main", builder -> builder
-            .title(Component.translatable("itemGroup.powers_unchained.main"))
-            .icon(() -> PUItems.SPIDER_MAN_MASK.get().getDefaultInstance())
-            .displayItems((parameters, output) -> PUItems.all().forEach(item -> output.accept(item.get())))
-            );
+    public static final Supplier<CreativeModeTab> MAIN = Services.REGISTRY.registerCreativeTab(
+            "main",
+            Component.translatable("itemGroup.powers_unchained.main"),
+            () -> PUItems.SPIDER_MAN_MASK.get().getDefaultInstance(),
+            PUItems::all);
 
     private PUCreativeTabs() {
     }
