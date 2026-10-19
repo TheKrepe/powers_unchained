@@ -1,0 +1,45 @@
+# Dev helper: clones other open-source mods (for study only) and pushes their text sources
+# (code, json, gradle, docs — no textures/sounds) to the temporary branch 'ext-ref-tmp'.
+name: External reference
+
+on:
+  workflow_dispatch:
+    inputs:
+      repos:
+        description: "Space-separated 'name=url[#branch]' entries"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone
+        env:
+          REPOS: ${{ inputs.repos }}
+        run: |
+          mkdir -p /tmp/ext/out
+          for entry in $REPOS; do
+            name="${entry%%=*}"; rest="${entry#*=}"
+            url="${rest%%#*}"; branch=""
+            [ "$rest" != "$url" ] && branch="${rest#*#}"
+            echo "== $name $url $branch"
+            git ls-remote --heads "$url" > "/tmp/ext/out/_branches_$name.txt" 2>&1 || true
+            if [ -n "$branch" ]; then
+              git clone -q --depth 1 -b "$branch" "$url" "/tmp/ext/src/$name" || { echo "clone failed: $entry" >> /tmp/ext/out/_errors.txt; continue; }
+            else
+              git clone -q --depth 1 "$url" "/tmp/ext/src/$name" || { echo "clone failed: $entry" >> /tmp/ext/out/_errors.txt; continue; }
+            fi
+            (cd "/tmp/ext/src/$name" && git log -1 --format='%H %cd %s' > "/tmp/ext/out/_head_$name.txt" && find . -path ./.git -prune -o -type f -print | sort > "/tmp/ext/out/_tree_$name.txt")
+            (cd "/tmp/ext/src/$name" && find . -path ./.git -prune -o -type f \( -name '*.java' -o -name '*.kt' -o -name '*.json' -o -name '*.json5' -o -name '*.md' -o -name '*.gradle' -o -name '*.kts' -o -name '*.toml' -o -name '*.properties' -o -name '*.cfg' -o -name '*.txt' -o -name '*.js' -o -name '*.mcmeta' -o -name '*.yml' -o -name '*.lang' \) -size -400k -print | cpio -pdm "/tmp/ext/out/$name" 2>/dev/null)
+          done
+          du -sh /tmp/ext/out
+      - name: Push to temp branch
+        run: |
+          cd /tmp/ext/out
+          git init -q -b ext-ref
+          git -c user.name=ci -c user.email=ci@local add -A
+          git -c user.name=ci -c user.email=ci@local commit -q -m "External reference dump"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ext-ref:ext-ref-tmp
