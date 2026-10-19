@@ -32,6 +32,27 @@ in `common/` and loader glue in `neoforge/`, so Fabric can be re-enabled later w
 - 26.3: input moved from GLFW to SDL (use `InputConstants`), features moved to `worldgen/feature`.
 - Fabric uses Loom plugin `net.fabricmc.fabric-loom` (no remapping): `implementation`, not `modImplementation`.
 
-## Building
-The Claude sandbox usually cannot reach maven.neoforged.net / maven.fabricmc.net, so it cannot run Gradle.
-CI (`.github/workflows/build.yml`) builds every push and uploads jars — check its result after pushing.
+## Building & testing (Claude has no local Gradle — everything goes through GitHub Actions)
+The Claude sandbox cannot reach maven.neoforged.net / maven.fabricmc.net / Mojang, and cannot download
+Actions logs/artifacts. Workarounds that push results to git branches (fetch them with
+`git fetch -f origin <branch>:refs/remotes/origin/<branch>`):
+- `build.yml` — builds every push. On failure the full Gradle log goes to branch **`ci-log`** (`build.log`).
+- `client-test.yml` (manual dispatch via REST:
+  `gh api -X POST repos/TheKrepe/powers_unchained/actions/workflows/client-test.yml/dispatches -f ref=main`)
+  — generates a flat world with a dedicated server, runs the real client on Xvfb + software GL, and the in-mod
+  driver `neoforge/.../client/dev/CiClientDriver` (inert without `-Dpowers_unchained.ci=true`) sets up scenes and
+  logs `[CI-SHOT] name`; the workflow screenshots the display. Results go to branch **`ci-shots`**
+  (`shots/*.png`, `client.log`, `client-latest.log`, crash reports). Use it to check rendering visually.
+- `mc-reference.yml` (manual dispatch with input `patterns` = space-separated path regexes) — decompiles matching
+  Minecraft classes (Vineflower) / copies NeoForge sources and vanilla assets to branch **`mc-ref-tmp`**.
+  Use it to look up exact 26.3 APIs instead of guessing. Delete the branch afterwards.
+- `gh` works only through the REST API (`gh api ...`); GraphQL-based commands (`gh run list`, `gh workflow run`) fail.
+
+## Content so far
+- Suits: `suit/Suit` + `suit/Suits` (definitions), `item/SuitPieceItem` (armor-like item without a vanilla
+  equipment asset, so vanilla does not draw it). Rendering in `client/suit/`: `SuitLayer` (added to player and
+  mannequin renderers), `SuitModel` (player-skin-shaped model, one instance per piece), `SuitModelLayers`
+  (inflate 0.05 suit / 0.1 boots, wide + slim), `SuitRendering.hideCoveredSkinLayers` (render-state modifier,
+  hides the skin's outer layer under worn pieces), `SuitFirstPersonRenderer` (first-person sleeve).
+- Suit textures use the 64x64 player skin layout: `textures/suit/<suit>/<suit>.png`, `<suit>_slim.png`
+  (3px arms), optional `<suit>_boots.png`.

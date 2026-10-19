@@ -26,7 +26,7 @@ jobs:
       - name: Install virtual display tools
         run: |
           sudo apt-get update -q
-          sudo apt-get install -y -q xvfb imagemagick mesa-utils libgl1-mesa-dri x11-utils
+          sudo apt-get install -y -q xvfb imagemagick mesa-utils libgl1-mesa-dri libglx-mesa0 libegl-mesa0 libegl1 mesa-vulkan-drivers libvulkan1 vulkan-tools x11-utils
 
       - name: Generate test world (dedicated server)
         shell: bash
@@ -61,11 +61,15 @@ jobs:
           joinedFirstServer:true
           EOF
           sed -i 's/^ *//' neoforge/runs/ciclient/options.txt
-          Xvfb :99 -screen 0 1280x720x24 +extension GLX &
+          Xvfb :99 -screen 0 1280x720x24 +extension GLX +extension RENDER -nolisten tcp &
           sleep 3
           export DISPLAY=:99
           export LIBGL_ALWAYS_SOFTWARE=1
-          glxinfo -B | head -20 || true
+          export GALLIUM_DRIVER=llvmpipe
+          # SDL (used by MC 26.3 for windows) creates the GL context through EGL instead of GLX:
+          # Xvfb's GLX visuals don't match what the game asks for, Mesa's EGL works.
+          export SDL_VIDEO_X11_FORCE_EGL=1
+          { glxinfo -B; glxinfo -t | head -60; eglinfo -B 2>/dev/null | head -60; vulkaninfo --summary; } > /tmp/out/gfxinfo.txt 2>&1 || true
           (./gradlew :neoforge:runCiClient --stacktrace > /tmp/client.log 2>&1; echo "[CI] gradle exited $?" >> /tmp/client.log) &
           end=$((SECONDS + 1500))
           taken=""
