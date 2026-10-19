@@ -1,0 +1,52 @@
+# Dev helper: extracts selected Minecraft/NeoForge sources for the current versions and pushes them
+# to a temporary branch so they can be inspected without a local Gradle setup.
+name: MC reference dump
+
+on:
+  workflow_dispatch:
+    inputs:
+      patterns:
+        description: "Space-separated path regexes to extract from the sources/resources jars"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 25
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Create Minecraft artifacts
+        run: ./gradlew :neoforge:createMinecraftArtifacts --stacktrace
+      - name: Extract
+        env:
+          PATTERNS: ${{ inputs.patterns }}
+        run: |
+          mkdir -p /tmp/ref/out
+          find . ~/.gradle -name '*.jar' \( -path '*moddev*' -o -path '*neoforge*' \) 2>/dev/null | grep -E 'artifacts|neoforge-26' | sort -u > /tmp/ref/out/_jars.txt || true
+          cat /tmp/ref/out/_jars.txt
+          while read -r jar; do
+            unzip -Z1 "$jar" 2>/dev/null > /tmp/ref/list.txt || continue
+            for p in $PATTERNS; do
+              grep -E "$p" /tmp/ref/list.txt | while read -r f; do
+                case "$f" in */) continue;; esac
+                mkdir -p "/tmp/ref/out/$(dirname "$f")"
+                unzip -o -q "$jar" "$f" -d /tmp/ref/out || true
+              done
+            done
+          done < /tmp/ref/out/_jars.txt
+          # javap signatures for classes in the merged jar matching patterns (for compiled-only classes)
+          find /tmp/ref/out -type f | sed 's|/tmp/ref/out/||' > /tmp/ref/out/_files.txt
+      - name: Push to temp branch
+        run: |
+          cd /tmp/ref/out
+          git init -q -b mc-ref
+          git -c user.name=ci -c user.email=ci@local add -A
+          git -c user.name=ci -c user.email=ci@local commit -q -m "MC reference dump"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" mc-ref:mc-ref-tmp
