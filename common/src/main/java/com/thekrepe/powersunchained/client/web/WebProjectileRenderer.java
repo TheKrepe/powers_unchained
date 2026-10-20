@@ -83,6 +83,12 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
             state.targetYaw = firstPerson ? Mth.lerp(partialTick, target.yRotO, target.getYRot())
                     : Mth.rotLerp(partialTick, target.yBodyRotO, target.yBodyRot) - 180.0F;
             state.hitOffset = web.getHitOffset();
+            if (firstPerson) {
+                // webs on yourself in first person: keep them below the camera (on the chest / legs), so they are
+                // seen when looking down instead of covering the screen
+                Vec3 o = state.hitOffset;
+                state.hitOffset = new Vec3(o.x, Math.min(o.y, target.getEyeHeight() - 0.65), o.z);
+            }
             state.side = target.getBbWidth() / 1.5F;
             state.front = target.getBbWidth() / 1.75F;
             state.webYaw = web.getYawOffset() + entity.getYRot() + 180.0F;
