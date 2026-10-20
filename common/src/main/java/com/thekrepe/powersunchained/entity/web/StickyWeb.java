@@ -12,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -21,7 +22,7 @@ import org.jspecify.annotations.Nullable;
 public class StickyWeb extends AbstractWebProjectile {
 
     private static final EntityDataAccessor<Integer> HIT_ENTITY = SynchedEntityData.defineId(StickyWeb.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Vector3f> HIT_OFFSET = SynchedEntityData.defineId(StickyWeb.class, EntityDataSerializers.VECTOR3);
+    private static final EntityDataAccessor<Vector3fc> HIT_OFFSET = SynchedEntityData.defineId(StickyWeb.class, EntityDataSerializers.VECTOR3);
     private static final EntityDataAccessor<Float> YAW_OFFSET = SynchedEntityData.defineId(StickyWeb.class, EntityDataSerializers.FLOAT);
 
     /** Ticks until the web dissolves. */
@@ -51,7 +52,8 @@ public class StickyWeb extends AbstractWebProjectile {
 
     /** Where on the hit entity the web sits: horizontal direction (rotated by {@link #getYawOffset()}) and height. */
     public Vec3 getHitOffset() {
-        return new Vec3(this.entityData.get(HIT_OFFSET));
+        Vector3fc v = this.entityData.get(HIT_OFFSET);
+        return new Vec3(v.x(), v.y(), v.z());
     }
 
     public float getYawOffset() {

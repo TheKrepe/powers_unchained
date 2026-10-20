@@ -94,25 +94,25 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
         poseStack.pushPose();
         if (state.onEntity) {
             poseStack.translate(state.offset.x, state.offset.y + state.halfHeight, state.offset.z);
-            poseStack.mulPose(Axis.YP.rotationDegrees(-state.targetYaw));
+            poseStack.rotateDegrees(Axis.YP, -state.targetYaw);
             if (state.hitOffset != null) {
                 poseStack.translate(state.hitOffset.x * state.side, state.hitOffset.y, state.hitOffset.z * state.front);
             }
-            poseStack.mulPose(Axis.YP.rotationDegrees(state.webYaw));
+            poseStack.rotateDegrees(Axis.YP, state.webYaw);
         } else {
             poseStack.translate(0.0F, state.halfHeight, 0.0F);
             if (state.inGround) {
                 if (state.dir.getStepY() != 0) {
-                    poseStack.mulPose(Axis.XP.rotationDegrees(-90 * state.dir.getStepY()));
+                    poseStack.rotateDegrees(Axis.XP, -90 * state.dir.getStepY());
                 } else {
-                    poseStack.mulPose(Axis.YP.rotationDegrees(90 * ROT_MATRIX[state.dir.ordinal()]));
+                    poseStack.rotateDegrees(Axis.YP, 90 * ROT_MATRIX[state.dir.ordinal()]);
                 }
             } else {
-                poseStack.mulPose(Axis.YP.rotationDegrees(state.yRot + 180.0F));
-                poseStack.mulPose(Axis.XP.rotationDegrees(state.xRot));
+                poseStack.rotateDegrees(Axis.YP, state.yRot + 180.0F);
+                poseStack.rotateDegrees(Axis.XP, state.xRot);
             }
         }
-        poseStack.mulPose(Axis.ZP.rotationDegrees(state.spin));
+        poseStack.rotateDegrees(Axis.ZP, state.spin);
         poseStack.translate(0.0F, 0.0F, -0.05875F);
 
         int color = WebGeometry.color(state.alpha);
