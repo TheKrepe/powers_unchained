@@ -87,7 +87,8 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
                 // webs on yourself in first person: keep them below the camera (on the chest / legs), so they are
                 // seen when looking down instead of covering the screen
                 Vec3 o = state.hitOffset;
-                state.hitOffset = new Vec3(o.x, Math.min(o.y, target.getEyeHeight() - 0.65), o.z);
+                state.hitOffset = new Vec3(o.x, Math.min(o.y, target.getEyeHeight() - 0.95), o.z);
+                state.w *= 0.6F;
             }
             state.side = target.getBbWidth() / 1.5F;
             state.front = target.getBbWidth() / 1.75F;
