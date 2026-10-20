@@ -108,7 +108,8 @@ public class StickyWeb extends AbstractWebProjectile {
             return;
         }
         float yawOffset = living.yBodyRot;
-        Vec3 v = new Vec3(target.getX(), target.getBoundingBox().minY, target.getZ()).subtract(hit.getLocation())
+        // hit point relative to the target's feet (1.7.10's Vec3.subtract was "other - this"), in body space
+        Vec3 v = hit.getLocation().subtract(target.getX(), target.getBoundingBox().minY, target.getZ())
                 .yRot((float) Math.toRadians(yawOffset));
         double height = v.y;
         v = new Vec3(v.x, 0, v.z).normalize();

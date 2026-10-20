@@ -44,7 +44,7 @@ public final class CiClientDriver {
             return;
         }
         ticks++;
-        if (ticks >= 4120 && ticks <= 4220 && mc.level != null) {
+        if (ticks >= 4080 && ticks <= 4200 && mc.level != null) {
             // keep the web-shot arm pose up for the screenshot
             com.thekrepe.powersunchained.web.WebShootAnimation.trigger(mc.player.getId(), 0, mc.level.getGameTime() - 2);
         }
@@ -149,29 +149,34 @@ public final class CiClientDriver {
                 run("execute at @p run summon minecraft:pig ~2 ~ ~6 {NoAI:1b}");
                 run("execute at @p run fill ~3 ~ ~8 ~8 ~3 ~8 minecraft:stone");
             }
-            case 3800, 3806 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
-            case 3812 -> run("execute as @p at @s run tp @s ~ ~ ~ -25 5");
-            case 3816, 3820, 3824, 3828 -> shootWeb(com.thekrepe.powersunchained.web.WebType.IMPACT);
-            case 3832 -> run("execute as @p at @s run tp @s ~ ~ ~ -25 -10");
-            case 3836 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
-            case 3842 -> run("execute as @p at @s run tp @s ~ ~ ~ -8 10");
-            case 3860 -> shot("13_webs_on_villager_and_wall");
-            case 3950 -> {
-                // the villager shoots a sticky web at the player
+            case 3800 -> run("execute as @p at @s run tp @s ~ ~ ~ -25 5");
+            case 3830, 3834, 3838, 3842 -> shootWeb(com.thekrepe.powersunchained.web.WebType.IMPACT);
+            case 3846 -> run("execute as @p at @s run tp @s ~ ~ ~ -25 -10");
+            case 3850 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
+            case 3854 -> run("execute as @p at @s run tp @s ~ ~ ~ 0 0");
+            case 3858, 3864 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
+            case 3866 -> run("execute as @p at @s run tp @s ~ ~ ~ -8 10");
+            case 3868 -> shot("13_webs_on_villager_and_wall");
+            case 4030 -> {
+                // the villager shoots sticky webs at the player
                 net.minecraft.server.level.ServerPlayer player = serverPlayer();
                 mc.getSingleplayerServer().execute(() -> {
                     net.minecraft.server.level.ServerLevel level = player.level();
                     level.getEntitiesOfClass(net.minecraft.world.entity.npc.villager.Villager.class, player.getBoundingBox().inflate(10))
-                            .forEach(v -> level.addFreshEntity(new com.thekrepe.powersunchained.entity.web.StickyWeb(level, v, 0)));
+                            .forEach(v -> {
+                                level.addFreshEntity(new com.thekrepe.powersunchained.entity.web.StickyWeb(level, v, 0));
+                                v.setXRot(25.0F);
+                                level.addFreshEntity(new com.thekrepe.powersunchained.entity.web.StickyWeb(level, v, 1));
+                            });
                 });
-                run("execute as @p at @s run tp @s ~ ~ ~ 0 55");
+                run("execute as @p at @s run tp @s ~ ~ ~ 0 60");
             }
-            case 4050 -> shot("14_player_webbed_first_person");
-            case 4100 -> {
+            case 4036 -> shot("14_player_webbed_first_person");
+            case 4080 -> {
                 run("execute as @p at @s run tp @s ~ ~ ~ 0 0");
                 mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
             }
-            case 4200 -> shot("15_player_webbed_third_person_and_shot_pose");
+            case 4086 -> shot("15_player_webbed_third_person_and_shot_pose");
             case 4300 -> {
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
                 com.thekrepe.powersunchained.client.web.WebShooterClient.debugState(true, false, com.thekrepe.powersunchained.web.WebType.IMPACT);
