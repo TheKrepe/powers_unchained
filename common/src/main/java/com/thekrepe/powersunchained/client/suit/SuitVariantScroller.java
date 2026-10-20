@@ -3,6 +3,7 @@ package com.thekrepe.powersunchained.client.suit;
 import com.thekrepe.powersunchained.item.SuitPieceItem;
 import com.thekrepe.powersunchained.registry.PUCreativeTabs;
 import com.thekrepe.powersunchained.registry.PUItems;
+import com.thekrepe.powersunchained.suit.Suit;
 import com.thekrepe.powersunchained.suit.Suits;
 import java.util.Iterator;
 import java.util.List;
@@ -11,67 +12,85 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
 /**
  * Suit variants in the Suits creative tab (like alt versions in Fisk's Superheroes, but every variant is its own
- * item): the tab lists only the first variant of each hero, the mouse wheel over a piece swaps it for the same
- * piece of the previous / next variant.
+ * item): the tab lists only the first variant of each hero, the mouse wheel over any piece swaps the whole suit
+ * (all four pieces) to the previous / next variant.
  */
 public final class SuitVariantScroller {
-
-    /** The screen that is open right now (set by the loader from screen open / close events). */
-    private static @Nullable Screen openScreen;
 
     private SuitVariantScroller() {
     }
 
-    public static void setOpenScreen(@Nullable Screen screen) {
-        openScreen = screen;
-    }
-
     /** @return {@code true} if the scroll was used (then the creative list must not scroll) */
-    public static boolean onScroll(Screen screen, @Nullable Slot slot, double scrollY) {
+    public static boolean onScroll(Screen screen, @Nullable Slot hovered, double scrollY) {
         if (scrollY == 0 || !(screen instanceof CreativeModeInventoryScreen creative)) {
             return false;
         }
-        if (slot == null || slot.container instanceof Inventory
-                || !(slot.getItem().getItem() instanceof SuitPieceItem piece)
+        if (hovered == null || hovered.container instanceof Inventory
+                || !(hovered.getItem().getItem() instanceof SuitPieceItem piece)
                 || Suits.variantPosition(piece.getSuit()) == null
                 || !isSuitsTabOpen(creative)) {
             return false;
         }
-        SuitPieceItem next = PUItems.variant(piece, scrollY > 0 ? -1 : 1);
+        Suit current = piece.getSuit();
+        Suit next = Suits.variant(current, scrollY > 0 ? -1 : 1);
+        // the tab contents (kept when the list is scrolled) ...
         List<ItemStack> items = creative.getMenu().items;
         for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).is(piece)) {
-                items.set(i, next.getDefaultInstance());
-                break;
+            ItemStack swapped = swap(items.get(i), current, next);
+            if (swapped != null) {
+                items.set(i, swapped);
             }
         }
-        slot.set(next.getDefaultInstance());
+        // ... and what is visible right now
+        for (Slot slot : creative.getMenu().slots) {
+            if (!(slot.container instanceof Inventory)) {
+                ItemStack swapped = swap(slot.getItem(), current, next);
+                if (swapped != null) {
+                    slot.set(swapped);
+                }
+            }
+        }
         return true;
     }
 
-    /** Adds "variant 2/5 — scroll to switch" to suit pieces in the Suits tab. */
-    public static void appendTooltip(ItemStack stack, List<Component> tooltip) {
-        if (!(stack.getItem() instanceof SuitPieceItem piece)) {
+    private static @Nullable ItemStack swap(ItemStack stack, Suit from, Suit to) {
+        if (stack.getItem() instanceof SuitPieceItem p && p.getSuit() == from) {
+            return PUItems.piece(to, p.getArmorType()).get().getDefaultInstance();
+        }
+        return null;
+    }
+
+    /**
+     * Adds the variant line right under the item name: "Variant 2/5: Advanced 2.0", plus the mouse-wheel hint
+     * for players in creative mode.
+     */
+    public static void appendTooltip(ItemStack stack, List<Component> tooltip, @Nullable Player player) {
+        if (!(stack.getItem() instanceof SuitPieceItem piece) || tooltip.isEmpty()) {
             return;
         }
         int[] position = Suits.variantPosition(piece.getSuit());
-        if (position == null || !(openScreen instanceof CreativeModeInventoryScreen creative)
-                || !isSuitsTabOpen(creative)) {
+        if (position == null) {
             return;
         }
-        tooltip.add(Component.translatable("tooltip.powers_unchained.suit_variant", position[0] + 1, position[1])
+        Component name = Component.translatable(Suits.variantNameKey(piece.getSuit()));
+        tooltip.add(1, Component.translatable("tooltip.powers_unchained.suit_variant", position[0] + 1, position[1], name)
                 .withStyle(ChatFormatting.GRAY));
+        if (player != null && player.isCreative()) {
+            tooltip.add(2, Component.translatable("tooltip.powers_unchained.suit_variant.scroll")
+                    .withStyle(ChatFormatting.DARK_GRAY));
+        }
     }
 
     /**
      * The open creative page is the Suits tab: same length as the tab contents and, slot by slot, the same item
-     * or another variant of the same piece. (The selected tab itself is private in vanilla.)
+     * or the same piece of another variant of the same hero. (The selected tab itself is private in vanilla.)
      */
     private static boolean isSuitsTabOpen(CreativeModeInventoryScreen screen) {
         List<ItemStack> items = screen.getMenu().items;

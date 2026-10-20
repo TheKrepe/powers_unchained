@@ -45,10 +45,8 @@ public class PowersUnchainedNeoForgeClient {
                 event.setCanceled(true);
             }
         });
-        NeoForge.EVENT_BUS.addListener((ScreenEvent.Init.Post event) -> SuitVariantScroller.setOpenScreen(event.getScreen()));
-        NeoForge.EVENT_BUS.addListener((ScreenEvent.Closing event) -> SuitVariantScroller.setOpenScreen(null));
         NeoForge.EVENT_BUS.addListener((ItemTooltipEvent event) ->
-                SuitVariantScroller.appendTooltip(event.getItemStack(), event.getToolTip()));
+                SuitVariantScroller.appendTooltip(event.getItemStack(), event.getToolTip(), event.getEntity()));
         CiClientDriver.register();
     }
 

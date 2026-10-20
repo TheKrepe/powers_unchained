@@ -53,6 +53,7 @@ public final class CiClientDriver {
                 run("item replace entity @p armor.chest with powers_unchained:spider_man_suit");
                 run("item replace entity @p armor.legs with powers_unchained:spider_man_pants");
                 run("item replace entity @p armor.feet with powers_unchained:spider_man_boots");
+                run("suit spider_man_raimi @p");
             }
             // Each scene: set up, wait ~5 s for it to render, log the shot marker, then hold ~10 s so the
             // workflow (which polls the log) captures the screen before the next scene starts.

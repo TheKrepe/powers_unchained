@@ -24,7 +24,7 @@
   "itemGroup.powers_unchained.weapons": "Powers Unchained Weapons",
   "itemGroup.powers_unchained.items": "Powers Unchained Items",
   "itemGroup.powers_unchained.blocks": "Powers Unchained Blocks",
-  "tooltip.powers_unchained.suit_variant": "Вариант %s/%s (колёсико мыши — сменить)",
+  "tooltip.powers_unchained.suit_variant": "Вариант %s/%s: %s",
   "item.powers_unchained.spider_man_first_appearance_mask": "Маска Человека-паука (Первое появление)",
   "item.powers_unchained.spider_man_first_appearance_suit": "Костюм Человека-паука (Первое появление)",
   "item.powers_unchained.spider_man_first_appearance_pants": "Штаны Человека-паука (Первое появление)",
@@ -40,5 +40,14 @@
   "item.powers_unchained.spider_man_raimi_mask": "Маска Человека-паука (Рэйми)",
   "item.powers_unchained.spider_man_raimi_suit": "Костюм Человека-паука (Рэйми)",
   "item.powers_unchained.spider_man_raimi_pants": "Штаны Человека-паука (Рэйми)",
-  "item.powers_unchained.spider_man_raimi_boots": "Ботинки Человека-паука (Рэйми)"
+  "item.powers_unchained.spider_man_raimi_boots": "Ботинки Человека-паука (Рэйми)",
+  "suit.powers_unchained.spider_man": "Классический",
+  "suit.powers_unchained.spider_man_first_appearance": "Первое появление",
+  "suit.powers_unchained.spider_man_advanced_2": "Продвинутый 2.0",
+  "suit.powers_unchained.spider_man_brand_new_day": "Совершенно новый день",
+  "suit.powers_unchained.spider_man_raimi": "Рэйми",
+  "tooltip.powers_unchained.suit_variant.scroll": "Колёсико мыши во вкладке Suits: сменить костюм",
+  "commands.powers_unchained.suit.unknown": "Неизвестный костюм: %s",
+  "commands.powers_unchained.suit.success.single": "Выдан полный комплект: %s — игроку %s",
+  "commands.powers_unchained.suit.success.multiple": "Выдан полный комплект: %s — игрокам (%s)"
 }

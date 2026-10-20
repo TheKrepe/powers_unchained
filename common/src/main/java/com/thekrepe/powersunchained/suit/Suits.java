@@ -15,23 +15,25 @@ import net.minecraft.world.item.equipment.EquipmentAssets;
 /** All suits of the mod. */
 public final class Suits {
 
-    /**
-     * Spider-Man (classic). A light cloth suit: a bit better than chainmail, worse than iron.
-     * Defense: mask 2, suit 5, pants 4, boots 2 (13 total). Leather equip sound, repaired with string.
+    /*
+     * All suits share the same stats: a full set gives a full armor bar (20 points: mask 3, suit 8, pants 6,
+     * boots 3), no toughness, durability multiplier 18, leather equip sound, repaired with string.
      */
-    public static final Suit SPIDER_MAN = cloth("spider_man", 18, 2, 5, 4, 2, 0.0F);
 
-    /** Spider-Man (First Appearance, 1962): homemade first suit, weaker. Defense 2/4/3/1 (10). */
-    public static final Suit SPIDER_MAN_FIRST_APPEARANCE = cloth("spider_man_first_appearance", 14, 2, 4, 3, 1, 0.0F);
+    /** Spider-Man (classic). */
+    public static final Suit SPIDER_MAN = cloth("spider_man");
 
-    /** Spider-Man (Advanced 2.0): high-tech suit. Defense 3/6/5/2 (16), toughness 1 per piece. */
-    public static final Suit SPIDER_MAN_ADVANCED_2 = cloth("spider_man_advanced_2", 25, 3, 6, 5, 2, 1.0F);
+    /** Spider-Man (First Appearance, 1962). */
+    public static final Suit SPIDER_MAN_FIRST_APPEARANCE = cloth("spider_man_first_appearance");
 
-    /** Spider-Man (Brand New Day): same stats as the classic suit. */
-    public static final Suit SPIDER_MAN_BRAND_NEW_DAY = cloth("spider_man_brand_new_day", 18, 2, 5, 4, 2, 0.0F);
+    /** Spider-Man (Advanced 2.0). */
+    public static final Suit SPIDER_MAN_ADVANCED_2 = cloth("spider_man_advanced_2");
 
-    /** Spider-Man (Raimi): same stats as the classic suit. */
-    public static final Suit SPIDER_MAN_RAIMI = cloth("spider_man_raimi", 18, 2, 5, 4, 2, 0.0F);
+    /** Spider-Man (Brand New Day). */
+    public static final Suit SPIDER_MAN_BRAND_NEW_DAY = cloth("spider_man_brand_new_day");
+
+    /** Spider-Man (Raimi). */
+    public static final Suit SPIDER_MAN_RAIMI = cloth("spider_man_raimi");
 
     /**
      * Groups of suit variants (different items, same hero). In the Suits creative tab only the first suit of
@@ -46,19 +48,19 @@ public final class Suits {
     private Suits() {
     }
 
-    /** A cloth suit: leather equip sound, repaired with string. */
-    private static Suit cloth(String name, int durability, int head, int chest, int legs, int feet, float toughness) {
+    /** A cloth suit with the shared suit stats. */
+    private static Suit cloth(String name) {
         return new Suit(
                 Constants.id(name),
                 texture(name + "/" + name),
                 texture(name + "/" + name + "_slim"),
                 texture(name + "/" + name + "_boots"),
                 new ArmorMaterial(
-                        durability,
-                        Map.of(ArmorType.HELMET, head, ArmorType.CHESTPLATE, chest, ArmorType.LEGGINGS, legs, ArmorType.BOOTS, feet),
+                        18,
+                        Map.of(ArmorType.HELMET, 3, ArmorType.CHESTPLATE, 8, ArmorType.LEGGINGS, 6, ArmorType.BOOTS, 3),
                         15,
                         SoundEvents.ARMOR_EQUIP_LEATHER,
-                        toughness,
+                        0.0F,
                         0.0F,
                         ItemTags.REPAIRS_LEATHER_ARMOR,
                         ResourceKey.create(EquipmentAssets.ROOT_ID, Constants.id(name))),
@@ -91,6 +93,16 @@ public final class Suits {
     public static boolean isPrimaryVariant(Suit suit) {
         int[] pos = variantPosition(suit);
         return pos == null || pos[0] == 0;
+    }
+
+    /** Finds a suit by id path (e.g. {@code spider_man_raimi}). */
+    public static @org.jspecify.annotations.Nullable Suit byName(String name) {
+        return ALL.stream().filter(s -> s.id().getPath().equals(name)).findFirst().orElse(null);
+    }
+
+    /** Lang key of the suit's variant name, e.g. "Advanced 2.0". */
+    public static String variantNameKey(Suit suit) {
+        return "suit." + suit.id().getNamespace() + "." + suit.id().getPath();
     }
 
     private static Identifier texture(String path) {

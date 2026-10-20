@@ -2,15 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": "minecraft:copper_ingot",
-    "R": "minecraft:redstone",
+    "C": "minecraft:copper_block",
     "G": "minecraft:glass_pane",
     "F": "#powers_unchained:fabrics",
-    "I": "minecraft:iron_ingot"
+    "T": "minecraft:crafting_table",
+    "I": "minecraft:iron_block"
   },
   "pattern": [
     "CGC",
-    "FRF",
+    "FTF",
     "III"
   ],
   "result": {
