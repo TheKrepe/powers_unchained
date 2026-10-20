@@ -76,10 +76,9 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   Suits creative tab lists only the first variant (others are search-only); `client/suit/SuitVariantScroller`
   swaps the whole hovered suit (all 4 pieces) on mouse wheel (NeoForge `ScreenEvent.MouseScrolled.Pre`) and adds
   a "Variant n/m: name" tooltip line under the item name. All suits share stats: 3/8/6/3 (full armor bar), no
-  toughness, durability 18.
+  toughness, durability 18. Variant textures/icons: `tools/gen_spider_variants.py`.
 - Command `/suit <suit> [targets]` (`command/SuitCommand`, registered via NeoForge `RegisterCommandsEvent`): gives
   the full set, suit names tab-complete, permission level 2.
-  Variant textures/icons: `tools/gen_spider_variants.py`.
 - Creative tabs (`PUCreativeTabs`): Suits, Weapons (empty -> hidden by vanilla until it has items), Items, Blocks;
   ordered with `withTabsBefore`. Tab contents go through `IRegistryHelper.TabOutput` (search-only flag).
 - Armor stands: `SuitArmorStandLayer` + `SuitArmorStandModel` (player-skin UV mesh on armor stand pivots, posed like
