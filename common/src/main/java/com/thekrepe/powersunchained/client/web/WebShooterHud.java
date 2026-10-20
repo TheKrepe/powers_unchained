@@ -22,7 +22,7 @@ public final class WebShooterHud {
 
     public static void render(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker) {
         Minecraft mc = Minecraft.getInstance();
-        if (!WebShooterClient.isActive() || mc.player == null || mc.options.hideGui) {
+        if (!WebShooterClient.isActive() || mc.player == null) {
             return;
         }
         float partial = deltaTracker.getGameTimeDeltaPartialTick(false);

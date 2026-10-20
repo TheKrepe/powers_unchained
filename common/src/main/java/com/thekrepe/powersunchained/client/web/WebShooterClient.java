@@ -91,7 +91,6 @@ public final class WebShooterClient {
         }
         if (mainHand && !player.getCooldowns().isOnCooldown(WebShooting.cooldownStack())) {
             Services.GAMEPLAY.sendToServer(new ShootWebPayload(selected));
-            player.swing(net.minecraft.world.InteractionHand.MAIN_HAND);
         }
         return true;
     }

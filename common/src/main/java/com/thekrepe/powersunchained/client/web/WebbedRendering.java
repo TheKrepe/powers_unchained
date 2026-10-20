@@ -48,7 +48,7 @@ public final class WebbedRendering {
         @Override
         public void submit(PoseStack poseStack, SubmitNodeCollector collector, int lightCoords, S state, float yRot, float xRot) {
             if (this.isWebbed(state)) {
-                collector.submitModel(this.getParentModel(), state, poseStack, RenderTypes.entityCutoutNoCull(ENTITY_TEXTURE),
+                collector.submitModel(this.getParentModel(), state, poseStack, RenderTypes.armorCutoutNoCull(ENTITY_TEXTURE),
                         lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor);
             }
         }
@@ -63,13 +63,13 @@ public final class WebbedRendering {
         arm.resetPose();
         arm.visible = true;
         arm.zRot = side == HumanoidArm.RIGHT ? 0.1F : -0.1F;
-        collector.submitModelPart(arm, poseStack, RenderTypes.entityCutoutNoCull(ENTITY_TEXTURE), lightCoords, OverlayTexture.NO_OVERLAY, null);
+        collector.submitModelPart(arm, poseStack, RenderTypes.armorCutoutNoCull(ENTITY_TEXTURE), lightCoords, OverlayTexture.NO_OVERLAY, null);
     }
 
     /** HUD layer: webs in the corners of the screen while the local player is webbed. */
     public static void renderOverlay(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker) {
         Minecraft mc = Minecraft.getInstance();
-        if (mc.player == null || mc.options.hideGui) {
+        if (mc.player == null) {
             return;
         }
         long left = Services.GAMEPLAY.getWebbedUntil(mc.player) - mc.player.level().getGameTime();
