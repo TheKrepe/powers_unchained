@@ -53,6 +53,20 @@ neoForge {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+repositories {
+    maven {
+        name = 'Curios'
+        url = 'https://maven.theillusivec4.top/'
+        content { includeGroup 'top.theillusivec4.curios' }
+    }
+}
+
+dependencies {
+    // Curios is optional: compile against its API, and only run it in dev/CI (not a dependency of the jar).
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
+    localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+}
+
 // Implement mcgradleconventions loader attribute
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
 ['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->

@@ -14,7 +14,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.jspecify.annotations.Nullable;
 
 /** Creative tabs, in this order: Suits, Weapons, Items, Blocks. */
@@ -31,9 +30,9 @@ public final class PUCreativeTabs {
                 output.accept(item.get().getDefaultInstance(), !primary);
             }));
 
-    /** Empty for now. Vanilla hides tabs without items, so it shows up once the first weapon exists. */
+    /** Weapons and gadgets (web-shooters, ...). */
     public static final Supplier<CreativeModeTab> WEAPONS = tab("weapons", "suits",
-            Items.IRON_SWORD::getDefaultInstance, output -> all(output, PUItems.weapons()));
+            () -> PUItems.WEB_SHOOTERS.get().getDefaultInstance(), output -> all(output, PUItems.weapons()));
 
     public static final Supplier<CreativeModeTab> ITEMS = tab("items", "weapons",
             () -> PUItems.FABRICS.get(DyeColor.RED).get().getDefaultInstance(),

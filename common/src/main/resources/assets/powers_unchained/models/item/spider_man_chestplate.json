@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "powers_unchained:item/spider_man_raimi_suit"
+    "layer0": "powers_unchained:item/spider_man_chestplate"
   }
 }

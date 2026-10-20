@@ -79,7 +79,15 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   toughness, durability 18. Variant textures/icons: `tools/gen_spider_variants.py`.
 - Command `/suit <suit> [targets]` (`command/SuitCommand`, registered via NeoForge `RegisterCommandsEvent`): gives
   the full set, suit names tab-complete, permission level 2.
-- Creative tabs (`PUCreativeTabs`): Suits, Weapons (empty -> hidden by vanilla until it has items), Items, Blocks;
+- Web-Shooters (`item/WebShootersItem`, no function yet; future: web cartridges inserted into them): worn in the
+  Curios `bracelet` slot (data-only: `data/curios/tags/item/bracelet.json` + `data/powers_unchained/curios/entities`),
+  drawn by `client/gadget/WebShootersModel` through `neoforge/.../compat/curios/CuriosClientCompat` (ICurioRenderer,
+  only class-loaded when Curios is present). Curios is an optional dep: `compileOnly` API + `localRuntime` in
+  `neoforge/build.gradle`, version `curios_version` in gradle.properties. Fabric later: Trinkets. Assets:
+  `tools/gen_web_shooters.py` (3D JSON item model + worn texture).
+- Recipe unlocks: `data/powers_unchained/advancement/recipes/...` (Suit Creator unlocks with the copper block recipe).
+- Chest pieces are `<suit>_chestplate` (renamed from `_suit`).
+- Creative tabs (`PUCreativeTabs`): Suits, Weapons, Items, Blocks;
   ordered with `withTabsBefore`. Tab contents go through `IRegistryHelper.TabOutput` (search-only flag).
 - Armor stands: `SuitArmorStandLayer` + `SuitArmorStandModel` (player-skin UV mesh on armor stand pivots, posed like
   vanilla armor; small stands via `HumanoidModel.BABY_TRANSFORMER`); `SuitRendering.extractEquipment` registered

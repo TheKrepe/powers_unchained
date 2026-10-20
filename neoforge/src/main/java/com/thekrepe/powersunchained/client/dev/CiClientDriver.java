@@ -16,10 +16,10 @@ public final class CiClientDriver {
 
     private static final boolean CLIENT = Boolean.getBoolean("powers_unchained.ci");
 
-    private static final String FULL_SUIT = "equipment:{head:{id:\"powers_unchained:spider_man_mask\"},chest:{id:\"powers_unchained:spider_man_suit\"},"
+    private static final String FULL_SUIT = "equipment:{head:{id:\"powers_unchained:spider_man_mask\"},chest:{id:\"powers_unchained:spider_man_chestplate\"},"
             + "legs:{id:\"powers_unchained:spider_man_pants\"},feet:{id:\"powers_unchained:spider_man_boots\"}}";
     private static final String MASK_AND_BOOTS = "equipment:{head:{id:\"powers_unchained:spider_man_mask\"},feet:{id:\"powers_unchained:spider_man_boots\"}}";
-    private static final String SUIT_AND_PANTS = "equipment:{chest:{id:\"powers_unchained:spider_man_suit\"},legs:{id:\"powers_unchained:spider_man_pants\"}}";
+    private static final String SUIT_AND_PANTS = "equipment:{chest:{id:\"powers_unchained:spider_man_chestplate\"},legs:{id:\"powers_unchained:spider_man_pants\"}}";
     private static final String WIDE = "profile:{model:\"wide\",texture:\"minecraft:entity/player/wide/steve\"}";
     private static final String SLIM = "profile:{model:\"slim\",texture:\"minecraft:entity/player/slim/alex\"}";
 
@@ -50,7 +50,7 @@ public final class CiClientDriver {
                 run("weather clear");
                 run("tp @p 0.5 ~ 0.5 0 0");
                 run("item replace entity @p armor.head with powers_unchained:spider_man_mask");
-                run("item replace entity @p armor.chest with powers_unchained:spider_man_suit");
+                run("item replace entity @p armor.chest with powers_unchained:spider_man_chestplate");
                 run("item replace entity @p armor.legs with powers_unchained:spider_man_pants");
                 run("item replace entity @p armor.feet with powers_unchained:spider_man_boots");
                 run("suit spider_man_raimi @p");
@@ -119,7 +119,7 @@ public final class CiClientDriver {
             case 2880 -> {
                 // Item icons: one column per variant, rows mask / suit / pants / boots.
                 run("tp @p 200.5 ~ 0.5 0 -8");
-                String[] pieces = {"mask", "suit", "pants", "boots"};
+                String[] pieces = {"mask", "chestplate", "pants", "boots"};
                 for (int i = 0; i < VARIANTS.length; i++) {
                     for (int j = 0; j < pieces.length; j++) {
                         display(1.6 - i * 0.8, 2.6 - j * 0.6, "powers_unchained:" + VARIANTS[i] + "_" + pieces[j]);
@@ -128,6 +128,16 @@ public final class CiClientDriver {
             }
             case 2980 -> shot("10_suit_items");
             case 3180 -> {
+                // Web-shooters in the Curios bracelet slot (Curios runs in dev/CI only), over the Raimi suit.
+                run("tp @p 240.5 ~ 0.5 0 0");
+                run("curios replace bracelet 0 @p with powers_unchained:web_shooters");
+                run("item replace entity @p weapon.mainhand with minecraft:air");
+                mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
+            }
+            case 3280 -> shot("11_web_shooters_third_person");
+            case 3480 -> mc.options.setCameraType(CameraType.FIRST_PERSON);
+            case 3580 -> shot("12_web_shooters_first_person");
+            case 3780 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -141,7 +151,7 @@ public final class CiClientDriver {
     }
 
     private static String fullSuit(String suit) {
-        return "equipment:{head:{id:\"powers_unchained:" + suit + "_mask\"},chest:{id:\"powers_unchained:" + suit + "_suit\"},"
+        return "equipment:{head:{id:\"powers_unchained:" + suit + "_mask\"},chest:{id:\"powers_unchained:" + suit + "_chestplate\"},"
                 + "legs:{id:\"powers_unchained:" + suit + "_pants\"},feet:{id:\"powers_unchained:" + suit + "_boots\"}}";
     }
 

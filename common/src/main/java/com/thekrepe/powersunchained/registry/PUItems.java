@@ -1,6 +1,7 @@
 package com.thekrepe.powersunchained.registry;
 
 import com.thekrepe.powersunchained.item.SuitPieceItem;
+import com.thekrepe.powersunchained.item.WebShootersItem;
 import com.thekrepe.powersunchained.platform.Services;
 import com.thekrepe.powersunchained.suit.Suit;
 import com.thekrepe.powersunchained.suit.Suits;
@@ -25,11 +26,15 @@ public final class PUItems {
     private static final List<Supplier<? extends Item>> ITEMS = new ArrayList<>();
     private static final List<Supplier<? extends Item>> BLOCKS = new ArrayList<>();
 
-    /** Pieces in tab order: mask, suit, pants, boots. */
+    /** Pieces in tab order: mask, chestplate, pants, boots. */
     private static final ArmorType[] PIECES = {ArmorType.HELMET, ArmorType.CHESTPLATE, ArmorType.LEGGINGS, ArmorType.BOOTS};
 
     // Items: fabric in every dye color, made from wool and a stick
     public static final Map<DyeColor, Supplier<Item>> FABRICS = registerFabrics();
+
+    // Weapons & gadgets
+    public static final Supplier<WebShootersItem> WEB_SHOOTERS = register(WEAPONS, "web_shooters", WebShootersItem::new,
+            properties -> properties.stacksTo(1));
 
     // Blocks
     public static final Supplier<BlockItem> SUIT_CREATOR = blockItem("suit_creator", PUBlocks.SUIT_CREATOR);
@@ -38,7 +43,7 @@ public final class PUItems {
     private static final Map<Suit, Map<ArmorType, Supplier<SuitPieceItem>>> SUIT_PIECES = registerSuits();
 
     public static final Supplier<SuitPieceItem> SPIDER_MAN_MASK = piece(Suits.SPIDER_MAN, ArmorType.HELMET);
-    public static final Supplier<SuitPieceItem> SPIDER_MAN_SUIT = piece(Suits.SPIDER_MAN, ArmorType.CHESTPLATE);
+    public static final Supplier<SuitPieceItem> SPIDER_MAN_CHESTPLATE = piece(Suits.SPIDER_MAN, ArmorType.CHESTPLATE);
     public static final Supplier<SuitPieceItem> SPIDER_MAN_PANTS = piece(Suits.SPIDER_MAN, ArmorType.LEGGINGS);
     public static final Supplier<SuitPieceItem> SPIDER_MAN_BOOTS = piece(Suits.SPIDER_MAN, ArmorType.BOOTS);
 
@@ -84,6 +89,13 @@ public final class PUItems {
         return Collections.unmodifiableMap(fabrics);
     }
 
+    private static <T extends Item> Supplier<T> register(List<Supplier<? extends Item>> tab, String name,
+            java.util.function.Function<Item.Properties, T> factory, UnaryOperator<Item.Properties> properties) {
+        Supplier<T> item = Services.REGISTRY.registerItem(name, factory, properties);
+        tab.add(item);
+        return item;
+    }
+
     private static Supplier<BlockItem> blockItem(String name, Supplier<? extends Block> block) {
         Supplier<BlockItem> item = Services.REGISTRY.registerItem(
                 name,
@@ -114,7 +126,7 @@ public final class PUItems {
     private static String pieceName(ArmorType type) {
         return switch (type) {
             case HELMET -> "mask";
-            case CHESTPLATE -> "suit";
+            case CHESTPLATE -> "chestplate";
             case LEGGINGS -> "pants";
             default -> "boots";
         };

@@ -1,7 +1,9 @@
 package com.thekrepe.powersunchained.client;
 
 import com.thekrepe.powersunchained.Constants;
+import com.thekrepe.powersunchained.compat.curios.CuriosClientCompat;
 import com.thekrepe.powersunchained.client.dev.CiClientDriver;
+import com.thekrepe.powersunchained.client.gadget.WebShootersModel;
 import com.thekrepe.powersunchained.client.suit.SuitArmorStandLayer;
 import com.thekrepe.powersunchained.client.suit.SuitFirstPersonRenderer;
 import com.thekrepe.powersunchained.client.suit.SuitLayer;
@@ -20,7 +22,10 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.PlayerModelType;
 import net.minecraft.world.inventory.Slot;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RenderArmEvent;
@@ -38,7 +43,13 @@ public class PowersUnchainedNeoForgeClient {
         modEventBus.addListener(PowersUnchainedNeoForgeClient::registerLayerDefinitions);
         modEventBus.addListener(PowersUnchainedNeoForgeClient::addLayers);
         modEventBus.addListener(PowersUnchainedNeoForgeClient::registerRenderStateModifiers);
-        NeoForge.EVENT_BUS.addListener(PowersUnchainedNeoForgeClient::onRenderArm);
+        // lowest priority: other mods (e.g. Curios accessories) draw on the arm before we cancel vanilla's arm
+        NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, PowersUnchainedNeoForgeClient::onRenderArm);
+        modEventBus.addListener((FMLClientSetupEvent event) -> event.enqueueWork(() -> {
+            if (ModList.get().isLoaded("curios")) {
+                CuriosClientCompat.init();
+            }
+        }));
         NeoForge.EVENT_BUS.addListener((ScreenEvent.MouseScrolled.Pre event) -> {
             Slot hovered = event.getScreen() instanceof AbstractContainerScreen<?> container ? container.getHoveredSlot() : null;
             if (SuitVariantScroller.onScroll(event.getScreen(), hovered, event.getScrollDeltaY())) {
@@ -52,6 +63,7 @@ public class PowersUnchainedNeoForgeClient {
 
     private static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         SuitModelLayers.register(event::registerLayerDefinition);
+        WebShootersModel.registerLayers(event::registerLayerDefinition);
     }
 
     private static void addLayers(EntityRenderersEvent.AddLayers event) {
@@ -71,6 +83,7 @@ public class PowersUnchainedNeoForgeClient {
             armorStand.addLayer(new SuitArmorStandLayer(armorStand, event.getEntityModels()));
         }
         SuitFirstPersonRenderer.bakeModels(event.getEntityModels());
+        WebShootersModel.bake(event.getEntityModels());
     }
 
     private static void registerRenderStateModifiers(RegisterRenderStateModifiersEvent event) {

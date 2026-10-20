@@ -39,7 +39,8 @@ public final class SuitVariantScroller {
             return false;
         }
         Suit current = piece.getSuit();
-        Suit next = Suits.variant(current, scrollY > 0 ? -1 : 1);
+        // wheel up = next variant, wheel down = previous
+        Suit next = Suits.variant(current, scrollY > 0 ? 1 : -1);
         // the tab contents (kept when the list is scrolled) ...
         List<ItemStack> items = creative.getMenu().items;
         for (int i = 0; i < items.size(); i++) {

@@ -244,7 +244,7 @@ BOOTS = [
 ]
 item_dir = ("assets", "powers_unchained", "textures", "item")
 save(icon(MASK, PAL), *item_dir, "spider_man_mask.png")
-save(icon(SUIT, PAL), *item_dir, "spider_man_suit.png")
+save(icon(SUIT, PAL), *item_dir, "spider_man_chestplate.png")
 save(icon(PANTS, PAL), *item_dir, "spider_man_pants.png")
 save(icon(BOOTS, PAL), *item_dir, "spider_man_boots.png")
 print("ok")
