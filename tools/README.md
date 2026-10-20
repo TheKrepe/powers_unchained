@@ -11,6 +11,3 @@
 - `gen_tech_table.py <out root>` — tech tailoring table concepts T1-T3 (not used any more).
 - `gen_suit_creator.py <resources root>` — Suit Creator block model + textures (the block used in the mod).
 - `gen_spider_variants.py <resources root>` — alternative Spider-Man suits (textures + item icons).
-- `update-mod.ps1` — Windows / Prism Launcher pre-launch command: downloads the newest jar from the rolling `dev`
-  release (published by `build.yml` on every push to main) into the instance's mods folder. Needs a read-only
-  GitHub token in `%APPDATA%\powers_unchained_token.txt`.

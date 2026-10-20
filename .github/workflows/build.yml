@@ -54,8 +54,7 @@ jobs:
             !**/*-javadoc.jar
           if-no-files-found: error
 
-      # Rolling pre-release 'dev' with the newest NeoForge jar of main, picked up by tools/update-mod.ps1
-      # (Prism Launcher pre-launch command) so the latest build lands in the game automatically.
+      # Rolling pre-release 'dev' with the newest NeoForge jar of main: gives the owner a direct .jar download link.
       - name: Publish dev release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash
