@@ -53,3 +53,16 @@ jobs:
             !**/*-sources.jar
             !**/*-javadoc.jar
           if-no-files-found: error
+
+      # Rolling pre-release 'dev' with the newest NeoForge jar of main, picked up by tools/update-mod.ps1
+      # (Prism Launcher pre-launch command) so the latest build lands in the game automatically.
+      - name: Publish dev release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          JAR=$(ls neoforge/build/libs/*.jar | grep -v -e '-sources' -e '-javadoc' | head -1)
+          gh release delete dev --yes --cleanup-tag -R "${{ github.repository }}" || true
+          gh release create dev "$JAR" -R "${{ github.repository }}" --target "${{ github.sha }}" --prerelease \
+            --title "Dev build" --notes "Latest build of main: ${{ github.sha }}"

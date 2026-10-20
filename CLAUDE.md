@@ -37,6 +37,8 @@ The Claude sandbox cannot reach maven.neoforged.net / maven.fabricmc.net / Mojan
 Actions logs/artifacts. Workarounds that push results to git branches (fetch them with
 `git fetch -f origin <branch>:refs/remotes/origin/<branch>`):
 - `build.yml` — builds every push. On failure the full Gradle log goes to branch **`ci-log`** (`build.log`).
+  On push to main the NeoForge jar is published as the rolling pre-release **`dev`**; the owner's Prism Launcher
+  pulls it before each launch with `tools/update-mod.ps1`.
 - `client-test.yml` (manual dispatch via REST:
   `gh api -X POST repos/TheKrepe/powers_unchained/actions/workflows/client-test.yml/dispatches -f ref=main`)
   — generates a flat world with a dedicated server, runs the real client on Xvfb + software GL, and the in-mod
