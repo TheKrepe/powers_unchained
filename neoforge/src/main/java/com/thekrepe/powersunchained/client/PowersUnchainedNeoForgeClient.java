@@ -80,7 +80,7 @@ public class PowersUnchainedNeoForgeClient {
             }
         });
         NeoForge.EVENT_BUS.addListener((ItemTooltipEvent event) ->
-                SuitVariantScroller.appendTooltip(event.getItemStack(), event.getToolTip(), event.getEntity()));
+                SuitVariantScroller.appendTooltip(event.getItemStack(), event.getToolTip()));
         // abilities / web-shooters
         modEventBus.addListener((RegisterKeyMappingsEvent event) -> {
             event.registerCategory(PUKeyMappings.CATEGORY);

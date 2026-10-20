@@ -37,11 +37,12 @@ The Claude sandbox cannot reach maven.neoforged.net / maven.fabricmc.net / Mojan
 Actions logs/artifacts. Workarounds that push results to git branches (fetch them with
 `git fetch -f origin <branch>:refs/remotes/origin/<branch>`):
 - `build.yml` — builds every push. On failure the full Gradle log goes to branch **`ci-log`** (`build.log`).
-  On push to main the NeoForge jar is published as the rolling pre-release **`dev`**.
-- **Owner's rule:** end every reply that changes the mod with the download link of the updated jar (after the build
-  of the last push succeeded and the `dev` release points at that commit):
-  https://github.com/TheKrepe/powers_unchained/releases/download/dev/powers_unchained-neoforge-26.3-0.1.0.jar
-  (file name follows `version` / `minecraft_version` in gradle.properties).
+  Every run uploads the jars as the artifact `powers_unchained-jars` (zip). WIP builds are NOT releases (owner's
+  decision) — never publish GitHub releases.
+- **Owner's rule:** end every reply that changes the mod with the link to the Actions run of the pushed commit
+  (after it succeeded), where the `powers_unchained-jars` zip can be downloaded:
+  `https://github.com/TheKrepe/powers_unchained/actions/runs/<run id>` (run id via
+  `gh api "repos/TheKrepe/powers_unchained/actions/runs?head_sha=<sha>"`).
 - `client-test.yml` (manual dispatch via REST:
   `gh api -X POST repos/TheKrepe/powers_unchained/actions/workflows/client-test.yml/dispatches -f ref=main`)
   — generates a flat world with a dedicated server, runs the real client on Xvfb + software GL, and the in-mod
@@ -80,7 +81,8 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   every variant is its own items (`<suit>_mask/_suit/_pants/_boots`, registered from `Suits.ALL` in `PUItems`).
   Suits creative tab lists only the first variant (others are search-only); `client/suit/SuitVariantScroller`
   swaps the whole hovered suit (all 4 pieces) on mouse wheel (NeoForge `ScreenEvent.MouseScrolled.Pre`) and adds
-  a "Variant n/m: name" tooltip line under the item name. All suits share stats: 3/8/6/3 (full armor bar), no
+  a soft-blue "Variant n/m: name" tooltip line under the item name, only inside the Suits tab
+  (open screen = `Minecraft.getInstance().gui.screen()` in 26.3). All suits share stats: 3/8/6/3 (full armor bar), no
   toughness, durability 18. Variant textures/icons: `tools/gen_spider_variants.py`.
 - Command `/suit <suit> [targets]` (`command/SuitCommand`, registered via NeoForge `RegisterCommandsEvent`): gives
   the full set, suit names tab-complete, permission level 2.

@@ -46,7 +46,7 @@
   "suit.powers_unchained.spider_man_advanced_2": "Продвинутый 2.0",
   "suit.powers_unchained.spider_man_brand_new_day": "Совершенно новый день",
   "suit.powers_unchained.spider_man_raimi": "Рэйми",
-  "tooltip.powers_unchained.suit_variant.scroll": "Колёсико мыши во вкладке Suits: сменить костюм",
+  "tooltip.powers_unchained.suit_variant.scroll": "Колёсико мыши: сменить костюм",
   "commands.powers_unchained.suit.unknown": "Неизвестный костюм: %s",
   "commands.powers_unchained.suit.success.single": "Выдан полный комплект: %s — игроку %s",
   "commands.powers_unchained.suit.success.multiple": "Выдан полный комплект: %s — игрокам (%s)",

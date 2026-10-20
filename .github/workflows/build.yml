@@ -54,21 +54,11 @@ jobs:
             !**/*-javadoc.jar
           if-no-files-found: error
 
-      # Rolling pre-release 'dev' with the newest NeoForge jar of main: gives the owner a direct .jar download link.
-      - name: Publish dev release
+      # Work-in-progress builds are not releases: remove the old rolling 'dev' release/tag if it still exists.
+      # (Download = the jars artifact of the run above.)
+      - name: Remove old dev release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          JAR=$(ls neoforge/build/libs/*.jar | grep -v -e '-sources' -e '-javadoc' | head -1)
-          NOTES="Latest build of main: ${{ github.sha }}"
-          # move the tag instead of re-creating the release (delete + create raced and left a draft)
-          git tag -f dev "${{ github.sha }}"
-          git push -f origin refs/tags/dev
-          if gh release view dev -R "${{ github.repository }}" >/dev/null 2>&1; then
-            gh release upload dev "$JAR" --clobber -R "${{ github.repository }}"
-            gh release edit dev --draft=false --prerelease --notes "$NOTES" -R "${{ github.repository }}"
-          else
-            gh release create dev "$JAR" --verify-tag --prerelease --title "Dev build" --notes "$NOTES" -R "${{ github.repository }}"
-          fi
+        run: gh release delete dev --yes --cleanup-tag -R "${{ github.repository }}" || true

@@ -8,11 +8,11 @@ import com.thekrepe.powersunchained.suit.Suits;
 import java.util.Iterator;
 import java.util.List;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
@@ -68,25 +68,27 @@ public final class SuitVariantScroller {
         return null;
     }
 
+    /** Soft blue for the variant line. */
+    private static final int VARIANT_COLOR = 0x8FB8FF;
+
     /**
-     * Adds the variant line right under the item name: "Variant 2/5: Advanced 2.0", plus the mouse-wheel hint
-     * for players in creative mode.
+     * Adds the variant line right under the item name ("Variant 2/5: Advanced 2.0") and the mouse-wheel hint —
+     * only for suit pieces shown in the Suits creative tab, not for items anywhere else.
      */
-    public static void appendTooltip(ItemStack stack, List<Component> tooltip, @Nullable Player player) {
+    public static void appendTooltip(ItemStack stack, List<Component> tooltip) {
         if (!(stack.getItem() instanceof SuitPieceItem piece) || tooltip.isEmpty()) {
             return;
         }
         int[] position = Suits.variantPosition(piece.getSuit());
-        if (position == null) {
+        if (position == null || !(Minecraft.getInstance().gui.screen() instanceof CreativeModeInventoryScreen creative)
+                || !isSuitsTabOpen(creative)) {
             return;
         }
         Component name = Component.translatable(Suits.variantNameKey(piece.getSuit()));
         tooltip.add(1, Component.translatable("tooltip.powers_unchained.suit_variant", position[0] + 1, position[1], name)
-                .withStyle(ChatFormatting.GRAY));
-        if (player != null && player.isCreative()) {
-            tooltip.add(2, Component.translatable("tooltip.powers_unchained.suit_variant.scroll")
-                    .withStyle(ChatFormatting.DARK_GRAY));
-        }
+                .withColor(VARIANT_COLOR));
+        tooltip.add(2, Component.translatable("tooltip.powers_unchained.suit_variant.scroll")
+                .withStyle(ChatFormatting.DARK_GRAY));
     }
 
     /**

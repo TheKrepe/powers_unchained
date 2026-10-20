@@ -46,7 +46,7 @@
   "suit.powers_unchained.spider_man_advanced_2": "Advanced 2.0",
   "suit.powers_unchained.spider_man_brand_new_day": "Brand New Day",
   "suit.powers_unchained.spider_man_raimi": "Raimi",
-  "tooltip.powers_unchained.suit_variant.scroll": "Mouse wheel in the Suits tab: switch suit",
+  "tooltip.powers_unchained.suit_variant.scroll": "Mouse wheel: switch suit",
   "commands.powers_unchained.suit.unknown": "Unknown suit: %s",
   "commands.powers_unchained.suit.success.single": "Gave a full set: %s to %s",
   "commands.powers_unchained.suit.success.multiple": "Gave a full set: %s to %s players",
