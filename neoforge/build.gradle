@@ -61,6 +61,12 @@ repositories {
     }
 }
 
+// Runtime-only mods for dev/CI runs, not exposed as dependencies of the published jar.
+configurations {
+    localRuntime
+    runtimeClasspath.extendsFrom localRuntime
+}
+
 dependencies {
     // Curios is optional: compile against its API, and only run it in dev/CI (not a dependency of the jar).
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
