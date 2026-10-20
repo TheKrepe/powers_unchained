@@ -1,6 +1,7 @@
 package com.thekrepe.powersunchained.platform;
 
 import com.thekrepe.powersunchained.Constants;
+import com.thekrepe.powersunchained.platform.services.IGameplayHelper;
 import com.thekrepe.powersunchained.platform.services.IPlatformHelper;
 import com.thekrepe.powersunchained.platform.services.IRegistryHelper;
 
@@ -18,6 +19,9 @@ public class Services {
 
     // Registration of items, creative tabs, etc. backed by the current loader.
     public static final IRegistryHelper REGISTRY = load(IRegistryHelper.class);
+
+    // Accessory slots, synced entity data and networking, backed by the current loader.
+    public static final IGameplayHelper GAMEPLAY = load(IGameplayHelper.class);
 
     // This code is used to load a service for the current environment. Your implementation of the service must be defined
     // manually by including a text file in META-INF/services named with the fully qualified class name of the service.

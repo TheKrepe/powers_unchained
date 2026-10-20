@@ -3,6 +3,9 @@ import os
 import sys
 from PIL import Image
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import suit_textures  # noqa: E402
+
 OUT = sys.argv[1]
 
 T = (0, 0, 0, 0)
@@ -156,6 +159,7 @@ save(main_texture(True), *suit_dir, "spider_man_slim.png")
 boots = new()
 paint_boots(boots)
 save(boots, *suit_dir, "spider_man_boots.png")
+suit_textures.split(os.path.join(OUT, *suit_dir), "spider_man")
 
 
 # ---------- item icons (16x16) ----------

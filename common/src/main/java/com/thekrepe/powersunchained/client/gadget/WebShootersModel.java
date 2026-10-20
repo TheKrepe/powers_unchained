@@ -1,100 +1,96 @@
 package com.thekrepe.powersunchained.client.gadget;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.thekrepe.powersunchained.Constants;
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
-import net.minecraft.client.model.HumanoidModel;
+import com.thekrepe.powersunchained.client.suit.SuitModelLayers;
 import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.model.player.PlayerModel;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.player.PlayerModelType;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Web-Shooters worn on both wrists: a metal cuff, a cartridge housing on the outer side and a small nozzle at the
- * front. Humanoid model with empty head/body/legs, so it follows the wearer's arm poses via {@code setupAnim}.
+ * Web-shooters drawn like a suit piece: a player-skin texture (64x64, only the arm regions used) on the player model,
+ * slightly larger than the suit (same inflate as the boots), so they stay visible over a worn chestplate.
+ * Only the arms (and sleeves) are shown.
  */
-public class WebShootersModel extends HumanoidModel<HumanoidRenderState> {
+public class WebShootersModel extends PlayerModel {
 
-    public static final Identifier TEXTURE = Constants.id("textures/models/web_shooters.png");
-    public static final ModelLayerLocation WIDE = new ModelLayerLocation(Constants.id("web_shooters"), "main");
-    public static final ModelLayerLocation SLIM = new ModelLayerLocation(Constants.id("web_shooters_slim"), "main");
+    public static final Identifier TEXTURE = Constants.id("textures/gadget/web_shooters.png");
+    public static final Identifier TEXTURE_SLIM = Constants.id("textures/gadget/web_shooters_slim.png");
 
-    private static Models wide;
-    private static Models slim;
+    private static @Nullable WebShootersModel wide;
+    private static @Nullable WebShootersModel slim;
+    private static @Nullable WebShootersModel firstPersonWide;
+    private static @Nullable WebShootersModel firstPersonSlim;
 
-    public WebShootersModel(ModelPart root, @Nullable HumanoidArm onlyArm) {
-        super(root);
-        if (onlyArm != null) {
-            // first-person models show a single arm; fixed, because model submission is deferred
-            this.rightArm.visible = onlyArm == HumanoidArm.RIGHT;
-            this.leftArm.visible = onlyArm == HumanoidArm.LEFT;
-        }
+    public WebShootersModel(ModelPart root, boolean slim) {
+        super(root, slim);
+        this.applyVisibility();
     }
 
-    public static void registerLayers(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> registrar) {
-        registrar.accept(WIDE, () -> LayerDefinition.create(createMesh(4), 32, 32));
-        registrar.accept(SLIM, () -> LayerDefinition.create(createMesh(3), 32, 32));
-    }
-
-    /** Called when entity models are (re)baked. */
+    /** Called when entity models are (re)baked; bakeLayer builds a new part tree per call. */
     public static void bake(EntityModelSet modelSet) {
-        wide = new Models(modelSet, WIDE);
-        slim = new Models(modelSet, SLIM);
+        wide = new WebShootersModel(modelSet.bakeLayer(SuitModelLayers.BOOTS), false);
+        slim = new WebShootersModel(modelSet.bakeLayer(SuitModelLayers.BOOTS_SLIM), true);
+        firstPersonWide = new WebShootersModel(modelSet.bakeLayer(SuitModelLayers.BOOTS), false);
+        firstPersonSlim = new WebShootersModel(modelSet.bakeLayer(SuitModelLayers.BOOTS_SLIM), true);
     }
 
-    /** @param arm {@code null} for both arms (third person) */
-    public static @Nullable WebShootersModel get(boolean slimArms, @Nullable HumanoidArm arm) {
-        Models set = slimArms ? slim : wide;
-        if (set == null) {
-            return null;
+    @Override
+    public void setupAnim(AvatarRenderState state) {
+        super.setupAnim(state);
+        // PlayerModel hides sleeves from the skin flags (which suits turn off), so set our own visibility again
+        this.applyVisibility();
+    }
+
+    private void applyVisibility() {
+        this.head.visible = false;
+        this.hat.visible = false;
+        this.body.visible = false;
+        this.jacket.visible = false;
+        this.rightLeg.visible = false;
+        this.leftLeg.visible = false;
+        this.rightPants.visible = false;
+        this.leftPants.visible = false;
+        this.rightArm.visible = true;
+        this.leftArm.visible = true;
+        this.rightSleeve.visible = true;
+        this.leftSleeve.visible = true;
+    }
+
+    private static RenderType renderType(boolean slimArms) {
+        return RenderTypes.armorCutoutNoCull(slimArms ? TEXTURE_SLIM : TEXTURE);
+    }
+
+    /** Third person, on a player or mannequin. */
+    public static void render(PoseStack poseStack, SubmitNodeCollector collector, int light, AvatarRenderState state) {
+        boolean slimArms = state.skin.model() == PlayerModelType.SLIM;
+        WebShootersModel model = slimArms ? slim : wide;
+        if (model != null) {
+            collector.submitModel(model, state, poseStack, renderType(slimArms), light, OverlayTexture.NO_OVERLAY, state.outlineColor);
         }
-        return arm == null ? set.both : arm == HumanoidArm.RIGHT ? set.right : set.left;
     }
 
-    private static MeshDefinition createMesh(int armWidth) {
-        MeshDefinition mesh = HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F);
-        PartDefinition root = mesh.getRoot();
-        root.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.ZERO)
-                .addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
-        root.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.ZERO);
-        root.addOrReplaceChild("right_leg", CubeListBuilder.create(), PartPose.offset(-1.9F, 12.0F, 0.0F));
-        root.addOrReplaceChild("left_leg", CubeListBuilder.create(), PartPose.offset(1.9F, 12.0F, 0.0F));
-
-        // arm-local x ranges (same as the player model): right [1 - w, 1], left [-1, w - 1]
-        float rMin = 1 - armWidth;
-        float lMax = armWidth - 1;
-        root.addOrReplaceChild("right_arm", CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(rMin - 0.5F, 6.5F, -2.5F, armWidth + 1, 3, 5)
-                        .texOffs(0, 10).addBox(rMin - 1.25F, 7.0F, -1.5F, 1, 2, 3)
-                        .texOffs(0, 16).addBox(0.0F, 7.5F, -3.25F, 1, 1, 1),
-                PartPose.offset(-5.0F, 2.0F, 0.0F));
-        root.addOrReplaceChild("left_arm", CubeListBuilder.create().mirror()
-                        .texOffs(0, 0).addBox(-1.5F, 6.5F, -2.5F, armWidth + 1, 3, 5)
-                        .texOffs(0, 10).addBox(lMax + 0.25F, 7.0F, -1.5F, 1, 2, 3)
-                        .texOffs(0, 16).addBox(-1.0F, 7.5F, -3.25F, 1, 1, 1),
-                PartPose.offset(5.0F, 2.0F, 0.0F));
-        return mesh;
-    }
-
-    private static final class Models {
-        final WebShootersModel both;
-        final WebShootersModel right;
-        final WebShootersModel left;
-
-        Models(EntityModelSet modelSet, ModelLayerLocation layer) {
-            // bakeLayer builds a new part tree each call
-            this.both = new WebShootersModel(modelSet.bakeLayer(layer), null);
-            this.right = new WebShootersModel(modelSet.bakeLayer(layer), HumanoidArm.RIGHT);
-            this.left = new WebShootersModel(modelSet.bakeLayer(layer), HumanoidArm.LEFT);
+    /** First person: the arm currently being drawn (pose stack already set up for the arm). */
+    public static void renderArm(PoseStack poseStack, SubmitNodeCollector collector, int light, HumanoidArm side, boolean slimArms) {
+        WebShootersModel model = slimArms ? firstPersonSlim : firstPersonWide;
+        if (model == null) {
+            return;
         }
+        boolean right = side == HumanoidArm.RIGHT;
+        ModelPart arm = right ? model.rightArm : model.leftArm;
+        arm.resetPose();
+        arm.visible = true;
+        (right ? model.rightSleeve : model.leftSleeve).visible = true;
+        arm.zRot = right ? 0.1F : -0.1F;
+        collector.submitModelPart(arm, poseStack, renderType(slimArms), light, OverlayTexture.NO_OVERLAY, null);
     }
 }

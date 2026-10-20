@@ -9,6 +9,9 @@ import java.util.function.UnaryOperator;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,12 +25,14 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
     private static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Constants.MOD_ID);
     private static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Constants.MOD_ID);
+    private static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, Constants.MOD_ID);
     private static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Constants.MOD_ID);
 
     /** Hooks all deferred registers to the mod event bus. Call after common content has been declared. */
     public static void register(IEventBus modEventBus) {
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
+        ENTITY_TYPES.register(modEventBus);
         CREATIVE_TABS.register(modEventBus);
     }
 
@@ -39,6 +44,11 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     @Override
     public <T extends Item> Supplier<T> registerItem(String name, Function<Item.Properties, T> factory, UnaryOperator<Item.Properties> properties) {
         return ITEMS.registerItem(name, factory, properties);
+    }
+
+    @Override
+    public <T extends Entity> Supplier<EntityType<T>> registerEntityType(String name, Supplier<EntityType.Builder<T>> builder) {
+        return ENTITY_TYPES.register(name, id -> builder.get().build(ResourceKey.create(Registries.ENTITY_TYPE, id)));
     }
 
     @Override

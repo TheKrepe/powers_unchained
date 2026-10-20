@@ -3,6 +3,7 @@ package com.thekrepe.powersunchained;
 import com.thekrepe.powersunchained.platform.Services;
 import com.thekrepe.powersunchained.registry.PUBlocks;
 import com.thekrepe.powersunchained.registry.PUCreativeTabs;
+import com.thekrepe.powersunchained.registry.PUEntities;
 import com.thekrepe.powersunchained.registry.PUItems;
 
 /**
@@ -21,6 +22,7 @@ public final class PowersUnchained {
                 Services.PLATFORM.getEnvironmentName());
         PUBlocks.init();
         PUItems.init();
+        PUEntities.init();
         PUCreativeTabs.init();
     }
 }

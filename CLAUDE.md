@@ -79,12 +79,23 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   toughness, durability 18. Variant textures/icons: `tools/gen_spider_variants.py`.
 - Command `/suit <suit> [targets]` (`command/SuitCommand`, registered via NeoForge `RegisterCommandsEvent`): gives
   the full set, suit names tab-complete, permission level 2.
-- Web-Shooters (`item/WebShootersItem`, no function yet; future: web cartridges inserted into them): worn in the
-  Curios `bracelet` slot (data-only: `data/curios/tags/item/bracelet.json` + `data/powers_unchained/curios/entities`),
-  drawn by `client/gadget/WebShootersModel` through `neoforge/.../compat/curios/CuriosClientCompat` (ICurioRenderer,
-  only class-loaded when Curios is present). Curios is an optional dep: `compileOnly` API + `localRuntime` in
-  `neoforge/build.gradle`, version `curios_version` in gradle.properties. Fabric later: Trinkets. Assets:
-  `tools/gen_web_shooters.py` (3D JSON item model + worn texture).
+- Web-Shooters (`item/WebShootersItem`): worn in the Curios `bracelet` slot (data-only: `data/curios/tags/item/
+  bracelet.json` + `data/powers_unchained/curios/entities`); drawn skin-style like a suit piece
+  (`client/gadget/WebShootersModel`, PlayerModel at boots inflate 0.1 so it shows over a chestplate; hand-made
+  textures `textures/gadget/web_shooters(_slim).png`) via `neoforge/.../compat/curios/CuriosClientCompat`
+  (ICurioRenderer, only class-loaded with Curios). Curios = optional dep (`compileOnly` API + `localRuntime`,
+  `curios_version`). Without Curios, web-shooters anywhere in the inventory count. Fabric later: Trinkets.
+  `web_cartridge` item (future ammo, no recipe yet).
+- Ability keys (`client/input/PUKeyMappings`, category "Powers Unchained"): Ability 1-5 = C, V, B, M, comma.
+- Web Shot ability (ability 1 with web-shooters): `client/web/WebShooterClient` (tap = mode on/off, hold = menu,
+  wheel while holding = web type, right click while on = fire -> `network/ShootWebPayload` -> `web/WebShooting`,
+  cooldown on the web-shooters item), `client/web/WebShooterHud` (GUI layer). `web/WebType` IMPACT (damage) /
+  STICKY (slowness + `IGameplayHelper.setWebbedUntil`, a synced NeoForge attachment). Projectile
+  `entity/WebProjectile` (ThrowableItemProjectile, rendered with ThrownItemRenderer from items impact_web /
+  sticky_web). Webbed visuals: `client/web/WebbedRendering` (layer on every LivingEntityRenderer, state flag via
+  NeoForge render data; first-person arm; screen overlay GUI layer). Assets: `tools/gen_web_assets.py`.
+- Loader services: `IRegistryHelper` (blocks, items, entity types, tabs), `IGameplayHelper` (accessory check,
+  webbed data, sendToServer).
 - Recipe unlocks: `data/powers_unchained/advancement/recipes/...` (Suit Creator unlocks with the copper block recipe).
 - Chest pieces are `<suit>_chestplate` (renamed from `_suit`).
 - Creative tabs (`PUCreativeTabs`): Suits, Weapons, Items, Blocks;
@@ -92,8 +103,9 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
 - Armor stands: `SuitArmorStandLayer` + `SuitArmorStandModel` (player-skin UV mesh on armor stand pivots, posed like
   vanilla armor; small stands via `HumanoidModel.BABY_TRANSFORMER`); `SuitRendering.extractEquipment` registered
   as a render state modifier for `ArmorStandRenderer`.
-- Suit textures use the 64x64 player skin layout: `textures/suit/<suit>/<suit>.png`, `<suit>_slim.png`
-  (3px arms), optional `<suit>_boots.png`.
+- Suit textures: one 64x64 player-skin-layout texture per piece, `textures/suit/<suit>/<suit>_mask.png`,
+  `_chestplate.png`, `_chestplate_slim.png` (3px arms), `_pants.png`, `_boots.png` (`tools/suit_textures.py`
+  splits a full texture; the generators call it).
 
 ## Lessons from Palladium 5 (`26.1/dev`, NeoForge 26.1.2, closest reference to our target)
 - Abilities are codec-based (`Codec` dispatch by registry), not property bags. State is split into

@@ -78,10 +78,12 @@ public final class SuitRendering {
     }
 
     public static Identifier texture(Suit suit, SuitModel.Part part, boolean slim) {
-        if (part == SuitModel.Part.FEET && suit.bootsTexture() != null) {
-            return suit.bootsTexture();
-        }
-        return suit.texture(slim);
+        return switch (part) {
+            case HEAD -> suit.maskTexture();
+            case CHEST -> slim ? suit.chestplateSlimTexture() : suit.chestplateTexture();
+            case LEGS -> suit.pantsTexture();
+            case FEET -> suit.bootsTexture();
+        };
     }
 
     public static RenderType renderType(Identifier texture, ItemStack stack) {

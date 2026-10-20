@@ -52,8 +52,10 @@ public final class Suits {
     private static Suit cloth(String name) {
         return new Suit(
                 Constants.id(name),
-                texture(name + "/" + name),
-                texture(name + "/" + name + "_slim"),
+                texture(name + "/" + name + "_mask"),
+                texture(name + "/" + name + "_chestplate"),
+                texture(name + "/" + name + "_chestplate_slim"),
+                texture(name + "/" + name + "_pants"),
                 texture(name + "/" + name + "_boots"),
                 new ArmorMaterial(
                         18,

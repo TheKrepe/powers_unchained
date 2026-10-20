@@ -50,5 +50,19 @@
   "commands.powers_unchained.suit.unknown": "Неизвестный костюм: %s",
   "commands.powers_unchained.suit.success.single": "Выдан полный комплект: %s — игроку %s",
   "commands.powers_unchained.suit.success.multiple": "Выдан полный комплект: %s — игрокам (%s)",
-  "item.powers_unchained.web_shooters": "Веб-шутеры"
+  "item.powers_unchained.web_shooters": "Веб-шутеры",
+  "key.category.powers_unchained.abilities": "Powers Unchained",
+  "key.powers_unchained.ability_1": "Способность 1",
+  "key.powers_unchained.ability_2": "Способность 2",
+  "key.powers_unchained.ability_3": "Способность 3",
+  "key.powers_unchained.ability_4": "Способность 4",
+  "key.powers_unchained.ability_5": "Способность 5",
+  "item.powers_unchained.web_cartridge": "Картридж с паутиной",
+  "item.powers_unchained.impact_web": "Ударная паутина",
+  "item.powers_unchained.sticky_web": "Липкая паутина",
+  "web_type.powers_unchained.impact_web": "Ударная паутина",
+  "web_type.powers_unchained.sticky_web": "Липкая паутина",
+  "entity.powers_unchained.impact_web": "Ударная паутина",
+  "entity.powers_unchained.sticky_web": "Липкая паутина",
+  "ability.powers_unchained.web_shot": "Выстрел паутиной"
 }

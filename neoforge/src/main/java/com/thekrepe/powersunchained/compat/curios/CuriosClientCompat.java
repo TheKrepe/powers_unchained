@@ -9,10 +9,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
-import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.PlayerModelType;
 import net.minecraft.world.item.ItemStack;
@@ -32,40 +29,22 @@ public final class CuriosClientCompat {
         ICurioRenderer.register(PUItems.WEB_SHOOTERS.get(), WebShootersRenderer::new);
     }
 
-    /** Draws the web-shooters on the wearer's wrists, in third and first person. */
+    /** Draws the web-shooters on the wearer's arms (skin-style texture), in third and first person. */
     private static final class WebShootersRenderer implements ICurioRenderer {
 
         @Override
         public <S extends LivingEntityRenderState, M extends EntityModel<? super S>> void render(ItemStack stack,
                 SlotContext slotContext, PoseStack poseStack, SubmitNodeCollector collector, int light, S state,
                 RenderLayerParent<S, M> parent, EntityRendererProvider.Context context, float yRot, float xRot) {
-            if (!(state instanceof HumanoidRenderState humanoid)) {
-                return;
+            if (state instanceof AvatarRenderState avatar) {
+                WebShootersModel.render(poseStack, collector, light, avatar);
             }
-            WebShootersModel model = WebShootersModel.get(isSlim(state), null);
-            if (model == null) {
-                return;
-            }
-            model.setupAnim(humanoid);
-            collector.submitModel(model, humanoid, poseStack, RenderTypes.armorCutoutNoCull(WebShootersModel.TEXTURE),
-                    light, OverlayTexture.NO_OVERLAY, humanoid.outlineColor);
         }
 
         @Override
         public void renderFirstPersonHand(ItemStack stack, SlotContext slotContext, HumanoidArm arm, PoseStack poseStack,
                 SubmitNodeCollector collector, AvatarRenderState state, AbstractClientPlayer player, int light) {
-            WebShootersModel model = WebShootersModel.get(isSlim(state), arm);
-            if (model == null) {
-                return;
-            }
-            model.setupAnim(state);
-            model.resetPose();
-            collector.submitModel(model, state, poseStack, RenderTypes.armorCutoutNoCull(WebShootersModel.TEXTURE),
-                    light, OverlayTexture.NO_OVERLAY, state.outlineColor);
-        }
-
-        private static boolean isSlim(LivingEntityRenderState state) {
-            return state instanceof AvatarRenderState avatar && avatar.skin.model() == PlayerModelType.SLIM;
+            WebShootersModel.renderArm(poseStack, collector, light, arm, state.skin.model() == PlayerModelType.SLIM);
         }
     }
 }

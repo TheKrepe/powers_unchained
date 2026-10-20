@@ -138,6 +138,26 @@ public final class CiClientDriver {
             case 3480 -> mc.options.setCameraType(CameraType.FIRST_PERSON);
             case 3580 -> shot("12_web_shooters_first_person");
             case 3780 -> {
+                // Web shooting: zombie target, impact + sticky shots by the server-side ability code.
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+                run("tp @p 280.5 ~ 0.5 0 0");
+                run("execute at @p run summon minecraft:zombie ~ ~ ~6 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}");
+                run("execute at @p run summon minecraft:pig ~2 ~ ~6 {NoAI:1b}");
+            }
+            case 3830 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
+            case 3880 -> shot("13_sticky_web_on_zombie");
+            case 3950 -> {
+                // the local player covered in sticky web (first person: arm + screen overlay)
+                net.minecraft.server.level.ServerPlayer player = serverPlayer();
+                mc.getSingleplayerServer().execute(() -> com.thekrepe.powersunchained.platform.Services.GAMEPLAY
+                        .setWebbedUntil(player, player.level().getGameTime() + 300));
+            }
+            case 4050 -> shot("14_player_webbed_first_person");
+            case 4100 -> {
+                mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
+            }
+            case 4200 -> shot("15_player_webbed_third_person");
+            case 4400 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -153,6 +173,19 @@ public final class CiClientDriver {
     private static String fullSuit(String suit) {
         return "equipment:{head:{id:\"powers_unchained:" + suit + "_mask\"},chest:{id:\"powers_unchained:" + suit + "_chestplate\"},"
                 + "legs:{id:\"powers_unchained:" + suit + "_pants\"},feet:{id:\"powers_unchained:" + suit + "_boots\"}}";
+    }
+
+    private static net.minecraft.server.level.ServerPlayer serverPlayer() {
+        Minecraft mc = Minecraft.getInstance();
+        return mc.getSingleplayerServer().getPlayerList().getPlayer(mc.player.getUUID());
+    }
+
+    private static void shootWeb(com.thekrepe.powersunchained.web.WebType type) {
+        net.minecraft.server.level.ServerPlayer player = serverPlayer();
+        Minecraft.getInstance().getSingleplayerServer().execute(() -> {
+            com.thekrepe.powersunchained.web.WebShooting.shoot(player, type);
+        });
+        Constants.LOG.info("[CI] shot web {}", type);
     }
 
     private static void armorStand(double x, String nbt) {

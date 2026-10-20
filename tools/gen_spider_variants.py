@@ -10,6 +10,9 @@ import sys
 
 from PIL import Image
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import suit_textures  # noqa: E402
+
 OUT = sys.argv[1]
 T = (0, 0, 0, 0)
 
@@ -389,6 +392,7 @@ for sid, painter in SUITS.items():
     save(painter.texture(False), *d, sid + ".png")
     save(painter.texture(True), *d, sid + "_slim.png")
     save(painter.texture(False, boots=True), *d, sid + "_boots.png")
+    suit_textures.split(os.path.join(OUT, *d), sid)
     pal = ICON_PAL[sid]
     for piece, rows in (("mask", MASK), ("chestplate", SUIT), ("pants", PANTS), ("boots", BOOTS)):
         if sid == "spider_man_advanced_2" and piece == "pants":
