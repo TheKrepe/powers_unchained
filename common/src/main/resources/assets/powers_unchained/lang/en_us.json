@@ -58,11 +58,14 @@
   "key.powers_unchained.ability_4": "Ability 4",
   "key.powers_unchained.ability_5": "Ability 5",
   "item.powers_unchained.web_cartridge": "Web Cartridge",
-  "item.powers_unchained.impact_web": "Impact Web",
-  "item.powers_unchained.sticky_web": "Sticky Web",
   "web_type.powers_unchained.impact_web": "Impact Web",
   "web_type.powers_unchained.sticky_web": "Sticky Web",
   "entity.powers_unchained.impact_web": "Impact Web",
   "entity.powers_unchained.sticky_web": "Sticky Web",
-  "ability.powers_unchained.web_shot": "Web Shot"
+  "ability.powers_unchained.web_shot": "Web Shot",
+  "death.attack.powers_unchained.web": "%1$s was webbed to death",
+  "death.attack.powers_unchained.web.player": "%1$s was webbed to death by %2$s",
+  "subtitles.powers_unchained.web_shooters.shoot": "Web shoots",
+  "subtitles.powers_unchained.web_shooters.switch": "Web-shooters click",
+  "subtitles.powers_unchained.entity.web.bounce": "Web bounces"
 }

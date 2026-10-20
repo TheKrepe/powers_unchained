@@ -38,9 +38,6 @@ public final class PUItems {
     /** Will be loaded into the web-shooters as ammo (not used yet, no recipe yet). */
     public static final Supplier<Item> WEB_CARTRIDGE = register(WEAPONS, "web_cartridge", Item::new, UnaryOperator.identity());
 
-    // Internal: what the web projectiles look like (not in any tab)
-    public static final Supplier<Item> IMPACT_WEB = register(new ArrayList<>(), "impact_web", Item::new, UnaryOperator.identity());
-    public static final Supplier<Item> STICKY_WEB = register(new ArrayList<>(), "sticky_web", Item::new, UnaryOperator.identity());
 
     // Blocks
     public static final Supplier<BlockItem> SUIT_CREATOR = blockItem("suit_creator", PUBlocks.SUIT_CREATOR);

@@ -29,14 +29,15 @@ public final class WebShooterHud {
         int cx = graphics.guiWidth() / 2;
         int cy = graphics.guiHeight() / 2;
         WebType selected = WebShooterClient.selected();
-        float cooldown = WebShooterClient.cooldown(partial);
+        int uses = WebShooterClient.uses(selected);
+        // bar: the shot that is recharging (empty -> full); full when all shots are loaded
+        float cooldown = uses < selected.maxUses() ? WebShooterClient.recharge(selected, partial) : 0.0F;
+        Font font = mc.font;
 
         if (!WebShooterClient.isMenuOpen()) {
             // compact indicator at the lower right of the crosshair
-            icon(graphics, selected, cx + 7, cy + 5, 12, cooldown > 0 ? 0xA0FFFFFF : WHITE);
-            if (cooldown > 0) {
-                bar(graphics, cx + 7, cy + 18, 12, cooldown);
-            }
+            icon(graphics, selected, cx + 7, cy + 5, 12, uses > 0 ? WHITE : 0x80FFFFFF);
+            graphics.text(font, String.valueOf(uses), cx + 20, cy + 10, uses > 0 ? WHITE : 0xFFFF6060, true);
             return;
         }
 
@@ -44,7 +45,6 @@ public final class WebShooterHud {
         lens(graphics, cx, y);
         WebType previous = WebType.byId(selected.ordinal() - 1);
         WebType next = WebType.byId(selected.ordinal() + 1);
-        Font font = mc.font;
         if (previous != selected) {
             icon(graphics, previous, cx - 58, y - 9, 18, 0x70FFFFFF);
             graphics.text(font, "<", cx - 33, y - 4, 0x90FFFFFF, true);
@@ -53,7 +53,8 @@ public final class WebShooterHud {
             icon(graphics, next, cx + 40, y - 9, 18, 0x70FFFFFF);
             graphics.text(font, ">", cx + 29, y - 4, 0x90FFFFFF, true);
         }
-        icon(graphics, selected, cx - 16, y - 20, 32, WHITE);
+        icon(graphics, selected, cx - 16, y - 20, 32, uses > 0 ? WHITE : 0x90FFFFFF);
+        graphics.text(font, String.valueOf(uses), cx + 13, y + 4, uses > 0 ? WHITE : 0xFFFF6060, true);
         bar(graphics, cx - 15, y + 14, 30, cooldown);
         Component name = selected.displayName();
         graphics.centeredText(font, name, cx, y + 20, WHITE);

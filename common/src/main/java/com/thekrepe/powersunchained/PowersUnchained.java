@@ -4,6 +4,7 @@ import com.thekrepe.powersunchained.platform.Services;
 import com.thekrepe.powersunchained.registry.PUBlocks;
 import com.thekrepe.powersunchained.registry.PUCreativeTabs;
 import com.thekrepe.powersunchained.registry.PUEntities;
+import com.thekrepe.powersunchained.registry.PUSounds;
 import com.thekrepe.powersunchained.registry.PUItems;
 
 /**
@@ -23,6 +24,7 @@ public final class PowersUnchained {
         PUBlocks.init();
         PUItems.init();
         PUEntities.init();
+        PUSounds.init();
         PUCreativeTabs.init();
     }
 }

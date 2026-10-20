@@ -1,6 +1,7 @@
 package com.thekrepe.powersunchained.registry;
 
-import com.thekrepe.powersunchained.entity.WebProjectile;
+import com.thekrepe.powersunchained.entity.web.ImpactWeb;
+import com.thekrepe.powersunchained.entity.web.StickyWeb;
 import com.thekrepe.powersunchained.platform.Services;
 import java.util.function.Supplier;
 import net.minecraft.world.entity.EntityType;
@@ -8,17 +9,16 @@ import net.minecraft.world.entity.MobCategory;
 
 public final class PUEntities {
 
-    public static final Supplier<EntityType<WebProjectile>> IMPACT_WEB = web("impact_web");
-    public static final Supplier<EntityType<WebProjectile>> STICKY_WEB = web("sticky_web");
+    public static final Supplier<EntityType<ImpactWeb>> IMPACT_WEB = Services.REGISTRY.registerEntityType("impact_web",
+            () -> EntityType.Builder.<ImpactWeb>of(ImpactWeb::new, MobCategory.MISC)
+                    .noLootTable().noSummon().sized(0.3F, 0.3F).clientTrackingRange(8).updateInterval(1));
+    public static final Supplier<EntityType<StickyWeb>> STICKY_WEB = Services.REGISTRY.registerEntityType("sticky_web",
+            () -> EntityType.Builder.<StickyWeb>of(StickyWeb::new, MobCategory.MISC)
+                    .noLootTable().noSummon().sized(0.3F, 0.3F).clientTrackingRange(8).updateInterval(1));
 
     private PUEntities() {
     }
 
     public static void init() {
-    }
-
-    private static Supplier<EntityType<WebProjectile>> web(String name) {
-        return Services.REGISTRY.registerEntityType(name, () -> EntityType.Builder.<WebProjectile>of(WebProjectile::new, MobCategory.MISC)
-                .noLootTable().sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10));
     }
 }

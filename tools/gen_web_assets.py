@@ -77,45 +77,7 @@ WEB_CARTRIDGE = [
     "......KKKK......",
     "................",
 ]
-IMPACT_WEB = [
-    "................",
-    "................",
-    ".....w.....w....",
-    "......w...w.....",
-    "...w..WwwwW..w..",
-    "....wWWWWWWWw...",
-    ".....WWHWHWW....",
-    "...wwWWWHWWWww..",
-    ".....WWHWHWW....",
-    "....wWWWWWWWw...",
-    "...w..WwwwW..w..",
-    "......w...w.....",
-    ".....w.....w....",
-    "................",
-    "................",
-    "................",
-]
-STICKY_WEB = [
-    "................",
-    "................",
-    "......wWWw......",
-    "....wWWHWWWw....",
-    "...wWHWWWWHWw...",
-    "...WWWWCWWWWW...",
-    "..wWWCWWWWCWWw..",
-    "..WWWWWHWWWWWW..",
-    "..wWWCWWWWCWWw..",
-    "...WWWWCWWWWW...",
-    "...wWWwWWwWWw...",
-    "....wW.wW.Ww....",
-    ".....w..w..w....",
-    ".....c.....c....",
-    "................",
-    "................",
-]
-
-for name, rows in (("web_shooters", WEB_SHOOTERS), ("web_cartridge", WEB_CARTRIDGE),
-                   ("impact_web", IMPACT_WEB), ("sticky_web", STICKY_WEB)):
+for name, rows in (("web_shooters", WEB_SHOOTERS), ("web_cartridge", WEB_CARTRIDGE)):
     save(pixels(rows, PAL), "textures", "item", name + ".png")
     for path, data in (
             (("items", name + ".json"), {"model": {"type": "minecraft:model", "model": f"powers_unchained:item/{name}"}}),
@@ -176,19 +138,27 @@ def icon(kind):
 save(icon("impact"), "textures", "gui", "web", "impact_web.png")
 save(icon("sticky"), "textures", "gui", "web", "sticky_web.png")
 
-# ---- sticky web over entities (cutout, tiles over any model UV) ----------------------------------------------
-ent = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
-d = ImageDraw.Draw(ent)
-for cx, cy in ((16, 16), (48, 16), (16, 48), (48, 48)):
-    web_disc(d, cx, cy, 15, 6, 3, rgb("#e8ecef"))
-for x in range(0, 64, 16):
-    d.line([(x, 0), (x + 16, 64)], fill=rgb("#cdd3d8"))
-save(ent, "textures", "entity", "webbed.png")
+# ---- web shots (drawn as a four-leaved star, texture centre = web centre) ------------------------------------
+def web_texture(size, spokes, rings, seed):
+    import random
+    rnd = random.Random(seed)
+    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    c = (size - 1) / 2
+    shades = [rgb("#ffffff"), rgb("#ebeef0"), rgb("#d3d8dc"), rgb("#b8bec4")]
+    ends = []
+    for i in range(spokes):
+        a = 2 * math.pi * i / spokes + rnd.uniform(-0.12, 0.12)
+        r = c + rnd.uniform(-0.6, 0.4)
+        ends.append((a, r))
+        d.line([(c, c), (c + math.cos(a) * r, c + math.sin(a) * r)], fill=shades[0])
+    for k in range(1, rings + 1):
+        f = k / (rings + 0.5)
+        pts = [(c + math.cos(a) * r * f * rnd.uniform(0.92, 1.05), c + math.sin(a) * r * f * rnd.uniform(0.92, 1.05)) for a, r in ends]
+        d.line(pts + [pts[0]], fill=shades[min(k, len(shades) - 1)])
+    return img
 
-# ---- screen overlay: webs in the corners --------------------------------------------------------------------------
-ov = Image.new("RGBA", (256, 256), (0, 0, 0, 0))
-d = ImageDraw.Draw(ov)
-for cx, cy in ((0, 0), (256, 0), (0, 256), (256, 256)):
-    web_disc(d, cx, cy, 110, 14, 6, rgb("#f2f5f7", 210), 2)
-save(ov, "textures", "misc", "webbed_overlay.png")
+
+save(web_texture(16, 8, 3, 7), "textures", "entity", "web", "web.png")
+save(web_texture(24, 10, 4, 11), "textures", "entity", "web", "web_large.png")
 print("ok")

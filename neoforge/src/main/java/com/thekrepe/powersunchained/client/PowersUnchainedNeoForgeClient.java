@@ -1,21 +1,12 @@
 package com.thekrepe.powersunchained.client;
 
 import com.thekrepe.powersunchained.Constants;
-import com.google.common.reflect.TypeToken;
 import com.thekrepe.powersunchained.client.input.PUKeyMappings;
 import com.thekrepe.powersunchained.client.web.WebShooterClient;
 import com.thekrepe.powersunchained.client.web.WebShooterHud;
-import com.thekrepe.powersunchained.client.web.WebbedRendering;
+import com.thekrepe.powersunchained.client.web.WebProjectileRenderer;
 import com.thekrepe.powersunchained.registry.PUEntities;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
@@ -59,9 +50,6 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 @Mod(value = Constants.MOD_ID, dist = Dist.CLIENT)
 public class PowersUnchainedNeoForgeClient {
 
-    /** Render data: the entity is covered in sticky web. */
-    private static final ContextKey<Boolean> WEBBED = new ContextKey<>(Constants.id("webbed"));
-
     public PowersUnchainedNeoForgeClient(IEventBus modEventBus) {
         modEventBus.addListener(PowersUnchainedNeoForgeClient::registerLayerDefinitions);
         modEventBus.addListener(PowersUnchainedNeoForgeClient::addLayers);
@@ -87,12 +75,11 @@ public class PowersUnchainedNeoForgeClient {
             PUKeyMappings.ALL.forEach(event::register);
         });
         modEventBus.addListener((RegisterGuiLayersEvent event) -> {
-            event.registerBelow(VanillaGuiLayers.CROSSHAIR, Constants.id("webbed_overlay"), WebbedRendering::renderOverlay);
             event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("web_shooters"), WebShooterHud::render);
         });
         modEventBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {
-            event.registerEntityRenderer(PUEntities.IMPACT_WEB.get(), ThrownItemRenderer::new);
-            event.registerEntityRenderer(PUEntities.STICKY_WEB.get(), ThrownItemRenderer::new);
+            event.registerEntityRenderer(PUEntities.IMPACT_WEB.get(), WebProjectileRenderer::impact);
+            event.registerEntityRenderer(PUEntities.STICKY_WEB.get(), WebProjectileRenderer::sticky);
         });
         NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post event) -> WebShooterClient.tick());
         NeoForge.EVENT_BUS.addListener((InputEvent.MouseScrollingEvent event) -> {
@@ -131,31 +118,6 @@ public class PowersUnchainedNeoForgeClient {
         }
         SuitFirstPersonRenderer.bakeModels(event.getEntityModels());
         WebShootersModel.bake(event.getEntityModels());
-
-        // sticky web over every living entity
-        for (PlayerModelType skin : event.getSkins()) {
-            addWebbedLayer(event.getPlayerRenderer(skin));
-            addWebbedLayer(event.getMannequinRenderer(skin));
-        }
-        for (EntityType<?> type : event.getEntityTypes()) {
-            EntityRenderer<?, ?> renderer = event.getRenderer(type);
-            if (renderer instanceof LivingEntityRenderer<?, ?, ?> living) {
-                addWebbedLayer(living);
-            }
-        }
-    }
-
-    private static <S extends LivingEntityRenderState, M extends EntityModel<? super S>> void addWebbedLayer(
-            LivingEntityRenderer<?, S, M> renderer) {
-        if (renderer == null) {
-            return;
-        }
-        renderer.addLayer(new WebbedRendering.Layer<S, M>(renderer) {
-            @Override
-            protected boolean isWebbed(S state) {
-                return Boolean.TRUE.equals(state.getRenderData(WEBBED));
-            }
-        });
     }
 
     private static void registerRenderStateModifiers(RegisterRenderStateModifiersEvent event) {
@@ -165,8 +127,6 @@ public class PowersUnchainedNeoForgeClient {
                 SuitRendering.extract(avatar, state);
             }
         });
-        event.registerEntityModifier(new TypeToken<LivingEntityRenderer<LivingEntity, LivingEntityRenderState, ?>>() {},
-                (LivingEntity entity, LivingEntityRenderState state) -> state.setRenderData(WEBBED, WebbedRendering.isWebbed(entity)));
         event.registerEntityModifier(ArmorStandRenderer.class,
                 (ArmorStand armorStand, ArmorStandRenderState state) -> SuitRendering.extractEquipment(armorStand, state));
     }
@@ -180,8 +140,6 @@ public class PowersUnchainedNeoForgeClient {
                 event.getArmPart(),
                 event.getArm(),
                 event.getPlayerRenderState().avatarRenderState);
-        WebbedRendering.renderArm(event.getPoseStack(), event.getSubmitNodeCollector(), event.getLightCoords(),
-                event.getArmPart(), event.getArm());
         if (handled) {
             event.setCanceled(true);
         }

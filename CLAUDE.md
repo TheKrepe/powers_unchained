@@ -94,15 +94,19 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `curios_version`). Without Curios, web-shooters anywhere in the inventory count. Fabric later: Trinkets.
   `web_cartridge` item (future ammo, no recipe yet).
 - Ability keys (`client/input/PUKeyMappings`, category "Powers Unchained"): Ability 1-5 = C, V, B, M, comma.
-- Web Shot ability (ability 1 with web-shooters): `client/web/WebShooterClient` (tap = mode on/off, hold = menu,
-  wheel while holding = web type, right click while on = fire -> `network/ShootWebPayload` -> `web/WebShooting`,
-  cooldown on the web-shooters item), `client/web/WebShooterHud` (GUI layer). `web/WebType` IMPACT (damage) /
-  STICKY (slowness + `IGameplayHelper.setWebbedUntil`, a synced NeoForge attachment). Projectile
-  `entity/WebProjectile` (ThrowableItemProjectile, rendered with ThrownItemRenderer from items impact_web /
-  sticky_web). Webbed visuals: `client/web/WebbedRendering` (layer on every LivingEntityRenderer, state flag via
-  NeoForge render data; first-person arm; screen overlay GUI layer). Assets: `tools/gen_web_assets.py`.
-- Loader services: `IRegistryHelper` (blocks, items, entity types, tabs), `IGameplayHelper` (accessory check,
-  webbed data, sendToServer).
+- Web Shot ability (ability 1 with web-shooters), ported from the owner's Fisk's Superheroes 26.3 port
+  (`/home/claude/fiskheroes_26.3`, repo TheKrepe/fiskheroes_26.3, Fisk gave permission): `client/web/WebShooterClient`
+  (tap = mode on/off, hold = menu, wheel while holding = web type, right click with EMPTY main hand = fire ->
+  `network/ShootWebPayload` -> `web/WebShooting`), `web/WebAmmo` (Fisk equipment rules: 6 shots per type, one back
+  every 100 ticks; server + client copies), `client/web/WebShooterHud`. Projectiles `entity/web/AbstractWebProjectile`
+  (Fisk SHProjectile + AbstractEntityWeb physics; spawn data as synched entity data instead of NeoForge complex
+  spawn), `ImpactWeb` (5 dmg x speed, resets hurt cooldown, bounces), `StickyWeb` (hooks to the hit entity via synced
+  HIT_ENTITY, follows it, `web/WebSlowness` speed modifier). Renderer `client/web/WebProjectileRenderer` +
+  `WebGeometry` (four-leaved web star, own textures `textures/entity/web/`). Shot arm pose: `web/WebShootAnimation`
+  + `mixin/client/PlayerModelMixin` (PlayerModel.setupAnim RETURN; looks up `AvatarRenderState.id`). Sounds copied
+  from the Fisk port (`sounds/web_shooters/`), damage type `powers_unchained:web`. Assets: `tools/gen_web_assets.py`.
+- Loader services: `IRegistryHelper` (blocks, items, entity types, sounds, tabs), `IGameplayHelper` (accessory
+  check, sendToServer). NeoForge glue ticks `WebShooting.tick()` + `WebSlowness.endTick()` on ServerTickEvent.Post.
 - Recipe unlocks: `data/powers_unchained/advancement/recipes/...` (Suit Creator unlocks with the copper block recipe).
 - Chest pieces are `<suit>_chestplate` (renamed from `_suit`).
 - Creative tabs (`PUCreativeTabs`): Suits, Weapons, Items, Blocks;

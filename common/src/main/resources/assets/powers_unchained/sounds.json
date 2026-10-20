@@ -1,0 +1,22 @@
+{
+  "web_shooters.shoot": {
+    "sounds": [
+      "powers_unchained:web_shooters/shoot1",
+      "powers_unchained:web_shooters/shoot2",
+      "powers_unchained:web_shooters/shoot3"
+    ],
+    "subtitle": "subtitles.powers_unchained.web_shooters.shoot"
+  },
+  "web_shooters.switch": {
+    "sounds": [
+      "powers_unchained:web_shooters/switch"
+    ],
+    "subtitle": "subtitles.powers_unchained.web_shooters.switch"
+  },
+  "entity.web.bounce": {
+    "sounds": [
+      "powers_unchained:entity/web/bounce"
+    ],
+    "subtitle": "subtitles.powers_unchained.entity.web.bounce"
+  }
+}

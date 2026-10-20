@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -26,6 +27,9 @@ public interface IRegistryHelper {
 
     /** Registers an item. The id is set on the properties automatically. */
     <T extends Item> Supplier<T> registerItem(String name, Function<Item.Properties, T> factory, UnaryOperator<Item.Properties> properties);
+
+    /** Registers a sound event with a variable range, id = mod namespace + name. */
+    Supplier<SoundEvent> registerSound(String name);
 
     /** Registers an entity type; the builder is built with the registry key. */
     <T extends Entity> Supplier<EntityType<T>> registerEntityType(String name, Supplier<EntityType.Builder<T>> builder);

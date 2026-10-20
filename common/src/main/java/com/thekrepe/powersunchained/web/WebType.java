@@ -1,37 +1,58 @@
 package com.thekrepe.powersunchained.web;
 
 import com.thekrepe.powersunchained.Constants;
+import com.thekrepe.powersunchained.entity.web.AbstractWebProjectile;
+import com.thekrepe.powersunchained.entity.web.ImpactWeb;
+import com.thekrepe.powersunchained.entity.web.StickyWeb;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
-/** Kinds of web the web-shooters can fire. Order = order in the selection menu. */
+/**
+ * Kinds of web the web-shooters can fire (order = order in the selection menu). Like Fisk's equipment, every type
+ * has a few shots that recharge one by one.
+ */
 public enum WebType {
     /** Hard web ball that damages what it hits. */
-    IMPACT("impact_web", 12, 4.0F),
+    IMPACT("impact_web", 6, 100) {
+        @Override
+        public AbstractWebProjectile create(Level level, LivingEntity shooter, int side) {
+            return new ImpactWeb(level, shooter, side);
+        }
+    },
     /** Sticky web that sticks to the target and slows it down, no damage. */
-    STICKY("sticky_web", 20, 0.0F);
+    STICKY("sticky_web", 6, 100) {
+        @Override
+        public AbstractWebProjectile create(Level level, LivingEntity shooter, int side) {
+            return new StickyWeb(level, shooter, side);
+        }
+    };
 
     private final String name;
-    private final int cooldown;
-    private final float damage;
+    private final int maxUses;
+    private final int recharge;
 
-    WebType(String name, int cooldown, float damage) {
+    WebType(String name, int maxUses, int recharge) {
         this.name = name;
-        this.cooldown = cooldown;
-        this.damage = damage;
+        this.maxUses = maxUses;
+        this.recharge = recharge;
     }
+
+    public abstract AbstractWebProjectile create(Level level, LivingEntity shooter, int side);
 
     public String getSerializedName() {
         return this.name;
     }
 
-    /** Ticks before the web-shooters can fire again. */
-    public int cooldown() {
-        return this.cooldown;
+    /** Shots available when fully loaded. */
+    public int maxUses() {
+        return this.maxUses;
     }
 
-    public float damage() {
-        return this.damage;
+    /** Ticks to get one shot back. */
+    public int recharge() {
+        return this.recharge;
     }
 
     public Component displayName() {

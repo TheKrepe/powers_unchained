@@ -3,6 +3,8 @@ package com.thekrepe.powersunchained.client.web;
 import com.thekrepe.powersunchained.client.input.PUKeyMappings;
 import com.thekrepe.powersunchained.network.ShootWebPayload;
 import com.thekrepe.powersunchained.platform.Services;
+import com.thekrepe.powersunchained.registry.PUSounds;
+import com.thekrepe.powersunchained.web.WebAmmo;
 import com.thekrepe.powersunchained.web.WebShooting;
 import com.thekrepe.powersunchained.web.WebType;
 import net.minecraft.client.Minecraft;
@@ -13,7 +15,8 @@ import net.minecraft.client.player.LocalPlayer;
  * <ul>
  *   <li>Tap the key: web-shooting mode on; tap again: off.</li>
  *   <li>Hold the key: the web selection menu opens; the mouse wheel picks the web type (up = next, down = previous).</li>
- *   <li>While the mode is on, the use key (right click) fires the selected web instead of using items.</li>
+ *   <li>While the mode is on, the use key (right click) with an empty main hand fires the selected web. Every web
+ *       type has a few shots that recharge one by one (like Fisk's equipment).</li>
  * </ul>
  */
 public final class WebShooterClient {
@@ -29,6 +32,8 @@ public final class WebShooterClient {
     private static boolean scrolledWhileHeld;
     /** Dev/CI only: keeps the menu open without holding the key. */
     private static boolean debugMenu;
+    /** Client copy of the shots left, for the HUD (the server runs the same rules). */
+    private static final WebAmmo AMMO = new WebAmmo();
 
     private WebShooterClient() {
     }
@@ -61,6 +66,8 @@ public final class WebShooterClient {
             wasDown = false;
             return;
         }
+        AMMO.tick();
+        boolean wasActive = active;
         boolean has = WebShooting.hasWebShooters(player);
         if (!has && !debugMenu) {
             active = false;
@@ -80,6 +87,9 @@ public final class WebShooterClient {
             active = false;  // a short tap while the mode was on turns it off
         }
         wasDown = down;
+        if (wasActive != active) {
+            player.playSound(PUSounds.WEB_SWITCH.get(), 0.6F, active ? 1.1F : 0.8F);
+        }
     }
 
     /** @return {@code true} if the scroll was used to pick a web type (then the hotbar must not scroll) */
@@ -89,24 +99,32 @@ public final class WebShooterClient {
         }
         selected = WebType.byId(selected.ordinal() + (deltaY > 0 ? 1 : -1));
         scrolledWhileHeld = true;
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player != null) {
+            player.playSound(PUSounds.WEB_SWITCH.get(), 0.5F, 1.3F);
+        }
         return true;
     }
 
     /** @return {@code true} if the use key fired a web (then normal item use must be cancelled) */
     public static boolean onUseKey(boolean mainHand) {
         LocalPlayer player = Minecraft.getInstance().player;
-        if (!active || player == null) {
-            return false;
+        if (!active || player == null || !player.getMainHandItem().isEmpty()) {
+            return false;  // items in the main hand are used normally
         }
-        if (mainHand && !player.getCooldowns().isOnCooldown(WebShooting.cooldownStack())) {
+        if (mainHand && AMMO.canUse(selected)) {
+            AMMO.use(selected);
             Services.GAMEPLAY.sendToServer(new ShootWebPayload(selected));
         }
         return true;
     }
 
-    /** 0..1, how much of the cooldown is left. */
-    public static float cooldown(float partialTick) {
-        LocalPlayer player = Minecraft.getInstance().player;
-        return player == null ? 0.0F : player.getCooldowns().getCooldownPercent(WebShooting.cooldownStack(), partialTick);
+    public static int uses(WebType type) {
+        return AMMO.uses(type);
+    }
+
+    /** 0..1 progress of the recharging shot of the given type. */
+    public static float recharge(WebType type, float partialTick) {
+        return AMMO.recharge(type, partialTick);
     }
 }
