@@ -150,11 +150,11 @@ public final class CiClientDriver {
                 run("execute at @p run fill ~3 ~ ~8 ~8 ~3 ~8 minecraft:stone");
             }
             case 3800, 3806 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
-            case 3812 -> run("tp @p ~ ~ ~ -25 5");
+            case 3812 -> run("execute as @p at @s run tp @s ~ ~ ~ -25 5");
             case 3816, 3820, 3824, 3828 -> shootWeb(com.thekrepe.powersunchained.web.WebType.IMPACT);
-            case 3832 -> run("tp @p ~ ~ ~ -25 -10");
+            case 3832 -> run("execute as @p at @s run tp @s ~ ~ ~ -25 -10");
             case 3836 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
-            case 3842 -> run("tp @p ~ ~ ~ -8 10");
+            case 3842 -> run("execute as @p at @s run tp @s ~ ~ ~ -8 10");
             case 3860 -> shot("13_webs_on_villager_and_wall");
             case 3950 -> {
                 // the villager shoots a sticky web at the player
@@ -164,11 +164,11 @@ public final class CiClientDriver {
                     level.getEntitiesOfClass(net.minecraft.world.entity.npc.villager.Villager.class, player.getBoundingBox().inflate(10))
                             .forEach(v -> level.addFreshEntity(new com.thekrepe.powersunchained.entity.web.StickyWeb(level, v, 0)));
                 });
-                run("tp @p ~ ~ ~ 0 55");
+                run("execute as @p at @s run tp @s ~ ~ ~ 0 55");
             }
             case 4050 -> shot("14_player_webbed_first_person");
             case 4100 -> {
-                run("tp @p ~ ~ ~ 0 0");
+                run("execute as @p at @s run tp @s ~ ~ ~ 0 0");
                 mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
             }
             case 4200 -> shot("15_player_webbed_third_person_and_shot_pose");
