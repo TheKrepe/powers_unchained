@@ -141,11 +141,11 @@ public final class CiClientDriver {
                 // Web shooting: zombie target, impact + sticky shots by the server-side ability code.
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
                 run("tp @p 280.5 ~ 0.5 0 0");
-                run("execute at @p run summon minecraft:zombie ~ ~ ~6 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}");
+                run("execute at @p run summon minecraft:villager ~ ~ ~6 {NoAI:1b,Rotation:[180f,0f]}");
                 run("execute at @p run summon minecraft:pig ~2 ~ ~6 {NoAI:1b}");
             }
             case 3830 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
-            case 3880 -> shot("13_sticky_web_on_zombie");
+            case 3880 -> shot("13_sticky_web_on_villager");
             case 3950 -> {
                 // the local player covered in sticky web (first person: arm + screen overlay)
                 net.minecraft.server.level.ServerPlayer player = serverPlayer();
@@ -157,7 +157,14 @@ public final class CiClientDriver {
                 mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
             }
             case 4200 -> shot("15_player_webbed_third_person");
-            case 4400 -> {
+            case 4300 -> {
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+                com.thekrepe.powersunchained.client.web.WebShooterClient.debugState(true, false, com.thekrepe.powersunchained.web.WebType.IMPACT);
+            }
+            case 4400 -> shot("16_web_mode_indicator");
+            case 4450 -> com.thekrepe.powersunchained.client.web.WebShooterClient.debugState(true, true, com.thekrepe.powersunchained.web.WebType.STICKY);
+            case 4550 -> shot("17_web_menu");
+            case 4700 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }

@@ -76,7 +76,7 @@ public final class WebbedRendering {
         if (left <= 0) {
             return;
         }
-        int alpha = (int) (Math.min(1.0F, left / 20.0F) * 0xC0);
+        int alpha = (int) (Math.min(1.0F, left / 20.0F) * 0x90);
         graphics.blit(RenderPipelines.GUI_TEXTURED, SCREEN_TEXTURE, 0, 0, 0.0F, 0.0F, graphics.guiWidth(), graphics.guiHeight(),
                 256, 256, 256, 256, (alpha << 24) | 0xFFFFFF);
     }

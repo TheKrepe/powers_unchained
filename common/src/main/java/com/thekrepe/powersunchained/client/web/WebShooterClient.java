@@ -27,6 +27,8 @@ public final class WebShooterClient {
     private static boolean activeAtPress;
     private static int heldTicks;
     private static boolean scrolledWhileHeld;
+    /** Dev/CI only: keeps the menu open without holding the key. */
+    private static boolean debugMenu;
 
     private WebShooterClient() {
     }
@@ -41,7 +43,14 @@ public final class WebShooterClient {
 
     /** The selection menu is shown while the key is held (or right after scrolling). */
     public static boolean isMenuOpen() {
-        return active && wasDown && (heldTicks >= HOLD_TICKS || scrolledWhileHeld);
+        return active && (debugMenu || wasDown && (heldTicks >= HOLD_TICKS || scrolledWhileHeld));
+    }
+
+    /** Dev/CI only (screenshot tests): sets the state as if the player used the key. */
+    public static void debugState(boolean on, boolean menu, WebType type) {
+        active = on;
+        debugMenu = menu;
+        selected = type;
     }
 
     /** Called at the end of every client tick. */
@@ -53,7 +62,7 @@ public final class WebShooterClient {
             return;
         }
         boolean has = WebShooting.hasWebShooters(player);
-        if (!has) {
+        if (!has && !debugMenu) {
             active = false;
         }
         boolean down = PUKeyMappings.ABILITY_1.isDown();
