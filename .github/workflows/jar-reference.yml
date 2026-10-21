@@ -35,7 +35,7 @@ jobs:
           # nested jars (jar-in-jar)
           find . -name '*.jar' | while read -r j; do mkdir -p "/tmp/ref/jar/_nested/$j" && (cd "/tmp/ref/jar/_nested/$j" && unzip -q -o "/tmp/ref/jar/$j" || true); done
           find . -type f | sort > /tmp/ref/out/_files.txt
-          find . -type f \( -name '*.json' -o -name '*.toml' -o -name '*.txt' -o -name '*.mcmeta' -o -name '*.lang' -o -name '*.properties' \) \
+          find . -type f \( -name '*.json' -o -name '*.toml' -o -name '*.txt' -o -name '*.mcmeta' -o -name '*.lang' -o -name '*.properties' -o -name '*.js' \) \
             -exec cp --parents {} /tmp/ref/out/ \;
           for p in $PATTERNS; do
             find . -name '*.class' | grep -iE "$p" | while read -r f; do cp --parents "$f" /tmp/ref/classes/; done
