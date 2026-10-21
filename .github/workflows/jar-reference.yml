@@ -1,0 +1,54 @@
+# Dev helper: downloads another mod's jar (for studying how a feature works), lists its files, copies its text
+# resources (lang, models, data) and decompiles the classes matching the patterns to a temporary branch.
+name: Jar reference dump
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Direct jar download URL"
+        required: true
+      patterns:
+        description: "Space-separated case-insensitive path regexes of classes to decompile"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Extract
+        env:
+          URL: ${{ inputs.url }}
+          PATTERNS: ${{ inputs.patterns }}
+        run: |
+          mkdir -p /tmp/ref/out /tmp/ref/classes /tmp/ref/jar
+          curl -sSfLo /tmp/ref/mod.jar "$URL"
+          curl -sSLo /tmp/ref/vf.jar https://repo1.maven.org/maven2/org/vineflower/vineflower/1.11.1/vineflower-1.11.1.jar
+          cd /tmp/ref/jar && unzip -q -o /tmp/ref/mod.jar
+          # nested jars (jar-in-jar)
+          find . -name '*.jar' | while read -r j; do mkdir -p "/tmp/ref/jar/_nested/$j" && (cd "/tmp/ref/jar/_nested/$j" && unzip -q -o "/tmp/ref/jar/$j" || true); done
+          find . -type f | sort > /tmp/ref/out/_files.txt
+          find . -type f \( -name '*.json' -o -name '*.toml' -o -name '*.txt' -o -name '*.mcmeta' -o -name '*.lang' -o -name '*.properties' \) \
+            -exec cp --parents {} /tmp/ref/out/ \;
+          for p in $PATTERNS; do
+            find . -name '*.class' | grep -iE "$p" | while read -r f; do cp --parents "$f" /tmp/ref/classes/; done
+          done
+          (cd /tmp/ref/classes && zip -q -r /tmp/ref/sel.jar .) || true
+          if [ -f /tmp/ref/sel.jar ]; then
+            java -jar /tmp/ref/vf.jar /tmp/ref/sel.jar /tmp/ref/dec >/dev/null 2>&1 || true
+            mkdir -p /tmp/ref/out/_src && (cd /tmp/ref/out/_src && unzip -o -q /tmp/ref/dec/sel.jar) || cp -r /tmp/ref/dec/* /tmp/ref/out/_src/ || true
+          fi
+      - name: Push to temp branch
+        run: |
+          cd /tmp/ref/out
+          git init -q -b jar-ref
+          git -c user.name=ci -c user.email=ci@local add -A
+          git -c user.name=ci -c user.email=ci@local commit -q -m "Jar reference dump"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" jar-ref:jar-ref-tmp
