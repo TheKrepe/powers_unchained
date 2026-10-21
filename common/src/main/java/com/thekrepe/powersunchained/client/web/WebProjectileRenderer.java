@@ -95,7 +95,7 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
                 if (head) {
                     side = front = 0.29F * s;
                 } else if (height > h * 0.4F) {
-                    side = 0.5F * s;
+                    side = 0.4F * s;
                     front = 0.17F * s;
                 } else {
                     side = 0.27F * s;

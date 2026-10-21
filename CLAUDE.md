@@ -95,6 +95,14 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `curios_version`). Without Curios, web-shooters anywhere in the inventory count. Fabric later: Trinkets.
   `web_cartridge` item (future ammo, no recipe yet).
 - Ability keys (`client/input/PUKeyMappings`, category "Powers Unchained"): Ability 1-5 = C, V, B, M, comma.
+- Web cartridges (`web/WebCartridges`, `item/WebCartridgeItem`, `empty_web_cartridge`): web-shooters hold 2 cartridges in
+  data component `powers_unchained:web_cartridges` (list of fluid ints, 0 = used up), loaded bundle-style
+  (`WebShootersItem` overrideStacked*, like Powerborne Heroes' vial web-shooters) or by using a cartridge while wearing
+  them; 32 shots per cartridge (`web_fluid` component, missing = full); creative shoots free; bundle-style tooltip
+  `client/web/ClientWebShootersTooltip`. `IGameplayHelper.findAccessory` returns the live worn stack (Curios).
+- Ability HUD `client/ability/AbilityHud` (providers per key slot; small vanilla-like key boxes at the left edge).
+- `jar-reference.yml` (manual dispatch, inputs `url` + `patterns`) dumps another mod's jar (text files + decompiled
+  matching classes) to branch `jar-ref-tmp`.
 - Web Shot ability (ability 1 with web-shooters), ported from the owner's Fisk's Superheroes 26.3 port
   (`/home/claude/fiskheroes_26.3`, repo TheKrepe/fiskheroes_26.3, Fisk gave permission): `client/web/WebShooterClient`
   (tap = mode on/off, hold = menu, wheel while holding = web type, right click with EMPTY main hand = fire ->
