@@ -117,7 +117,7 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
                 state.faceYaw = sign > 0 ? 90.0F : -90.0F;
             }
             state.in = Mth.lerp(Mth.lerp(partialTick, web.prevGrappleTimer, web.grappleTimer), 8.0F, -0.2F) / 16.0F;
-            state.w *= scale * 0.6F;
+            state.w *= scale * 0.85F;
             return;
         }
 

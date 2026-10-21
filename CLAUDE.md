@@ -93,13 +93,19 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   textures `textures/gadget/web_shooters(_slim).png`) via `neoforge/.../compat/curios/CuriosClientCompat`
   (ICurioRenderer, only class-loaded with Curios). Curios = optional dep (`compileOnly` API + `localRuntime`,
   `curios_version`). Without Curios, web-shooters anywhere in the inventory count. Fabric later: Trinkets.
-  `web_cartridge` item (future ammo, no recipe yet).
+  Shooter pixels live on the arms' OUTER layer (`tools/web_shooters_to_outer_layer.py`) so skin sleeves don't hide them.
 - Ability keys (`client/input/PUKeyMappings`, category "Powers Unchained"): Ability 1-5 = C, V, B, M, comma.
 - Web cartridges (`web/WebCartridges`, `item/WebCartridgeItem`, `empty_web_cartridge`): web-shooters hold 2 cartridges in
   data component `powers_unchained:web_cartridges` (list of fluid ints, 0 = used up), loaded bundle-style
   (`WebShootersItem` overrideStacked*, like Powerborne Heroes' vial web-shooters) or by using a cartridge while wearing
   them; 32 shots per cartridge (`web_fluid` component, missing = full); creative shoots free; bundle-style tooltip
   `client/web/ClientWebShootersTooltip`. `IGameplayHelper.findAccessory` returns the live worn stack (Curios).
+- Web Zip (ability 2, V): `entity/web/WebZipLine` (Fisk pull web: 48 blocks, cooldown 20, pulls to block 5 ticks /
+  rams entity 10 ticks; pull applied on the shooter's own client), `network/WebZipPayload`, `WebShooting.zip`.
+- Web cocoon: 5 sticky hits within 120 ticks -> `entity/web/WebCocoon` (60 ticks, `WebSlowness.hold` = speed/jump/fly
+  -100%), `client/web/WebCocoonRenderer` (tiled box), first-person `client/web/WebOverlay` (head webs / cocoon).
+- Webs aim from the wrist at the crosshair's target point (`AbstractWebProjectile.aimPoint`). Head webs lie on the
+  head box faces and follow head yaw/pitch (`StickyWeb.isOnHead/headPivot`).
 - Ability HUD `client/ability/AbilityHud` (providers per key slot; small vanilla-like key boxes at the left edge).
 - `jar-reference.yml` (manual dispatch, inputs `url` + `patterns`) dumps another mod's jar (text files + decompiled
   matching classes) to branch `jar-ref-tmp`.
@@ -107,7 +113,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   (`/home/claude/fiskheroes_26.3`, repo TheKrepe/fiskheroes_26.3, Fisk gave permission): `client/web/WebShooterClient`
   (tap = mode on/off, hold = menu, wheel while holding = web type, right click with EMPTY main hand = fire ->
   `network/ShootWebPayload` -> `web/WebShooting`), `web/WebAmmo` (Fisk equipment rules: 6 shots per type, one back
-  every 100 ticks; server + client copies), `client/web/WebShooterHud`. Projectiles `entity/web/AbstractWebProjectile`
+  every 40 ticks; server + client copies), `client/web/WebShooterHud`. Projectiles `entity/web/AbstractWebProjectile`
   (Fisk SHProjectile + AbstractEntityWeb physics; spawn data as synched entity data instead of NeoForge complex
   spawn), `ImpactWeb` (5 dmg x speed, resets hurt cooldown, bounces), `StickyWeb` (hooks to the hit entity via synced
   HIT_ENTITY, follows it, `web/WebSlowness` speed modifier). Renderer `client/web/WebProjectileRenderer` +
