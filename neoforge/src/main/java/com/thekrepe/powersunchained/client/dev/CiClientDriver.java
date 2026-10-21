@@ -205,38 +205,45 @@ public final class CiClientDriver {
             case 4536 -> run("tp @p 317.5 ~ 2.5 -63 18");
             case 4540 -> shot("19_sticky_webs_on_zombies_and_ability_hud");
             case 4600 -> {
-                // cocoon: five sticky webs on one husk; two webs on the head of another
+                // cocoon: five sticky webs on one husk
                 run("kill @e[type=!player]");
                 run("tp @p 360.5 ~ 0.5 0 10");
                 run("execute at @p run summon minecraft:husk ~ ~ ~4 {NoAI:1b,Rotation:[180f,0f]}");
-                run("execute at @p run summon minecraft:husk ~2.5 ~ ~4 {NoAI:1b,Rotation:[180f,0f]}");
             }
             case 4610, 4612, 4614, 4616, 4618 -> rawWeb(com.thekrepe.powersunchained.web.WebType.STICKY, ticks % 4 == 0 ? 0 : 1);
-            case 4620 -> run("execute as @p at @s run tp @s ~ ~ ~ -32 -2");
-            case 4624, 4627 -> rawWeb(com.thekrepe.powersunchained.web.WebType.STICKY, 0);
-            case 4630 -> run("tp @p 357.5 ~ 2.5 -63 12");
-            case 4634 -> shot("20_cocoon_and_head_webs");
-            case 4720 -> {
-                // the player wrapped up + webs on the head: first person overlays
+            case 4619 -> run("tp @p 357.5 ~ 2.5 -63 12");
+            case 4620 -> shot("20_cocoon");
+            case 4700 -> {
+                // two sticky webs on a husk's head
+                run("kill @e[type=!player]");
+                run("tp @p 380.5 ~ 0.5 0 -2");
+                run("execute at @p run summon minecraft:husk ~ ~ ~4 {NoAI:1b,Rotation:[180f,0f]}");
+            }
+            case 4706 -> rawWeb(com.thekrepe.powersunchained.web.WebType.STICKY, 0);
+            case 4708 -> run("execute as @p at @s run tp @s ~ ~ ~ 4 -4");
+            case 4710 -> rawWeb(com.thekrepe.powersunchained.web.WebType.STICKY, 1);
+            case 4713 -> run("tp @p 378.5 ~1 2.5 -45 15");
+            case 4714 -> shot("21_head_webs");
+            case 4780 -> {
+                // the player wrapped up: first person overlay
                 run("kill @e[type=!player]");
                 net.minecraft.server.level.ServerPlayer player = serverPlayer();
                 Minecraft.getInstance().getSingleplayerServer().execute(() ->
                         com.thekrepe.powersunchained.entity.web.WebCocoon.wrap(player));
             }
-            case 4724 -> shot("21_cocoon_first_person");
-            case 4820 -> {
+            case 4782 -> shot("22_cocoon_first_person");
+            case 4860 -> {
                 // web zip at a wall: the line pulls the player
                 run("tp @p 400.5 ~ 0.5 0 -15");
                 run("execute at @p run fill ~-3 ~ ~14 ~3 ~8 ~14 minecraft:stone");
             }
-            case 4830 -> {
+            case 4870 -> {
                 zipStart = mc.player.position();
                 net.minecraft.server.level.ServerPlayer player = serverPlayer();
                 Minecraft.getInstance().getSingleplayerServer().execute(() -> com.thekrepe.powersunchained.web.WebShooting.zip(player));
             }
-            case 4834 -> shot("22_web_zip");
-            case 4845 -> Constants.LOG.info("[CI] web zip moved the player from {} to {}", zipStart, mc.player.position());
-            case 4950 -> {
+            case 4885 -> Constants.LOG.info("[CI] web zip moved the player from {} to {}", zipStart, mc.player.position());
+            case 5000 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
