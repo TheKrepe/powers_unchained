@@ -189,6 +189,7 @@ public final class CiClientDriver {
                 // sticky webs on zombies: one turned sideways (hit on its right side), one facing the player
                 com.thekrepe.powersunchained.client.web.WebShooterClient.debugState(true, false, com.thekrepe.powersunchained.web.WebType.STICKY);
                 run("kill @e[type=!player]");
+                run("difficulty easy");  // hostile mobs vanish on peaceful
                 run("tp @p 320.5 ~ 0.5 0 0");
                 run("execute at @p run summon minecraft:husk ~ ~ ~4 {NoAI:1b,Rotation:[90f,0f]}");
                 run("execute at @p run summon minecraft:husk ~3 ~ ~4 {NoAI:1b,Rotation:[180f,0f]}");
