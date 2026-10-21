@@ -43,8 +43,8 @@ public class WebCartridgeItem extends Item {
         if (!player.getAbilities().instabuild) {
             held.shrink(1);
         }
-        if (!swapped.isEmpty() && !player.getInventory().add(swapped)) {
-            player.drop(swapped, false);
+        if (!swapped.isEmpty()) {
+            player.getInventory().placeItemBackInInventory(swapped);  // drops it if the inventory is full
         }
         WebCartridges.playInsertSound(player);
         return InteractionResult.SUCCESS;
