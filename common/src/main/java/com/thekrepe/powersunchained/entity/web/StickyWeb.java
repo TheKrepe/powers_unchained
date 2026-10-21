@@ -5,6 +5,7 @@ import com.thekrepe.powersunchained.web.WebSlowness;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +24,6 @@ public class StickyWeb extends AbstractWebProjectile {
 
     private static final EntityDataAccessor<Integer> HIT_ENTITY = SynchedEntityData.defineId(StickyWeb.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Vector3fc> HIT_OFFSET = SynchedEntityData.defineId(StickyWeb.class, EntityDataSerializers.VECTOR3);
-    private static final EntityDataAccessor<Float> YAW_OFFSET = SynchedEntityData.defineId(StickyWeb.class, EntityDataSerializers.FLOAT);
 
     /** Ticks until the web dissolves. */
     public static final int DISSOLVE_TIME = 120;
@@ -41,7 +41,6 @@ public class StickyWeb extends AbstractWebProjectile {
         super.defineSynchedData(builder);
         builder.define(HIT_ENTITY, 0);
         builder.define(HIT_OFFSET, new Vector3f());
-        builder.define(YAW_OFFSET, 0.0F);
     }
 
     /** The entity the web sticks to, or {@code null}. */
@@ -50,14 +49,14 @@ public class StickyWeb extends AbstractWebProjectile {
         return id >= 0 && this.level().getEntity(id) instanceof LivingEntity living ? living : null;
     }
 
-    /** Where on the hit entity the web sits: horizontal direction (rotated by {@link #getYawOffset()}) and height. */
+    /**
+     * Where on the hit entity the web sits, in the entity's body space at the moment of the hit (forward = +Z, left =
+     * +X): x / z = horizontal unit direction from the body's centre, y = height above the feet. The web turns with
+     * the body, so it stays on the spot it hit.
+     */
     public Vec3 getHitOffset() {
         Vector3fc v = this.entityData.get(HIT_OFFSET);
         return new Vec3(v.x(), v.y(), v.z());
-    }
-
-    public float getYawOffset() {
-        return this.entityData.get(YAW_OFFSET);
     }
 
     @Override
@@ -96,26 +95,24 @@ public class StickyWeb extends AbstractWebProjectile {
     }
 
     @Override
-    public boolean canImpactEntity(Entity entity) {
-        return true;
-    }
-
-    @Override
     protected void onImpactEntity(EntityHitResult hit) {
         Entity target = hit.getEntity();
         if (this.level().isClientSide() || this.entityData.get(HIT_ENTITY) > 0 || target == this.getShooter()
                 || !(target instanceof LivingEntity living)) {
             return;
         }
-        float yawOffset = living.yBodyRot;
-        // hit point relative to the target's feet (1.7.10's Vec3.subtract was "other - this"), in body space
-        Vec3 v = hit.getLocation().subtract(target.getX(), target.getBoundingBox().minY, target.getZ())
-                .yRot((float) Math.toRadians(yawOffset));
-        double height = v.y;
-        v = new Vec3(v.x, 0, v.z).normalize();
-        Vec3 offset = new Vec3(v.x, Math.max(Math.min(height, target.getBbHeight() - 0.4F), 0.0), v.z);
-        this.entityData.set(YAW_OFFSET, yawOffset);
-        this.entityData.set(HIT_OFFSET, offset.toVector3f());
+        // horizontal direction from the body's centre to the hit point (from where the web came if it hit the top)
+        Vec3 rel = hit.getLocation().subtract(target.getX(), target.getBoundingBox().minY, target.getZ());
+        Vec3 dir = new Vec3(rel.x, 0.0, rel.z);
+        if (dir.lengthSqr() < 0.01) {
+            Vec3 m = this.getDeltaMovement();
+            dir = new Vec3(-m.x, 0.0, -m.z);
+        }
+        dir = dir.lengthSqr() < 1.0E-6 ? new Vec3(0.0, 0.0, 1.0) : dir.normalize();
+        // into body space (Vec3.yRot by the body yaw turns the body's forward onto +Z)
+        dir = dir.yRot((float) Math.toRadians(living.yBodyRot));
+        double height = Mth.clamp(rel.y, 0.15, Math.max(0.15, target.getBbHeight() - 0.25));
+        this.entityData.set(HIT_OFFSET, new Vector3f((float) dir.x, (float) height, (float) dir.z));
         this.entityData.set(HIT_ENTITY, target.getId() + 1);
     }
 }

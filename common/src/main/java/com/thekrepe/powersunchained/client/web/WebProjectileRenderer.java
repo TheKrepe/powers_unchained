@@ -17,7 +17,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
-import org.jspecify.annotations.Nullable;
 
 /**
  * Draws web shots as a four-leaved web star: small and pointed while flying, spreading out flat on the surface it
@@ -75,24 +74,29 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
         LivingEntity target = entity instanceof StickyWeb web ? web.getHitEntity() : null;
         if (target != null) {
             StickyWeb web = (StickyWeb) entity;
-            Vec3 pos = target.getPosition(partialTick);
-            state.offset = pos.subtract(state.x, state.y, state.z);
+            Vec3 feet = target.getPosition(partialTick);
+            state.offset = feet.subtract(state.x, state.y, state.z);
             state.onEntity = true;
             Minecraft mc = Minecraft.getInstance();
             boolean firstPerson = target == mc.player && mc.options.getCameraType().isFirstPerson();
-            state.targetYaw = firstPerson ? Mth.lerp(partialTick, target.yRotO, target.getYRot())
-                    : Mth.rotLerp(partialTick, target.yBodyRotO, target.yBodyRot) - 180.0F;
-            state.hitOffset = web.getHitOffset();
+            state.bodyYaw = Mth.rotLerp(partialTick, target.yBodyRotO, target.yBodyRot);
+
+            // the web lies on an ellipse around the body (wider to the sides than to the front / back, like a
+            // humanoid's torso), at the spot it hit, turned to face outwards from there
+            Vec3 hit = web.getHitOffset();
+            float halfWidth = target.getBbWidth() / 2.0F;
+            float side = halfWidth * 0.95F;
+            float front = halfWidth * 0.6F;
+            double height = hit.y;
             if (firstPerson) {
-                // webs on yourself in first person: keep them below the camera (on the chest / legs), so they are
-                // seen when looking down instead of covering the screen
-                Vec3 o = state.hitOffset;
-                state.hitOffset = new Vec3(o.x, Math.min(o.y, target.getEyeHeight() - 0.95), o.z);
-                state.w *= 0.6F;
+                // webs on yourself in first person stay below the camera (chest / legs): seen when looking down
+                // instead of covering the screen
+                height = Math.min(height, target.getEyeHeight() - 0.95);
             }
-            state.side = target.getBbWidth() / 1.5F;
-            state.front = target.getBbWidth() / 1.75F;
-            state.webYaw = web.getYawOffset() + entity.getYRot() + 180.0F;
+            state.local = new Vec3(hit.x * side, height, hit.z * front);
+            state.faceYaw = (float) Math.toDegrees(Math.atan2(hit.x / side, hit.z / front));
+            float scale = Mth.clamp(target.getBbWidth() / 0.6F, 0.5F, 1.5F);
+            state.w *= firstPerson ? scale * 0.6F : scale;
         }
     }
 
@@ -100,12 +104,12 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
     public void submit(State state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
         poseStack.pushPose();
         if (state.onEntity) {
-            poseStack.translate(state.offset.x, state.offset.y + state.halfHeight, state.offset.z);
-            poseStack.rotateDegrees(Axis.YP, -state.targetYaw);
-            if (state.hitOffset != null) {
-                poseStack.translate(state.hitOffset.x * state.side, state.hitOffset.y, state.hitOffset.z * state.front);
-            }
-            poseStack.rotateDegrees(Axis.YP, state.webYaw);
+            // target's feet -> body space (forward = +Z) -> spot on the body -> facing outwards
+            poseStack.translate(state.offset.x, state.offset.y, state.offset.z);
+            poseStack.rotateDegrees(Axis.YP, -state.bodyYaw);
+            poseStack.translate(state.local.x, state.local.y, state.local.z);
+            poseStack.rotateDegrees(Axis.YP, state.faceYaw);
+            poseStack.translate(0.0F, 0.0F, 0.07F);
         } else {
             poseStack.translate(0.0F, state.halfHeight, 0.0F);
             if (state.inGround) {
@@ -126,15 +130,8 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
         int light = state.lightCoords;
         float w = state.w;
         float in = state.in;
-        boolean flat = !state.inGround || state.onEntity;
-        Direction dir = state.dir;
-        collector.submitCustomGeometry(poseStack, RenderTypes.entityTranslucent(this.texture), (pose, consumer) -> {
-            if (flat) {
-                WebGeometry.webShape(pose, consumer, w, in, color, light, 0.0F, 1.0F, 0.0F);
-            } else {
-                WebGeometry.webShape(pose, consumer, w, in, color, light, dir.getStepX(), dir.getStepY(), dir.getStepZ());
-            }
-        });
+        collector.submitCustomGeometry(poseStack, RenderTypes.entityTranslucent(this.texture),
+                (pose, consumer) -> WebGeometry.webShape(pose, consumer, w, in, color, light));
         poseStack.popPose();
         super.submit(state, poseStack, collector, camera);
     }
@@ -151,10 +148,9 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
         public float halfHeight;
         public boolean onEntity;
         public Vec3 offset = Vec3.ZERO;
-        public float targetYaw;
-        public @Nullable Vec3 hitOffset;
-        public float side;
-        public float front;
-        public float webYaw;
+        public float bodyYaw;
+        /** Spot on the body in body space (forward = +Z), from the feet. */
+        public Vec3 local = Vec3.ZERO;
+        public float faceYaw;
     }
 }

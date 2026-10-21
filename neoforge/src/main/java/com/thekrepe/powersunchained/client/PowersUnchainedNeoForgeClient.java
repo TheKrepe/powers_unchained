@@ -3,6 +3,7 @@ package com.thekrepe.powersunchained.client;
 import com.thekrepe.powersunchained.Constants;
 import com.thekrepe.powersunchained.client.input.PUKeyMappings;
 import com.thekrepe.powersunchained.client.web.WebShooterClient;
+import com.thekrepe.powersunchained.client.ability.AbilityHud;
 import com.thekrepe.powersunchained.client.web.WebShooterHud;
 import com.thekrepe.powersunchained.client.web.WebArmAnimation;
 import com.thekrepe.powersunchained.client.web.WebProjectileRenderer;
@@ -78,7 +79,9 @@ public class PowersUnchainedNeoForgeClient {
         });
         modEventBus.addListener((RegisterGuiLayersEvent event) -> {
             event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("web_shooters"), WebShooterHud::render);
+            event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("abilities"), AbilityHud::render);
         });
+        WebShooterClient.registerHud();
         modEventBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {
             event.registerEntityRenderer(PUEntities.IMPACT_WEB.get(), WebProjectileRenderer::impact);
             event.registerEntityRenderer(PUEntities.STICKY_WEB.get(), WebProjectileRenderer::sticky);

@@ -71,5 +71,6 @@
   "hint.powers_unchained.scroll": "Колёсико",
   "hint.powers_unchained.use": "ПКМ",
   "hint.powers_unchained.web_shooters.toggle": "Вкл/выкл и выбор паутины",
-  "hint.powers_unchained.web_shooters.shoot": "Выстрел паутиной (пустая рука)"
+  "hint.powers_unchained.web_shooters.shoot": "Выстрел паутиной (пустая рука)",
+  "hud.powers_unchained.off": "Выкл"
 }

@@ -47,6 +47,8 @@ public abstract class AbstractWebProjectile extends Entity {
     private static final EntityDataAccessor<Byte> SHOOT_SIDE = SynchedEntityData.defineId(AbstractWebProjectile.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Float> SHOOT_YAW = SynchedEntityData.defineId(AbstractWebProjectile.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> SHOOT_PITCH = SynchedEntityData.defineId(AbstractWebProjectile.class, EntityDataSerializers.FLOAT);
+    /** Server -> client: the block side the web is stuck to, -1 while not stuck to a block. */
+    private static final EntityDataAccessor<Byte> STUCK_SIDE = SynchedEntityData.defineId(AbstractWebProjectile.class, EntityDataSerializers.BYTE);
 
     /** Side of the wrist the web was shot from. */
     public static final int RIGHT = 0;
@@ -92,6 +94,7 @@ public abstract class AbstractWebProjectile extends Entity {
         builder.define(SHOOT_SIDE, (byte) -1);
         builder.define(SHOOT_YAW, 0.0F);
         builder.define(SHOOT_PITCH, 0.0F);
+        builder.define(STUCK_SIDE, (byte) -1);
     }
 
     public @Nullable Entity getShooter() {
@@ -172,11 +175,22 @@ public abstract class AbstractWebProjectile extends Entity {
 
     @Override
     public void tick() {
+        boolean client = this.level().isClientSide();
+        if (client) {
+            this.syncStuckSide();
+        }
         if (!this.velocityInitialized) {
             this.velocityInitialized = true;
-            this.initVelocity();
-            if (this.level().isClientSide() && this.getShootSide() >= 0) {
-                WebShotTracker.onShot(this.entityData.get(SHOOTER) - 1, this.getShootSide());
+            if (client && this.isStuck()) {
+                // a web that was already stuck when it came into view (walked up to it, joined the world): don't
+                // fire it off again from where it sits
+                this.grappleTimer = this.prevGrappleTimer = 1.0F;
+            } else {
+                this.initVelocity();
+                Entity shooter = this.getShooter();
+                if (client && this.getShootSide() >= 0 && shooter != null && shooter.distanceToSqr(this) < 256.0) {
+                    WebShotTracker.onShot(shooter.getId(), this.getShootSide());
+                }
             }
         }
         super.tick();
@@ -192,6 +206,18 @@ public abstract class AbstractWebProjectile extends Entity {
         }
         if (this.tickCount > this.getLifespan() && !this.level().isClientSide()) {
             this.discard();
+        }
+    }
+
+    /** Client: follows the server when the web got stuck to (or fell off) a block there. */
+    private void syncStuckSide() {
+        int side = this.entityData.get(STUCK_SIDE);
+        if (side >= 0 && !this.inGround) {
+            this.inGround = true;
+            this.blockSide = side;
+            this.setDeltaMovement(Vec3.ZERO);
+        } else if (side < 0 && this.inGround && this.inPos == null) {
+            this.inGround = false;
         }
     }
 
@@ -215,6 +241,10 @@ public abstract class AbstractWebProjectile extends Entity {
     }
 
     protected void updateInGround() {
+        if (this.inPos == null && this.level().isClientSide()) {
+            ++this.ticksInGround;  // stuck as told by the server (the client did not see the hit itself)
+            return;
+        }
         BlockState state = this.inPos != null ? this.level().getBlockState(this.inPos) : null;
         if (state != null && state == this.inState) {
             ++this.ticksInGround;
@@ -223,6 +253,9 @@ public abstract class AbstractWebProjectile extends Entity {
             // the block is gone: fall
             this.inGround = false;
             this.inPos = null;
+            if (!this.level().isClientSide()) {
+                this.entityData.set(STUCK_SIDE, (byte) -1);
+            }
             Vec3 m = this.getDeltaMovement();
             this.setDeltaMovement(m.x * this.random.nextFloat() * 0.2F, m.y * this.random.nextFloat() * 0.2F, m.z * this.random.nextFloat() * 0.2F);
             this.ticksInGround = 0;
@@ -337,6 +370,9 @@ public abstract class AbstractWebProjectile extends Entity {
             this.setPos(this.getX() - v.x / len * 0.05, this.getY() - v.y / len * 0.05, this.getZ() - v.z / len * 0.05);
         }
         this.inGround = true;
+        if (!this.level().isClientSide()) {
+            this.entityData.set(STUCK_SIDE, (byte) this.blockSide);
+        }
         this.snapToBlockFace(hit);
     }
 
@@ -383,6 +419,12 @@ public abstract class AbstractWebProjectile extends Entity {
     @Override
     public boolean shouldRenderAtSqrDistance(double distance) {
         return distance < 64.0 * 64.0;
+    }
+
+    /** Webs are short-lived effects: never written to the world save. */
+    @Override
+    public boolean shouldBeSaved() {
+        return false;
     }
 
     @Override

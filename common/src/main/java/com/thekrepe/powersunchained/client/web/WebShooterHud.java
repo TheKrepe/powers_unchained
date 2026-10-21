@@ -1,21 +1,19 @@
 package com.thekrepe.powersunchained.client.web;
 
-import com.thekrepe.powersunchained.client.input.PUKeyMappings;
 import com.thekrepe.powersunchained.web.WebType;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
 /**
  * Web-shooter HUD, after Fisk's utility belt HUD ({@code HudElementUtilityBelt}): while the ability key is held a
  * ring of web types opens below the crosshair (the selected one raised and highlighted, with its shots left and
  * recharge bar, smooth rotation when scrolling); while web shooting is on, the selected web with its shots and
- * recharge bar sits under the crosshair. After putting the web-shooters on, the controls are listed at the top left.
+ * recharge bar sits under the crosshair. The ability keys and controls are listed by
+ * {@link com.thekrepe.powersunchained.client.ability.AbilityHud}.
  */
 public final class WebShooterHud {
 
@@ -78,7 +76,6 @@ public final class WebShooterHud {
         }
         float pt = delta.getGameTimeDeltaPartialTick(false);
         Font font = mc.font;
-        renderHints(graphics, font);
 
         float timer = WebShooterClient.wheel(pt);
         if (!WebShooterClient.isActive() && timer <= 0.0F) {
@@ -156,32 +153,5 @@ public final class WebShooterHud {
     /** 0..1 of the shot that is recharging (0 when all shots are loaded). */
     private static float recharge(WebType type, float pt) {
         return WebShooterClient.uses(type) < type.maxUses() ? WebShooterClient.recharge(type, pt) : 0.0F;
-    }
-
-    /** Controls of the web-shooters, for a few seconds after putting them on. */
-    private static void renderHints(GuiGraphicsExtractor graphics, Font font) {
-        int timer = WebShooterClient.hintTimer();
-        if (timer <= 0) {
-            return;
-        }
-        float alpha = Math.min(timer / 20.0F, 1.0F);
-        Component key = PUKeyMappings.ABILITY_1.getTranslatedKeyMessage();
-        Component[][] lines = {
-            {Component.empty().append(key).append(" + ").append(Component.translatable("hint.powers_unchained.scroll")),
-                Component.translatable("hint.powers_unchained.web_shooters.toggle")},
-            {Component.translatable("hint.powers_unchained.use"),
-                Component.translatable("hint.powers_unchained.web_shooters.shoot")},
-        };
-        int y = 4;
-        for (Component[] line : lines) {
-            Component text = Component.empty()
-                    .append(line[0].copy().withStyle(ChatFormatting.YELLOW))
-                    .append(Component.literal(" - ").withStyle(ChatFormatting.GRAY))
-                    .append(line[1]);
-            int w = font.width(text);
-            graphics.fill(2, y - 2, 2 + w + 6, y + 10, argb(0x3A4E6E, 0.55F * alpha));
-            graphics.text(font, text, 5, y, argb(0xFFFFFF, alpha), true);
-            y += 14;
-        }
     }
 }

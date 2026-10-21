@@ -185,7 +185,25 @@ public final class CiClientDriver {
             case 4406 -> shot("17_web_mode_indicator");
             case 4450 -> com.thekrepe.powersunchained.client.web.WebShooterClient.debugState(true, true, com.thekrepe.powersunchained.web.WebType.STICKY);
             case 4470 -> shot("18_web_wheel");
-            case 4650 -> {
+            case 4500 -> {
+                // sticky webs on zombies: one turned sideways (hit on its right side), one facing the player
+                com.thekrepe.powersunchained.client.web.WebShooterClient.debugState(true, false, com.thekrepe.powersunchained.web.WebType.STICKY);
+                run("kill @e[type=!player]");
+                run("tp @p 320.5 ~ 0.5 0 0");
+                run("execute at @p run summon minecraft:zombie ~ ~ ~4 {NoAI:1b,Rotation:[90f,0f]}");
+                run("execute at @p run summon minecraft:zombie ~3 ~ ~4 {NoAI:1b,Rotation:[180f,0f]}");
+            }
+            case 4510 -> run("execute as @p at @s run tp @s ~ ~ ~ 0 6");
+            case 4514 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
+            case 4516 -> run("execute as @p at @s run tp @s ~ ~ ~ 0 19");
+            case 4520 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
+            case 4522 -> run("execute as @p at @s run tp @s ~ ~ ~ -37 5");
+            case 4526 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
+            case 4528 -> run("execute as @p at @s run tp @s ~ ~ ~ -37 15");
+            case 4532 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
+            case 4536 -> run("tp @p 317.5 ~ 2.5 -63 18");
+            case 4540 -> shot("19_sticky_webs_on_zombies_and_ability_hud");
+            case 4700 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }

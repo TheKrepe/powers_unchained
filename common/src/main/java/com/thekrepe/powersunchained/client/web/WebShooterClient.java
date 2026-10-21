@@ -7,8 +7,13 @@ import com.thekrepe.powersunchained.registry.PUSounds;
 import com.thekrepe.powersunchained.web.WebAmmo;
 import com.thekrepe.powersunchained.web.WebShooting;
 import com.thekrepe.powersunchained.web.WebType;
+import com.thekrepe.powersunchained.client.ability.AbilityHud;
+import java.util.List;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Client side of the "Web Shot" ability (ability key 1, default C) for players wearing web-shooters, with the
@@ -25,7 +30,7 @@ public final class WebShooterClient {
 
     /** Ticks the wheel takes to open / close. */
     private static final float WHEEL_TICKS = 4.0F;
-    /** How long the key hints stay after putting the web-shooters on. */
+    /** How long the extra "hold + scroll" hint stays after putting the web-shooters on. */
     private static final int HINT_TICKS = 200;
 
     private static boolean active;
@@ -45,6 +50,44 @@ public final class WebShooterClient {
     private WebShooterClient() {
     }
 
+    /** Puts "Web Shot" on ability key 1 in the ability HUD while web-shooters are worn. */
+    public static void registerHud() {
+        AbilityHud.register(new AbilityHud.Provider() {
+            @Override
+            public AbilityHud.@Nullable Entry get(LocalPlayer player, int slot) {
+                if (slot != 0 || !hadWebShooters) {
+                    return null;
+                }
+                Component status;
+                if (active) {
+                    int uses = uses(selected);
+                    status = Component.empty().append(selected.displayName()).append(" " + uses + "/" + selected.maxUses())
+                            .withStyle(uses > 0 ? ChatFormatting.AQUA : ChatFormatting.RED);
+                } else {
+                    status = Component.translatable("hud.powers_unchained.off").withStyle(ChatFormatting.DARK_GRAY);
+                }
+                return new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_shot"), status, active);
+            }
+
+            @Override
+            public void hints(LocalPlayer player, List<Component[]> out) {
+                if (!hadWebShooters) {
+                    return;
+                }
+                if (hintTimer > 0 || wheel > 0.0F) {
+                    out.add(new Component[] {
+                        Component.empty().append(PUKeyMappings.ABILITY_1.getTranslatedKeyMessage()).append(" + ")
+                                .append(Component.translatable("hint.powers_unchained.scroll")),
+                        Component.translatable("hint.powers_unchained.web_shooters.toggle")});
+                }
+                if (active) {
+                    out.add(new Component[] {Component.translatable("hint.powers_unchained.use"),
+                        Component.translatable("hint.powers_unchained.web_shooters.shoot")});
+                }
+            }
+        });
+    }
+
     public static boolean isActive() {
         return active;
     }
@@ -61,11 +104,6 @@ public final class WebShooterClient {
     /** Last scroll direction (+1 / -1), for the wheel's wrap-around animation. */
     public static int scrollDirection() {
         return scrollDirection;
-    }
-
-    /** Ticks left of the key hints shown after putting the web-shooters on. */
-    public static int hintTimer() {
-        return hintTimer;
     }
 
     /** Dev/CI only (screenshot tests): sets the state as if the player used the key. */
