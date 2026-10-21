@@ -204,7 +204,39 @@ public final class CiClientDriver {
             case 4532 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
             case 4536 -> run("tp @p 317.5 ~ 2.5 -63 18");
             case 4540 -> shot("19_sticky_webs_on_zombies_and_ability_hud");
-            case 4700 -> {
+            case 4600 -> {
+                // cocoon: five sticky webs on one husk; two webs on the head of another
+                run("kill @e[type=!player]");
+                run("tp @p 360.5 ~ 0.5 0 10");
+                run("execute at @p run summon minecraft:husk ~ ~ ~4 {NoAI:1b,Rotation:[180f,0f]}");
+                run("execute at @p run summon minecraft:husk ~2.5 ~ ~4 {NoAI:1b,Rotation:[180f,0f]}");
+            }
+            case 4610, 4612, 4614, 4616, 4618 -> rawWeb(com.thekrepe.powersunchained.web.WebType.STICKY, ticks % 4 == 0 ? 0 : 1);
+            case 4620 -> run("execute as @p at @s run tp @s ~ ~ ~ -32 -2");
+            case 4624, 4627 -> rawWeb(com.thekrepe.powersunchained.web.WebType.STICKY, 0);
+            case 4630 -> run("tp @p 357.5 ~ 2.5 -63 12");
+            case 4634 -> shot("20_cocoon_and_head_webs");
+            case 4720 -> {
+                // the player wrapped up + webs on the head: first person overlays
+                run("kill @e[type=!player]");
+                net.minecraft.server.level.ServerPlayer player = serverPlayer();
+                Minecraft.getInstance().getSingleplayerServer().execute(() ->
+                        com.thekrepe.powersunchained.entity.web.WebCocoon.wrap(player));
+            }
+            case 4724 -> shot("21_cocoon_first_person");
+            case 4820 -> {
+                // web zip at a wall: the line pulls the player
+                run("tp @p 400.5 ~ 0.5 0 -15");
+                run("execute at @p run fill ~-3 ~ ~14 ~3 ~8 ~14 minecraft:stone");
+            }
+            case 4830 -> {
+                zipStart = mc.player.position();
+                net.minecraft.server.level.ServerPlayer player = serverPlayer();
+                Minecraft.getInstance().getSingleplayerServer().execute(() -> com.thekrepe.powersunchained.web.WebShooting.zip(player));
+            }
+            case 4834 -> shot("22_web_zip");
+            case 4845 -> Constants.LOG.info("[CI] web zip moved the player from {} to {}", zipStart, mc.player.position());
+            case 4950 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -225,6 +257,14 @@ public final class CiClientDriver {
     private static net.minecraft.server.level.ServerPlayer serverPlayer() {
         Minecraft mc = Minecraft.getInstance();
         return mc.getSingleplayerServer().getPlayerList().getPlayer(mc.player.getUUID());
+    }
+
+    private static net.minecraft.world.phys.Vec3 zipStart = net.minecraft.world.phys.Vec3.ZERO;
+
+    /** Spawns a web of the given type from the given wrist, bypassing the ammo (screenshot tests). */
+    private static void rawWeb(com.thekrepe.powersunchained.web.WebType type, int side) {
+        net.minecraft.server.level.ServerPlayer player = serverPlayer();
+        Minecraft.getInstance().getSingleplayerServer().execute(() -> player.level().addFreshEntity(type.create(player.level(), player, side)));
     }
 
     /** Spawns an impact web from the given wrist, bypassing the ammo (screenshot tests). */

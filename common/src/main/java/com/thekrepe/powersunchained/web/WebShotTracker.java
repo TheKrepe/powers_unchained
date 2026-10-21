@@ -35,6 +35,11 @@ public final class WebShotTracker {
         state.shotAge = 0;
     }
 
+    /** Keeps the arm aimed (e.g. while a web zip line pulls), without a new shot jab. */
+    public static void hold(int entityId, int side) {
+        STATES.computeIfAbsent(entityId, id -> new State()).sinceShot[side] = 0;
+    }
+
     /** Client tick. */
     public static void tick() {
         Iterator<State> it = STATES.values().iterator();

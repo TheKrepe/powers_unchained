@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import com.thekrepe.powersunchained.Constants;
 import com.thekrepe.powersunchained.entity.web.AbstractWebProjectile;
 import com.thekrepe.powersunchained.entity.web.StickyWeb;
+import com.thekrepe.powersunchained.entity.web.WebZipLine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -15,18 +16,21 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 /**
  * Draws web shots as a four-leaved web star: small and pointed while flying, spreading out flat on the surface it
- * hits; sticky webs follow the entity they stick to. From TheKrepe's Fisk's Superheroes port (used with permission),
+ * hits; sticky webs follow the entity they stick to (on the body's outline, on the faces of the head), web zip lines
+ * also draw the line back to the shooter's wrist. From TheKrepe's Fisk's Superheroes port (used with permission),
  * with our own textures.
  */
 public class WebProjectileRenderer<T extends AbstractWebProjectile> extends EntityRenderer<T, WebProjectileRenderer.State> {
 
     public static final Identifier TEXTURE = Constants.id("textures/entity/web/web.png");
     public static final Identifier TEXTURE_LARGE = Constants.id("textures/entity/web/web_large.png");
+    public static final Identifier TEXTURE_LINE = Constants.id("textures/entity/web/web_line.png");
     private static final int[] ROT_MATRIX = {0, 0, 2, 0, 3, 1};
 
     private final float webSize;
@@ -48,7 +52,7 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
 
     @Override
     protected boolean affectedByCulling(T entity) {
-        return !(entity instanceof StickyWeb web && web.getHitEntity() != null);
+        return !(entity instanceof StickyWeb web && web.getHitEntity() != null) && !(entity instanceof WebZipLine);
     }
 
     @Override
@@ -70,59 +74,146 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
         state.spin = entity.getId() * 20;
         state.halfHeight = entity.getBbHeight() / 2.0F;
         state.onEntity = false;
+        state.drawLine = false;
+        state.headPitch = 0.0F;
+        state.headPivot = 0.0F;
 
+        if (entity instanceof WebZipLine line) {
+            this.extractZipLine(line, state, partialTick);
+            return;
+        }
         LivingEntity target = entity instanceof StickyWeb web ? web.getHitEntity() : null;
         if (target != null) {
-            StickyWeb web = (StickyWeb) entity;
-            Vec3 feet = target.getPosition(partialTick);
-            state.offset = feet.subtract(state.x, state.y, state.z);
-            state.onEntity = true;
-            Minecraft mc = Minecraft.getInstance();
-            boolean firstPerson = target == mc.player && mc.options.getCameraType().isFirstPerson();
-            Vec3 hit = web.getHitOffset();
-            double height = hit.y;
-            boolean head = !firstPerson && StickyWeb.isOnHead(target, height);
-            state.bodyYaw = head ? Mth.rotLerp(partialTick, target.yHeadRotO, target.yHeadRot)
-                    : Mth.rotLerp(partialTick, target.yBodyRotO, target.yBodyRot);
-
-            // the web lies on the body's outline at the spot it hit (an ellipse: for humanoids the head is a box,
-            // the torso + arms are wide and flat, the legs narrower), turned to face outwards from there
-            float side;
-            float front;
-            if (StickyWeb.isHumanoid(target)) {
-                float s = target.getBbWidth() / 0.6F;
-                float h = target.getBbHeight();
-                if (head) {
-                    side = front = 0.29F * s;
-                } else if (height > h * 0.4F) {
-                    side = 0.4F * s;
-                    front = 0.17F * s;
-                } else {
-                    side = 0.27F * s;
-                    front = 0.17F * s;
-                }
-            } else {
-                side = front = target.getBbWidth() / 2.0F * 0.95F;
-            }
-            if (firstPerson) {
-                // webs on yourself in first person stay below the camera (chest / legs): seen when looking down
-                // instead of covering the screen
-                height = Math.min(height, target.getEyeHeight() - 0.95);
-            }
-            state.local = new Vec3(hit.x * side, height, hit.z * front);
-            state.faceYaw = (float) Math.toDegrees(Math.atan2(hit.x / side, hit.z / front));
-            float scale = Mth.clamp(target.getBbWidth() / 0.6F, 0.5F, 1.5F);
-            state.w *= firstPerson ? scale * 0.6F : head ? scale * 0.75F : scale;
+            this.extractOnEntity((StickyWeb) entity, target, state, partialTick);
         }
+    }
+
+    private void extractOnEntity(StickyWeb web, LivingEntity target, State state, float partialTick) {
+        Vec3 feet = target.getPosition(partialTick);
+        state.offset = feet.subtract(state.x, state.y, state.z);
+        state.onEntity = true;
+        state.in = Mth.lerp(Mth.lerp(partialTick, web.prevGrappleTimer, web.grappleTimer), 8.0F, -0.6F) / 16.0F;
+        Minecraft mc = Minecraft.getInstance();
+        boolean firstPerson = target == mc.player && mc.options.getCameraType().isFirstPerson();
+        Vec3 hit = web.getHitOffset();
+        double height = hit.y;
+        float s = target.getBbWidth() / 0.6F;
+        float scale = Mth.clamp(s, 0.5F, 1.5F);
+
+        if (!firstPerson && StickyWeb.isOnHead(target, height)) {
+            // on the head: flat on the face of the head box it hit, turning (and nodding) with the head
+            state.bodyYaw = Mth.rotLerp(partialTick, target.yHeadRotO, target.yHeadRot);
+            state.headPitch = Mth.lerp(partialTick, target.xRotO, target.getXRot());
+            state.headPivot = StickyWeb.headPivot(target);
+            float half = 0.25F * s + 0.01F;
+            double y = Mth.clamp(height - state.headPivot, 0.12F * s, 0.4F * s);
+            if (Math.abs(hit.z) >= Math.abs(hit.x)) {
+                double sign = Math.signum(hit.z == 0 ? 1 : hit.z);
+                state.local = new Vec3(Mth.clamp(hit.x * half, -half * 0.5, half * 0.5), y, sign * half);
+                state.faceYaw = sign > 0 ? 0.0F : 180.0F;
+            } else {
+                double sign = Math.signum(hit.x);
+                state.local = new Vec3(sign * half, y, Mth.clamp(hit.z * half, -half * 0.5, half * 0.5));
+                state.faceYaw = sign > 0 ? 90.0F : -90.0F;
+            }
+            state.in = Mth.lerp(Mth.lerp(partialTick, web.prevGrappleTimer, web.grappleTimer), 8.0F, -0.2F) / 16.0F;
+            state.w *= scale * 0.6F;
+            return;
+        }
+
+        state.bodyYaw = Mth.rotLerp(partialTick, target.yBodyRotO, target.yBodyRot);
+        // the web lies on the body's outline at the spot it hit (an ellipse: for humanoids the torso + arms are wide
+        // and flat, the legs narrower), turned to face outwards from there
+        float side;
+        float front;
+        if (StickyWeb.isHumanoid(target)) {
+            if (height > target.getBbHeight() * 0.4F) {
+                side = 0.4F * s;
+                front = 0.17F * s;
+            } else {
+                side = 0.27F * s;
+                front = 0.17F * s;
+            }
+        } else {
+            side = front = target.getBbWidth() / 2.0F * 0.95F;
+        }
+        if (firstPerson) {
+            // webs on yourself in first person stay below the camera (chest / legs): seen when looking down; webs
+            // on the head show as the web overlay on the screen instead
+            height = Math.min(height, target.getEyeHeight() - 0.95);
+        }
+        state.local = new Vec3(hit.x * side, height, hit.z * front);
+        state.faceYaw = (float) Math.toDegrees(Math.atan2(hit.x / side, hit.z / front));
+        state.w *= firstPerson ? scale * 0.6F : scale;
+    }
+
+    private void extractZipLine(WebZipLine line, State state, float partialTick) {
+        state.alpha = line.isDetached() ? Mth.clamp(1.0F - (line.ticksDetached + partialTick) / WebZipLine.FADE_TICKS, 0.0F, 1.0F) : 1.0F;
+        state.w = Mth.lerp(Mth.lerp(partialTick, line.prevGrappleTimer, line.grappleTimer), 2.0F, 8.0F) / 32.0F;
+        Entity hooked = line.getHooked();
+        Entity shooter = line.getShooter();
+        Vec3 origin = new Vec3(state.x, state.y, state.z);
+        Vec3 end = origin.add(0.0, state.halfHeight, 0.0);
+        if (hooked != null && shooter != null) {
+            // on the hooked entity, on the side facing the shooter
+            Vec3 pos = hooked.getPosition(partialTick);
+            Vec3 toShooter = shooter.getPosition(partialTick).subtract(pos);
+            double yaw = Math.atan2(toShooter.x, toShooter.z);
+            float r = hooked.getBbWidth() / 2.0F + 0.05F;
+            end = pos.add(Math.sin(yaw) * r, hooked.getBbHeight() / 2.0F, Math.cos(yaw) * r);
+            state.onEntity = true;
+            state.offset = end.subtract(origin).subtract(0.0, 0.0, 0.0);
+            state.local = Vec3.ZERO;
+            state.bodyYaw = 0.0F;
+            state.faceYaw = (float) Math.toDegrees(yaw);
+        }
+        if (shooter instanceof LivingEntity living && !line.isDetached()) {
+            state.drawLine = true;
+            state.lineFrom = end.subtract(origin);
+            state.lineTo = handPosition(living, end, partialTick).subtract(origin);
+        }
+    }
+
+    /** Approximate world position of the shooter's right wrist (from Fisk's web rope renderer). */
+    private static Vec3 handPosition(LivingEntity shooter, Vec3 anchor, float pt) {
+        Minecraft mc = Minecraft.getInstance();
+        if (shooter == mc.player && mc.options.getCameraType().isFirstPerson()) {
+            Vec3 look = shooter.getViewVector(pt);
+            Vec3 right = new Vec3(-look.z, 0.0, look.x);
+            right = right.lengthSqr() < 1.0E-6 ? new Vec3(1.0, 0.0, 0.0) : right.normalize();
+            return shooter.getEyePosition(pt).add(look.scale(0.4)).add(right.scale(0.3)).add(0.0, -0.15, 0.0);
+        }
+        float bodyYaw = Mth.rotLerp(pt, shooter.yBodyRotO, shooter.yBodyRot) * Mth.DEG_TO_RAD;
+        Vec3 right = new Vec3(-Math.cos(bodyYaw), 0.0, -Math.sin(bodyYaw));
+        double shoulderY = shooter.isCrouching() ? 1.2 : 1.41;
+        Vec3 shoulder = shooter.getPosition(pt).add(0.0, shoulderY, 0.0).add(right.scale(5.0 / 16.0));
+        Vec3 toAnchor = anchor.subtract(shoulder);
+        if (toAnchor.lengthSqr() < 1.0E-4) {
+            return shoulder;
+        }
+        return shoulder.add(toAnchor.normalize().scale(Math.min(10.0 / 16.0, toAnchor.length())));
     }
 
     @Override
     public void submit(State state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
+        int color = WebGeometry.color(state.alpha);
+        int light = state.lightCoords;
+        if (state.drawLine) {
+            Vec3 from = state.lineFrom;
+            Vec3 to = state.lineTo;
+            collector.submitCustomGeometry(poseStack, RenderTypes.entityTranslucent(TEXTURE_LINE),
+                    (pose, consumer) -> WebGeometry.line(pose, consumer, from, to, color, light));
+        }
+
         poseStack.pushPose();
         if (state.onEntity) {
-            // target's feet -> body space (forward = +Z) -> spot on the body -> facing outwards
+            // target's feet -> body (or head) space, forward = +Z -> spot on the body -> facing outwards
             poseStack.translate(state.offset.x, state.offset.y, state.offset.z);
             poseStack.rotateDegrees(Axis.YP, -state.bodyYaw);
+            if (state.headPivot > 0.0F) {
+                poseStack.translate(0.0F, state.headPivot, 0.0F);
+                poseStack.rotateDegrees(Axis.XP, state.headPitch);
+            }
             poseStack.translate(state.local.x, state.local.y, state.local.z);
             poseStack.rotateDegrees(Axis.YP, state.faceYaw);
             poseStack.translate(0.0F, 0.0F, 0.065F);
@@ -142,8 +233,6 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
         poseStack.rotateDegrees(Axis.ZP, state.spin);
         poseStack.translate(0.0F, 0.0F, -0.05875F);
 
-        int color = WebGeometry.color(state.alpha);
-        int light = state.lightCoords;
         float w = state.w;
         float in = state.in;
         collector.submitCustomGeometry(poseStack, RenderTypes.entityTranslucent(this.texture),
@@ -165,8 +254,15 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
         public boolean onEntity;
         public Vec3 offset = Vec3.ZERO;
         public float bodyYaw;
-        /** Spot on the body in body space (forward = +Z), from the feet. */
+        /** Head webs: the neck height and head pitch (0 pivot = on the body). */
+        public float headPivot;
+        public float headPitch;
+        /** Spot on the body (or head) in its space (forward = +Z). */
         public Vec3 local = Vec3.ZERO;
         public float faceYaw;
+        /** Web zip line back to the shooter's wrist. */
+        public boolean drawLine;
+        public Vec3 lineFrom = Vec3.ZERO;
+        public Vec3 lineTo = Vec3.ZERO;
     }
 }

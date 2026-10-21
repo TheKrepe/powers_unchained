@@ -72,5 +72,8 @@
   "tooltip.powers_unchained.web_fluid": "Паутинная жидкость: %s/%s",
   "tooltip.powers_unchained.web_shooters.cartridges": "Картриджи: %s/%s",
   "tooltip.powers_unchained.web_shooters.load": "Нажмите картриджем на веб-шутеры, чтобы зарядить",
-  "message.powers_unchained.no_web_fluid": "Паутина закончилась: вставьте картриджи в веб-шутеры"
+  "message.powers_unchained.no_web_fluid": "Паутина закончилась: вставьте картриджи в веб-шутеры",
+  "ability.powers_unchained.web_zip": "Рывок на паутине",
+  "entity.powers_unchained.web_zip_line": "Паутина для рывка",
+  "entity.powers_unchained.web_cocoon": "Паутинный кокон"
 }

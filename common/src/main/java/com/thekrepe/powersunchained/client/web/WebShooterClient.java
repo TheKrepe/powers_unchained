@@ -2,6 +2,7 @@ package com.thekrepe.powersunchained.client.web;
 
 import com.thekrepe.powersunchained.client.input.PUKeyMappings;
 import com.thekrepe.powersunchained.network.ShootWebPayload;
+import com.thekrepe.powersunchained.network.WebZipPayload;
 import com.thekrepe.powersunchained.platform.Services;
 import com.thekrepe.powersunchained.registry.PUSounds;
 import com.thekrepe.powersunchained.web.WebAmmo;
@@ -38,6 +39,7 @@ public final class WebShooterClient {
     private static float wheel;
     private static float prevWheel;
     private static boolean hadWebShooters;
+    private static int zipCooldown;
     /** Dev/CI only: keeps the wheel open without holding the key. */
     private static boolean debugMenu;
     /** Client copy of the shots left, for the HUD (the server runs the same rules). */
@@ -49,6 +51,9 @@ public final class WebShooterClient {
     /** Puts "Web Shot" on ability key 1 in the ability HUD while web-shooters are worn, with the web fluid left. */
     public static void registerHud() {
         AbilityHud.register((player, slot) -> {
+            if (slot == 1 && hadWebShooters) {
+                return new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_zip"), null, zipCooldown == 0);
+            }
             if (slot != 0 || !hadWebShooters) {
                 return null;
             }
@@ -97,11 +102,19 @@ public final class WebShooterClient {
             return;
         }
         AMMO.tick();
+        if (zipCooldown > 0) {
+            zipCooldown--;
+        }
         boolean wasActive = active;
         boolean has = WebShooting.hasWebShooters(player) || debugMenu;
         hadWebShooters = has;
         if (!has) {
             active = false;
+        }
+        while (PUKeyMappings.ABILITY_2.consumeClick()) {
+            if (has) {
+                tryZip(player);
+            }
         }
         boolean down = has && PUKeyMappings.ABILITY_1.isDown();
         if (down && !wasDown) {
@@ -120,6 +133,24 @@ public final class WebShooterClient {
         if (wasActive != active) {
             player.playSound(PUSounds.WEB_SWITCH.get(), 0.6F, active ? 1.1F : 0.8F);
         }
+    }
+
+    /** Web Zip (ability key 2): empty main hand, off cooldown, web fluid needed. */
+    private static void tryZip(LocalPlayer player) {
+        if (!player.getMainHandItem().isEmpty() || zipCooldown > 0) {
+            return;
+        }
+        if (!WebCartridges.hasFluid(player)) {
+            noFluid(player);
+            return;
+        }
+        zipCooldown = WebShooting.ZIP_COOLDOWN;
+        Services.GAMEPLAY.sendToServer(WebZipPayload.INSTANCE);
+    }
+
+    private static void noFluid(LocalPlayer player) {
+        player.playSound(net.minecraft.sounds.SoundEvents.DISPENSER_FAIL, 0.5F, 1.6F);
+        player.sendOverlayMessage(Component.translatable("message.powers_unchained.no_web_fluid"));
     }
 
     /** @return {@code true} if the scroll was used to pick a web type (then the hotbar must not scroll) */
@@ -146,8 +177,7 @@ public final class WebShooterClient {
         }
         if (!WebCartridges.hasFluid(player)) {
             if (mainHand) {
-                player.playSound(net.minecraft.sounds.SoundEvents.DISPENSER_FAIL, 0.5F, 1.6F);
-                player.sendOverlayMessage(Component.translatable("message.powers_unchained.no_web_fluid"));
+                noFluid(player);
             }
             return true;
         }

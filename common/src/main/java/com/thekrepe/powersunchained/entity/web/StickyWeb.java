@@ -2,6 +2,7 @@ package com.thekrepe.powersunchained.entity.web;
 
 import com.thekrepe.powersunchained.registry.PUEntities;
 import com.thekrepe.powersunchained.web.WebSlowness;
+import java.util.List;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -107,7 +108,12 @@ public class StickyWeb extends AbstractWebProjectile {
 
     /** Whether a web at this height above the feet sits on the head of a humanoid (and turns with the head). */
     public static boolean isOnHead(LivingEntity entity, double height) {
-        return isHumanoid(entity) && height > entity.getBbHeight() * 0.74F;
+        return isHumanoid(entity) && height > headPivot(entity);
+    }
+
+    /** Height of a humanoid's neck (the head's pivot) above its feet. */
+    public static float headPivot(LivingEntity entity) {
+        return entity.getEyeHeight() - 0.2F * entity.getBbWidth() / 0.6F;
     }
 
     @Override
@@ -131,5 +137,13 @@ public class StickyWeb extends AbstractWebProjectile {
         dir = dir.yRot((float) Math.toRadians(yaw));
         this.entityData.set(HIT_OFFSET, new Vector3f((float) dir.x, (float) height, (float) dir.z));
         this.entityData.set(HIT_ENTITY, target.getId() + 1);
+
+        // enough webs on it: they merge into a cocoon that holds it in place
+        List<StickyWeb> webs = this.level().getEntitiesOfClass(StickyWeb.class, target.getBoundingBox().inflate(3.0),
+                web -> web.getHitEntity() == target);
+        if (webs.size() >= WebCocoon.WEBS_NEEDED) {
+            WebCocoon.wrap(living);
+            webs.forEach(Entity::discard);
+        }
     }
 }

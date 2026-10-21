@@ -5,6 +5,8 @@ import com.thekrepe.powersunchained.client.input.PUKeyMappings;
 import com.thekrepe.powersunchained.client.web.WebShooterClient;
 import com.thekrepe.powersunchained.client.ability.AbilityHud;
 import com.thekrepe.powersunchained.client.web.ClientWebShootersTooltip;
+import com.thekrepe.powersunchained.client.web.WebCocoonRenderer;
+import com.thekrepe.powersunchained.client.web.WebOverlay;
 import com.thekrepe.powersunchained.item.WebShootersItem;
 import com.thekrepe.powersunchained.client.web.WebShooterHud;
 import com.thekrepe.powersunchained.client.web.WebArmAnimation;
@@ -83,6 +85,7 @@ public class PowersUnchainedNeoForgeClient {
         modEventBus.addListener((RegisterGuiLayersEvent event) -> {
             event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("web_shooters"), WebShooterHud::render);
             event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("abilities"), AbilityHud::render);
+            event.registerBelow(VanillaGuiLayers.CROSSHAIR, Constants.id("web_overlay"), WebOverlay::render);
         });
         WebShooterClient.registerHud();
         modEventBus.addListener((RegisterClientTooltipComponentFactoriesEvent event) ->
@@ -90,6 +93,8 @@ public class PowersUnchainedNeoForgeClient {
         modEventBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {
             event.registerEntityRenderer(PUEntities.IMPACT_WEB.get(), WebProjectileRenderer::impact);
             event.registerEntityRenderer(PUEntities.STICKY_WEB.get(), WebProjectileRenderer::sticky);
+            event.registerEntityRenderer(PUEntities.WEB_ZIP_LINE.get(), WebProjectileRenderer::impact);
+            event.registerEntityRenderer(PUEntities.WEB_COCOON.get(), WebCocoonRenderer::new);
         });
         NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post event) -> {
             WebShooterClient.tick();

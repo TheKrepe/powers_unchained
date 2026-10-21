@@ -72,5 +72,8 @@
   "tooltip.powers_unchained.web_fluid": "Web fluid: %s/%s",
   "tooltip.powers_unchained.web_shooters.cartridges": "Cartridges: %s/%s",
   "tooltip.powers_unchained.web_shooters.load": "Click web cartridges onto it to load",
-  "message.powers_unchained.no_web_fluid": "Out of web fluid: load web cartridges into the web-shooters"
+  "message.powers_unchained.no_web_fluid": "Out of web fluid: load web cartridges into the web-shooters",
+  "ability.powers_unchained.web_zip": "Web Zip",
+  "entity.powers_unchained.web_zip_line": "Web Zip Line",
+  "entity.powers_unchained.web_cocoon": "Web Cocoon"
 }

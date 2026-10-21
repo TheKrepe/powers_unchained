@@ -1,6 +1,7 @@
 package com.thekrepe.powersunchained.web;
 
 import com.thekrepe.powersunchained.Constants;
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 import net.minecraft.resources.Identifier;
@@ -12,12 +13,16 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 /**
  * Sticky webs on an entity's legs slow it down: every web stuck to it adds to this tick's count, at the end of the
  * server tick the movement speed modifier is set from the count (like Fisk's {@code applyWebSlowness}):
- * 1 web -> -40%, 2 -> -53%, 3 -> -60% ... and removed once no web is left.
+ * 1 web -> -40%, 2 -> -53%, 3 -> -60% ... and removed once no web is left. An entity wrapped in a web cocoon
+ * can't move or jump at all.
  */
 public final class WebSlowness {
 
     private static final Identifier MODIFIER = Constants.id("web_slowness");
     private static final Map<LivingEntity, Float> COUNTS = new WeakHashMap<>();
+    private static final Identifier COCOON = Constants.id("web_cocoon");
+    /** Entities wrapped in a web cocoon this tick (true) / last tick (false, modifiers still to remove). */
+    private static final Map<LivingEntity, Boolean> HELD = new WeakHashMap<>();
 
     private WebSlowness() {
     }
@@ -27,14 +32,47 @@ public final class WebSlowness {
         COUNTS.merge(entity, 1.0F, Float::sum);
     }
 
+    /** Server side, called every tick by a web cocoon: the entity can't move or jump this tick. */
+    public static void hold(LivingEntity entity) {
+        HELD.put(entity, true);
+    }
+
     /** Server side, at the end of every server tick. */
     public static void endTick() {
+        HELD.replaceAll((entity, held) -> {
+            setHeld(entity, held);
+            return false;
+        });
+        HELD.entrySet().removeIf(e -> !isHeld(e.getKey()));
         COUNTS.replaceAll((entity, count) -> {
             apply(entity, count);
             return 0.0F;
         });
         // entities without webs got their modifier removed above -> stop tracking them
         COUNTS.entrySet().removeIf(e -> !hasModifier(e.getKey()));
+    }
+
+    private static boolean isHeld(LivingEntity entity) {
+        AttributeInstance speed = entity.getAttribute(Attributes.MOVEMENT_SPEED);
+        return speed != null && speed.getModifier(COCOON) != null;
+    }
+
+    private static void setHeld(LivingEntity entity, boolean held) {
+        for (var attribute : List.of(Attributes.MOVEMENT_SPEED, Attributes.JUMP_STRENGTH, Attributes.FLYING_SPEED)) {
+            AttributeInstance instance = entity.getAttribute(attribute);
+            if (instance == null) {
+                continue;
+            }
+            boolean has = instance.getModifier(COCOON) != null;
+            if (held && !has) {
+                instance.addTransientModifier(new AttributeModifier(COCOON, -1.0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+            } else if (!held && has) {
+                instance.removeModifier(COCOON);
+            }
+        }
+        if (held) {
+            entity.setDeltaMovement(0.0, Math.min(entity.getDeltaMovement().y, 0.0), 0.0);
+        }
     }
 
     private static boolean hasModifier(LivingEntity entity) {

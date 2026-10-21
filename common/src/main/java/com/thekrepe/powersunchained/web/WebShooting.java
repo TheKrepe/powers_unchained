@@ -1,6 +1,7 @@
 package com.thekrepe.powersunchained.web;
 
 import com.thekrepe.powersunchained.entity.web.AbstractWebProjectile;
+import com.thekrepe.powersunchained.entity.web.WebZipLine;
 import com.thekrepe.powersunchained.platform.Services;
 import com.thekrepe.powersunchained.registry.PUItems;
 import com.thekrepe.powersunchained.registry.PUSounds;
@@ -65,6 +66,34 @@ public final class WebShooting {
                 1.0F, 0.95F + level.getRandom().nextFloat() * 0.1F);
     }
 
+    /** Ticks between two web zips. */
+    public static final int ZIP_COOLDOWN = 20;
+
+    /** Web Zip: shoots a web line that pulls the player to where it hits. */
+    public static void zip(ServerPlayer player) {
+        if (player.isSpectator() || !hasWebShooters(player) || !player.getMainHandItem().isEmpty()) {
+            return;
+        }
+        State state = STATES.computeIfAbsent(player.getUUID(), id -> new State());
+        long now = player.level().getGameTime();
+        if (now - state.lastZip < ZIP_COOLDOWN - 2) {  // a little slack for lag
+            return;
+        }
+        if (!player.getAbilities().instabuild && !WebCartridges.consume(WebCartridges.wornShooters(player))) {
+            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.DISPENSER_FAIL,
+                    SoundSource.PLAYERS, 0.5F, 1.6F);
+            return;
+        }
+        state.lastZip = now;
+        ServerLevel level = player.level();
+        // one line at a time
+        level.getEntitiesOfClass(WebZipLine.class, player.getBoundingBox().inflate(64.0), line -> line.getShooter() == player)
+                .forEach(WebZipLine::discard);
+        level.addFreshEntity(new WebZipLine(level, player));
+        level.playSound(null, player.getX(), player.getY(), player.getZ(), PUSounds.WEB_SHOOT.get(), SoundSource.PLAYERS,
+                1.0F, 0.75F + level.getRandom().nextFloat() * 0.1F);
+    }
+
     /** Server tick: recharges the shots of every player who used the web-shooters. */
     public static void tick() {
         STATES.values().forEach(state -> state.ammo.tick());
@@ -78,5 +107,6 @@ public final class WebShooting {
         final WebAmmo ammo = new WebAmmo();
         long lastRight = Long.MIN_VALUE / 2;
         long lastLeft = Long.MIN_VALUE / 2;
+        long lastZip = Long.MIN_VALUE / 2;
     }
 }
