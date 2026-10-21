@@ -2,7 +2,11 @@ package com.thekrepe.powersunchained.entity.web;
 
 import com.thekrepe.powersunchained.registry.PUEntities;
 import com.thekrepe.powersunchained.web.WebSlowness;
+import com.thekrepe.powersunchained.Constants;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -25,6 +29,9 @@ public class StickyWeb extends AbstractWebProjectile {
 
     private static final EntityDataAccessor<Integer> HIT_ENTITY = SynchedEntityData.defineId(StickyWeb.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Vector3fc> HIT_OFFSET = SynchedEntityData.defineId(StickyWeb.class, EntityDataSerializers.VECTOR3);
+
+    /** Server: when sticky webs recently hit each entity (for the cocoon). */
+    private static final Map<LivingEntity, List<Long>> RECENT_HITS = new WeakHashMap<>();
 
     /** Ticks until the web dissolves. */
     public static final int DISSOLVE_TIME = 120;
@@ -139,11 +146,18 @@ public class StickyWeb extends AbstractWebProjectile {
         this.entityData.set(HIT_ENTITY, target.getId() + 1);
 
         // enough webs on it: they merge into a cocoon that holds it in place
-        List<StickyWeb> webs = this.level().getEntitiesOfClass(StickyWeb.class, target.getBoundingBox().inflate(3.0),
-                web -> web.getHitEntity() == target);
-        if (webs.size() >= WebCocoon.WEBS_NEEDED) {
+        long now = this.level().getGameTime();
+        List<Long> hits = RECENT_HITS.computeIfAbsent(living, e -> new ArrayList<>());
+        hits.removeIf(time -> now - time > DISSOLVE_TIME);
+        hits.add(now);
+        if (Boolean.getBoolean("powers_unchained.ci")) {
+            Constants.LOG.info("[CI] sticky web on {} ({} recent hits)", target.getType().getDescriptionId(), hits.size());
+        }
+        if (hits.size() >= WebCocoon.WEBS_NEEDED) {
+            hits.clear();
             WebCocoon.wrap(living);
-            webs.forEach(Entity::discard);
+            this.level().getEntitiesOfClass(StickyWeb.class, target.getBoundingBox().inflate(3.0), web -> web.getHitEntity() == target)
+                    .forEach(Entity::discard);
         }
     }
 }

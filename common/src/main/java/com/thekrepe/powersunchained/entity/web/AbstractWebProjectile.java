@@ -78,14 +78,40 @@ public abstract class AbstractWebProjectile extends Entity {
         this.entityData.set(SHOOT_SIDE, (byte) side);
         float yaw = shooter.getYRot();
         float pitch = shooter.getXRot();
-        this.entityData.set(SHOOT_YAW, yaw);
-        this.entityData.set(SHOOT_PITCH, pitch);
         // start at the wrist the web is shot from
         float f = (side == RIGHT ? 1 : -1) * 0.17F;
         double x = shooter.getX() - Mth.cos(yaw * Mth.DEG_TO_RAD) * f;
         double y = shooter.getBoundingBox().minY + shooter.getBbHeight() * 0.8F - 0.1;
         double z = shooter.getZ() - Mth.sin(yaw * Mth.DEG_TO_RAD) * f;
+        // fly from the wrist to what the crosshair points at (the wrist is below the eyes)
+        Vec3 aim = aimPoint(shooter).subtract(x, y, z);
+        if (aim.lengthSqr() > 1.0) {
+            yaw = (float) (Math.atan2(-aim.x, aim.z) * (180.0 / Math.PI));
+            pitch = (float) (-Math.atan2(aim.y, aim.horizontalDistance()) * (180.0 / Math.PI));
+        }
+        this.entityData.set(SHOOT_YAW, yaw);
+        this.entityData.set(SHOOT_PITCH, pitch);
         this.snapTo(x, y, z, yaw, pitch);
+    }
+
+    /** The point the shooter looks at: the first entity or block on the line of sight, up to 64 blocks away. */
+    private static Vec3 aimPoint(LivingEntity shooter) {
+        Vec3 eye = shooter.getEyePosition();
+        Vec3 end = eye.add(shooter.getLookAngle().scale(64.0));
+        HitResult block = shooter.level().clip(new ClipContext(eye, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, shooter));
+        if (block.getType() != HitResult.Type.MISS) {
+            end = block.getLocation();
+        }
+        Vec3 best = end;
+        double bestDist = eye.distanceToSqr(end);
+        for (Entity e : shooter.level().getEntities(shooter, new AABB(eye, end).inflate(1.0), t -> t.isPickable() && !t.isSpectator())) {
+            Optional<Vec3> hit = e.getBoundingBox().inflate(0.1).clip(eye, end);
+            if (hit.isPresent() && eye.distanceToSqr(hit.get()) < bestDist) {
+                bestDist = eye.distanceToSqr(hit.get());
+                best = hit.get();
+            }
+        }
+        return best;
     }
 
     @Override
