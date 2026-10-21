@@ -4,7 +4,9 @@ import com.thekrepe.powersunchained.Constants;
 import com.thekrepe.powersunchained.client.input.PUKeyMappings;
 import com.thekrepe.powersunchained.client.web.WebShooterClient;
 import com.thekrepe.powersunchained.client.web.WebShooterHud;
+import com.thekrepe.powersunchained.client.web.WebArmAnimation;
 import com.thekrepe.powersunchained.client.web.WebProjectileRenderer;
+import com.thekrepe.powersunchained.web.WebShotTracker;
 import com.thekrepe.powersunchained.registry.PUEntities;
 import net.minecraft.world.InteractionHand;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
@@ -81,7 +83,13 @@ public class PowersUnchainedNeoForgeClient {
             event.registerEntityRenderer(PUEntities.IMPACT_WEB.get(), WebProjectileRenderer::impact);
             event.registerEntityRenderer(PUEntities.STICKY_WEB.get(), WebProjectileRenderer::sticky);
         });
-        NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post event) -> WebShooterClient.tick());
+        NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post event) -> {
+            WebShooterClient.tick();
+            WebShotTracker.tick();
+        });
+        // web-shooter first person arm pose: before anything draws the arm
+        NeoForge.EVENT_BUS.addListener(EventPriority.HIGHEST, (RenderArmEvent event) ->
+                WebArmAnimation.applyFirstPerson(event.getPoseStack(), event.getArm()));
         NeoForge.EVENT_BUS.addListener((InputEvent.MouseScrollingEvent event) -> {
             if (WebShooterClient.onScroll(event.getScrollDeltaY())) {
                 event.setCanceled(true);

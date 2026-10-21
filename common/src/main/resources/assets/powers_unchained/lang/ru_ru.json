@@ -67,5 +67,9 @@
   "death.attack.powers_unchained.web.player": "%1$s был убит паутиной игрока %2$s",
   "subtitles.powers_unchained.web_shooters.shoot": "Выстрел паутиной",
   "subtitles.powers_unchained.web_shooters.switch": "Щелчок веб-шутеров",
-  "subtitles.powers_unchained.entity.web.bounce": "Паутина отскакивает"
+  "subtitles.powers_unchained.entity.web.bounce": "Паутина отскакивает",
+  "hint.powers_unchained.scroll": "Колёсико",
+  "hint.powers_unchained.use": "ПКМ",
+  "hint.powers_unchained.web_shooters.toggle": "Вкл/выкл и выбор паутины",
+  "hint.powers_unchained.web_shooters.shoot": "Выстрел паутиной (пустая рука)"
 }

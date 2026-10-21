@@ -11,26 +11,33 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
 /**
- * Client side of the "Web Shot" ability (ability key 1, default C) for players wearing web-shooters.
+ * Client side of the "Web Shot" ability (ability key 1, default C) for players wearing web-shooters, with the
+ * controls of Fisk's web-shooter equipment:
  * <ul>
- *   <li>Tap the key: web-shooting mode on; tap again: off.</li>
- *   <li>Hold the key: the web selection menu opens; the mouse wheel picks the web type (up = next, down = previous).</li>
- *   <li>While the mode is on, the use key (right click) with an empty main hand fires the selected web. Every web
- *       type has a few shots that recharge one by one (like Fisk's equipment).</li>
+ *   <li>Hold the key: the web wheel opens; the mouse wheel picks the web type (up = next, down = previous) and turns
+ *       web shooting on.</li>
+ *   <li>Release the key without scrolling: web shooting on / off.</li>
+ *   <li>While on, the use key (right click) with an empty main hand fires the selected web. Every web type has a few
+ *       shots that recharge one by one.</li>
  * </ul>
  */
 public final class WebShooterClient {
 
-    /** Held this many ticks the key opens the menu (and releasing it no longer turns the mode off). */
-    private static final int HOLD_TICKS = 5;
+    /** Ticks the wheel takes to open / close. */
+    private static final float WHEEL_TICKS = 4.0F;
+    /** How long the key hints stay after putting the web-shooters on. */
+    private static final int HINT_TICKS = 200;
 
     private static boolean active;
     private static WebType selected = WebType.IMPACT;
     private static boolean wasDown;
-    private static boolean activeAtPress;
-    private static int heldTicks;
     private static boolean scrolledWhileHeld;
-    /** Dev/CI only: keeps the menu open without holding the key. */
+    private static int scrollDirection;
+    private static float wheel;
+    private static float prevWheel;
+    private static boolean hadWebShooters;
+    private static int hintTimer;
+    /** Dev/CI only: keeps the wheel open without holding the key. */
     private static boolean debugMenu;
     /** Client copy of the shots left, for the HUD (the server runs the same rules). */
     private static final WebAmmo AMMO = new WebAmmo();
@@ -46,9 +53,19 @@ public final class WebShooterClient {
         return selected;
     }
 
-    /** The selection menu is shown while the key is held (or right after scrolling). */
-    public static boolean isMenuOpen() {
-        return active && (debugMenu || wasDown && (heldTicks >= HOLD_TICKS || scrolledWhileHeld));
+    /** 0..1 how far the web wheel is open (interpolated). */
+    public static float wheel(float partialTick) {
+        return prevWheel + (wheel - prevWheel) * partialTick;
+    }
+
+    /** Last scroll direction (+1 / -1), for the wheel's wrap-around animation. */
+    public static int scrollDirection() {
+        return scrollDirection;
+    }
+
+    /** Ticks left of the key hints shown after putting the web-shooters on. */
+    public static int hintTimer() {
+        return hintTimer;
     }
 
     /** Dev/CI only (screenshot tests): sets the state as if the player used the key. */
@@ -61,32 +78,40 @@ public final class WebShooterClient {
     /** Called at the end of every client tick. */
     public static void tick() {
         LocalPlayer player = Minecraft.getInstance().player;
+        prevWheel = wheel;
         if (player == null) {
             active = false;
             wasDown = false;
+            hadWebShooters = false;
             return;
         }
         AMMO.tick();
+        if (hintTimer > 0) {
+            hintTimer--;
+        }
         boolean wasActive = active;
-        boolean has = WebShooting.hasWebShooters(player);
-        if (!has && !debugMenu) {
+        boolean has = WebShooting.hasWebShooters(player) || debugMenu;
+        if (has && !hadWebShooters) {
+            hintTimer = HINT_TICKS;
+        }
+        hadWebShooters = has;
+        if (!has) {
             active = false;
         }
-        boolean down = PUKeyMappings.ABILITY_1.isDown();
+        boolean down = has && PUKeyMappings.ABILITY_1.isDown();
         if (down && !wasDown) {
-            activeAtPress = active;
-            heldTicks = 0;
             scrolledWhileHeld = false;
-            if (!active && has) {
-                active = true;
-            }
         }
-        if (down) {
-            heldTicks++;
-        } else if (wasDown && activeAtPress && !scrolledWhileHeld && heldTicks < HOLD_TICKS) {
-            active = false;  // a short tap while the mode was on turns it off
+        if (!down && wasDown && !scrolledWhileHeld) {
+            active = !active;  // released without scrolling: toggle
         }
         wasDown = down;
+        if (down || debugMenu) {
+            wheel = Math.min(wheel + 1.0F / WHEEL_TICKS, 1.0F);
+        } else {
+            wheel = Math.max(wheel - 1.0F / WHEEL_TICKS, 0.0F);
+        }
+        WebShooterHud.tick();
         if (wasActive != active) {
             player.playSound(PUSounds.WEB_SWITCH.get(), 0.6F, active ? 1.1F : 0.8F);
         }
@@ -94,11 +119,13 @@ public final class WebShooterClient {
 
     /** @return {@code true} if the scroll was used to pick a web type (then the hotbar must not scroll) */
     public static boolean onScroll(double deltaY) {
-        if (!active || !PUKeyMappings.ABILITY_1.isDown() || deltaY == 0) {
+        if (!wasDown || deltaY == 0) {
             return false;
         }
-        selected = WebType.byId(selected.ordinal() + (deltaY > 0 ? 1 : -1));
+        scrollDirection = deltaY > 0 ? 1 : -1;
+        selected = WebType.byId(selected.ordinal() + scrollDirection);
         scrolledWhileHeld = true;
+        active = true;
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null) {
             player.playSound(PUSounds.WEB_SWITCH.get(), 0.5F, 1.3F);

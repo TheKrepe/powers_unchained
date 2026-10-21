@@ -1,6 +1,6 @@
 package com.thekrepe.powersunchained.entity.web;
 
-import com.thekrepe.powersunchained.web.WebShootAnimation;
+import com.thekrepe.powersunchained.web.WebShotTracker;
 import java.util.Optional;
 import java.util.Random;
 import net.minecraft.core.BlockPos;
@@ -176,7 +176,7 @@ public abstract class AbstractWebProjectile extends Entity {
             this.velocityInitialized = true;
             this.initVelocity();
             if (this.level().isClientSide() && this.getShootSide() >= 0) {
-                WebShootAnimation.trigger(this.entityData.get(SHOOTER) - 1, this.getShootSide(), this.level().getGameTime());
+                WebShotTracker.onShot(this.entityData.get(SHOOTER) - 1, this.getShootSide());
             }
         }
         super.tick();

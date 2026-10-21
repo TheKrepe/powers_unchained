@@ -102,8 +102,12 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   (Fisk SHProjectile + AbstractEntityWeb physics; spawn data as synched entity data instead of NeoForge complex
   spawn), `ImpactWeb` (5 dmg x speed, resets hurt cooldown, bounces), `StickyWeb` (hooks to the hit entity via synced
   HIT_ENTITY, follows it, `web/WebSlowness` speed modifier). Renderer `client/web/WebProjectileRenderer` +
-  `WebGeometry` (four-leaved web star, own textures `textures/entity/web/`). Shot arm pose: `web/WebShootAnimation`
-  + `mixin/client/PlayerModelMixin` (PlayerModel.setupAnim RETURN; looks up `AvatarRenderState.id`). Sounds copied
+  `WebGeometry` (four-leaved web star, own textures `textures/entity/web/`). Arm animations = Fisk's `web_aim_*`/`web_shoot_*`
+  .fsk scripts in Java (`client/web/WebArmAnimation`; data per entity in `web/WebShotTracker`, fed by projectiles
+  appearing client-side; rapid fire alternates wrists -> both arms up): third person via
+  `mixin/client/PlayerModelMixin` (PlayerModel.setupAnim RETURN, `AvatarRenderState.id`), first person via
+  RenderArmEvent (HIGHEST priority, transforms the arm pose). Controls like Fisk's utility belt: hold key = wheel
+  (`WebShooterHud`, port of HudElementUtilityBelt), release without scrolling = toggle; key hints after equipping. Sounds copied
   from the Fisk port (`sounds/web_shooters/`), damage type `powers_unchained:web`. Assets: `tools/gen_web_assets.py`.
 - Loader services: `IRegistryHelper` (blocks, items, entity types, sounds, tabs), `IGameplayHelper` (accessory
   check, sendToServer). NeoForge glue ticks `WebShooting.tick()` + `WebSlowness.endTick()` on ServerTickEvent.Post.

@@ -44,9 +44,11 @@ public final class CiClientDriver {
             return;
         }
         ticks++;
-        if (ticks >= 4080 && ticks <= 4200 && mc.level != null) {
-            // keep the web-shot arm pose up for the screenshot
-            com.thekrepe.powersunchained.web.WebShootAnimation.trigger(mc.player.getId(), 0, mc.level.getGameTime() - 2);
+        if (ticks >= 4080 && ticks <= 4220 && ticks % 3 == 0) {
+            rawShot(ticks / 3 % 2);  // rapid fire from both wrists, third person
+        }
+        if (ticks >= 4240 && ticks <= 4380 && ticks % 5 == 0) {
+            rawShot(0);  // right wrist only, first person
         }
         switch (ticks) {
             case 100 -> {
@@ -173,18 +175,17 @@ public final class CiClientDriver {
             }
             case 4036 -> shot("14_player_webbed_first_person");
             case 4080 -> {
-                run("execute as @p at @s run tp @s ~ ~ ~ 0 0");
+                run("execute as @p at @s run tp @s ~ ~ ~ 0 -15");
                 mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
             }
-            case 4086 -> shot("15_player_webbed_third_person_and_shot_pose");
-            case 4300 -> {
-                mc.options.setCameraType(CameraType.FIRST_PERSON);
-                com.thekrepe.powersunchained.client.web.WebShooterClient.debugState(true, false, com.thekrepe.powersunchained.web.WebType.IMPACT);
-            }
-            case 4400 -> shot("16_web_mode_indicator");
+            case 4086 -> shot("15_rapid_fire_both_arms_third_person");
+            case 4240 -> mc.options.setCameraType(CameraType.FIRST_PERSON);
+            case 4250 -> shot("16_web_aim_first_person");
+            case 4400 -> com.thekrepe.powersunchained.client.web.WebShooterClient.debugState(true, false, com.thekrepe.powersunchained.web.WebType.IMPACT);
+            case 4406 -> shot("17_web_mode_indicator");
             case 4450 -> com.thekrepe.powersunchained.client.web.WebShooterClient.debugState(true, true, com.thekrepe.powersunchained.web.WebType.STICKY);
-            case 4550 -> shot("17_web_menu");
-            case 4700 -> {
+            case 4470 -> shot("18_web_wheel");
+            case 4650 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -205,6 +206,13 @@ public final class CiClientDriver {
     private static net.minecraft.server.level.ServerPlayer serverPlayer() {
         Minecraft mc = Minecraft.getInstance();
         return mc.getSingleplayerServer().getPlayerList().getPlayer(mc.player.getUUID());
+    }
+
+    /** Spawns an impact web from the given wrist, bypassing the ammo (screenshot tests). */
+    private static void rawShot(int side) {
+        net.minecraft.server.level.ServerPlayer player = serverPlayer();
+        Minecraft.getInstance().getSingleplayerServer().execute(() -> player.level().addFreshEntity(
+                com.thekrepe.powersunchained.web.WebType.IMPACT.create(player.level(), player, side)));
     }
 
     private static void shootWeb(com.thekrepe.powersunchained.web.WebType type) {
