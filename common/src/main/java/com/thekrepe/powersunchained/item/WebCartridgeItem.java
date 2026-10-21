@@ -4,6 +4,7 @@ import com.thekrepe.powersunchained.web.WebCartridges;
 import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -43,8 +44,8 @@ public class WebCartridgeItem extends Item {
         if (!player.getAbilities().instabuild) {
             held.shrink(1);
         }
-        if (!swapped.isEmpty()) {
-            player.getInventory().placeItemBackInInventory(swapped);  // drops it if the inventory is full
+        if (!swapped.isEmpty() && !player.getInventory().add(swapped) && level instanceof ServerLevel serverLevel) {
+            player.spawnAtLocation(serverLevel, swapped);  // inventory full: drop it
         }
         WebCartridges.playInsertSound(player);
         return InteractionResult.SUCCESS;
