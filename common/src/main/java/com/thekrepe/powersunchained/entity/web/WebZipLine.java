@@ -179,9 +179,9 @@ public class WebZipLine extends AbstractWebProjectile {
                 if (target.hurtServer(level, player.damageSources().playerAttack(player), damage)) {
                     double knockback = 0.75;
                     target.setDeltaMovement(target.getDeltaMovement().add(motion.x * knockback, motion.y * knockback + 0.1, motion.z * knockback));
-                    target.hurtMarked = true;
+                    target.syncVelocity = true;
                     player.setDeltaMovement(motion.scale(1.0 - knockback / 2.0));
-                    player.hurtMarked = true;
+                    player.syncVelocity = true;
                 }
             }
             this.detach();
