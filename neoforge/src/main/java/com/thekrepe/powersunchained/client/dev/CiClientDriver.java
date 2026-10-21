@@ -190,8 +190,8 @@ public final class CiClientDriver {
                 com.thekrepe.powersunchained.client.web.WebShooterClient.debugState(true, false, com.thekrepe.powersunchained.web.WebType.STICKY);
                 run("kill @e[type=!player]");
                 run("tp @p 320.5 ~ 0.5 0 0");
-                run("execute at @p run summon minecraft:zombie ~ ~ ~4 {NoAI:1b,Rotation:[90f,0f]}");
-                run("execute at @p run summon minecraft:zombie ~3 ~ ~4 {NoAI:1b,Rotation:[180f,0f]}");
+                run("execute at @p run summon minecraft:husk ~ ~ ~4 {NoAI:1b,Rotation:[90f,0f]}");
+                run("execute at @p run summon minecraft:husk ~3 ~ ~4 {NoAI:1b,Rotation:[180f,0f]}");
             }
             case 4510 -> run("execute as @p at @s run tp @s ~ ~ ~ 0 6");
             case 4514 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
