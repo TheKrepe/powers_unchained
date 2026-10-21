@@ -6,6 +6,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
@@ -25,6 +26,20 @@ public class NeoForgeGameplayHelper implements IGameplayHelper {
             }
         }
         return false;
+    }
+
+    @Override
+    public ItemStack findAccessory(Player player, Item item) {
+        if (CURIOS) {
+            return CuriosCompat.find(player, item);
+        }
+        Inventory inventory = player.getInventory();
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            if (inventory.getItem(i).is(item)) {
+                return inventory.getItem(i);
+            }
+        }
+        return ItemStack.EMPTY;
     }
 
     @Override

@@ -68,9 +68,9 @@
   "subtitles.powers_unchained.web_shooters.shoot": "Web shoots",
   "subtitles.powers_unchained.web_shooters.switch": "Web-shooters click",
   "subtitles.powers_unchained.entity.web.bounce": "Web bounces",
-  "hint.powers_unchained.scroll": "Scroll",
-  "hint.powers_unchained.use": "Right Click",
-  "hint.powers_unchained.web_shooters.toggle": "Toggle / Cycle Web Shooters",
-  "hint.powers_unchained.web_shooters.shoot": "Shoot Web (empty hand)",
-  "hud.powers_unchained.off": "Off"
+  "item.powers_unchained.empty_web_cartridge": "Empty Web Cartridge",
+  "tooltip.powers_unchained.web_fluid": "Web fluid: %s/%s",
+  "tooltip.powers_unchained.web_shooters.cartridges": "Cartridges: %s/%s",
+  "tooltip.powers_unchained.web_shooters.load": "Click web cartridges onto it to load",
+  "message.powers_unchained.no_web_fluid": "Out of web fluid: load web cartridges into the web-shooters"
 }

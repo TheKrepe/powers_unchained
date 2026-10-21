@@ -15,14 +15,14 @@ import net.minecraft.world.level.Level;
  */
 public enum WebType {
     /** Hard web ball that damages what it hits. */
-    IMPACT("impact_web", 6, 100) {
+    IMPACT("impact_web", 6, 40) {
         @Override
         public AbstractWebProjectile create(Level level, LivingEntity shooter, int side) {
             return new ImpactWeb(level, shooter, side);
         }
     },
     /** Sticky web that sticks to the target and slows it down, no damage. */
-    STICKY("sticky_web", 6, 100) {
+    STICKY("sticky_web", 6, 40) {
         @Override
         public AbstractWebProjectile create(Level level, LivingEntity shooter, int side) {
             return new StickyWeb(level, shooter, side);

@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
@@ -27,6 +28,9 @@ public interface IRegistryHelper {
 
     /** Registers an item. The id is set on the properties automatically. */
     <T extends Item> Supplier<T> registerItem(String name, Function<Item.Properties, T> factory, UnaryOperator<Item.Properties> properties);
+
+    /** Registers a data component type (built from a fresh builder). */
+    <T> Supplier<DataComponentType<T>> registerDataComponent(String name, UnaryOperator<DataComponentType.Builder<T>> builder);
 
     /** Registers a sound event with a variable range, id = mod namespace + name. */
     Supplier<SoundEvent> registerSound(String name);

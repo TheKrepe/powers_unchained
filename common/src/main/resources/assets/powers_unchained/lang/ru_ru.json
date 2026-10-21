@@ -68,9 +68,9 @@
   "subtitles.powers_unchained.web_shooters.shoot": "Выстрел паутиной",
   "subtitles.powers_unchained.web_shooters.switch": "Щелчок веб-шутеров",
   "subtitles.powers_unchained.entity.web.bounce": "Паутина отскакивает",
-  "hint.powers_unchained.scroll": "Колёсико",
-  "hint.powers_unchained.use": "ПКМ",
-  "hint.powers_unchained.web_shooters.toggle": "Вкл/выкл и выбор паутины",
-  "hint.powers_unchained.web_shooters.shoot": "Выстрел паутиной (пустая рука)",
-  "hud.powers_unchained.off": "Выкл"
+  "item.powers_unchained.empty_web_cartridge": "Пустой картридж для паутины",
+  "tooltip.powers_unchained.web_fluid": "Паутинная жидкость: %s/%s",
+  "tooltip.powers_unchained.web_shooters.cartridges": "Картриджи: %s/%s",
+  "tooltip.powers_unchained.web_shooters.load": "Нажмите картриджем на веб-шутеры, чтобы зарядить",
+  "message.powers_unchained.no_web_fluid": "Паутина закончилась: вставьте картриджи в веб-шутеры"
 }

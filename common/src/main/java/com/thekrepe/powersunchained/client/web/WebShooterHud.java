@@ -134,18 +134,20 @@ public final class WebShooterHud {
         if (alpha > 0.0F) {
             WebType type = WebShooterClient.selected();
             int x = width / 2;
-            int y = height / 2 + 25;
-            icon(graphics, type, x - 9, y - 9, 18, argb(0xFFFFFF, alpha));
+            int y = height / 2 + 18;
+            icon(graphics, type, x - 6, y - 6, 12, argb(0xFFFFFF, alpha));
             int uses = WebShooterClient.uses(type);
-            String s = String.valueOf(uses);
-            graphics.text(font, s, x + 10 - font.width(s), y + 1, argb(uses > 0 ? 0xFFFFFF : 0xFF5555, alpha));
-            int bx = width / 2 - 9;
-            int by = height / 2 + 14;
-            graphics.fill(bx, by, bx + 18, by + 2, argb(0, alpha));
-            graphics.fill(bx, by, bx + 17, by + 1, argb(0x3F3F3F, alpha));
+            graphics.pose().pushMatrix();
+            graphics.pose().translate(x + 7, y + 1);
+            graphics.pose().scale(0.75F);
+            graphics.text(font, String.valueOf(uses), 0, 0, argb(uses > 0 ? 0xFFFFFF : 0xFF5555, alpha));
+            graphics.pose().popMatrix();
+            int bx = x - 6;
+            int by = height / 2 + 10;
+            graphics.fill(bx, by, bx + 12, by + 1, argb(0, alpha * 0.6F));
             float c = 1.0F - recharge(type, pt);
             if (c > 0.0F) {
-                graphics.fill(bx, by, bx + (int) (c * 17.0F), by + 1, argb(0xFFFFFF, alpha));
+                graphics.fill(bx, by, bx + (int) (c * 12.0F), by + 1, argb(0xFFFFFF, alpha));
             }
         }
     }

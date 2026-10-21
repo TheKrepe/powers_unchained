@@ -1,6 +1,7 @@
 package com.thekrepe.powersunchained.registry;
 
 import com.thekrepe.powersunchained.item.SuitPieceItem;
+import com.thekrepe.powersunchained.item.WebCartridgeItem;
 import com.thekrepe.powersunchained.item.WebShootersItem;
 import com.thekrepe.powersunchained.platform.Services;
 import com.thekrepe.powersunchained.suit.Suit;
@@ -35,8 +36,12 @@ public final class PUItems {
     // Weapons & gadgets
     public static final Supplier<WebShootersItem> WEB_SHOOTERS = register(WEAPONS, "web_shooters", WebShootersItem::new,
             properties -> properties.stacksTo(1));
-    /** Will be loaded into the web-shooters as ammo (not used yet, no recipe yet). */
-    public static final Supplier<Item> WEB_CARTRIDGE = register(WEAPONS, "web_cartridge", Item::new, UnaryOperator.identity());
+    /** Web fluid ammo, loaded into the web-shooters. */
+    public static final Supplier<WebCartridgeItem> WEB_CARTRIDGE = register(WEAPONS, "web_cartridge", WebCartridgeItem::new,
+            properties -> properties.stacksTo(16));
+    /** A used-up cartridge: refilled with slime and string. */
+    public static final Supplier<Item> EMPTY_WEB_CARTRIDGE = register(WEAPONS, "empty_web_cartridge", Item::new,
+            properties -> properties.stacksTo(16));
 
 
     // Blocks

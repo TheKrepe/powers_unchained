@@ -5,15 +5,14 @@ import com.thekrepe.powersunchained.network.ShootWebPayload;
 import com.thekrepe.powersunchained.platform.Services;
 import com.thekrepe.powersunchained.registry.PUSounds;
 import com.thekrepe.powersunchained.web.WebAmmo;
+import com.thekrepe.powersunchained.web.WebCartridges;
 import com.thekrepe.powersunchained.web.WebShooting;
 import com.thekrepe.powersunchained.web.WebType;
 import com.thekrepe.powersunchained.client.ability.AbilityHud;
-import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
-import org.jspecify.annotations.Nullable;
 
 /**
  * Client side of the "Web Shot" ability (ability key 1, default C) for players wearing web-shooters, with the
@@ -30,8 +29,6 @@ public final class WebShooterClient {
 
     /** Ticks the wheel takes to open / close. */
     private static final float WHEEL_TICKS = 4.0F;
-    /** How long the extra "hold + scroll" hint stays after putting the web-shooters on. */
-    private static final int HINT_TICKS = 200;
 
     private static boolean active;
     private static WebType selected = WebType.IMPACT;
@@ -41,7 +38,6 @@ public final class WebShooterClient {
     private static float wheel;
     private static float prevWheel;
     private static boolean hadWebShooters;
-    private static int hintTimer;
     /** Dev/CI only: keeps the wheel open without holding the key. */
     private static boolean debugMenu;
     /** Client copy of the shots left, for the HUD (the server runs the same rules). */
@@ -50,41 +46,18 @@ public final class WebShooterClient {
     private WebShooterClient() {
     }
 
-    /** Puts "Web Shot" on ability key 1 in the ability HUD while web-shooters are worn. */
+    /** Puts "Web Shot" on ability key 1 in the ability HUD while web-shooters are worn, with the web fluid left. */
     public static void registerHud() {
-        AbilityHud.register(new AbilityHud.Provider() {
-            @Override
-            public AbilityHud.@Nullable Entry get(LocalPlayer player, int slot) {
-                if (slot != 0 || !hadWebShooters) {
-                    return null;
-                }
-                Component status;
-                if (active) {
-                    int uses = uses(selected);
-                    status = Component.empty().append(selected.displayName()).append(" " + uses + "/" + selected.maxUses())
-                            .withStyle(uses > 0 ? ChatFormatting.AQUA : ChatFormatting.RED);
-                } else {
-                    status = Component.translatable("hud.powers_unchained.off").withStyle(ChatFormatting.DARK_GRAY);
-                }
-                return new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_shot"), status, active);
+        AbilityHud.register((player, slot) -> {
+            if (slot != 0 || !hadWebShooters) {
+                return null;
             }
-
-            @Override
-            public void hints(LocalPlayer player, List<Component[]> out) {
-                if (!hadWebShooters) {
-                    return;
-                }
-                if (hintTimer > 0 || wheel > 0.0F) {
-                    out.add(new Component[] {
-                        Component.empty().append(PUKeyMappings.ABILITY_1.getTranslatedKeyMessage()).append(" + ")
-                                .append(Component.translatable("hint.powers_unchained.scroll")),
-                        Component.translatable("hint.powers_unchained.web_shooters.toggle")});
-                }
-                if (active) {
-                    out.add(new Component[] {Component.translatable("hint.powers_unchained.use"),
-                        Component.translatable("hint.powers_unchained.web_shooters.shoot")});
-                }
+            Component extra = null;
+            if (!player.getAbilities().instabuild) {
+                int fluid = WebCartridges.totalFluid(WebCartridges.wornShooters(player));
+                extra = Component.literal(String.valueOf(fluid)).withStyle(fluid > 0 ? ChatFormatting.GRAY : ChatFormatting.RED);
             }
+            return new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_shot"), extra, active);
         });
     }
 
@@ -124,14 +97,8 @@ public final class WebShooterClient {
             return;
         }
         AMMO.tick();
-        if (hintTimer > 0) {
-            hintTimer--;
-        }
         boolean wasActive = active;
         boolean has = WebShooting.hasWebShooters(player) || debugMenu;
-        if (has && !hadWebShooters) {
-            hintTimer = HINT_TICKS;
-        }
         hadWebShooters = has;
         if (!has) {
             active = false;
@@ -176,6 +143,13 @@ public final class WebShooterClient {
         LocalPlayer player = Minecraft.getInstance().player;
         if (!active || player == null || !player.getMainHandItem().isEmpty()) {
             return false;  // items in the main hand are used normally
+        }
+        if (!WebCartridges.hasFluid(player)) {
+            if (mainHand) {
+                player.playSound(net.minecraft.sounds.SoundEvents.DISPENSER_FAIL, 0.5F, 1.6F);
+                player.sendOverlayMessage(Component.translatable("message.powers_unchained.no_web_fluid"));
+            }
+            return true;
         }
         if (mainHand && AMMO.canUse(selected)) {
             AMMO.use(selected);

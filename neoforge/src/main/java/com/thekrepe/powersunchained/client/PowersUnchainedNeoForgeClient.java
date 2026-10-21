@@ -4,6 +4,8 @@ import com.thekrepe.powersunchained.Constants;
 import com.thekrepe.powersunchained.client.input.PUKeyMappings;
 import com.thekrepe.powersunchained.client.web.WebShooterClient;
 import com.thekrepe.powersunchained.client.ability.AbilityHud;
+import com.thekrepe.powersunchained.client.web.ClientWebShootersTooltip;
+import com.thekrepe.powersunchained.item.WebShootersItem;
 import com.thekrepe.powersunchained.client.web.WebShooterHud;
 import com.thekrepe.powersunchained.client.web.WebArmAnimation;
 import com.thekrepe.powersunchained.client.web.WebProjectileRenderer;
@@ -12,6 +14,7 @@ import com.thekrepe.powersunchained.registry.PUEntities;
 import net.minecraft.world.InteractionHand;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
@@ -82,6 +85,8 @@ public class PowersUnchainedNeoForgeClient {
             event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("abilities"), AbilityHud::render);
         });
         WebShooterClient.registerHud();
+        modEventBus.addListener((RegisterClientTooltipComponentFactoriesEvent event) ->
+                event.register(WebShootersItem.WebShootersTooltip.class, ClientWebShootersTooltip::new));
         modEventBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {
             event.registerEntityRenderer(PUEntities.IMPACT_WEB.get(), WebProjectileRenderer::impact);
             event.registerEntityRenderer(PUEntities.STICKY_WEB.get(), WebProjectileRenderer::sticky);

@@ -9,7 +9,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.player.Player;
 
 /** Server side of the "Web Shot" ability. */
@@ -35,6 +37,15 @@ public final class WebShooting {
         State state = STATES.computeIfAbsent(player.getUUID(), id -> new State());
         if (!state.ammo.canUse(type)) {
             return;
+        }
+        if (!player.getAbilities().instabuild) {
+            ItemStack shooters = WebCartridges.wornShooters(player);
+            if (!WebCartridges.consume(shooters)) {
+                // out of web fluid: dry click
+                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.DISPENSER_FAIL,
+                        SoundSource.PLAYERS, 0.5F, 1.6F);
+                return;
+            }
         }
         state.ammo.use(type);
 

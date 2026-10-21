@@ -79,15 +79,31 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
             state.onEntity = true;
             Minecraft mc = Minecraft.getInstance();
             boolean firstPerson = target == mc.player && mc.options.getCameraType().isFirstPerson();
-            state.bodyYaw = Mth.rotLerp(partialTick, target.yBodyRotO, target.yBodyRot);
-
-            // the web lies on an ellipse around the body (wider to the sides than to the front / back, like a
-            // humanoid's torso), at the spot it hit, turned to face outwards from there
             Vec3 hit = web.getHitOffset();
-            float halfWidth = target.getBbWidth() / 2.0F;
-            float side = halfWidth * 0.95F;
-            float front = halfWidth * 0.6F;
             double height = hit.y;
+            boolean head = !firstPerson && StickyWeb.isOnHead(target, height);
+            state.bodyYaw = head ? Mth.rotLerp(partialTick, target.yHeadRotO, target.yHeadRot)
+                    : Mth.rotLerp(partialTick, target.yBodyRotO, target.yBodyRot);
+
+            // the web lies on the body's outline at the spot it hit (an ellipse: for humanoids the head is a box,
+            // the torso + arms are wide and flat, the legs narrower), turned to face outwards from there
+            float side;
+            float front;
+            if (StickyWeb.isHumanoid(target)) {
+                float s = target.getBbWidth() / 0.6F;
+                float h = target.getBbHeight();
+                if (head) {
+                    side = front = 0.29F * s;
+                } else if (height > h * 0.4F) {
+                    side = 0.5F * s;
+                    front = 0.17F * s;
+                } else {
+                    side = 0.27F * s;
+                    front = 0.17F * s;
+                }
+            } else {
+                side = front = target.getBbWidth() / 2.0F * 0.95F;
+            }
             if (firstPerson) {
                 // webs on yourself in first person stay below the camera (chest / legs): seen when looking down
                 // instead of covering the screen
@@ -96,7 +112,7 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
             state.local = new Vec3(hit.x * side, height, hit.z * front);
             state.faceYaw = (float) Math.toDegrees(Math.atan2(hit.x / side, hit.z / front));
             float scale = Mth.clamp(target.getBbWidth() / 0.6F, 0.5F, 1.5F);
-            state.w *= firstPerson ? scale * 0.6F : scale;
+            state.w *= firstPerson ? scale * 0.6F : head ? scale * 0.75F : scale;
         }
     }
 
@@ -109,7 +125,7 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
             poseStack.rotateDegrees(Axis.YP, -state.bodyYaw);
             poseStack.translate(state.local.x, state.local.y, state.local.z);
             poseStack.rotateDegrees(Axis.YP, state.faceYaw);
-            poseStack.translate(0.0F, 0.0F, 0.07F);
+            poseStack.translate(0.0F, 0.0F, 0.065F);
         } else {
             poseStack.translate(0.0F, state.halfHeight, 0.0F);
             if (state.inGround) {

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "N": "minecraft:iron_nugget",
+    "G": "minecraft:glass_pane"
+  },
+  "pattern": [
+    " N ",
+    "NGN",
+    " N "
+  ],
+  "result": {
+    "count": 2,
+    "id": "powers_unchained:empty_web_cartridge"
+  }
+}

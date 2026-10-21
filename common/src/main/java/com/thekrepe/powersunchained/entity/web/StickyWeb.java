@@ -94,6 +94,22 @@ public class StickyWeb extends AbstractWebProjectile {
         }
     }
 
+    /** Sticky webs stick to every living thing, players too, whatever the PvP setting (they do no damage). */
+    @Override
+    public boolean canImpactEntity(Entity entity) {
+        return true;
+    }
+
+    /** Humanoid-shaped (much taller than wide). */
+    public static boolean isHumanoid(LivingEntity entity) {
+        return entity.getBbHeight() > entity.getBbWidth() * 2.0F;
+    }
+
+    /** Whether a web at this height above the feet sits on the head of a humanoid (and turns with the head). */
+    public static boolean isOnHead(LivingEntity entity, double height) {
+        return isHumanoid(entity) && height > entity.getBbHeight() * 0.74F;
+    }
+
     @Override
     protected void onImpactEntity(EntityHitResult hit) {
         Entity target = hit.getEntity();
@@ -109,9 +125,10 @@ public class StickyWeb extends AbstractWebProjectile {
             dir = new Vec3(-m.x, 0.0, -m.z);
         }
         dir = dir.lengthSqr() < 1.0E-6 ? new Vec3(0.0, 0.0, 1.0) : dir.normalize();
-        // into body space (Vec3.yRot by the body yaw turns the body's forward onto +Z)
-        dir = dir.yRot((float) Math.toRadians(living.yBodyRot));
-        double height = Mth.clamp(rel.y, 0.15, Math.max(0.15, target.getBbHeight() - 0.25));
+        double height = Mth.clamp(rel.y, 0.15, Math.max(0.15, target.getBbHeight() - 0.12));
+        // into body space (Vec3.yRot by the yaw turns the forward direction onto +Z); webs on the head turn with it
+        float yaw = isOnHead(living, height) ? living.yHeadRot : living.yBodyRot;
+        dir = dir.yRot((float) Math.toRadians(yaw));
         this.entityData.set(HIT_OFFSET, new Vector3f((float) dir.x, (float) height, (float) dir.z));
         this.entityData.set(HIT_ENTITY, target.getId() + 1);
     }

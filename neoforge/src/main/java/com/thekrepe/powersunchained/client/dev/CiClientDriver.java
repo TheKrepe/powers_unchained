@@ -136,7 +136,7 @@ public final class CiClientDriver {
             case 3180 -> {
                 // Web-shooters in the Curios bracelet slot (Curios runs in dev/CI only), over the Raimi suit.
                 run("tp @p 240.5 ~ 0.5 0 0");
-                run("curios replace bracelet 0 @p with powers_unchained:web_shooters");
+                run("curios replace bracelet 0 @p with powers_unchained:web_shooters[powers_unchained:web_cartridges=[32,20]]");
                 run("item replace entity @p weapon.mainhand with minecraft:air");
                 mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
             }
@@ -198,7 +198,7 @@ public final class CiClientDriver {
             case 4514 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
             case 4516 -> run("execute as @p at @s run tp @s ~ ~ ~ 0 19");
             case 4520 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
-            case 4522 -> run("execute as @p at @s run tp @s ~ ~ ~ -37 5");
+            case 4522 -> run("execute as @p at @s run tp @s ~ ~ ~ -37 -1");
             case 4526 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
             case 4528 -> run("execute as @p at @s run tp @s ~ ~ ~ -37 15");
             case 4532 -> shootWeb(com.thekrepe.powersunchained.web.WebType.STICKY);
