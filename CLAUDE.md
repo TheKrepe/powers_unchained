@@ -38,7 +38,8 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
 `git fetch -f origin <branch>:refs/remotes/origin/<branch>`):
 - `build.yml` — builds every push. On failure the full Gradle log goes to branch **`ci-log`** (`build.log`).
   Every run uploads the jars as the artifact `powers_unchained-jars` (zip). WIP builds are NOT releases (owner's
-  decision) — never publish GitHub releases.
+  decision) — never publish GitHub releases. The newest main jar is also force-pushed to branch **`ci-build`**
+  (Claude cannot download artifacts; fetch the branch to send the jar/zip to the owner as a file).
 - **Owner's rule:** end every reply that changes the mod with the link to the Actions run of the pushed commit
   (after it succeeded), where the `powers_unchained-jars` zip can be downloaded:
   `https://github.com/TheKrepe/powers_unchained/actions/runs/<run id>` (run id via

@@ -54,6 +54,20 @@ jobs:
             !**/*-javadoc.jar
           if-no-files-found: error
 
+      # The sandbox Claude works in cannot download Actions artifacts: the newest jar of main is also pushed to the
+      # branch 'ci-build' (force-overwritten, not a release), so it can be sent to the owner as a file.
+      - name: Publish jar to ci-build branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          mkdir -p /tmp/ci-build && cp $(ls neoforge/build/libs/*.jar | grep -v -e '-sources' -e '-javadoc') /tmp/ci-build/
+          cd /tmp/ci-build
+          echo "${{ github.sha }}" > commit.txt
+          git init -q -b ci-build
+          git -c user.name=ci -c user.email=ci@local add -A
+          git -c user.name=ci -c user.email=ci@local commit -q -m "Build of ${{ github.sha }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ci-build:ci-build
+
       # Work-in-progress builds are not releases: remove the old rolling 'dev' release/tag if it still exists.
       # (Download = the jars artifact of the run above.)
       - name: Remove old dev release
