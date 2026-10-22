@@ -262,6 +262,18 @@ public final class CiClientDriver {
             case 5010 -> mc.gui.setScreen(null);
             case 5012 -> shot("25_hud_moved_in_game");
             case 5100 -> {
+                // web zip poses on mannequins seen from the side
+                run("kill @e[type=!player]");
+                run("tp @p 500.5 ~ 0.5 0 5");
+                for (int i = 0; i < 6; i++) {
+                    run("execute at @p run summon minecraft:mannequin ~" + (-5 + 2 * i) + " ~ ~6 {Rotation:[-90f,0f],immovable:1b}");
+                }
+            }
+            case 5110 -> zipPoses(new int[][] {{0, 0, 0}, {1, 2, 0}, {1, 6, 0}, {1, 15, 0}, {2, 35, 0}, {3, 0, 2}});
+            case 5112 -> shot("26_zip_poses_shoot_pull_flip_dive");
+            case 5160 -> zipPoses(new int[][] {{2, 50, 1}, {2, 30, 2}, {2, 40, 3}, {2, 40, 4}, {2, 50, 6}, {3, 0, 0}});
+            case 5162 -> shot("27_zip_poses_flips_dives");
+            case 5250 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -282,6 +294,26 @@ public final class CiClientDriver {
     private static net.minecraft.server.level.ServerPlayer serverPlayer() {
         Minecraft mc = Minecraft.getInstance();
         return mc.getSingleplayerServer().getPlayerList().getPlayer(mc.player.getUUID());
+    }
+
+    /** Poses the mannequins (left to right) with {phase, value (ticks / percent), variant}. */
+    private static void zipPoses(int[][] poses) {
+        Minecraft mc = Minecraft.getInstance();
+        java.util.List<net.minecraft.world.entity.Entity> mannequins = new java.util.ArrayList<>();
+        for (net.minecraft.world.entity.Entity e : mc.level.entitiesForRendering()) {
+            if (net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(e.getType()).getPath().equals("mannequin")) {
+                mannequins.add(e);
+            }
+        }
+        mannequins.sort(java.util.Comparator.comparingDouble(e -> -e.getX()));
+        for (int i = 0; i < Math.min(poses.length, mannequins.size()); i++) {
+            int[] p = poses[i];
+            float value = p[0] == 2 ? p[1] / 100.0F : p[1];
+            net.minecraft.world.phys.Vec3 motion = p[0] == 3 ? new net.minecraft.world.phys.Vec3(0.3, -1.2, 0.0)
+                    : new net.minecraft.world.phys.Vec3(0.9, 0.3, 0.0);
+            com.thekrepe.powersunchained.client.web.WebZipAnimation.debugPose(mannequins.get(i).getId(), p[0], value, p[2], motion);
+        }
+        Constants.LOG.info("[CI] posed {} mannequins", mannequins.size());
     }
 
     private static net.minecraft.world.phys.Vec3 zipStart = net.minecraft.world.phys.Vec3.ZERO;

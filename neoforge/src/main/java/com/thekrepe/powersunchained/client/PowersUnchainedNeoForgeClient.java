@@ -98,7 +98,7 @@ public class PowersUnchainedNeoForgeClient {
             event.registerBelow(VanillaGuiLayers.CROSSHAIR, Constants.id("web_overlay"), WebOverlay::render);
         });
         WebShooterClient.registerHud();
-        WebZipLine.pullListener = WebZipAnimation::pull;
+        WebZipLine.zipListener = WebZipAnimation::zip;
         modEventBus.addListener((RegisterClientTooltipComponentFactoriesEvent event) ->
                 event.register(WebShootersItem.WebShootersTooltip.class, ClientWebShootersTooltip::new));
         modEventBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {

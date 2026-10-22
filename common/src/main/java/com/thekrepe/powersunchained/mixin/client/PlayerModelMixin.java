@@ -20,7 +20,8 @@ public abstract class PlayerModelMixin {
     @Inject(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;)V", at = @At("RETURN"))
     private void powers_unchained$webShooters(AvatarRenderState state, CallbackInfo ci) {
         float partialTick = state.ageInTicks - Mth.floor(state.ageInTicks);
-        WebZipAnimation.applyParts((PlayerModel) (Object) this, state.id, partialTick);
         WebArmAnimation.apply((PlayerModel) (Object) this, state.id, partialTick);
+        // after the web shot arm poses: the zip poses take over the arms while zipping
+        WebZipAnimation.applyParts((PlayerModel) (Object) this, state.id, partialTick);
     }
 }
