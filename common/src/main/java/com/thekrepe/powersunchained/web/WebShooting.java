@@ -12,7 +12,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.player.Player;
 
 /** Server side of the "Web Shot" ability. */
@@ -40,8 +39,7 @@ public final class WebShooting {
             return;
         }
         if (!player.getAbilities().instabuild) {
-            ItemStack shooters = WebCartridges.wornShooters(player);
-            if (!WebCartridges.consume(shooters)) {
+            if (!WebCartridges.consumeWorn(player)) {
                 // out of web fluid: dry click
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.DISPENSER_FAIL,
                         SoundSource.PLAYERS, 0.5F, 1.6F);
@@ -79,7 +77,7 @@ public final class WebShooting {
         if (now - state.lastZip < ZIP_COOLDOWN - 2) {  // a little slack for lag
             return;
         }
-        if (!player.getAbilities().instabuild && !WebCartridges.consume(WebCartridges.wornShooters(player))) {
+        if (!player.getAbilities().instabuild && !WebCartridges.consumeWorn(player)) {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.DISPENSER_FAIL,
                     SoundSource.PLAYERS, 0.5F, 1.6F);
             return;

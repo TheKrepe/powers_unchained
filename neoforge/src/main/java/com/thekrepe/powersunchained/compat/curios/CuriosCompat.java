@@ -20,4 +20,14 @@ public final class CuriosCompat {
         return CuriosApi.getCuriosInventory(entity).flatMap(inventory -> inventory.findFirstCurio(item))
                 .map(SlotResult::stack).orElse(ItemStack.EMPTY);
     }
+
+    /** Changes the first worn {@code item} and sets it back into its curio slot (which syncs it). */
+    public static boolean modify(LivingEntity entity, Item item, java.util.function.Consumer<ItemStack> change) {
+        return CuriosApi.getCuriosInventory(entity).flatMap(inventory -> inventory.findFirstCurio(item).map(result -> {
+            ItemStack stack = result.stack().copy();
+            change.accept(stack);
+            inventory.setEquippedCurio(result.slotContext().identifier(), result.slotContext().index(), stack);
+            return true;
+        })).orElse(false);
+    }
 }

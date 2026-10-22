@@ -78,6 +78,7 @@ public class WebShootersItem extends Item {
             }
             if (WebCartridges.insert(self, other)) {
                 other.shrink(1);
+                slot.set(self);  // some slots (Curios) hand out a copy: write the change back
                 WebCartridges.playInsertSound(player);
             } else {
                 player.playSound(SoundEvents.BUNDLE_INSERT_FAIL, 1.0F, 1.0F);
@@ -88,6 +89,7 @@ public class WebShootersItem extends Item {
         if (action == ClickAction.SECONDARY) {
             ItemStack removed = WebCartridges.removeLast(self);
             if (!removed.isEmpty()) {
+                slot.set(self);  // some slots (Curios) hand out a copy: without this the cartridge stays inside too
                 carried.set(removed);
                 WebCartridges.playRemoveSound(player);
                 changed(player);

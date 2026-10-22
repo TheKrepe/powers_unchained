@@ -43,6 +43,19 @@ public class NeoForgeGameplayHelper implements IGameplayHelper {
     }
 
     @Override
+    public boolean modifyAccessory(Player player, Item item, java.util.function.Consumer<ItemStack> change) {
+        if (CURIOS) {
+            return CuriosCompat.modify(player, item, change);
+        }
+        ItemStack stack = this.findAccessory(player, item);
+        if (stack.isEmpty()) {
+            return false;
+        }
+        change.accept(stack);
+        return true;
+    }
+
+    @Override
     public void sendToServer(CustomPacketPayload payload) {
         ClientPacketDistributor.sendToServer(payload);
     }

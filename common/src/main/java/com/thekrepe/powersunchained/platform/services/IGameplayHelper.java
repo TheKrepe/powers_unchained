@@ -20,6 +20,14 @@ public interface IGameplayHelper {
      */
     ItemStack findAccessory(Player player, Item item);
 
+    /**
+     * Changes the worn accessory stack of {@code item} and stores the result back in its slot (accessory slots may
+     * hand out copies). Does nothing if it isn't worn.
+     *
+     * @return whether it is worn
+     */
+    boolean modifyAccessory(Player player, Item item, java.util.function.Consumer<ItemStack> change);
+
     /** Client side: sends a payload to the server. */
     void sendToServer(CustomPacketPayload payload);
 }

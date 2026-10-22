@@ -1,5 +1,7 @@
 package com.thekrepe.powersunchained.item;
 
+import com.thekrepe.powersunchained.platform.Services;
+import com.thekrepe.powersunchained.registry.PUItems;
 import com.thekrepe.powersunchained.web.WebCartridges;
 import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
@@ -37,7 +39,9 @@ public class WebCartridgeItem extends Item {
             return WebCartridges.contents(shooters).size() < WebCartridges.SLOTS || WebCartridges.contents(shooters).contains(0)
                     ? InteractionResult.SUCCESS : InteractionResult.PASS;
         }
-        ItemStack swapped = WebCartridges.insertOrSwap(shooters, held);
+        ItemStack[] result = {null};
+        Services.GAMEPLAY.modifyAccessory(player, PUItems.WEB_SHOOTERS.get(), worn -> result[0] = WebCartridges.insertOrSwap(worn, held));
+        ItemStack swapped = result[0];
         if (swapped == null) {
             return InteractionResult.PASS;
         }

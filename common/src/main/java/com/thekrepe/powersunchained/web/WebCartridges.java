@@ -131,6 +131,13 @@ public final class WebCartridges {
         return Services.GAMEPLAY.findAccessory(player, PUItems.WEB_SHOOTERS.get());
     }
 
+    /** Uses one shot of web fluid from the worn web-shooters. @return {@code false} if there is none */
+    public static boolean consumeWorn(Player player) {
+        boolean[] used = {false};
+        Services.GAMEPLAY.modifyAccessory(player, PUItems.WEB_SHOOTERS.get(), shooters -> used[0] = consume(shooters));
+        return used[0];
+    }
+
     /** Whether the player can fire a web now (has web fluid, or is in creative mode). */
     public static boolean hasFluid(Player player) {
         return player.getAbilities().instabuild || totalFluid(wornShooters(player)) > 0;
