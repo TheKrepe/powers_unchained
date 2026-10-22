@@ -42,28 +42,45 @@ public final class WebGeometry {
         }
     }
 
-    /** A thin web line from {@code from} to {@code to}: two crossed strips (seen from every side). */
-    public static void line(PoseStack.Pose pose, VertexConsumer consumer, Vec3 from, Vec3 to, int color, int light) {
-        Vec3 dir = to.subtract(from);
-        double len = dir.length();
-        if (len < 1.0E-4) {
-            return;
-        }
-        Vec3 fwd = dir.scale(1.0 / len);
-        Vec3 a = fwd.cross(new Vec3(0.0, 1.0, 0.0));
-        a = a.lengthSqr() < 1.0E-6 ? new Vec3(1.0, 0.0, 0.0) : a.normalize();
-        Vec3 b = a.cross(fwd).normalize();
-        float w = 0.02F;
-        float v = 1.0F;
-        for (Vec3 side : new Vec3[] {a.scale(w), b.scale(w)}) {
-            Vec3 p0 = from.subtract(side);
-            Vec3 p1 = from.add(side);
-            Vec3 p2 = to.add(side);
-            Vec3 p3 = to.subtract(side);
-            vertex(pose, consumer, (float) p0.x, (float) p0.y, (float) p0.z, 0.0F, 0.0F, color, light);
-            vertex(pose, consumer, (float) p1.x, (float) p1.y, (float) p1.z, 1.0F, 0.0F, color, light);
-            vertex(pose, consumer, (float) p2.x, (float) p2.y, (float) p2.z, 1.0F, v, color, light);
-            vertex(pose, consumer, (float) p3.x, (float) p3.y, (float) p3.z, 0.0F, v, color, light);
+    private static Vec3 bezier(Vec3 a, Vec3 b, Vec3 c, float t) {
+        double u = 1.0 - t;
+        return a.scale(u * u).add(b.scale(2.0 * u * t)).add(c.scale(t * t));
+    }
+
+    /**
+     * Fisk's web rope: a thin four-sided strand along the quadratic curve {@code a -> b -> c} in {@code segments}
+     * pieces, the texture's four 4 px columns on its four sides, repeating along it.
+     */
+    public static void rope(PoseStack.Pose pose, VertexConsumer consumer, Vec3 a, Vec3 b, Vec3 c, int segments, int color, int light) {
+        double s = 0.5;
+        float w = (float) (s / 32.0);
+        float o = w / 2.0F;
+        float minV = 0.0F;
+        for (int i = 0; i < segments; ++i) {
+            Vec3 v0 = bezier(a, b, c, (float) i / segments);
+            Vec3 v1 = bezier(a, b, c, (float) (i + 1) / segments);
+            Vec3 dir = v1.subtract(v0);
+            double len = dir.length();
+            if (len < 1.0E-6) {
+                continue;
+            }
+            float d = (float) len;
+            float maxV = (float) (minV + d * 2.0 / s);
+            Vec3 fwd = dir.scale(1.0 / len);
+            Vec3 x = fwd.cross(new Vec3(0.0, 1.0, 0.0));
+            x = x.lengthSqr() < 1.0E-6 ? new Vec3(1.0, 0.0, 0.0) : x.normalize();
+            Vec3 y = x.cross(fwd).normalize();
+            float[][] quads = {
+                {-w, o, 0, 0.0F, minV}, {-w, o, d, 0.0F, maxV}, {w, o, d, 0.25F, maxV}, {w, o, 0, 0.25F, minV},
+                {w, -o, d, 0.5F, maxV}, {-w, -o, d, 0.75F, maxV}, {-w, -o, 0, 0.75F, minV}, {w, -o, 0, 0.5F, minV},
+                {o, w, d, 0.25F, maxV}, {o, -w, d, 0.5F, maxV}, {o, -w, 0, 0.5F, minV}, {o, w, 0, 0.25F, minV},
+                {-o, -w, 0, 0.75F, minV}, {-o, -w, d, 0.75F, maxV}, {-o, w, d, 1.0F, maxV}, {-o, w, 0, 1.0F, minV}
+            };
+            for (float[] q : quads) {
+                Vec3 p = v0.add(x.scale(q[0])).add(y.scale(q[1])).add(fwd.scale(q[2]));
+                vertex(pose, consumer, (float) p.x, (float) p.y, (float) p.z, q[3], q[4], color, light);
+            }
+            minV = maxV;
         }
     }
 

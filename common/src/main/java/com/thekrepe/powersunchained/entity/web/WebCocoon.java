@@ -28,8 +28,8 @@ public class WebCocoon extends Entity {
 
     /** Sticky webs on one entity that wrap it up. */
     public static final int WEBS_NEEDED = 5;
-    /** Ticks the cocoon holds (3 s). */
-    public static final int DURATION = 60;
+    /** Ticks the cocoon holds (5 s). */
+    public static final int DURATION = 100;
 
     public WebCocoon(EntityType<? extends WebCocoon> type, Level level) {
         super(type, level);

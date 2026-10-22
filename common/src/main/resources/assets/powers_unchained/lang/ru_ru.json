@@ -75,5 +75,14 @@
   "message.powers_unchained.no_web_fluid": "Паутина закончилась: вставьте картриджи в веб-шутеры",
   "ability.powers_unchained.web_zip": "Рывок на паутине",
   "entity.powers_unchained.web_zip_line": "Паутина для рывка",
-  "entity.powers_unchained.web_cocoon": "Паутинный кокон"
+  "entity.powers_unchained.web_cocoon": "Паутинный кокон",
+  "key.powers_unchained.hud_settings": "Настройки худа",
+  "screen.powers_unchained.hud_settings": "Настройки худа Powers Unchained",
+  "screen.powers_unchained.hud_settings.drag": "Перетащите худ способностей мышкой, чтобы переместить",
+  "screen.powers_unchained.hud_settings.enabled": "Худ способностей",
+  "screen.powers_unchained.hud_settings.names": "Названия способностей",
+  "screen.powers_unchained.hud_settings.opacity": "Прозрачность текста: %s",
+  "screen.powers_unchained.hud_settings.size": "Размер: %s",
+  "screen.powers_unchained.hud_settings.reset": "Сбросить настройки",
+  "screen.powers_unchained.hud_settings.hidden": "Скрыт"
 }

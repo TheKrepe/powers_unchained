@@ -1,4 +1,4 @@
-"""Extra web textures: web zip line, cocoon tile, first-person web overlays (head webs / cocoon).
+"""Extra web textures: web zip rope, cocoon tile, first-person web overlays (head webs / cocoon).
 
 Usage: python3 gen_web_extra.py <resources root>
 """
@@ -14,14 +14,6 @@ ENT = os.path.join(ROOT, "entity", "web")
 MISC = os.path.join(ROOT, "misc")
 os.makedirs(MISC, exist_ok=True)
 rnd = random.Random(26)
-
-# web zip line: plain white strand with a little shading across
-line = Image.new("RGBA", (16, 16))
-for x in range(16):
-    for y in range(16):
-        c = 235 - abs(x - 7.5) * 4
-        line.putpixel((x, y), (int(c), int(c), int(c + 5), 235))
-line.save(os.path.join(ENT, "web_line.png"))
 
 # cocoon tile (16 px = half a block): milky film with criss-cross threads, tiles seamlessly
 tile = Image.new("RGBA", (16, 16), (238, 240, 244, 120))
@@ -76,3 +68,15 @@ for _ in range(40):
     d.line([a, b], fill=(250, 251, 253, 200), width=1)
 coc.save(os.path.join(MISC, "web_cocoon_overlay.png"))
 print("ok")
+
+# web zip rope (Fisk layout: 4 columns of 4 px = the 4 sides of the rope, 32 px = 16 blocks of rope... repeats
+# along the rope): a 2 px strand per side with stray fibres
+rope = Image.new("RGBA", (16, 32))
+shades = [(255, 255, 255, 255), (234, 236, 240, 255), (210, 213, 218, 255)]
+for col in range(4):
+    for y in range(32):
+        for x in (1, 2):
+            rope.putpixel((col * 4 + x, y), rnd.choice(shades[:2]))
+        if rnd.random() < 0.35:
+            rope.putpixel((col * 4 + rnd.choice((0, 3)), y), rnd.choice(shades))
+rope.save(os.path.join(ENT, "web_rope.png"))

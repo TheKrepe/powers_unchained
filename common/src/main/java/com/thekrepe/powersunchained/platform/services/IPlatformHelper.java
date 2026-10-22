@@ -1,5 +1,7 @@
 package com.thekrepe.powersunchained.platform.services;
 
+import java.nio.file.Path;
+
 public interface IPlatformHelper {
 
     /**
@@ -33,4 +35,7 @@ public interface IPlatformHelper {
 
         return isDevelopmentEnvironment() ? "development" : "production";
     }
+
+    /** The game's config directory (where the mod keeps its settings files). */
+    Path getConfigDir();
 }

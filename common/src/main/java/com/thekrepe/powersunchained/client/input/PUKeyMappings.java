@@ -19,7 +19,14 @@ public final class PUKeyMappings {
     public static final KeyMapping ABILITY_4 = key(4, InputConstants.KEY_M);
     public static final KeyMapping ABILITY_5 = key(5, InputConstants.KEY_COMMA);
 
+    /** The ability keys, in HUD order. */
     public static final List<KeyMapping> ALL = List.of(ABILITY_1, ABILITY_2, ABILITY_3, ABILITY_4, ABILITY_5);
+
+    /** Opens the HUD settings. */
+    public static final KeyMapping HUD_SETTINGS = new KeyMapping("key." + Constants.MOD_ID + ".hud_settings", InputConstants.KEY_H, CATEGORY);
+
+    /** Every key of the mod, to register. */
+    public static final List<KeyMapping> REGISTER = List.of(ABILITY_1, ABILITY_2, ABILITY_3, ABILITY_4, ABILITY_5, HUD_SETTINGS);
 
     private PUKeyMappings() {
     }

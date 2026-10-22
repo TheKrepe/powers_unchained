@@ -4,6 +4,7 @@ import com.thekrepe.powersunchained.Constants;
 import com.thekrepe.powersunchained.client.input.PUKeyMappings;
 import com.thekrepe.powersunchained.client.web.WebShooterClient;
 import com.thekrepe.powersunchained.client.ability.AbilityHud;
+import com.thekrepe.powersunchained.client.ability.AbilityHudConfigScreen;
 import com.thekrepe.powersunchained.client.web.ClientWebShootersTooltip;
 import com.thekrepe.powersunchained.client.web.WebCocoonRenderer;
 import com.thekrepe.powersunchained.client.web.WebOverlay;
@@ -13,6 +14,7 @@ import com.thekrepe.powersunchained.client.web.WebArmAnimation;
 import com.thekrepe.powersunchained.client.web.WebProjectileRenderer;
 import com.thekrepe.powersunchained.web.WebShotTracker;
 import com.thekrepe.powersunchained.registry.PUEntities;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
@@ -80,7 +82,7 @@ public class PowersUnchainedNeoForgeClient {
         // abilities / web-shooters
         modEventBus.addListener((RegisterKeyMappingsEvent event) -> {
             event.registerCategory(PUKeyMappings.CATEGORY);
-            PUKeyMappings.ALL.forEach(event::register);
+            PUKeyMappings.REGISTER.forEach(event::register);
         });
         modEventBus.addListener((RegisterGuiLayersEvent event) -> {
             event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("web_shooters"), WebShooterHud::render);
@@ -97,6 +99,11 @@ public class PowersUnchainedNeoForgeClient {
             event.registerEntityRenderer(PUEntities.WEB_COCOON.get(), WebCocoonRenderer::new);
         });
         NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post event) -> {
+            while (PUKeyMappings.HUD_SETTINGS.consumeClick()) {
+                if (Minecraft.getInstance().gui.screen() == null) {
+                    Minecraft.getInstance().gui.setScreen(new AbilityHudConfigScreen());
+                }
+            }
             WebShooterClient.tick();
             WebShotTracker.tick();
         });

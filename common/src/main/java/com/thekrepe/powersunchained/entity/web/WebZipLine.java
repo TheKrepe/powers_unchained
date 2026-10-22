@@ -25,14 +25,22 @@ public class WebZipLine extends AbstractWebProjectile {
 
     private static final EntityDataAccessor<Integer> HOOKED = SynchedEntityData.defineId(WebZipLine.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> DETACHED = SynchedEntityData.defineId(WebZipLine.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Float> LENGTH = SynchedEntityData.defineId(WebZipLine.class, EntityDataSerializers.FLOAT);
 
     public static final float RANGE = 48.0F;
-    /** Ticks the line stays (fading) after letting go. */
-    public static final int FADE_TICKS = 10;
+    /** Ticks the rope stays (falling slack, fading) after letting go. */
+    public static final int FADE_TICKS = 60;
 
     private int pullTicks;
     private boolean detachedHere;
     public int ticksDetached;
+    /** 1 = tight rope, less = slack (it sags), like Fisk's rope (render only). */
+    public float tension = 1.0F;
+    public float prevTension = 1.0F;
+    /** After letting go: the loose end of the rope, falling where the shooter was (render only). */
+    public Vec3 end = Vec3.ZERO;
+    public Vec3 prevEnd = Vec3.ZERO;
+    private Vec3 endMotion = Vec3.ZERO;
 
     public WebZipLine(EntityType<? extends WebZipLine> type, Level level) {
         super(type, level);
@@ -47,11 +55,17 @@ public class WebZipLine extends AbstractWebProjectile {
         super.defineSynchedData(builder);
         builder.define(HOOKED, 0);
         builder.define(DETACHED, false);
+        builder.define(LENGTH, -1.0F);
     }
 
     public @Nullable Entity getHooked() {
         int id = this.entityData.get(HOOKED) - 1;
         return id >= 0 ? this.level().getEntity(id) : null;
+    }
+
+    /** Rope length when it caught on something (-1 before). */
+    public float getLength() {
+        return this.entityData.get(LENGTH);
     }
 
     public boolean isDetached() {
@@ -127,6 +141,7 @@ public class WebZipLine extends AbstractWebProjectile {
         if (hooked != null) {
             this.setPos(hooked.getX(), hooked.getY() + hooked.getBbHeight() / 2.0F - this.getBbHeight() / 2.0F, hooked.getZ());
         }
+        this.updateRope(player, server);
         if (this.isDetached()) {
             if (++this.ticksDetached > FADE_TICKS && server) {
                 this.discard();
@@ -156,6 +171,31 @@ public class WebZipLine extends AbstractWebProjectile {
                 this.detach();
             }
         }
+    }
+
+    /** Fisk's rope: length when it catches, tension (slack when the shooter gets closer), loose end after letting go. */
+    private void updateRope(Player player, boolean server) {
+        Vec3 shooterCenter = player.position().add(0.0, player.getBbHeight() / 2.0F, 0.0);
+        if (server && this.getLength() < 0.0F && this.isStuck()) {
+            this.entityData.set(LENGTH, (float) this.position().distanceTo(shooterCenter));
+        }
+        if (this.isDetached()) {
+            if (this.ticksDetached == 0) {
+                this.end = this.prevEnd = player.position().add(0.0, player.getBbHeight() * 0.75F, 0.0);
+                this.endMotion = this.isStuck() ? Vec3.ZERO : player.getDeltaMovement();
+            }
+            this.prevEnd = this.end;
+            this.endMotion = this.endMotion.scale(0.7).add(0.0, this.isStuck() ? -0.02 : 0.0, 0.0);
+            this.end = this.end.add(this.endMotion);
+            Vec3 m = this.getDeltaMovement();
+            if (!this.isStuck()) {
+                this.setDeltaMovement(m.x * 0.7, m.y * 0.7 - 0.01, m.z * 0.7);
+            }
+        }
+        double length = this.position().distanceTo(this.isDetached() ? this.end : shooterCenter);
+        this.prevTension = this.tension;
+        float goal = this.isStuck() && this.getLength() > 0.0F ? (float) Math.min((length + 1.0) / this.getLength(), 1.0) : 1.0F;
+        this.tension -= (this.tension - goal) / 4.0F;
     }
 
     private void pullToEntity(Player player, Entity target, boolean simulated, boolean server) {

@@ -75,5 +75,14 @@
   "message.powers_unchained.no_web_fluid": "Out of web fluid: load web cartridges into the web-shooters",
   "ability.powers_unchained.web_zip": "Web Zip",
   "entity.powers_unchained.web_zip_line": "Web Zip Line",
-  "entity.powers_unchained.web_cocoon": "Web Cocoon"
+  "entity.powers_unchained.web_cocoon": "Web Cocoon",
+  "key.powers_unchained.hud_settings": "HUD Settings",
+  "screen.powers_unchained.hud_settings": "Powers Unchained HUD Settings",
+  "screen.powers_unchained.hud_settings.drag": "Drag the ability HUD with the mouse to move it",
+  "screen.powers_unchained.hud_settings.enabled": "Ability HUD",
+  "screen.powers_unchained.hud_settings.names": "Ability Names",
+  "screen.powers_unchained.hud_settings.opacity": "Text Opacity: %s",
+  "screen.powers_unchained.hud_settings.size": "Size: %s",
+  "screen.powers_unchained.hud_settings.reset": "Reset to Defaults",
+  "screen.powers_unchained.hud_settings.hidden": "Hidden"
 }

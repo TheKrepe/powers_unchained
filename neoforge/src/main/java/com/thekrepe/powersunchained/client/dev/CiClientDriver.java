@@ -237,13 +237,29 @@ public final class CiClientDriver {
                 run("tp @p 400.5 ~ 0.5 0 -15");
                 run("execute at @p run fill ~-3 ~ ~14 ~3 ~8 ~14 minecraft:stone");
             }
+            case 4866 -> {
+                mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
+                shot("23_web_zip_rope");
+            }
             case 4870 -> {
                 zipStart = mc.player.position();
                 net.minecraft.server.level.ServerPlayer player = serverPlayer();
                 Minecraft.getInstance().getSingleplayerServer().execute(() -> com.thekrepe.powersunchained.web.WebShooting.zip(player));
             }
             case 4885 -> Constants.LOG.info("[CI] web zip moved the player from {} to {}", zipStart, mc.player.position());
-            case 5000 -> {
+            case 4950 -> {
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+                com.thekrepe.powersunchained.client.ability.AbilityHudConfig cfg = com.thekrepe.powersunchained.client.ability.AbilityHudConfig.get();
+                cfg.x = 0.55F;
+                cfg.y = 0.15F;
+                cfg.scale = 1.5F;
+                cfg.textOpacity = 0.6F;
+                mc.gui.setScreen(new com.thekrepe.powersunchained.client.ability.AbilityHudConfigScreen());
+            }
+            case 4952 -> shot("24_hud_settings_screen");
+            case 5010 -> mc.gui.setScreen(null);
+            case 5012 -> shot("25_hud_moved_in_game");
+            case 5100 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }

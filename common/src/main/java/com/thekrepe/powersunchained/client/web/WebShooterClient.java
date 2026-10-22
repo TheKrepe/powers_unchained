@@ -48,6 +48,14 @@ public final class WebShooterClient {
     private WebShooterClient() {
     }
 
+    /** Sample abilities for the HUD settings preview when the player has none. */
+    public static AbilityHud.Entry[] previewEntries() {
+        return new AbilityHud.Entry[] {
+            new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_shot"), Component.literal("64").withStyle(ChatFormatting.GRAY), true),
+            new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_zip"), null, true)
+        };
+    }
+
     /** Puts "Web Shot" on ability key 1 in the ability HUD while web-shooters are worn, with the web fluid left. */
     public static void registerHud() {
         AbilityHud.register((player, slot) -> {
