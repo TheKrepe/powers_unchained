@@ -95,8 +95,21 @@ public class AbilityHudConfigScreen extends Screen {
         graphics.fill(0, 0, this.width, this.height, 0x50000000);
     }
 
+    /** Moves the HUD so its grabbed point sits under the mouse. */
+    private void dragTo(double mouseX, double mouseY) {
+        int[] r = this.hudRect(this.entries());
+        double x = Mth.clamp(mouseX - this.dragOffsetX, 0, Math.max(0, this.width - r[2]));
+        double y = Mth.clamp(mouseY - this.dragOffsetY, 0, Math.max(0, this.height - r[3]));
+        this.config.x = (float) (x / this.width);
+        this.config.y = (float) (y / this.height);
+    }
+
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+        if (this.dragging) {
+            // follow the mouse every frame (does not depend on drag events reaching the screen)
+            this.dragTo(mouseX, mouseY);
+        }
         AbilityHud.Entry[] entries = this.entries();
         int[] r = this.hudRect(entries);
         boolean hover = this.dragging || mouseX >= r[0] && mouseX < r[0] + r[2] && mouseY >= r[1] && mouseY < r[1] + r[3];
@@ -130,6 +143,7 @@ public class AbilityHudConfigScreen extends Screen {
         if (event.button() == 0 && event.x() >= r[0] - pad && event.x() < r[0] + r[2] + pad && event.y() >= r[1] - pad
                 && event.y() < r[1] + r[3] + pad) {
             this.dragging = true;
+            this.setDragging(true);
             this.dragOffsetX = event.x() - r[0];
             this.dragOffsetY = event.y() - r[1];
             return true;
@@ -140,11 +154,7 @@ public class AbilityHudConfigScreen extends Screen {
     @Override
     public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
         if (this.dragging) {
-            int[] r = this.hudRect(this.entries());
-            double x = Mth.clamp(event.x() - this.dragOffsetX, 0, Math.max(0, this.width - r[2]));
-            double y = Mth.clamp(event.y() - this.dragOffsetY, 0, Math.max(0, this.height - r[3]));
-            this.config.x = (float) (x / this.width);
-            this.config.y = (float) (y / this.height);
+            this.dragTo(event.x(), event.y());
             return true;
         }
         return super.mouseDragged(event, dx, dy);
@@ -154,6 +164,7 @@ public class AbilityHudConfigScreen extends Screen {
     public boolean mouseReleased(MouseButtonEvent event) {
         if (this.dragging) {
             this.dragging = false;
+            this.setDragging(false);
             return true;
         }
         return super.mouseReleased(event);

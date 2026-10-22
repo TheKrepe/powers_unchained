@@ -43,7 +43,10 @@ public final class WebZipAnimation {
     private static final float PULL_TICKS = 15.0F;
     /** Ticks of a release flip. */
     private static final int RELEASE_TICKS = 16;
-    private static final int RELEASE_VARIANTS = 7;
+    private static final int RELEASE_VARIANTS = 11;
+    private static final int PULL_VARIANTS = 3;
+    /** Ticks of the landing (Fisk's superhero landing) after a fast fall. */
+    private static final int LAND_TICKS = 18;
     private static final int DIVE_VARIANTS = 3;
 
     private WebZipAnimation() {
@@ -167,7 +170,11 @@ public final class WebZipAnimation {
         }
         float release = s.release(partialTick);
         if (s.releaseKind >= 0 && release < 1.0F) {
-            applyReleaseLimbs(model, s.releaseKind, release);
+            applyReleaseLimbs(model, s.releaseKind, release, s.releaseWeight(partialTick));
+        }
+        float land = s.land(partialTick);
+        if (land > 0.0F) {
+            applyLanding(model, land);
         }
         float shoot = s.shoot(partialTick);
         if (shoot > 0.0F) {
@@ -175,7 +182,11 @@ public final class WebZipAnimation {
         }
         float pull = s.pull(partialTick);
         if (pull > 0.0F) {
-            applyPull(model, s.pullTime(partialTick), outCubic(pull), air);
+            switch (s.pullKind) {
+                case 0 -> applyPull(model, s.pullTime(partialTick), outCubic(pull), air);
+                case 1 -> applyBurst(model, outCubic(pull), air);
+                default -> applyReach(model, outCubic(pull), air);
+            }
         }
     }
 
@@ -234,11 +245,59 @@ public final class WebZipAnimation {
         m.head.xRot = lerp(m.head.xRot, m.head.xRot - 10.0F * DEG, d * air);  // Powerborne: chin up into the pull
     }
 
+    /** Powerborne {@code web_zip_burst}: right arm flung out back, left arm in, legs tucked, chin up. */
+    private static void applyBurst(PlayerModel m, float d, float air) {
+        rot(m.rightArm, 80.0F, 30.0F, 90.0F, d);
+        pos(m.rightArm, -4.0F, 2.0F, 4.0F, d);
+        rot(m.leftArm, 35.0F, 20.0F, -16.0F, d);
+        pos(m.leftArm, 4.5F, 2.0F, -1.0F, d);
+        float legs = d * air;
+        rot(m.rightLeg, 27.0F, 40.0F, 5.0F, legs);
+        pos(m.rightLeg, -5.0F, 6.0F, 1.0F, legs);
+        rot(m.leftLeg, 62.0F, -20.0F, 0.0F, legs);
+        pos(m.leftLeg, 5.0F, 10.0F, -1.0F, legs);
+        m.head.xRot = lerp(m.head.xRot, m.head.xRot - 10.0F * DEG, legs);
+    }
+
+    /** Superman reach: the right arm stays stretched along the line, the left swept back, legs trailing. */
+    private static void applyReach(PlayerModel m, float d, float air) {
+        rot(m.rightArm, -165.0F, -10.0F, 10.0F, d);
+        pos(m.rightArm, -5.0F, 2.0F, -1.0F, d);
+        rot(m.leftArm, 40.0F, 10.0F, -25.0F, d);
+        float legs = d * air;
+        rot(m.rightLeg, 15.0F, 0.0F, 4.0F, legs);
+        rot(m.leftLeg, 30.0F, 0.0F, -4.0F, legs);
+        pos(m.leftLeg, 1.9F, 11.0F, 1.5F, legs);
+        m.head.xRot = lerp(m.head.xRot, m.head.xRot - 25.0F * DEG, legs);
+    }
+
+    /** Fisk's {@code superhero_landing}: one knee down, a hand on the ground. */
+    private static void applyLanding(PlayerModel m, float w) {
+        float d = curve(w);
+        float k = Mth.sin(Mth.PI * d);
+        rot(m.head, -45.0F, -35.0F, 0.0F, d);
+        pos(m.head, 0.5F, 0.0F, -1.0F, d);
+        m.body.xRot = lerp(m.body.xRot, -5.0F * DEG, d);
+        rot(m.rightArm, -40.0F, 30.0F, 60.0F, d);
+        pos(m.rightArm, -3.0F, 5.0F, 2.5F, d);
+        rot(m.leftArm, -60.0F, -10.0F, -30.0F, d);
+        pos(m.leftArm, 4.0F, 3.0F, -1.0F, d);
+        rot(m.rightLeg, -60.0F, -5.0F, -10.0F, d);
+        pos(m.rightLeg, -3.0F, 8.0F, -0.5F, d);
+        m.rightLeg.xRot += 40.0F * DEG * k;
+        m.rightLeg.y -= 2.0F * k;
+        m.rightLeg.z -= 4.0F * k;
+        rot(m.leftLeg, 5.0F, -30.0F, 0.0F, d);
+        pos(m.leftLeg, 4.0F, 10.0F, -4.0F, d);
+        m.leftLeg.xRot += 25.0F * DEG * k;
+        m.leftLeg.z -= 2.0F * k;
+    }
+
     /** Limbs of the release flips. */
-    private static void applyReleaseLimbs(PlayerModel m, int kind, float progress) {
+    private static void applyReleaseLimbs(PlayerModel m, int kind, float progress, float w) {
         switch (kind) {
             case 0, 1, 2, 3 -> { // Fisk: swing_roll, swing_roll2, swing_roll5, swing_springboard
-                float d = (float) Math.pow(Mth.sin(Mth.PI * (1 - progress)), kind == 1 ? 3 : 2);
+                float d = w * (float) Math.pow(Mth.sin(Mth.PI * (1 - progress)), kind == 1 ? 3 : 2);
                 switch (kind) {
                     case 0 -> {
                         m.head.xRot = lerp(m.head.xRot, -0.7F, d);
@@ -275,7 +334,7 @@ public final class WebZipAnimation {
                 }
             }
             case 4, 5 -> { // Powerborne: spin around, arms out
-                float d = outCubic(Math.min(progress * 2.0F, 1.0F)) * (1.0F - outCubic(Math.max(progress * 2.0F - 1.0F, 0.0F)));
+                float d = w * outCubic(Math.min(progress * 2.0F, 1.0F)) * (1.0F - outCubic(Math.max(progress * 2.0F - 1.0F, 0.0F)));
                 float s = kind == 4 ? 1.0F : -1.0F;
                 m.head.yRot = rotLerp(m.head.yRot, -30.0F * DEG * s, d);
                 rot(m.rightArm, 6.0F, 30.0F, -15.0F, d);
@@ -283,8 +342,45 @@ public final class WebZipAnimation {
                 rot(m.rightLeg, -15.0F, 0.0F, -5.0F, d);
                 rot(m.leftLeg, 15.0F, -15.0F, 5.0F, d);
             }
+            case 7 -> { // Fisk swing_roll3: half flip with a twist
+                float d = w * (float) Math.pow(Mth.sin(Mth.PI * (1 - progress)), 2);
+                m.head.xRot = lerp(m.head.xRot, 0.8F, d);
+                rot(m.rightArm, 1.5F / DEG, 0.5F / DEG, 0.4F / DEG, d);
+                rot(m.leftArm, -1.5F / DEG, 0.5F / DEG, -0.4F / DEG, d);
+                m.rightLeg.xRot = lerp(m.rightLeg.xRot, -0.4F, d);
+                m.leftLeg.xRot = lerp(m.leftLeg.xRot, 0.2F, d);
+            }
+            case 8, 9 -> { // Fisk swing_rotate_right / swing_rotate_right1: corkscrew / cartwheel
+                float d = w * (float) Math.pow(Mth.sin(Mth.PI * (1 - progress)), 3);
+                m.head.xRot = lerp(m.head.xRot, Math.max(m.head.xRot - 0.4F, -90 * DEG), d);
+                if (kind == 8) {
+                    rot(m.rightArm, 0.0F, 0.5F / DEG, 0.5F / DEG, d);
+                    rot(m.leftArm, 0.0F, -0.4F / DEG, -0.3F / DEG, d);
+                    rot(m.rightLeg, 0.2F / DEG, 0.0F, 0.4F / DEG, d);
+                    rot(m.leftLeg, 0.4F / DEG, 0.0F, 0.3F / DEG, d);
+                } else {
+                    rot(m.rightArm, 1.0F / DEG, -0.8F / DEG, 0.4F / DEG, d);
+                    rot(m.leftArm, 1.0F / DEG, 0.9F / DEG, -0.3F / DEG, d);
+                    rot(m.rightLeg, 0.3F / DEG, 0.0F, 1.2F / DEG, d);
+                    rot(m.leftLeg, 0.5F / DEG, 0.0F, 1.0F / DEG, d);
+                }
+            }
+            case 10 -> { // Fisk falcon_dive_roll: tucked forward roll
+                float d = w * (float) Math.pow(Mth.sin(Mth.PI * (1 - progress)), 2);
+                m.head.y += d;
+                m.head.z -= d;
+                m.head.xRot = lerp(m.head.xRot, 60 * DEG, d);
+                rot(m.rightArm, -55.0F, -30.0F, -7.0F, d);
+                rot(m.leftArm, -65.0F, 40.0F, -20.0F, d);
+                pos(m.rightLeg, -2.25F, 3.5F, -1.5F, d);
+                m.rightLeg.xRot = lerp(m.rightLeg.xRot, -30 * DEG, d);
+                m.rightLeg.zRot = lerp(m.rightLeg.zRot, -2 * DEG, d);
+                pos(m.leftLeg, 2.25F, 2.5F, -1.5F, d);
+                m.leftLeg.xRot = lerp(m.leftLeg.xRot, -30 * DEG, d);
+                m.leftLeg.zRot = lerp(m.leftLeg.zRot, 5 * DEG, d);
+            }
             default -> { // Powerborne: spread out
-                float d = (float) Math.sin(Mth.PI * progress);
+                float d = w * (float) Math.sin(Mth.PI * progress);
                 rot(m.rightArm, 1.0F, 24.0F, 73.0F, d);
                 rot(m.leftArm, 1.0F, -24.0F, -73.0F, d);
                 rot(m.rightLeg, 47.0F, 1.0F, 12.0F, d);
@@ -369,16 +465,51 @@ public final class WebZipAnimation {
         }
         float release = s.release(partialTick);
         if (s.releaseKind >= 0 && release < 1.0F) {
+            // landing mid-flip: the flip unwinds over a few ticks instead of snapping upright
+            float w = s.releaseWeight(partialTick);
+            float x = curve(release);
+            float bell = (float) Math.pow(Mth.sin(Mth.PI * release), 2);
             switch (s.releaseKind) {
-                case 0 -> rotateX(poseStack, scale, 0.5F, 360.0F * curve(release));
-                case 1 -> rotateX(poseStack, scale, 0.5F, 360.0F * curve(release));
-                case 2 -> rotateX(poseStack, scale, 0.6F, 360.0F * curve(release));
-                case 3 -> rotateX(poseStack, scale, 0.3F + 0.2F * (float) Math.pow(Mth.sin(Mth.PI * release), 2), -360.0F * curve(release));
-                case 4 -> rotateY(poseStack, 360.0F * outSine(release));
-                case 5 -> rotateY(poseStack, -360.0F * outSine(release));
-                default -> rotateX(poseStack, scale, 0.55F, -10.0F * (float) Math.sin(Mth.PI * release));
+                case 0, 1 -> rotateX(poseStack, scale, 0.5F, w * 360.0F * x);
+                case 2 -> rotateX(poseStack, scale, 0.6F, w * 360.0F * x);
+                case 3 -> rotateX(poseStack, scale, 0.3F + 0.2F * bell, w * -360.0F * x);
+                case 4 -> rotateY(poseStack, w * 360.0F * outSine(release));
+                case 5 -> rotateY(poseStack, w * -360.0F * outSine(release));
+                case 7 -> {
+                    float x1 = curve((float) Math.pow(Mth.sin(Mth.PI * (1 - release)), 1.5));
+                    float x2 = release > 0.3F && release <= 0.8F ? curve(Math.min((release - 0.3F) / 0.5F, 1.0F)) : 0.0F;
+                    rotateX(poseStack, scale, 0.5F, w * 160.0F * x1);
+                    rotate(poseStack, scale, 0.5F, w * -360.0F * x2, 0.0F, 1.0F, 0.0F);
+                }
+                case 8 -> rotate(poseStack, scale, 0.5F, w * -360.0F * x, -1.0F, 1.0F, 0.0F);
+                case 9 -> rotate(poseStack, scale, 0.5F, w * -360.0F * x, 0.4F, 0.0F, 1.0F);
+                case 10 -> {
+                    rotateX(poseStack, scale, 0.6F, w * -360.0F * x);
+                    poseStack.translate(0.0F, -0.15F * bell * w * scale, 0.1F * bell * w * scale);
+                }
+                default -> rotateX(poseStack, scale, 0.55F, w * -10.0F * (float) Math.sin(Mth.PI * release));
             }
         }
+        float land = s.land(partialTick);
+        if (land > 0.0F) {
+            // Fisk superhero_landing
+            float d = curve(land);
+            poseStack.translate(0.0F, -0.35F * d * scale, 0.25F * d * scale);
+            rotate(poseStack, scale, 0.56F, 25.0F * d, 0.0F, 0.0F, 1.0F);
+            rotate(poseStack, scale, 0.56F, -20.0F * d, 0.0F, 1.0F, 0.0F);
+            rotate(poseStack, scale, 0.56F, -75.0F * d, 1.0F, 0.0F, 0.0F);
+        }
+    }
+
+    private static void rotate(PoseStack poseStack, float scale, float pivotY, float angleDeg, float ax, float ay, float az) {
+        float l = Mth.sqrt(ax * ax + ay * ay + az * az);
+        if (angleDeg == 0.0F || l < 1.0E-6F) {
+            return;
+        }
+        float py = pivotY * 1.8F * scale;
+        poseStack.translate(0.0F, py, 0.0F);
+        poseStack.rotate(new Quaternionf().rotationAxis(angleDeg * DEG, ax / l, ay / l, az / l));
+        poseStack.translate(0.0F, -py, 0.0F);
     }
 
     private static float outSine(float t) {
@@ -416,6 +547,11 @@ public final class WebZipAnimation {
         float prevGround;
         int releaseKind = -1;
         int releaseAge;
+        float releaseWeight = 1.0F;
+        float prevReleaseWeight = 1.0F;
+        int pullKind;
+        int landAge = -1;
+        boolean wasOnGround = true;
         float dive;
         float prevDive;
         int diveKind;
@@ -432,7 +568,14 @@ public final class WebZipAnimation {
             this.prevPull = this.pull;
             this.prevDive = this.dive;
             this.prevGround = this.ground;
-            this.ground = Mth.clamp(this.ground + (onGround ? 0.34F : -0.25F), 0.0F, 1.0F);
+            this.ground = Mth.clamp(this.ground + (onGround ? 0.2F : -0.25F), 0.0F, 1.0F);
+            this.prevReleaseWeight = this.releaseWeight;
+            // landing after a fast fall from a zip / flip / dive: superhero landing
+            if (onGround && !this.wasOnGround && this.prevMotion.y < -0.35) {
+                this.landAge = 0;
+            } else if (this.landAge >= 0 && (++this.landAge > LAND_TICKS || !onGround && this.landAge > 2)) {
+                this.landAge = -1;
+            }
 
             // shoot: the line is flying (Powerborne: 6 ticks in)
             boolean shooting = this.lineOut && !this.pulling;
@@ -441,6 +584,7 @@ public final class WebZipAnimation {
             if (this.pulling) {
                 if (!this.wasPulling) {
                     this.pullAge = 0;
+                    this.pullKind = RANDOM.nextInt(PULL_VARIANTS);
                 }
                 this.pullAge++;
                 this.pull = Math.min(this.pull + 0.5F, 1.0F);
@@ -454,9 +598,15 @@ public final class WebZipAnimation {
             if (this.wasPulling && !this.pulling && !onGround) {
                 this.releaseKind = RANDOM.nextInt(RELEASE_VARIANTS);
                 this.releaseAge = 0;
+                this.releaseWeight = this.prevReleaseWeight = 1.0F;
             }
-            if (this.releaseKind >= 0 && (++this.releaseAge > RELEASE_TICKS || onGround)) {
-                this.releaseKind = -1;
+            if (this.releaseKind >= 0) {
+                if (onGround) {
+                    this.releaseWeight = Math.max(this.releaseWeight - 0.25F, 0.0F);  // landed: unwind smoothly
+                }
+                if (++this.releaseAge > RELEASE_TICKS || this.releaseWeight <= 0.0F && this.prevReleaseWeight <= 0.0F) {
+                    this.releaseKind = -1;
+                }
             }
             // falling afterwards: dive until landing
             boolean diving = !onGround && !this.lineOut && this.releaseKind < 0 && this.motion.y < -0.12;
@@ -466,9 +616,10 @@ public final class WebZipAnimation {
                 }
                 this.dive = Math.min(this.dive + 0.12F, 1.0F);
             } else {
-                this.dive = Math.max(this.dive - (onGround ? 0.34F : 0.1F), 0.0F);
+                this.dive = Math.max(this.dive - (onGround ? 0.2F : 0.1F), 0.0F);
             }
             this.wasPulling = this.pulling;
+            this.wasOnGround = onGround;
             this.idleTicks = this.lineOut || !onGround ? 0 : this.idleTicks + 1;
             this.lineOut = false;
             this.pulling = false;
@@ -476,7 +627,7 @@ public final class WebZipAnimation {
 
         boolean idle() {
             return this.idleTicks > 10 && this.shoot == 0.0F && this.pull == 0.0F && this.dive == 0.0F
-                    && this.prevDive == 0.0F && this.releaseKind < 0;
+                    && this.prevDive == 0.0F && this.releaseKind < 0 && this.landAge < 0;
         }
 
         Vec3 motion(float pt) {
@@ -501,6 +652,19 @@ public final class WebZipAnimation {
 
         float dive(float pt) {
             return Mth.lerp(pt, this.prevDive, this.dive);
+        }
+
+        float releaseWeight(float pt) {
+            return Mth.lerp(pt, this.prevReleaseWeight, this.releaseWeight);
+        }
+
+        /** 0..1 of the landing pose: in over 3 ticks, held, out over the last 8. */
+        float land(float pt) {
+            if (this.landAge < 0) {
+                return 0.0F;
+            }
+            float t = this.landAge + pt;
+            return Mth.clamp(Math.min(t / 3.0F, (LAND_TICKS - t) / 8.0F), 0.0F, 1.0F);
         }
 
         float release(float pt) {

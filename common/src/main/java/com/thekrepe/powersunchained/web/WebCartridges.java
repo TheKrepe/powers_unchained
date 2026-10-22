@@ -20,7 +20,7 @@ public final class WebCartridges {
 
     public static final int SLOTS = 2;
     /** Shots in one full cartridge. */
-    public static final int MAX_FLUID = 32;
+    public static final int MAX_FLUID = 128;
 
     private WebCartridges() {
     }
