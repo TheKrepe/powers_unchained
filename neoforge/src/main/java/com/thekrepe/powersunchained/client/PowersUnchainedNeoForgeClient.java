@@ -1,5 +1,13 @@
 package com.thekrepe.powersunchained.client;
 
+import net.neoforged.neoforge.client.event.RenderHandEvent;
+import net.neoforged.neoforge.client.ClientHooks;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.util.Mth;
+import net.minecraft.resources.Identifier;
+import net.minecraft.client.renderer.state.level.PlayerRenderState;
+import com.mojang.math.Axis;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.thekrepe.powersunchained.client.web.WebZipAnimation;
 import com.thekrepe.powersunchained.entity.web.WebZipLine;
 import net.minecraft.world.entity.EntityType;
@@ -117,6 +125,8 @@ public class PowersUnchainedNeoForgeClient {
             WebShotTracker.tick();
             WebZipAnimation.tick();
         });
+        // first person: the empty off hand arm shows up while it shoots webs (rapid fire alternates wrists)
+        NeoForge.EVENT_BUS.addListener(PowersUnchainedNeoForgeClient::renderWebShootingOffArm);
         // web-shooter first person arm pose: before anything draws the arm
         NeoForge.EVENT_BUS.addListener(EventPriority.HIGHEST, (RenderArmEvent event) ->
                 WebArmAnimation.applyFirstPerson(event.getPoseStack(), event.getArm()));
@@ -188,6 +198,52 @@ public class PowersUnchainedNeoForgeClient {
         });
         event.registerEntityModifier(ArmorStandRenderer.class,
                 (ArmorStand armorStand, ArmorStandRenderState state) -> SuitRendering.extractEquipment(armorStand, state));
+    }
+
+    /**
+     * Vanilla draws no arm for an empty off hand in first person; while that arm fires webs, draw it like the main
+     * arm (same placement as vanilla's renderPlayerArm, mirrored), sliding up as it raises. The arm render event is
+     * fired for it, so the web aim pose, suit sleeves and web-shooters apply as on the main arm.
+     */
+    private static void renderWebShootingOffArm(RenderHandEvent event) {
+        if (event.getHand() != InteractionHand.OFF_HAND || !event.getItemStack().isEmpty()) {
+            return;
+        }
+        PlayerRenderState playerState = event.getPlayerState();
+        AvatarRenderState avatar = playerState.avatarRenderState;
+        if (avatar == null || avatar.isInvisible) {
+            return;
+        }
+        HumanoidArm arm = avatar.mainArm.getOpposite();
+        float aim = WebArmAnimation.firstPersonAim(arm, event.getPartialTick());
+        if (aim <= 0.0F) {
+            return;
+        }
+        PoseStack pose = event.getPoseStack();
+        pose.pushPose();
+        float invert = arm == HumanoidArm.RIGHT ? 1.0F : -1.0F;
+        float lowered = 1.0F - Mth.clamp(aim * 1.5F, 0.0F, 1.0F);
+        pose.translate(invert * 0.64000005F, -0.6F + lowered * -0.6F, -0.71999997F);
+        pose.rotateDegrees(Axis.YP, invert * 45.0F);
+        pose.translate(invert * -1.0F, 3.6F, 3.5F);
+        pose.rotateDegrees(Axis.ZP, invert * 120.0F);
+        pose.rotateDegrees(Axis.XP, 200.0F);
+        pose.rotateDegrees(Axis.YP, invert * -135.0F);
+        pose.translate(invert * 5.6F, 0.0F, 0.0F);
+        AvatarRenderer<?> renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(avatar);
+        Identifier skin = avatar.skin.body().texturePath();
+        boolean right = arm == HumanoidArm.RIGHT;
+        boolean sleeve = right ? avatar.showRightSleeve : avatar.showLeftSleeve;
+        int light = event.getPackedLight();
+        if (!ClientHooks.renderSpecificFirstPersonArm(pose, event.getSubmitNodeCollector(), light, skin, sleeve, playerState, arm,
+                right ? renderer.getModel().rightArm : renderer.getModel().leftArm)) {
+            if (right) {
+                renderer.renderRightHand(pose, event.getSubmitNodeCollector(), light, skin, sleeve);
+            } else {
+                renderer.renderLeftHand(pose, event.getSubmitNodeCollector(), light, skin, sleeve);
+            }
+        }
+        pose.popPose();
     }
 
     private static void onRenderArm(RenderArmEvent event) {

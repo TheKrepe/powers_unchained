@@ -89,6 +89,13 @@ public final class WebArmAnimation {
         }
     }
 
+    /** First person: 0..1 how far the given arm is raised to aim (0 = not shooting with it). */
+    public static float firstPersonAim(HumanoidArm arm, float partialTick) {
+        Minecraft mc = Minecraft.getInstance();
+        WebShotTracker.State state = mc.player != null ? WebShotTracker.get(mc.player.getId()) : null;
+        return state == null ? 0.0F : state.aim(arm == HumanoidArm.RIGHT ? WebShotTracker.RIGHT : WebShotTracker.LEFT, partialTick);
+    }
+
     /** First person: transforms the arm being drawn (pose stack of the arm render event). */
     public static void applyFirstPerson(PoseStack pose, HumanoidArm arm) {
         Minecraft mc = Minecraft.getInstance();
