@@ -233,21 +233,23 @@ public final class CiClientDriver {
             }
             case 4782 -> shot("22_cocoon_first_person");
             case 4860 -> {
-                // web zip at a wall: the line pulls the player
-                run("tp @p 400.5 ~ 0.5 0 -15");
+                // web zip at a wall: the rope pulls the player (frozen mid-pull for the screenshot)
+                run("kill @e[type=!player]");
+                run("difficulty peaceful");
+                run("tp @p 400.5 ~ 0.5 10 -18");
                 run("execute at @p run fill ~-3 ~ ~14 ~3 ~8 ~14 minecraft:stone");
-            }
-            case 4866 -> {
                 mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
-                shot("23_web_zip_rope");
             }
             case 4870 -> {
                 zipStart = mc.player.position();
                 net.minecraft.server.level.ServerPlayer player = serverPlayer();
                 Minecraft.getInstance().getSingleplayerServer().execute(() -> com.thekrepe.powersunchained.web.WebShooting.zip(player));
             }
-            case 4885 -> Constants.LOG.info("[CI] web zip moved the player from {} to {}", zipStart, mc.player.position());
-            case 4950 -> {
+            case 4873 -> run("tick freeze");
+            case 4874 -> shot("23_web_zip_rope");
+            case 4930 -> run("tick unfreeze");
+            case 4945 -> Constants.LOG.info("[CI] web zip moved the player from {} to {}", zipStart, mc.player.position());
+            case 4955 -> {
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
                 com.thekrepe.powersunchained.client.ability.AbilityHudConfig cfg = com.thekrepe.powersunchained.client.ability.AbilityHudConfig.get();
                 cfg.x = 0.55F;
@@ -256,7 +258,7 @@ public final class CiClientDriver {
                 cfg.textOpacity = 0.6F;
                 mc.gui.setScreen(new com.thekrepe.powersunchained.client.ability.AbilityHudConfigScreen());
             }
-            case 4952 -> shot("24_hud_settings_screen");
+            case 4957 -> shot("24_hud_settings_screen");
             case 5010 -> mc.gui.setScreen(null);
             case 5012 -> shot("25_hud_moved_in_game");
             case 5100 -> {
