@@ -68,7 +68,7 @@
   "subtitles.powers_unchained.web_shooters.shoot": "Web shoots",
   "subtitles.powers_unchained.web_shooters.switch": "Web-shooters click",
   "subtitles.powers_unchained.entity.web.bounce": "Web bounces",
-  "item.powers_unchained.empty_web_cartridge": "Empty Web Cartridge",
+  "item.powers_unchained.empty_web_cartridge": "Cartridge",
   "tooltip.powers_unchained.web_fluid": "Web fluid: %s/%s",
   "tooltip.powers_unchained.web_shooters.cartridges": "Cartridges: %s/%s",
   "tooltip.powers_unchained.web_shooters.load": "Click web cartridges onto it to load",
@@ -84,5 +84,6 @@
   "screen.powers_unchained.hud_settings.opacity": "Text Opacity: %s",
   "screen.powers_unchained.hud_settings.size": "Size: %s",
   "screen.powers_unchained.hud_settings.reset": "Reset to Defaults",
-  "screen.powers_unchained.hud_settings.hidden": "Hidden"
+  "screen.powers_unchained.hud_settings.hidden": "Hidden",
+  "tooltip.powers_unchained.cartridge_empty": "Empty"
 }

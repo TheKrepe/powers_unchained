@@ -1,6 +1,7 @@
 package com.thekrepe.powersunchained.registry;
 
 import com.thekrepe.powersunchained.item.SuitPieceItem;
+import com.thekrepe.powersunchained.item.EmptyWebCartridgeItem;
 import com.thekrepe.powersunchained.item.WebCartridgeItem;
 import com.thekrepe.powersunchained.item.WebShootersItem;
 import com.thekrepe.powersunchained.platform.Services;
@@ -40,7 +41,7 @@ public final class PUItems {
     public static final Supplier<WebCartridgeItem> WEB_CARTRIDGE = register(WEAPONS, "web_cartridge", WebCartridgeItem::new,
             properties -> properties.stacksTo(16));
     /** A used-up cartridge: refilled with slime and string. */
-    public static final Supplier<Item> EMPTY_WEB_CARTRIDGE = register(WEAPONS, "empty_web_cartridge", Item::new,
+    public static final Supplier<EmptyWebCartridgeItem> EMPTY_WEB_CARTRIDGE = register(WEAPONS, "empty_web_cartridge", EmptyWebCartridgeItem::new,
             properties -> properties.stacksTo(16));
 
 
