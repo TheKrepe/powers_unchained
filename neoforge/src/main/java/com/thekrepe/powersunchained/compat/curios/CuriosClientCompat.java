@@ -44,7 +44,9 @@ public final class CuriosClientCompat {
         @Override
         public void renderFirstPersonHand(ItemStack stack, SlotContext slotContext, HumanoidArm arm, PoseStack poseStack,
                 SubmitNodeCollector collector, AvatarRenderState state, AbstractClientPlayer player, int light) {
-            WebShootersModel.renderArm(poseStack, collector, light, arm, state.skin.model() == PlayerModelType.SLIM);
+            // the render state Curios passes for the first person hand isn't filled from the player (its skin model
+            // is the default), so ask the player's own skin whether the arms are slim
+            WebShootersModel.renderArm(poseStack, collector, light, arm, player.getSkin().model() == PlayerModelType.SLIM);
         }
     }
 }
