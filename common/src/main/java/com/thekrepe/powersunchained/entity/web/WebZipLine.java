@@ -28,6 +28,9 @@ public class WebZipLine extends AbstractWebProjectile {
     private static final EntityDataAccessor<Float> LENGTH = SynchedEntityData.defineId(WebZipLine.class, EntityDataSerializers.FLOAT);
 
     public static final float RANGE = 48.0F;
+    /** Client: told the id of every entity a web zip line is pulling this tick (for the zip animations). */
+    public static java.util.function.IntConsumer pullListener = id -> {
+    };
     /** Ticks the rope stays (falling slack, fading) after letting go. */
     public static final int FADE_TICKS = 60;
 
@@ -150,6 +153,9 @@ public class WebZipLine extends AbstractWebProjectile {
         }
         if (!server && this.getShootSide() >= 0) {
             WebShotTracker.hold(player.getId(), this.getShootSide());
+        }
+        if (!server && this.isStuck()) {
+            pullListener.accept(player.getId());
         }
         if (!this.isStuck()) {
             if (this.distanceToSqr(player) > RANGE * RANGE) {

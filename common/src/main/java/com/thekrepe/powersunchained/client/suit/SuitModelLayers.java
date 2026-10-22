@@ -20,10 +20,18 @@ public final class SuitModelLayers {
     /** Boots are drawn a bit above the leggings so both can be worn at once. */
     public static final float BOOTS_INFLATE = 0.1F;
 
+    /**
+     * Web-shooters: the base layer just above the skin's and the suit's outer sleeve layers (0.25 / 0.3), so the
+     * band shows over any skin or suit; their outer layer (nozzles) sits the usual 0.25 further out.
+     */
+    public static final float WEB_SHOOTERS_INFLATE = 0.31F;
+
     public static final ModelLayerLocation SUIT = location("suit");
     public static final ModelLayerLocation SUIT_SLIM = location("suit_slim");
     public static final ModelLayerLocation BOOTS = location("suit_boots");
     public static final ModelLayerLocation BOOTS_SLIM = location("suit_boots_slim");
+    public static final ModelLayerLocation WEB_SHOOTERS = location("web_shooters");
+    public static final ModelLayerLocation WEB_SHOOTERS_SLIM = location("web_shooters_slim");
     public static final ModelLayerLocation ARMOR_STAND = location("suit_armor_stand");
     public static final ModelLayerLocation ARMOR_STAND_BOOTS = location("suit_boots_armor_stand");
     public static final ModelLayerLocation ARMOR_STAND_SMALL = location("suit_armor_stand_small");
@@ -37,6 +45,8 @@ public final class SuitModelLayers {
         registrar.accept(SUIT_SLIM, () -> create(SUIT_INFLATE, true));
         registrar.accept(BOOTS, () -> create(BOOTS_INFLATE, false));
         registrar.accept(BOOTS_SLIM, () -> create(BOOTS_INFLATE, true));
+        registrar.accept(WEB_SHOOTERS, () -> create(WEB_SHOOTERS_INFLATE, false));
+        registrar.accept(WEB_SHOOTERS_SLIM, () -> create(WEB_SHOOTERS_INFLATE, true));
         registrar.accept(ARMOR_STAND, () -> createArmorStand(SUIT_INFLATE));
         registrar.accept(ARMOR_STAND_BOOTS, () -> createArmorStand(BOOTS_INFLATE));
         // small armor stands use the vanilla baby transform, like their own model and armor

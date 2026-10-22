@@ -45,9 +45,9 @@ public final class WebOverlay {
         if (amount > 0.01F) {
             blit(graphics, TEXTURE, w, h, amount);
         }
-        WebCocoon cocoon = WebCocoon.find(player);
+        WebCocoon cocoon = WebCocoon.clientCocoon(player);
         if (cocoon != null) {
-            float alpha = WebCocoonRenderer.alpha(cocoon.tickCount + pt);
+            float alpha = WebCocoon.alpha(cocoon.tickCount + pt);
             if (alpha > 0.01F) {
                 blit(graphics, TEXTURE_COCOON, w, h, alpha * 0.9F);
             }

@@ -1,6 +1,7 @@
 package com.thekrepe.powersunchained.mixin.client;
 
 import com.thekrepe.powersunchained.client.web.WebArmAnimation;
+import com.thekrepe.powersunchained.client.web.WebZipAnimation;
 import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.util.Mth;
@@ -18,6 +19,8 @@ public abstract class PlayerModelMixin {
 
     @Inject(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;)V", at = @At("RETURN"))
     private void powers_unchained$webShooters(AvatarRenderState state, CallbackInfo ci) {
-        WebArmAnimation.apply((PlayerModel) (Object) this, state.id, state.ageInTicks - Mth.floor(state.ageInTicks));
+        float partialTick = state.ageInTicks - Mth.floor(state.ageInTicks);
+        WebZipAnimation.applyParts((PlayerModel) (Object) this, state.id, partialTick);
+        WebArmAnimation.apply((PlayerModel) (Object) this, state.id, partialTick);
     }
 }

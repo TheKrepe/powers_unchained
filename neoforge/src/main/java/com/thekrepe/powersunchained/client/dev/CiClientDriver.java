@@ -245,8 +245,8 @@ public final class CiClientDriver {
                 net.minecraft.server.level.ServerPlayer player = serverPlayer();
                 Minecraft.getInstance().getSingleplayerServer().execute(() -> com.thekrepe.powersunchained.web.WebShooting.zip(player));
             }
-            case 4873 -> run("tick freeze");
-            case 4874 -> shot("23_web_zip_rope");
+            case 4875 -> run("tick freeze");
+            case 4876 -> shot("23_web_zip_rope");
             case 4930 -> run("tick unfreeze");
             case 4945 -> Constants.LOG.info("[CI] web zip moved the player from {} to {}", zipStart, mc.player.position());
             case 4955 -> {

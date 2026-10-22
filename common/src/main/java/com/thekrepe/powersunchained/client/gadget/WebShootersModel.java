@@ -18,7 +18,8 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Web-shooters drawn like a suit piece: a player-skin texture (64x64, only the arm regions used) on the player model,
- * slightly larger than the suit (same inflate as the boots), so they stay visible over a worn chestplate.
+ * inflated just above skin sleeves and suit sleeves ({@link SuitModelLayers#WEB_SHOOTERS_INFLATE}), so they stay
+ * visible over any skin and a worn chestplate.
  * Only the arms (and sleeves) are shown.
  */
 public class WebShootersModel extends PlayerModel {
@@ -38,10 +39,10 @@ public class WebShootersModel extends PlayerModel {
 
     /** Called when entity models are (re)baked; bakeLayer builds a new part tree per call. */
     public static void bake(EntityModelSet modelSet) {
-        wide = new WebShootersModel(modelSet.bakeLayer(SuitModelLayers.BOOTS), false);
-        slim = new WebShootersModel(modelSet.bakeLayer(SuitModelLayers.BOOTS_SLIM), true);
-        firstPersonWide = new WebShootersModel(modelSet.bakeLayer(SuitModelLayers.BOOTS), false);
-        firstPersonSlim = new WebShootersModel(modelSet.bakeLayer(SuitModelLayers.BOOTS_SLIM), true);
+        wide = new WebShootersModel(modelSet.bakeLayer(SuitModelLayers.WEB_SHOOTERS), false);
+        slim = new WebShootersModel(modelSet.bakeLayer(SuitModelLayers.WEB_SHOOTERS_SLIM), true);
+        firstPersonWide = new WebShootersModel(modelSet.bakeLayer(SuitModelLayers.WEB_SHOOTERS), false);
+        firstPersonSlim = new WebShootersModel(modelSet.bakeLayer(SuitModelLayers.WEB_SHOOTERS_SLIM), true);
     }
 
     @Override

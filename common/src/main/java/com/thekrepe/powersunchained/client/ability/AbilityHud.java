@@ -3,6 +3,7 @@ package com.thekrepe.powersunchained.client.ability;
 import com.thekrepe.powersunchained.client.input.PUKeyMappings;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -79,6 +80,39 @@ public final class AbilityHud {
         return any ? entries : null;
     }
 
+    /**
+     * The key's label as printed on the key: letters and punctuation by their Latin key name (vanilla names them by
+     * the current keyboard layout, e.g. Cyrillic letters on a Russian layout), anything else as vanilla does.
+     */
+    public static Component keyLabel(KeyMapping mapping) {
+        String name = mapping.saveString();
+        String prefix = "key.keyboard.";
+        if (name.startsWith(prefix)) {
+            String key = name.substring(prefix.length());
+            if (key.length() == 1) {
+                return Component.literal(key.toUpperCase(Locale.ROOT));
+            }
+            String symbol = switch (key) {
+                case "comma" -> ",";
+                case "period" -> ".";
+                case "semicolon" -> ";";
+                case "apostrophe" -> "'";
+                case "slash" -> "/";
+                case "backslash" -> "\\";
+                case "minus" -> "-";
+                case "equal" -> "=";
+                case "left.bracket" -> "[";
+                case "right.bracket" -> "]";
+                case "grave.accent" -> "`";
+                default -> null;
+            };
+            if (symbol != null) {
+                return Component.literal(symbol);
+            }
+        }
+        return mapping.getTranslatedKeyMessage();
+    }
+
     private static int boxWidth(Font font, Component key) {
         return Math.max(font.width(key) + 4, 11);
     }
@@ -88,7 +122,7 @@ public final class AbilityHud {
         List<KeyMapping> keys = PUKeyMappings.ALL;
         int width = 0;
         for (int slot = 0; slot < keys.size(); slot++) {
-            int w = boxWidth(font, keys.get(slot).getTranslatedKeyMessage());
+            int w = boxWidth(font, keyLabel(keys.get(slot)));
             Entry e = slot < entries.length ? entries[slot] : null;
             if (e != null && config.showNames) {
                 w += 4 + font.width(e.name());
@@ -129,7 +163,7 @@ public final class AbilityHud {
         for (int slot = 0; slot < keys.size(); slot++) {
             Entry e = slot < entries.length ? entries[slot] : null;
             int ry = slot * ROW_HEIGHT;
-            Component key = keys.get(slot).getTranslatedKeyMessage();
+            Component key = keyLabel(keys.get(slot));
             int box = boxWidth(font, key);
             graphics.fill(0, ry, box, ry + 11, e != null ? 0x90000000 : 0x40000000);
             graphics.centeredText(font, key, box / 2, ry + 2, alpha(e != null ? 0xFFFFFFFF : 0x60FFFFFF, opacity));

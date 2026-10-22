@@ -1,5 +1,13 @@
 package com.thekrepe.powersunchained.client;
 
+import com.thekrepe.powersunchained.client.web.WebZipAnimation;
+import com.thekrepe.powersunchained.entity.web.WebZipLine;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import com.thekrepe.powersunchained.client.web.WebCocoonLayer;
+import com.google.common.reflect.TypeToken;
 import com.thekrepe.powersunchained.Constants;
 import com.thekrepe.powersunchained.client.input.PUKeyMappings;
 import com.thekrepe.powersunchained.client.web.WebShooterClient;
@@ -90,6 +98,7 @@ public class PowersUnchainedNeoForgeClient {
             event.registerBelow(VanillaGuiLayers.CROSSHAIR, Constants.id("web_overlay"), WebOverlay::render);
         });
         WebShooterClient.registerHud();
+        WebZipLine.pullListener = WebZipAnimation::pull;
         modEventBus.addListener((RegisterClientTooltipComponentFactoriesEvent event) ->
                 event.register(WebShootersItem.WebShootersTooltip.class, ClientWebShootersTooltip::new));
         modEventBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {
@@ -106,6 +115,7 @@ public class PowersUnchainedNeoForgeClient {
             }
             WebShooterClient.tick();
             WebShotTracker.tick();
+            WebZipAnimation.tick();
         });
         // web-shooter first person arm pose: before anything draws the arm
         NeoForge.EVENT_BUS.addListener(EventPriority.HIGHEST, (RenderArmEvent event) ->
@@ -140,6 +150,20 @@ public class PowersUnchainedNeoForgeClient {
                 mannequin.addLayer(new SuitLayer(mannequin, event.getEntityModels(), slim));
             }
         }
+        // web cocoon over every living entity's model
+        for (EntityType<?> type : event.getEntityTypes()) {
+            if (event.getRenderer(type) instanceof LivingEntityRenderer<?, ?, ?> living) {
+                addCocoonLayer(living);
+            }
+        }
+        for (PlayerModelType skin : event.getSkins()) {
+            if (event.getPlayerRenderer(skin) instanceof LivingEntityRenderer<?, ?, ?> player) {
+                addCocoonLayer(player);
+            }
+            if (event.getMannequinRenderer(skin) instanceof LivingEntityRenderer<?, ?, ?> mannequin) {
+                addCocoonLayer(mannequin);
+            }
+        }
         ArmorStandRenderer armorStand = event.getRenderer(EntityTypes.ARMOR_STAND);
         if (armorStand != null) {
             armorStand.addLayer(new SuitArmorStandLayer(armorStand, event.getEntityModels()));
@@ -148,7 +172,14 @@ public class PowersUnchainedNeoForgeClient {
         WebShootersModel.bake(event.getEntityModels());
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static void addCocoonLayer(LivingEntityRenderer renderer) {
+        renderer.addLayer(new WebCocoonLayer(renderer));
+    }
+
     private static void registerRenderStateModifiers(RegisterRenderStateModifiersEvent event) {
+        event.registerEntityModifier(new TypeToken<LivingEntityRenderer<LivingEntity, LivingEntityRenderState, ?>>() {
+        }, WebCocoonLayer::extract);
         event.registerAvatarEntityModifier(new AvatarRenderStateModifier() {
             @Override
             public <T extends Avatar & ClientAvatarEntity> void accept(T avatar, AvatarRenderState state) {

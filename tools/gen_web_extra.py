@@ -15,21 +15,28 @@ MISC = os.path.join(ROOT, "misc")
 os.makedirs(MISC, exist_ok=True)
 rnd = random.Random(26)
 
-# cocoon tile (16 px = half a block): milky film with criss-cross threads, tiles seamlessly
-tile = Image.new("RGBA", (16, 16), (238, 240, 244, 120))
+# cocoon: drawn over the wrapped entity's own model with its UVs, so this is a seamless 64x64 web wrap (any mob
+# texture maps onto a part of it): milky film, wrapping threads, a few thick strands
+tile = Image.new("RGBA", (64, 64), (236, 239, 244, 105))
 d = ImageDraw.Draw(tile)
-for _ in range(7):
-    x0, y0 = rnd.randrange(16), 0
-    x1 = (x0 + rnd.randint(-10, 10))
-    for dx in (-16, 0, 16):
-        d.line([(x0 + dx, y0), (x1 + dx, 15)], fill=(250, 252, 255, 235))
-for _ in range(7):
-    y0 = rnd.randrange(16)
-    y1 = y0 + rnd.randint(-10, 10)
-    for dy in (-16, 0, 16):
-        d.line([(0, y0 + dy), (15, y1 + dy)], fill=(250, 252, 255, 235))
-tile.save(os.path.join(ENT, "web_cocoon.png"))
 
+
+def wrapped_line(p0, p1, fill, width=1):
+    for dx in (-64, 0, 64):
+        for dy in (-64, 0, 64):
+            d.line([(p0[0] + dx, p0[1] + dy), (p1[0] + dx, p1[1] + dy)], fill=fill, width=width)
+
+
+for _ in range(26):
+    x0, y0 = rnd.randrange(64), rnd.randrange(64)
+    ang = rnd.uniform(0, math.pi)
+    ln = rnd.uniform(25, 60)
+    wrapped_line((x0, y0), (x0 + math.cos(ang) * ln, y0 + math.sin(ang) * ln), (250, 252, 255, 235))
+for _ in range(6):
+    x0, y0 = rnd.randrange(64), rnd.randrange(64)
+    ang = rnd.uniform(0, math.pi)
+    wrapped_line((x0, y0), (x0 + math.cos(ang) * 50, y0 + math.sin(ang) * 50), (255, 255, 255, 250), 2)
+tile.save(os.path.join(ENT, "web_cocoon.png"))
 
 def web(draw, cx, cy, radius, spokes, rings, alpha, start=0.0, sweep=2 * math.pi):
     angles = [start + sweep * i / (spokes - (0 if sweep >= 2 * math.pi else 1)) for i in range(spokes)]

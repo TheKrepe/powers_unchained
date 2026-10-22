@@ -3,6 +3,9 @@ package com.thekrepe.powersunchained.entity.web;
 import com.thekrepe.powersunchained.registry.PUEntities;
 import com.thekrepe.powersunchained.web.WebSlowness;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import net.minecraft.util.Mth;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,8 +22,9 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Web cocoon: when {@link #WEBS_NEEDED} sticky webs stick to the same entity at once, they merge into a cocoon that
- * covers it for {@link #DURATION} ticks; meanwhile the entity can't move or jump. Follows its target like a sticky web.
+ * Web cocoon: when {@link #WEBS_NEEDED} sticky webs hit the same entity in a short time, they merge into a cocoon
+ * that covers it for {@link #DURATION} ticks; meanwhile the entity can't move or jump. The cocoon itself is invisible:
+ * clients draw a web texture right over the wrapped entity's model (and a web overlay in first person).
  */
 public class WebCocoon extends Entity {
 
@@ -30,6 +34,9 @@ public class WebCocoon extends Entity {
     public static final int WEBS_NEEDED = 5;
     /** Ticks the cocoon holds (5 s). */
     public static final int DURATION = 100;
+
+    /** Client: the cocoon of each wrapped entity (by entity id), for drawing the web over its model. */
+    private static final Map<Integer, WebCocoon> CLIENT = new ConcurrentHashMap<>();
 
     public WebCocoon(EntityType<? extends WebCocoon> type, Level level) {
         super(type, level);
@@ -57,6 +64,21 @@ public class WebCocoon extends Entity {
         return cocoons.isEmpty() ? null : cocoons.getFirst();
     }
 
+    /** Client: the cocoon around the entity, if any. */
+    public static @Nullable WebCocoon clientCocoon(Entity target) {
+        WebCocoon cocoon = CLIENT.get(target.getId());
+        if (cocoon != null && (cocoon.isRemoved() || cocoon.getTarget() != target)) {
+            CLIENT.remove(target.getId(), cocoon);
+            return null;
+        }
+        return cocoon;
+    }
+
+    /** How much the web covers (fades in over 3 ticks and out over the last 10). */
+    public static float alpha(float age) {
+        return Mth.clamp(Math.min(age / 3.0F, (DURATION - age) / 10.0F), 0.0F, 1.0F);
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(TARGET, 0);
@@ -79,6 +101,9 @@ public class WebCocoon extends Entity {
             return;
         }
         this.setPos(target.getX(), target.getY(), target.getZ());
+        if (!server) {
+            CLIENT.put(target.getId(), this);
+        }
         if (server) {
             if (this.tickCount >= DURATION) {
                 this.discard();
