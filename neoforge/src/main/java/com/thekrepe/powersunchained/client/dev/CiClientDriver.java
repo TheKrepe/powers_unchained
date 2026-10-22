@@ -47,6 +47,9 @@ public final class CiClientDriver {
         if (ticks >= 4080 && ticks <= 4220 && ticks % 3 == 0) {
             rawShot(ticks / 3 % 2);  // rapid fire from both wrists, third person
         }
+        if (ticks >= 5300 && ticks <= 5420 && ticks % 3 == 0) {
+            rawShot(ticks / 3 % 2);  // rapid fire from both wrists, first person: the off arm shows up
+        }
         if (ticks >= 4240 && ticks <= 4380 && ticks % 5 == 0) {
             rawShot(0);  // right wrist only, first person
         }
@@ -273,7 +276,13 @@ public final class CiClientDriver {
             case 5112 -> shot("26_zip_poses_shoot_pull_flip_dive");
             case 5160 -> zipPoses(new int[][] {{2, 50, 1}, {2, 30, 2}, {2, 40, 3}, {2, 40, 4}, {2, 50, 6}, {3, 0, 0}});
             case 5162 -> shot("27_zip_poses_flips_dives");
-            case 5250 -> {
+            case 5290 -> {
+                run("kill @e[type=!player]");
+                run("execute as @p at @s run tp @s ~ ~ ~ 0 -5");
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+            }
+            case 5306 -> shot("28_rapid_fire_both_arms_first_person");
+            case 5500 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
