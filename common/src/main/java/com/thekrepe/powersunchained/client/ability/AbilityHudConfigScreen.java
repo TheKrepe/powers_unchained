@@ -1,5 +1,6 @@
 package com.thekrepe.powersunchained.client.ability;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.thekrepe.powersunchained.client.web.WebShooterClient;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSliderButton;
@@ -140,7 +141,7 @@ public class AbilityHudConfigScreen extends Screen {
         }
         int[] r = this.hudRect(this.entries());
         int pad = 3;
-        if (event.button() == 0 && event.x() >= r[0] - pad && event.x() < r[0] + r[2] + pad && event.y() >= r[1] - pad
+        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT && event.x() >= r[0] - pad && event.x() < r[0] + r[2] + pad && event.y() >= r[1] - pad
                 && event.y() < r[1] + r[3] + pad) {
             this.dragging = true;
             this.setDragging(true);
