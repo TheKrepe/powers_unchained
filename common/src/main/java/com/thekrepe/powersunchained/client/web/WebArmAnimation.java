@@ -151,10 +151,12 @@ public final class WebArmAnimation {
      * anchor, reaching up along the rope like gripping it; remembers where the wrist ends up for the rope.
      */
     private static void reachUp(PoseStack.Pose last, boolean right, float weight, float partial) {
-        org.joml.Vector3f target = WebZipAnimation.firstPersonAnchorView(partial);
-        if (target == null) {
+        org.joml.Vector3f view = WebZipAnimation.firstPersonAnchorView(partial);
+        if (view == null) {
             return;
         }
+        // the arm's pose space is the view turned half around (+Z ahead, +X to the left; measured in game)
+        org.joml.Vector3f target = new org.joml.Vector3f(-view.x, view.y, -view.z);
         org.joml.Matrix4f m = last.pose();
         float px = right ? -5.0F / 16.0F : 5.0F / 16.0F;
         float py = 2.0F / 16.0F;
@@ -182,6 +184,6 @@ public final class WebArmAnimation {
     /** First person: where the arm holding the swing rope has its wrist (view space), or null if not drawn lately. */
     public static org.joml.@org.jspecify.annotations.Nullable Vector3f firstPersonWrist(boolean right) {
         int i = right ? 0 : 1;
-        return System.nanoTime() - WRIST_TIME[i] < 200_000_000L ? WRIST[i] : null;
+        return System.nanoTime() - WRIST_TIME[i] < 200_000_000L ? new org.joml.Vector3f(-WRIST[i].x, WRIST[i].y, -WRIST[i].z) : null;
     }
 }
