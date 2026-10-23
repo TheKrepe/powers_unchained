@@ -280,24 +280,27 @@ public final class CiClientDriver {
             case 5212 -> shot("27b_zip_poses_flips_dives_landing");
             case 5240 -> zipPoses(new int[][] {{5, 0, 0}, {5, 0, 1}, {5, 0, 2}, {6, 0, 0}, {6, 0, 1}, {4, 50, 1}});
             case 5242 -> shot("29_swing_poses_hang_shoot_crouch");
-            case 5262 -> zipPoses(new int[][] {{4, 50, 2}, {5, 0, 0, 1}, {5, 0, 1, 1}, {5, 0, 2, 1}, {4, 25, 1}, {4, 25, 2}});
-            case 5264 -> shot("29b_swing_poses_rising_landings");
-            case 5290 -> {
+            case 5280 -> zipPoses(new int[][] {{4, 50, 2}, {5, 0, 0, 1}, {5, 0, 1, 1}, {5, 0, 2, 1}, {4, 25, 1}, {4, 25, 2}});
+            case 5282 -> shot("29b_swing_poses_rising_landings");
+            case 5330 -> {
                 run("kill @e[type=!player]");
                 run("execute as @p at @s run tp @s ~ ~ ~ 0 -5");
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
             }
-            case 5306 -> shot("28_rapid_fire_both_arms_first_person");
-            case 5320 -> {
+            case 5346 -> shot("28_rapid_fire_both_arms_first_person");
+            case 5400 -> {
                 // web swinging for real: a stone ceiling ahead, the player in the air shoots a rope at it and swings
+                // (slowed down to 4 ticks per second so the screenshots catch the moments)
                 run("kill @e[type=!player]");
+                run("item replace entity @p weapon.mainhand with minecraft:air");
                 run("tp @p 600.5 ~ 0.5 0 0");
                 run("execute at @p run fill ~-8 ~20 ~6 ~8 ~21 ~22 minecraft:stone");
                 mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
                 com.thekrepe.powersunchained.client.web.WebSwingClient.debugState(true);
             }
-            case 5370 -> run("execute as @p at @s run tp @s ~ ~8 ~ 0 -48");
-            case 5371 -> {
+            case 5448 -> run("tick rate 4");
+            case 5450 -> run("execute as @p at @s run tp @s ~ ~8 ~ 0 -48");
+            case 5451 -> {
                 zipStart = mc.player.position();
                 net.minecraft.server.level.ServerPlayer player = serverPlayer();
                 Minecraft.getInstance().getSingleplayerServer().execute(() -> {
@@ -305,30 +308,31 @@ public final class CiClientDriver {
                     com.thekrepe.powersunchained.web.WebShooting.announceShot(player, 0);
                 });
             }
-            case 5373 -> shot("30_swing_rope_shot");
-            case 5382 -> shot("30b_swing_hanging_back");
-            case 5384 -> mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
-            case 5390 -> shot("30c_swing_hanging_front");
-            case 5396 -> {
+            case 5452 -> shot("30_swing_rope_shot");
+            case 5459 -> shot("30b_swing_hanging_back");
+            case 5461 -> mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
+            case 5465 -> shot("30c_swing_hanging_front");
+            case 5470 -> {
                 Constants.LOG.info("[CI] swinging moved the player from {} to {} (motion {}), hanging {}", zipStart, mc.player.position(),
                         mc.player.getDeltaMovement(), com.thekrepe.powersunchained.client.web.WebZipAnimation.isHanging(mc.player.getId()));
                 Constants.LOG.info("[CI] swing release: {}", com.thekrepe.powersunchained.client.web.WebSwingClient.onAttackKey());
             }
-            case 5400 -> shot("31_swing_release_trick");
-            case 5405 -> shot("31b_swing_release_trick");
-            case 5460 -> Constants.LOG.info("[CI] after the swing: at {}, health {}, on ground {}", mc.player.position(), mc.player.getHealth(),
+            case 5472 -> shot("31_swing_release_trick");
+            case 5475 -> shot("31b_swing_release_trick");
+            case 5490 -> run("tick rate 20");
+            case 5540 -> Constants.LOG.info("[CI] after the swing: at {}, health {}, on ground {}", mc.player.position(), mc.player.getHealth(),
                     mc.player.onGround());
-            case 5500 -> mc.options.setCameraType(CameraType.FIRST_PERSON);
-            case 5503 -> run("execute as @p at @s run tp @s ~ ~8 ~ 0 -48");
-            case 5504 -> {
+            case 5560 -> mc.options.setCameraType(CameraType.FIRST_PERSON);
+            case 5563 -> run("execute as @p at @s run tp @s ~ ~8 ~ 0 -48");
+            case 5564 -> {
                 net.minecraft.server.level.ServerPlayer player = serverPlayer();
                 Minecraft.getInstance().getSingleplayerServer().execute(() -> {
                     player.level().addFreshEntity(new com.thekrepe.powersunchained.entity.web.WebSwingLine(player.level(), player, 2));
                     com.thekrepe.powersunchained.web.WebShooting.announceShot(player, 1);
                 });
             }
-            case 5514 -> shot("32_swing_first_person");
-            case 5700 -> {
+            case 5574 -> shot("32_swing_first_person");
+            case 5760 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
