@@ -333,7 +333,7 @@ public final class CiClientDriver {
             }
             case 5572 -> {
                 shot("32_swing_first_person");
-                Constants.LOG.info("[CI] first person hang rotation {}, lines {}", com.thekrepe.powersunchained.client.web.WebZipAnimation.firstPersonHang(0.0F),
+                Constants.LOG.info("[CI] first person hang rotation {}, lines {}", com.thekrepe.powersunchained.client.web.WebZipAnimation.firstPersonAnchorView(0.0F),
                         mc.level.getEntitiesOfClass(com.thekrepe.powersunchained.entity.web.WebSwingLine.class, mc.player.getBoundingBox().inflate(64.0)).size());
             }
             case 5575 -> shot("32b_swing_first_person");
