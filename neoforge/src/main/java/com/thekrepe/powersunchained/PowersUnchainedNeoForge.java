@@ -3,7 +3,9 @@ package com.thekrepe.powersunchained;
 import com.thekrepe.powersunchained.command.SuitCommand;
 import com.thekrepe.powersunchained.dev.CiServerHook;
 import com.thekrepe.powersunchained.network.ShootWebPayload;
+import com.thekrepe.powersunchained.network.WebShotAnimPayload;
 import com.thekrepe.powersunchained.network.WebZipPayload;
+import com.thekrepe.powersunchained.web.WebShotTracker;
 import com.thekrepe.powersunchained.platform.NeoForgeRegistryHelper;
 import com.thekrepe.powersunchained.web.WebShooting;
 import com.thekrepe.powersunchained.web.WebSlowness;
@@ -37,7 +39,9 @@ public class PowersUnchainedNeoForge {
                     if (context.player() instanceof ServerPlayer player) {
                         WebShooting.zip(player);
                     }
-                }));
+                })
+                .playToClient(WebShotAnimPayload.TYPE, WebShotAnimPayload.STREAM_CODEC,
+                        (payload, context) -> WebShotTracker.onShot(payload.entityId(), payload.side())));
         CiServerHook.register();
         NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent event) -> SuitCommand.register(event.getDispatcher()));
     }

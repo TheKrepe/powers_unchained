@@ -2,6 +2,7 @@ package com.thekrepe.powersunchained.web;
 
 import com.thekrepe.powersunchained.entity.web.AbstractWebProjectile;
 import com.thekrepe.powersunchained.entity.web.WebZipLine;
+import com.thekrepe.powersunchained.network.WebShotAnimPayload;
 import com.thekrepe.powersunchained.platform.Services;
 import com.thekrepe.powersunchained.registry.PUItems;
 import com.thekrepe.powersunchained.registry.PUSounds;
@@ -60,8 +61,14 @@ public final class WebShooting {
 
         ServerLevel level = player.level();
         level.addFreshEntity(type.create(level, player, side));
+        announceShot(player, side);
         level.playSound(null, player.getX(), player.getY(), player.getZ(), PUSounds.WEB_SHOOT.get(), SoundSource.PLAYERS,
                 1.0F, 0.95F + level.getRandom().nextFloat() * 0.1F);
+    }
+
+    /** Tells everyone watching (and the shooter) to play the arm animation of a web shot from the given wrist. */
+    public static void announceShot(ServerPlayer player, int side) {
+        Services.GAMEPLAY.sendToTrackingAndSelf(player, new WebShotAnimPayload(player.getId(), side));
     }
 
     /** Ticks between two web zips. */
@@ -88,6 +95,7 @@ public final class WebShooting {
         level.getEntitiesOfClass(WebZipLine.class, player.getBoundingBox().inflate(64.0), line -> line.getShooter() == player)
                 .forEach(WebZipLine::discard);
         level.addFreshEntity(new WebZipLine(level, player));
+        announceShot(player, AbstractWebProjectile.RIGHT);
         level.playSound(null, player.getX(), player.getY(), player.getZ(), PUSounds.WEB_SHOOT.get(), SoundSource.PLAYERS,
                 1.0F, 0.75F + level.getRandom().nextFloat() * 0.1F);
     }

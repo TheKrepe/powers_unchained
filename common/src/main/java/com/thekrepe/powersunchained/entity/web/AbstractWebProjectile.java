@@ -214,7 +214,9 @@ public abstract class AbstractWebProjectile extends Entity {
             } else {
                 this.initVelocity();
                 Entity shooter = this.getShooter();
-                if (client && this.getShootSide() >= 0 && shooter != null && shooter.distanceToSqr(this) < 256.0) {
+                // players' shots are announced by the server (WebShotAnimPayload); other shooters animate from here
+                if (client && this.getShootSide() >= 0 && shooter != null && !(shooter instanceof Player)
+                        && shooter.distanceToSqr(this) < 256.0) {
                     WebShotTracker.onShot(shooter.getId(), this.getShootSide());
                 }
             }

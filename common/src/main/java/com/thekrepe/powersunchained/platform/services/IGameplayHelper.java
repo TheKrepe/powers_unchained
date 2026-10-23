@@ -28,6 +28,9 @@ public interface IGameplayHelper {
      */
     boolean modifyAccessory(Player player, Item item, java.util.function.Consumer<ItemStack> change);
 
+    /** Server side: sends a payload to every player tracking the entity, and the entity itself if it is a player. */
+    void sendToTrackingAndSelf(net.minecraft.world.entity.Entity entity, CustomPacketPayload payload);
+
     /** Client side: sends a payload to the server. */
     void sendToServer(CustomPacketPayload payload);
 }

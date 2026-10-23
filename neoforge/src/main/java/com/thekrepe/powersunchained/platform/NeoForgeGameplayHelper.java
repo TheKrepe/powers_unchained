@@ -56,6 +56,11 @@ public class NeoForgeGameplayHelper implements IGameplayHelper {
     }
 
     @Override
+    public void sendToTrackingAndSelf(net.minecraft.world.entity.Entity entity, CustomPacketPayload payload) {
+        net.neoforged.neoforge.network.PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, payload);
+    }
+
+    @Override
     public void sendToServer(CustomPacketPayload payload) {
         ClientPacketDistributor.sendToServer(payload);
     }

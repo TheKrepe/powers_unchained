@@ -332,14 +332,19 @@ public final class CiClientDriver {
     /** Spawns a web of the given type from the given wrist, bypassing the ammo (screenshot tests). */
     private static void rawWeb(com.thekrepe.powersunchained.web.WebType type, int side) {
         net.minecraft.server.level.ServerPlayer player = serverPlayer();
-        Minecraft.getInstance().getSingleplayerServer().execute(() -> player.level().addFreshEntity(type.create(player.level(), player, side)));
+        Minecraft.getInstance().getSingleplayerServer().execute(() -> {
+            player.level().addFreshEntity(type.create(player.level(), player, side));
+            com.thekrepe.powersunchained.web.WebShooting.announceShot(player, side);
+        });
     }
 
     /** Spawns an impact web from the given wrist, bypassing the ammo (screenshot tests). */
     private static void rawShot(int side) {
         net.minecraft.server.level.ServerPlayer player = serverPlayer();
-        Minecraft.getInstance().getSingleplayerServer().execute(() -> player.level().addFreshEntity(
-                com.thekrepe.powersunchained.web.WebType.IMPACT.create(player.level(), player, side)));
+        Minecraft.getInstance().getSingleplayerServer().execute(() -> {
+            player.level().addFreshEntity(com.thekrepe.powersunchained.web.WebType.IMPACT.create(player.level(), player, side));
+            com.thekrepe.powersunchained.web.WebShooting.announceShot(player, side);
+        });
     }
 
     private static void shootWeb(com.thekrepe.powersunchained.web.WebType type) {
