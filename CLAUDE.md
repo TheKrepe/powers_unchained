@@ -117,7 +117,11 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   Swing and web shot modes are exclusive (both RMB). Animations in `WebZipAnimation` (calm air base pose that hides
   vanilla running limbs, hang along the rope via `hangAlongRope`, swing shoot, release tricks, dive, 3 landings only
   after real falls; NO springboard / extra jump animations — owner removed them). Loop sounds `client/web/WebSwingSound`
-  (Fisk's whoosh / stress / wind sounds copied from the Fisk port). Powerborne's swing script for reference:
+  (Fisk's whoosh / stress / wind sounds copied from the Fisk port). Rope end while hanging: third person = `WebZipAnimation.hangingWrist`
+  (same body rotation + arm pose), first person = the aimed arms turned about the eye towards the anchor
+  (`WebArmAnimation.firstPersonHangRotation`; NOTE the first person hands' pose space is the view turned 180° about Y,
+  so view-space rotations are mirrored with (-x, y, -z, w) there). Web animations (calm pose, dive, landing) only run
+  while "travelling" (a line out / flip / still airborne after one), never on ordinary jumps. Powerborne's swing script for reference:
   jar-reference `modrinth:AGvjxjAT:forge` -> `data/powerborne/kubejs_scripts/spiderman/web_swing.js`; Marvel Legacy:
   `util/SwingManager`.
 - No fall damage after web travel: `WebShooting.markFallSafe` (zip, hanging, release) until landing; NeoForge
