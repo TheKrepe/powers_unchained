@@ -101,7 +101,7 @@ public final class WebArmAnimation {
     }
 
     /** First person: transforms the arm being drawn (pose stack of the arm render event). */
-    public static void applyFirstPerson(PoseStack pose, HumanoidArm arm) {
+    public static void applyFirstPerson(PoseStack pose, HumanoidArm arm, ModelPart armPart) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) {
             return;
@@ -136,7 +136,7 @@ public final class WebArmAnimation {
             pose.translate(m * 0.3F * d, 0.0F, 0.0F);
         }
         if (hang > 0.0F) {
-            reachUp(pose.last(), right, hang, partial);
+            reachUp(pose.last(), armPart, right, hang, partial);
         }
     }
 
@@ -150,18 +150,20 @@ public final class WebArmAnimation {
      * First person while hanging: the arm turns around its shoulder (in view space) so it points at the rope's
      * anchor, reaching up along the rope like gripping it; remembers where the wrist ends up for the rope.
      */
-    private static void reachUp(PoseStack.Pose last, boolean right, float weight, float partial) {
+    private static void reachUp(PoseStack.Pose last, ModelPart armPart, boolean right, float weight, float partial) {
         org.joml.Vector3f view = WebZipAnimation.firstPersonAnchorView(partial);
         if (view == null) {
             return;
         }
-        // the arm's pose space is the view turned half around (+Z ahead, +X to the left; measured in game)
-        org.joml.Vector3f target = new org.joml.Vector3f(-view.x, view.y, -view.z);
+        org.joml.Vector3f target = view;
         org.joml.Matrix4f m = last.pose();
-        float px = right ? -5.0F / 16.0F : 5.0F / 16.0F;
-        float py = 2.0F / 16.0F;
-        org.joml.Vector3f shoulder = m.transformPosition(new org.joml.Vector3f(px, py, 0.0F));
-        org.joml.Vector3f wrist = m.transformPosition(new org.joml.Vector3f(px + (right ? -1.0F : 1.0F) / 16.0F, py + 10.0F / 16.0F, 0.0F));
+        // the arm as it will be drawn: the first person arm is drawn in its rest pose (pivot, rotation) on top of
+        // the pose (the part's current angles are from the last third person frame)
+        net.minecraft.client.model.geom.PartPose rest = armPart.getInitialPose();
+        org.joml.Matrix4f pm = new org.joml.Matrix4f(m).translate(rest.x() / 16.0F, rest.y() / 16.0F, rest.z() / 16.0F)
+                .rotateZYX(rest.zRot(), rest.yRot(), rest.xRot());
+        org.joml.Vector3f shoulder = pm.transformPosition(new org.joml.Vector3f());
+        org.joml.Vector3f wrist = pm.transformPosition(new org.joml.Vector3f((right ? -1.0F : 1.0F) / 16.0F, 10.0F / 16.0F, 0.0F));
         org.joml.Vector3f dir = new org.joml.Vector3f(wrist).sub(shoulder);
         if (dir.lengthSquared() < 1.0E-8F) {
             return;
@@ -184,6 +186,6 @@ public final class WebArmAnimation {
     /** First person: where the arm holding the swing rope has its wrist (view space), or null if not drawn lately. */
     public static org.joml.@org.jspecify.annotations.Nullable Vector3f firstPersonWrist(boolean right) {
         int i = right ? 0 : 1;
-        return System.nanoTime() - WRIST_TIME[i] < 200_000_000L ? new org.joml.Vector3f(-WRIST[i].x, WRIST[i].y, -WRIST[i].z) : null;
+        return System.nanoTime() - WRIST_TIME[i] < 200_000_000L ? WRIST[i] : null;
     }
 }

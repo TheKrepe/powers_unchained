@@ -136,7 +136,7 @@ public class PowersUnchainedNeoForgeClient {
         NeoForge.EVENT_BUS.addListener(PowersUnchainedNeoForgeClient::renderWebShootingOffArm);
         // web-shooter first person arm pose: before anything draws the arm
         NeoForge.EVENT_BUS.addListener(EventPriority.HIGHEST, (RenderArmEvent event) ->
-                WebArmAnimation.applyFirstPerson(event.getPoseStack(), event.getArm()));
+                WebArmAnimation.applyFirstPerson(event.getPoseStack(), event.getArm(), event.getArmPart()));
         NeoForge.EVENT_BUS.addListener((InputEvent.MouseScrollingEvent event) -> {
             if (WebShooterClient.onScroll(event.getScrollDeltaY())) {
                 event.setCanceled(true);
