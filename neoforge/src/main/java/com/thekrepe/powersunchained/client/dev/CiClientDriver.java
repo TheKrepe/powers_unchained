@@ -278,13 +278,57 @@ public final class CiClientDriver {
             case 5162 -> shot("27_zip_poses_flips");
             case 5210 -> zipPoses(new int[][] {{2, 45, 6}, {2, 45, 7}, {3, 0, 0}, {3, 0, 1}, {3, 0, 2}, {4, 25, 0}});
             case 5212 -> shot("27b_zip_poses_flips_dives_landing");
+            case 5240 -> zipPoses(new int[][] {{5, 0, 0}, {5, 0, 1}, {5, 0, 2}, {6, 0, 0}, {6, 0, 1}, {4, 50, 1}});
+            case 5242 -> shot("29_swing_poses_hang_shoot_crouch");
+            case 5262 -> zipPoses(new int[][] {{4, 50, 2}, {5, 0, 0, 1}, {5, 0, 1, 1}, {5, 0, 2, 1}, {4, 25, 1}, {4, 25, 2}});
+            case 5264 -> shot("29b_swing_poses_rising_landings");
             case 5290 -> {
                 run("kill @e[type=!player]");
                 run("execute as @p at @s run tp @s ~ ~ ~ 0 -5");
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
             }
             case 5306 -> shot("28_rapid_fire_both_arms_first_person");
-            case 5500 -> {
+            case 5320 -> {
+                // web swinging for real: a stone ceiling ahead, the player in the air shoots a rope at it and swings
+                run("kill @e[type=!player]");
+                run("tp @p 600.5 ~ 0.5 0 0");
+                run("execute at @p run fill ~-8 ~20 ~6 ~8 ~21 ~22 minecraft:stone");
+                mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
+                com.thekrepe.powersunchained.client.web.WebSwingClient.debugState(true);
+            }
+            case 5370 -> run("execute as @p at @s run tp @s ~ ~8 ~ 0 -48");
+            case 5371 -> {
+                zipStart = mc.player.position();
+                net.minecraft.server.level.ServerPlayer player = serverPlayer();
+                Minecraft.getInstance().getSingleplayerServer().execute(() -> {
+                    player.level().addFreshEntity(new com.thekrepe.powersunchained.entity.web.WebSwingLine(player.level(), player, 0));
+                    com.thekrepe.powersunchained.web.WebShooting.announceShot(player, 0);
+                });
+            }
+            case 5373 -> shot("30_swing_rope_shot");
+            case 5382 -> shot("30b_swing_hanging_back");
+            case 5384 -> mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
+            case 5390 -> shot("30c_swing_hanging_front");
+            case 5396 -> {
+                Constants.LOG.info("[CI] swinging moved the player from {} to {} (motion {}), hanging {}", zipStart, mc.player.position(),
+                        mc.player.getDeltaMovement(), com.thekrepe.powersunchained.client.web.WebZipAnimation.isHanging(mc.player.getId()));
+                Constants.LOG.info("[CI] swing release: {}", com.thekrepe.powersunchained.client.web.WebSwingClient.onAttackKey());
+            }
+            case 5400 -> shot("31_swing_release_trick");
+            case 5405 -> shot("31b_swing_release_trick");
+            case 5460 -> Constants.LOG.info("[CI] after the swing: at {}, health {}, on ground {}", mc.player.position(), mc.player.getHealth(),
+                    mc.player.onGround());
+            case 5500 -> mc.options.setCameraType(CameraType.FIRST_PERSON);
+            case 5503 -> run("execute as @p at @s run tp @s ~ ~8 ~ 0 -48");
+            case 5504 -> {
+                net.minecraft.server.level.ServerPlayer player = serverPlayer();
+                Minecraft.getInstance().getSingleplayerServer().execute(() -> {
+                    player.level().addFreshEntity(new com.thekrepe.powersunchained.entity.web.WebSwingLine(player.level(), player, 2));
+                    com.thekrepe.powersunchained.web.WebShooting.announceShot(player, 1);
+                });
+            }
+            case 5514 -> shot("32_swing_first_person");
+            case 5700 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -321,6 +365,7 @@ public final class CiClientDriver {
             int[] p = poses[i];
             float value = p[0] == 2 || p[0] == 4 ? p[1] / 100.0F : p[1];
             net.minecraft.world.phys.Vec3 motion = p[0] == 3 ? new net.minecraft.world.phys.Vec3(0.3, -1.2, 0.0)
+                    : p[0] == 5 ? new net.minecraft.world.phys.Vec3(0.8, p.length > 3 ? 0.5 : -0.5, 0.0)
                     : p[0] == 4 ? net.minecraft.world.phys.Vec3.ZERO : new net.minecraft.world.phys.Vec3(0.9, 0.3, 0.0);
             com.thekrepe.powersunchained.client.web.WebZipAnimation.debugPose(mannequins.get(i).getId(), p[0], value, p[2], motion);
         }
