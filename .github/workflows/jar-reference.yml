@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       url:
-        description: "Direct jar download URL"
+        description: "Direct jar download URL, or modrinth:<project id or slug>[:<loader>] for its newest file"
         required: true
       patterns:
         description: "Space-separated case-insensitive path regexes of classes to decompile"
@@ -29,6 +29,11 @@ jobs:
           PATTERNS: ${{ inputs.patterns }}
         run: |
           mkdir -p /tmp/ref/out /tmp/ref/classes /tmp/ref/jar
+          if [[ "$URL" == modrinth:* ]]; then
+            IFS=: read -r _ PROJECT LOADER <<< "$URL"
+            Q=""; [ -n "$LOADER" ] && Q="?loaders=%5B%22$LOADER%22%5D"
+            URL=$(curl -sSf "https://api.modrinth.com/v2/project/$PROJECT/version$Q" | python3 -c "import json,sys; v=json.load(sys.stdin)[0]; print(v['files'][0]['url']); print(v['version_number'], v['loaders'], v['game_versions'], file=sys.stderr)")
+          fi
           curl -sSfLo /tmp/ref/mod.jar "$URL"
           curl -sSLo /tmp/ref/vf.jar https://repo1.maven.org/maven2/org/vineflower/vineflower/1.11.1/vineflower-1.11.1.jar
           cd /tmp/ref/jar && unzip -q -o /tmp/ref/mod.jar
