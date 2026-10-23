@@ -102,6 +102,9 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `client/web/ClientWebShootersTooltip`. `IGameplayHelper.findAccessory` returns the live worn stack (Curios).
 - Web Zip (ability 2, V): `entity/web/WebZipLine` (Fisk pull web: 48 blocks, cooldown 20, pulls to block 5 ticks /
   rams entity 10 ticks; pull applied on the shooter's own client), `network/WebZipPayload`, `WebShooting.zip`.
+- Web Zip body animations (`client/web/WebZipAnimation`, our own poses in the spirit of Fisk / Powerborne / Marvel
+  Legacy, no copied values): shoot, 3 pulls, 8 release flips, 3 dives, superhero landing; smoothstep keyframes,
+  every phase fades; limbs via `PlayerModelMixin`, whole body via `LivingEntityRendererMixin` (after body yaw).
 - Web cocoon: 5 sticky hits within 120 ticks -> `entity/web/WebCocoon` (60 ticks, `WebSlowness.hold` = speed/jump/fly
   -100%), `client/web/WebCocoonRenderer` (tiled box), first-person `client/web/WebOverlay` (head webs / cocoon).
 - Webs aim from the wrist at the crosshair's target point (`AbstractWebProjectile.aimPoint`). Head webs lie on the

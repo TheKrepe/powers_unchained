@@ -272,10 +272,12 @@ public final class CiClientDriver {
                     run("execute at @p run summon minecraft:mannequin ~" + (-5 + 2 * i) + " ~ ~6 {Rotation:[-90f,0f],immovable:1b}");
                 }
             }
-            case 5110 -> zipPoses(new int[][] {{0, 0, 0}, {1, 2, 0}, {1, 6, 0}, {1, 15, 0}, {2, 35, 0}, {3, 0, 2}});
-            case 5112 -> shot("26_zip_poses_shoot_pull_flip_dive");
-            case 5160 -> zipPoses(new int[][] {{2, 50, 1}, {2, 30, 2}, {2, 40, 3}, {2, 40, 4}, {2, 50, 6}, {3, 0, 0}});
-            case 5162 -> shot("27_zip_poses_flips_dives");
+            case 5110 -> zipPoses(new int[][] {{0, 0, 0}, {1, 3, 0}, {1, 14, 0}, {1, 8, 1}, {1, 8, 2}, {4, 50, 0}});
+            case 5112 -> shot("26_zip_poses_shoot_pulls_landing");
+            case 5160 -> zipPoses(new int[][] {{2, 45, 0}, {2, 45, 1}, {2, 45, 2}, {2, 45, 3}, {2, 45, 4}, {2, 45, 5}});
+            case 5162 -> shot("27_zip_poses_flips");
+            case 5210 -> zipPoses(new int[][] {{2, 45, 6}, {2, 45, 7}, {3, 0, 0}, {3, 0, 1}, {3, 0, 2}, {4, 25, 0}});
+            case 5212 -> shot("27b_zip_poses_flips_dives_landing");
             case 5290 -> {
                 run("kill @e[type=!player]");
                 run("execute as @p at @s run tp @s ~ ~ ~ 0 -5");
@@ -317,9 +319,9 @@ public final class CiClientDriver {
         mannequins.sort(java.util.Comparator.comparingDouble(e -> -e.getX()));
         for (int i = 0; i < Math.min(poses.length, mannequins.size()); i++) {
             int[] p = poses[i];
-            float value = p[0] == 2 ? p[1] / 100.0F : p[1];
+            float value = p[0] == 2 || p[0] == 4 ? p[1] / 100.0F : p[1];
             net.minecraft.world.phys.Vec3 motion = p[0] == 3 ? new net.minecraft.world.phys.Vec3(0.3, -1.2, 0.0)
-                    : new net.minecraft.world.phys.Vec3(0.9, 0.3, 0.0);
+                    : p[0] == 4 ? net.minecraft.world.phys.Vec3.ZERO : new net.minecraft.world.phys.Vec3(0.9, 0.3, 0.0);
             com.thekrepe.powersunchained.client.web.WebZipAnimation.debugPose(mannequins.get(i).getId(), p[0], value, p[2], motion);
         }
         Constants.LOG.info("[CI] posed {} mannequins", mannequins.size());
