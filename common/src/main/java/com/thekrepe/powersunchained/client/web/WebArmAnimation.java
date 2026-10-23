@@ -143,6 +143,8 @@ public final class WebArmAnimation {
     /** View-space wrist of each arm holding the swing rope (first person), for the rope's end; when it was set. */
     private static final org.joml.Vector3f[] WRIST = {new org.joml.Vector3f(), new org.joml.Vector3f()};
     private static final long[] WRIST_TIME = new long[2];
+    /** Dev/CI only: log the next first person reach. */
+    public static boolean debugLog;
 
     /**
      * First person while hanging: the arm turns around its shoulder (in view space) so it points at the rope's
@@ -169,6 +171,11 @@ public final class WebArmAnimation {
         last.normal().set(new org.joml.Matrix3f().rotation(q).mul(last.normal()));
         int i = right ? 0 : 1;
         WRIST[i].set(wrist).sub(shoulder).rotate(q).add(shoulder);
+        if (debugLog) {
+            debugLog = false;
+            com.thekrepe.powersunchained.Constants.LOG.info("[CI] reach {}: shoulder {} wrist {} target {} -> wrist {}", right ? "right" : "left",
+                    shoulder, wrist, target, WRIST[i]);
+        }
         WRIST_TIME[i] = System.nanoTime();
     }
 
