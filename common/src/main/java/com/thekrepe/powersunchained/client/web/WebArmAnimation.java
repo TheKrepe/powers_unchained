@@ -116,6 +116,9 @@ public final class WebArmAnimation {
         // it reaches up along the rope; the rope starts at that hand (WebProjectileRenderer.handPosition)
         org.joml.Quaternionf hangRot = WebZipAnimation.hangHolds(mc.player.getId(), right) ? firstPersonHangRotation(partial) : null;
         if (hangRot != null) {
+            // the hands' pose space is the view turned half around Y (+Z ahead, +X left; checked in game), so the
+            // view-space rotation is mirrored into it
+            hangRot = new org.joml.Quaternionf(-hangRot.x, hangRot.y, -hangRot.z, hangRot.w);
             PoseStack.Pose last = pose.last();
             last.pose().set(new org.joml.Matrix4f().rotation(hangRot).mul(last.pose()));
             last.normal().set(new org.joml.Matrix3f().rotation(hangRot).mul(last.normal()));
