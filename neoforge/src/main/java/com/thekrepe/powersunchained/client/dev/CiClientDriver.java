@@ -336,25 +336,9 @@ public final class CiClientDriver {
                 Constants.LOG.info("[CI] first person hang rotation {}, lines {}", com.thekrepe.powersunchained.client.web.WebZipAnimation.firstPersonHang(0.0F),
                         mc.level.getEntitiesOfClass(com.thekrepe.powersunchained.entity.web.WebSwingLine.class, mc.player.getBoundingBox().inflate(64.0)).size());
             }
-            case 5575 -> {
-                com.thekrepe.powersunchained.client.web.WebArmAnimation.debugLog = true;
-                shot("32b_swing_first_person");
-            }
-            case 5578 -> {
-                com.thekrepe.powersunchained.client.web.WebArmAnimation.debugHangMode = 1;
-                com.thekrepe.powersunchained.client.web.WebArmAnimation.debugLog = true;
-                shot("32c_fp_mode1_up");
-            }
-            case 5581 -> {
-                com.thekrepe.powersunchained.client.web.WebArmAnimation.debugHangMode = 2;
-                com.thekrepe.powersunchained.client.web.WebArmAnimation.debugLog = true;
-                shot("32d_fp_mode2_half");
-            }
-            case 5584 -> {
-                com.thekrepe.powersunchained.client.web.WebArmAnimation.debugHangMode = 3;
-                shot("32e_fp_mode3_none");
-            }
-            case 5587 -> com.thekrepe.powersunchained.client.web.WebArmAnimation.debugHangMode = 0;
+            case 5575 -> shot("32b_swing_first_person");
+            case 5578 -> shot("32c_swing_first_person");
+            case 5581 -> shot("32d_swing_first_person");
             case 5590 -> {
                 run("tick rate 20");
                 Constants.LOG.info("[CI] first person swing: hanging {}", com.thekrepe.powersunchained.client.web.WebZipAnimation.isHanging(mc.player.getId()));

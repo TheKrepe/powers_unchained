@@ -195,12 +195,12 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
             Vec3 look = shooter.getViewVector(pt);
             Vec3 right = new Vec3(-look.z, 0.0, look.x);
             right = right.lengthSqr() < 1.0E-6 ? new Vec3(1.0, 0.0, 0.0) : right.normalize();
-            org.joml.Quaternionf hang = line instanceof WebSwingLine ? WebZipAnimation.firstPersonHang(pt) : null;
-            if (hang != null) {
-                // the holding arm reaches up towards the anchor (same rotation as the arm, see WebArmAnimation)
+            org.joml.Vector3f wrist = line instanceof WebSwingLine sw && sw.isCaught()
+                    ? WebArmAnimation.firstPersonWrist(k > 0.0F) : null;
+            if (wrist != null) {
+                // the hand reaching up along the rope (WebArmAnimation.reachUp), view space -> world
                 Vec3 up = right.cross(look);
-                org.joml.Vector3f v = hang.transform(new org.joml.Vector3f(0.24F * k, -0.2F, -0.4F));
-                return shooter.getEyePosition(pt).add(right.scale(v.x)).add(up.scale(v.y)).add(look.scale(-v.z));
+                return shooter.getEyePosition(pt).add(right.scale(wrist.x)).add(up.scale(wrist.y)).add(look.scale(-wrist.z));
             }
             return shooter.getEyePosition(pt).add(look.scale(0.4)).add(right.scale(0.3 * k)).add(0.0, -0.15, 0.0);
         }

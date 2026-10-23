@@ -724,21 +724,18 @@ public final class WebZipAnimation {
         return s != null && s.swing > 0.0F && (s.swingKind == 0 || (s.swingKind == 2) != rightArm);
     }
 
-    /**
-     * First person while hanging: the rotation (view space) that turns "forward" towards the rope's anchor, blended
-     * with the hanging weight, so the holding arm reaches up along the rope; null when not hanging.
-     */
-    public static @Nullable Quaternionf firstPersonHang(float pt) {
+    /** First person: how far the local player hangs on a swing rope (0..1, interpolated). */
+    public static float firstPersonHangWeight(float pt) {
         Minecraft mc = Minecraft.getInstance();
-        if (mc.player == null) {
-            return null;
-        }
-        State s = STATES.get(mc.player.getId());
+        State s = mc.player != null ? STATES.get(mc.player.getId()) : null;
+        return s == null ? 0.0F : smooth(s.swing(pt));
+    }
+
+    /** First person: unit direction from the eye to the local player's rope anchor in view space (x right, y up, -z ahead). */
+    public static @Nullable Vector3f firstPersonAnchorView(float pt) {
+        Minecraft mc = Minecraft.getInstance();
+        State s = mc.player != null ? STATES.get(mc.player.getId()) : null;
         if (s == null) {
-            return null;
-        }
-        float hang = smooth(s.swing(pt));
-        if (hang <= 0.0F) {
             return null;
         }
         Vec3 d = s.anchor.subtract(mc.player.getEyePosition(pt));
@@ -750,9 +747,7 @@ public final class WebZipAnimation {
         Vec3 right = new Vec3(-look.z, 0.0, look.x);
         right = right.lengthSqr() < 1.0E-6 ? new Vec3(1.0, 0.0, 0.0) : right.normalize();
         Vec3 up = right.cross(look);
-        Vector3f view = new Vector3f((float) d.dot(right), (float) d.dot(up), (float) -d.dot(look));
-        Quaternionf q = new Quaternionf().rotationTo(new Vector3f(0.0F, 0.0F, -1.0F), view);
-        return new Quaternionf().slerp(q, hang);
+        return new Vector3f((float) d.dot(right), (float) d.dot(up), (float) -d.dot(look)).normalize();
     }
 
     private static void rotate(PoseStack poseStack, float scale, float pivotY, float angleDeg, float ax, float ay, float az) {
