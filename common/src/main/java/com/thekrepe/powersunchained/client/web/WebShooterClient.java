@@ -74,6 +74,11 @@ public final class WebShooterClient {
         });
     }
 
+    /** Turns web shooting off (web swinging was turned on). */
+    public static void deactivate() {
+        active = false;
+    }
+
     public static boolean isActive() {
         return active;
     }
@@ -130,6 +135,9 @@ public final class WebShooterClient {
         }
         if (!down && wasDown && !scrolledWhileHeld) {
             active = !active;  // released without scrolling: toggle
+            if (active) {
+                WebSwingClient.setActive(false);  // both use the right click
+            }
         }
         wasDown = down;
         if (down || debugMenu) {
@@ -170,6 +178,7 @@ public final class WebShooterClient {
         selected = WebType.byId(selected.ordinal() + scrollDirection);
         scrolledWhileHeld = true;
         active = true;
+        WebSwingClient.setActive(false);
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null) {
             player.playSound(PUSounds.WEB_SWITCH.get(), 0.5F, 1.3F);

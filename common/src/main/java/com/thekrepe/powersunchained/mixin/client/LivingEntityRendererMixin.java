@@ -27,7 +27,8 @@ public abstract class LivingEntityRendererMixin<S extends LivingEntityRenderStat
         if (state instanceof AvatarRenderState avatar) {
             // undo the model flip, rotate like the old rotateCorpse did, flip again
             poseStack.scale(-1.0F, -1.0F, 1.0F);
-            WebZipAnimation.applyBody(poseStack, avatar.id, state.ageInTicks - Mth.floor(state.ageInTicks), 1.0F);
+            WebZipAnimation.applyBody(poseStack, avatar.id, state.ageInTicks - Mth.floor(state.ageInTicks), 1.0F,
+                    state.bodyRot);
             poseStack.scale(-1.0F, -1.0F, 1.0F);
         }
     }

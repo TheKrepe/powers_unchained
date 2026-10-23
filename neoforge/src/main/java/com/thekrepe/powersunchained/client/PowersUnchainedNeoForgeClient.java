@@ -1,6 +1,9 @@
 package com.thekrepe.powersunchained.client;
 
 import net.neoforged.neoforge.client.event.RenderHandEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import com.thekrepe.powersunchained.client.web.WebSwingClient;
+import com.thekrepe.powersunchained.entity.web.WebSwingLine;
 import net.neoforged.neoforge.client.ClientHooks;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.util.Mth;
@@ -107,12 +110,15 @@ public class PowersUnchainedNeoForgeClient {
         });
         WebShooterClient.registerHud();
         WebZipLine.zipListener = WebZipAnimation::zip;
+        WebSwingLine.swingListener = WebZipAnimation::swing;
+        WebSwingClient.registerHud();
         modEventBus.addListener((RegisterClientTooltipComponentFactoriesEvent event) ->
                 event.register(WebShootersItem.WebShootersTooltip.class, ClientWebShootersTooltip::new));
         modEventBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {
             event.registerEntityRenderer(PUEntities.IMPACT_WEB.get(), WebProjectileRenderer::impact);
             event.registerEntityRenderer(PUEntities.STICKY_WEB.get(), WebProjectileRenderer::sticky);
             event.registerEntityRenderer(PUEntities.WEB_ZIP_LINE.get(), WebProjectileRenderer::impact);
+            event.registerEntityRenderer(PUEntities.WEB_SWING_LINE.get(), WebProjectileRenderer::impact);
             event.registerEntityRenderer(PUEntities.WEB_COCOON.get(), WebCocoonRenderer::new);
         });
         NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post event) -> {
@@ -122,6 +128,7 @@ public class PowersUnchainedNeoForgeClient {
                 }
             }
             WebShooterClient.tick();
+            WebSwingClient.tick();
             WebShotTracker.tick();
             WebZipAnimation.tick();
         });
@@ -136,9 +143,19 @@ public class PowersUnchainedNeoForgeClient {
             }
         });
         NeoForge.EVENT_BUS.addListener((InputEvent.InteractionKeyMappingTriggered event) -> {
-            if (event.isUseItem() && WebShooterClient.onUseKey(event.getHand() == InteractionHand.MAIN_HAND)) {
+            boolean mainHand = event.getHand() == InteractionHand.MAIN_HAND;
+            if (event.isUseItem() && (WebShooterClient.onUseKey(mainHand) || WebSwingClient.onUseKey(mainHand))) {
                 event.setSwingHand(false);
                 event.setCanceled(true);
+            } else if (event.isAttack() && WebSwingClient.onAttackKey()) {
+                event.setSwingHand(false);
+                event.setCanceled(true);
+            }
+        });
+        // web swinging rope physics: on the local player, right after it moved
+        NeoForge.EVENT_BUS.addListener((PlayerTickEvent.Post event) -> {
+            if (event.getEntity() == Minecraft.getInstance().player) {
+                WebSwingClient.playerTick(event.getEntity());
             }
         });
         CiClientDriver.register();

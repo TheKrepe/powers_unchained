@@ -10,7 +10,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 
 /**
- * Fisk's web-shooter animations, translated from the original {@code .fsk} scripts:
+ * Web-shooter arm animations. Same idea as Fisk's {@code web_aim} / {@code web_shoot} scripts (aim the wrist where you
+ * look, a jab for every shot), with our own slightly different values: the arm sits a bit lower and closer to the
+ * body, points a touch higher, the jab is shorter and kicks the wrist back with a small recoil:
  * <ul>
  *   <li>{@code web_aim_right/left}: the arm that fired is raised and pointed where the player looks (held while
  *       firing, lowered after ~0.7 s); with rapid fire both arms are up.</li>
@@ -56,21 +58,21 @@ public final class WebArmAnimation {
         if (r > 0) {
             float d = curve(r);
             ModelPart arm = model.rightArm;
-            arm.x -= d;
-            arm.y -= d;
-            arm.zRot = Mth.lerp(d, arm.zRot, -PI / 2);
-            arm.xRot = Mth.lerp(d, arm.xRot, 0.1F - PI / 2 - headY);
-            arm.yRot = rotLerp(d, arm.yRot, Math.min(headX + 0.1F, PI / 2));
+            arm.x -= 0.8F * d;
+            arm.y -= 0.7F * d;
+            arm.zRot = Mth.lerp(d, arm.zRot, 0.06F - PI / 2);
+            arm.xRot = Mth.lerp(d, arm.xRot, 0.14F - PI / 2 - headY);
+            arm.yRot = rotLerp(d, arm.yRot, Math.min(headX + 0.16F, PI / 2));
         }
         float l = state.aim(WebShotTracker.LEFT, partialTick);
         if (l > 0) {
             float d = curve(l);
             ModelPart arm = model.leftArm;
-            arm.x += d;
-            arm.y -= d;
-            arm.zRot = Mth.lerp(d, arm.zRot, PI / 2);
-            arm.xRot = Mth.lerp(d, arm.xRot, 0.1F - PI / 2 + headY);
-            arm.yRot = rotLerp(d, arm.yRot, -Math.min(headX + 0.1F, PI / 2));
+            arm.x += 0.8F * d;
+            arm.y -= 0.7F * d;
+            arm.zRot = Mth.lerp(d, arm.zRot, PI / 2 - 0.06F);
+            arm.xRot = Mth.lerp(d, arm.xRot, 0.14F - PI / 2 + headY);
+            arm.yRot = rotLerp(d, arm.yRot, -Math.min(headX + 0.16F, PI / 2));
         }
 
         // web_shoot_right / web_shoot_left
@@ -79,13 +81,14 @@ public final class WebArmAnimation {
             if (t < 0) {
                 continue;
             }
-            float d = curve((float) Math.sin(PI * Math.pow(t, 0.75)));
+            float d = curve((float) Math.sin(PI * Math.pow(t, 0.65)));
             float y0 = Mth.sin(headX - PI / 2);
-            float f = 2 * d;
+            float f = 1.8F * d;
             ModelPart arm = side == WebShotTracker.RIGHT ? model.rightArm : model.leftArm;
             arm.x -= f * y0 * Mth.sin(headY);
             arm.z -= f * y0 * Mth.cos(headY);
-            arm.y -= f * Mth.cos(headX - PI / 2) - d / 2;
+            arm.y -= f * Mth.cos(headX - PI / 2) - d * 0.4F;
+            arm.xRot -= 0.08F * d;  // the wrist kicks up a little (recoil)
         }
     }
 
@@ -113,19 +116,20 @@ public final class WebArmAnimation {
 
         float t = state.shot(side, partial);
         if (t >= 0) {
-            float d = curve((float) Math.sin(PI * Math.pow(t, 0.75)));
-            pose.translate(0.0F, -0.05F * d, 0.0F);
+            float d = curve((float) Math.sin(PI * Math.pow(t, 0.65)));
+            pose.translate(0.0F, -0.04F * d, 0.03F * d);
+            pose.rotateDegrees(Axis.XP, 4.0F * d);
         }
         float a = state.aim(side, partial);
         if (a > 0) {
             float d = curve(a);
-            pose.translate(m * -0.35F * d, 0.0F, 0.15F * d);
-            pose.rotateDegrees(Axis.YP, m * -27.0F * d);
-            pose.rotateDegrees(Axis.XP, -20.0F * d);
-            pose.rotateDegrees(Axis.ZP, m * -30.0F * d);
+            pose.translate(m * -0.33F * d, -0.02F * d, 0.14F * d);
+            pose.rotateDegrees(Axis.YP, m * -25.0F * d);
+            pose.rotateDegrees(Axis.XP, -17.0F * d);
+            pose.rotateDegrees(Axis.ZP, m * -28.0F * d);
             pose.translate(m * -0.4F * d, 0.0F, 0.0F);
-            pose.rotateDegrees(Axis.YP, m * 150.0F * d);
-            pose.rotateDegrees(Axis.ZP, m * -20.0F * d);
+            pose.rotateDegrees(Axis.YP, m * 147.0F * d);
+            pose.rotateDegrees(Axis.ZP, m * -17.0F * d);
             pose.translate(m * 0.3F * d, 0.0F, 0.0F);
         }
     }

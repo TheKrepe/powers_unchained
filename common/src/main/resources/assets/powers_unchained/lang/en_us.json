@@ -85,5 +85,12 @@
   "screen.powers_unchained.hud_settings.size": "Size: %s",
   "screen.powers_unchained.hud_settings.reset": "Reset to Defaults",
   "screen.powers_unchained.hud_settings.hidden": "Hidden",
-  "tooltip.powers_unchained.cartridge_empty": "Empty"
+  "tooltip.powers_unchained.cartridge_empty": "Empty",
+  "ability.powers_unchained.web_swing": "Web Swing",
+  "subtitles.powers_unchained.web_swinging.enable": "Web swinging on",
+  "subtitles.powers_unchained.web_swinging.disable": "Web swinging off",
+  "subtitles.powers_unchained.web_swinging.whoosh": "Whoosh",
+  "subtitles.powers_unchained.web_swinging.stress": "Web rope strains",
+  "entity.powers_unchained.web_swing_line": "Swing Web",
+  "subtitles.powers_unchained.web_swinging.wind": "Wind rushes"
 }

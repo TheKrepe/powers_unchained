@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "N": "minecraft:iron_nugget",
-    "G": "minecraft:glass_pane"
+    "I": "minecraft:iron_ingot",
+    "G": "minecraft:glass"
   },
   "pattern": [
-    " N ",
-    "NGN",
-    " N "
+    "I",
+    "G",
+    "I"
   ],
   "result": {
-    "count": 2,
+    "count": 1,
     "id": "powers_unchained:empty_web_cartridge"
   }
 }

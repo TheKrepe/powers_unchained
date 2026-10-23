@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import com.thekrepe.powersunchained.Constants;
 import com.thekrepe.powersunchained.entity.web.AbstractWebProjectile;
 import com.thekrepe.powersunchained.entity.web.StickyWeb;
+import com.thekrepe.powersunchained.entity.web.WebSwingLine;
 import com.thekrepe.powersunchained.entity.web.WebZipLine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -170,7 +171,7 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
         if (shooter instanceof LivingEntity living) {
             // Fisk's rope: from the anchor to the wrist (or, after letting go, to the falling loose end), sagging
             // when slack
-            Vec3 dst = line.isDetached() ? line.prevEnd.lerp(line.end, partialTick) : handPosition(living, end, partialTick);
+            Vec3 dst = line.isDetached() ? line.prevEnd.lerp(line.end, partialTick) : handPosition(line, living, end, partialTick);
             float slack = 1.0F - Mth.lerp(partialTick, line.prevTension, line.tension);
             Vec3 mid;
             if (end.y > dst.y) {
@@ -186,17 +187,27 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
         }
     }
 
-    /** Approximate world position of the shooter's right wrist (from Fisk's web rope renderer). */
-    private static Vec3 handPosition(LivingEntity shooter, Vec3 anchor, float pt) {
+    /** Approximate world position of the shooter's wrist holding the line (from Fisk's web rope renderer). */
+    private static Vec3 handPosition(WebZipLine line, LivingEntity shooter, Vec3 anchor, float pt) {
         Minecraft mc = Minecraft.getInstance();
+        float k = line.getShootSide() == AbstractWebProjectile.LEFT ? -1.0F : 1.0F;
         if (shooter == mc.player && mc.options.getCameraType().isFirstPerson()) {
             Vec3 look = shooter.getViewVector(pt);
             Vec3 right = new Vec3(-look.z, 0.0, look.x);
             right = right.lengthSqr() < 1.0E-6 ? new Vec3(1.0, 0.0, 0.0) : right.normalize();
-            return shooter.getEyePosition(pt).add(look.scale(0.4)).add(right.scale(0.3)).add(0.0, -0.15, 0.0);
+            return shooter.getEyePosition(pt).add(look.scale(0.4)).add(right.scale(0.3 * k)).add(0.0, -0.15, 0.0);
         }
         float bodyYaw = Mth.rotLerp(pt, shooter.yBodyRotO, shooter.yBodyRot) * Mth.DEG_TO_RAD;
-        Vec3 right = new Vec3(-Math.cos(bodyYaw), 0.0, -Math.sin(bodyYaw));
+        Vec3 right = new Vec3(-Math.cos(bodyYaw), 0.0, -Math.sin(bodyYaw)).scale(k);
+        if (line instanceof WebSwingLine swing && swing.isCaught() && swing.getHooked() == null && !shooter.onGround()) {
+            // hanging: the hands are above the head, along the rope (the body hangs along it)
+            Vec3 center = shooter.getPosition(pt).add(0.0, shooter.getBbHeight() / 2.0F, 0.0);
+            Vec3 dir = anchor.subtract(center);
+            if (dir.lengthSqr() > 1.0E-4) {
+                double side = swing.getKind() == WebSwingLine.BOTH_HANDS ? 0.06 : 0.2;
+                return center.add(dir.normalize().scale(1.45)).add(right.scale(side));
+            }
+        }
         double shoulderY = shooter.isCrouching() ? 1.2 : 1.41;
         Vec3 shoulder = shooter.getPosition(pt).add(0.0, shoulderY, 0.0).add(right.scale(5.0 / 16.0));
         Vec3 toAnchor = anchor.subtract(shoulder);

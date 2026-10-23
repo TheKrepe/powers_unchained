@@ -4,7 +4,16 @@
   "ingredients": [
     "powers_unchained:empty_web_cartridge",
     "minecraft:slime_ball",
-    "minecraft:string"
+    "minecraft:cobweb",
+    {
+      "neoforge:ingredient_type": "neoforge:components",
+      "items": "minecraft:potion",
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:thick"
+        }
+      }
+    }
   ],
   "result": {
     "id": "powers_unchained:web_cartridge"

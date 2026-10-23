@@ -85,5 +85,12 @@
   "screen.powers_unchained.hud_settings.size": "Размер: %s",
   "screen.powers_unchained.hud_settings.reset": "Сбросить настройки",
   "screen.powers_unchained.hud_settings.hidden": "Скрыт",
-  "tooltip.powers_unchained.cartridge_empty": "Пустой"
+  "tooltip.powers_unchained.cartridge_empty": "Пустой",
+  "ability.powers_unchained.web_swing": "Полёт на паутине",
+  "subtitles.powers_unchained.web_swinging.enable": "Полёт на паутине включён",
+  "subtitles.powers_unchained.web_swinging.disable": "Полёт на паутине выключен",
+  "subtitles.powers_unchained.web_swinging.whoosh": "Свист ветра",
+  "subtitles.powers_unchained.web_swinging.stress": "Паутина натягивается",
+  "entity.powers_unchained.web_swing_line": "Паутина для полёта",
+  "subtitles.powers_unchained.web_swinging.wind": "Шум ветра"
 }

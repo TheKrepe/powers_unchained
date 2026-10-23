@@ -18,8 +18,8 @@ public final class WebShotTracker {
 
     /** An arm stays aimed while it fired less than this many ticks ago. */
     private static final int AIM_HOLD = 14;
-    private static final float AIM_UP_TICKS = 3.0F;
-    private static final float AIM_DOWN_TICKS = 6.0F;
+    private static final float AIM_UP_TICKS = 2.5F;
+    private static final float AIM_DOWN_TICKS = 7.0F;
     /** Length of the shot jab. */
     public static final int SHOT_TICKS = 4;
 

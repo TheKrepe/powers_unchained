@@ -59,6 +59,15 @@ public class WebZipLine extends AbstractWebProjectile {
         super(PUEntities.WEB_ZIP_LINE.get(), level, shooter, RIGHT);
     }
 
+    protected WebZipLine(EntityType<? extends WebZipLine> type, Level level, LivingEntity shooter, int side) {
+        super(type, level, shooter, side);
+    }
+
+    /** How far the line flies before it gives up. */
+    protected float range() {
+        return RANGE;
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
@@ -81,7 +90,7 @@ public class WebZipLine extends AbstractWebProjectile {
         return this.detachedHere || this.entityData.get(DETACHED);
     }
 
-    private void detach() {
+    protected void detach() {
         this.detachedHere = true;
         if (!this.level().isClientSide()) {
             this.entityData.set(DETACHED, true);
@@ -158,17 +167,27 @@ public class WebZipLine extends AbstractWebProjectile {
             return;
         }
         if (!server) {
-            if (this.getShootSide() >= 0 && !this.isStuck()) {
-                WebShotTracker.hold(player.getId(), this.getShootSide());  // arm aimed while the line flies
-            }
-            zipListener.zip(player.getId(), this.isStuck());
+            this.clientTick(player);
         }
         if (!this.isStuck()) {
-            if (this.distanceToSqr(player) > RANGE * RANGE) {
+            if (this.distanceToSqr(player) > this.range() * this.range()) {
                 this.detach();
             }
             return;
         }
+        this.whileCaught(player, hooked, server);
+    }
+
+    /** Client, every tick while the line is out (not let go). */
+    protected void clientTick(Player player) {
+        if (this.getShootSide() >= 0 && !this.isStuck()) {
+            WebShotTracker.hold(player.getId(), this.getShootSide());  // arm aimed while the line flies
+        }
+        zipListener.zip(player.getId(), this.isStuck());
+    }
+
+    /** Every tick once the line caught on a block or an entity (and was not let go): the zip pull. */
+    protected void whileCaught(Player player, @Nullable Entity hooked, boolean server) {
         boolean simulated = !server && player.isLocalPlayer();  // players move on their own client
         if (hooked != null) {
             this.pullToEntity(player, hooked, simulated, server);
