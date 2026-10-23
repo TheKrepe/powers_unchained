@@ -319,13 +319,17 @@ public final class CiClientDriver {
             case 5490 -> run("tick rate 20");
             case 5540 -> Constants.LOG.info("[CI] after the swing: at {}, health {}, on ground {}", mc.player.position(), mc.player.getHealth(),
                     mc.player.onGround());
-            case 5560 -> mc.options.setCameraType(CameraType.FIRST_PERSON);
+            case 5560 -> {
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+                run("tick rate 4");
+            }
             case 5563 -> run("tp @p 600.5 -52 0.5 0 -48");
             case 5564 -> mc.options.keyUse.setDown(true);
             case 5572 -> shot("32_swing_first_person");
-            case 5580 -> shot("32b_swing_first_person");
+            case 5577 -> shot("32b_swing_first_person");
             case 5590 -> {
                 mc.options.keyUse.setDown(false);
+                run("tick rate 20");
                 Constants.LOG.info("[CI] first person swing: hanging {}", com.thekrepe.powersunchained.client.web.WebZipAnimation.isHanging(mc.player.getId()));
             }
             case 5760 -> {
