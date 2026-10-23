@@ -122,8 +122,8 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `util/SwingManager`.
 - No fall damage after web travel: `WebShooting.markFallSafe` (zip, hanging, release) until landing; NeoForge
   `LivingFallEvent` is cancelled while `isFallSafe`.
-- Recipes: empty cartridge = iron ingot / glass / iron ingot (column); web cartridge = shapeless empty cartridge + slime
-  ball + cobweb + thick potion (NeoForge `neoforge:components` ingredient — Fabric will need its own ingredient).
+- Recipes: empty cartridge = iron ingot / glass / iron ingot (column); web cartridge = shapeless empty cartridge + cobweb
+  + potion of oozing (NeoForge `neoforge:components` ingredient — Fabric will need its own ingredient).
 - Web cocoon: 5 sticky hits within 120 ticks -> `entity/web/WebCocoon` (60 ticks, `WebSlowness.hold` = speed/jump/fly
   -100%), `client/web/WebCocoonRenderer` (tiled box), first-person `client/web/WebOverlay` (head webs / cocoon).
 - Webs aim from the wrist at the crosshair's target point (`AbstractWebProjectile.aimPoint`). Head webs lie on the
