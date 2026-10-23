@@ -98,13 +98,25 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
 - Web cartridges (`web/WebCartridges`, `item/WebCartridgeItem`, `empty_web_cartridge`): web-shooters hold 2 cartridges in
   data component `powers_unchained:web_cartridges` (list of fluid ints, 0 = used up), loaded bundle-style
   (`WebShootersItem` overrideStacked*, like Powerborne Heroes' vial web-shooters) or by using a cartridge while wearing
-  them; 32 shots per cartridge (`web_fluid` component, missing = full); creative shoots free; bundle-style tooltip
+  them; 128 shots per cartridge (`web_fluid` component, missing = full); creative shoots free; bundle-style tooltip
   `client/web/ClientWebShootersTooltip`. `IGameplayHelper.findAccessory` returns the live worn stack (Curios).
 - Web Zip (ability 2, V): `entity/web/WebZipLine` (Fisk pull web: 48 blocks, cooldown 20, pulls to block 5 ticks /
   rams entity 10 ticks; pull applied on the shooter's own client), `network/WebZipPayload`, `WebShooting.zip`.
 - Web Zip body animations (`client/web/WebZipAnimation`, our own poses in the spirit of Fisk / Powerborne / Marvel
   Legacy, no copied values): shoot, 3 pulls, 8 release flips, 3 dives, superhero landing; smoothstep keyframes,
   every phase fades; limbs via `PlayerModelMixin`, whole body via `LivingEntityRendererMixin` (after body yaw).
+- Web swinging (ability 3, B = mode toggle; RMB empty hand = rope, LMB while hanging = let go with Fisk's boost x1.9 +
+  lift; new rope replaces the old one; landed 6 ticks = rope dropped): `entity/web/WebSwingLine` (extends WebZipLine:
+  hooks `clientTick` / `whileCaught`; Fisk's soft rope `restrict` stiffness 0.2 + moveRelative pumping, run on the
+  shooter's client in `PlayerTickEvent.Post` via `client/web/WebSwingClient.playerTick`; kind 0 both hands / 1 right /
+  2 left picked like Fisk), `network/WebSwingPayload` (SHOOT / RELEASE / DROP), `WebShooting.swingShoot/swingRelease`.
+  Swing and web shot modes are exclusive (both RMB). Animations in `WebZipAnimation` (hang along the rope via
+  `hangAlongRope`, swing shoot, release tricks, springboard, 3 landings). Loop sounds `client/web/WebSwingSound`
+  (Fisk's whoosh / stress / wind sounds copied from the Fisk port).
+- No fall damage after web travel: `WebShooting.markFallSafe` (zip, hanging, release) until landing; NeoForge
+  `LivingFallEvent` is cancelled while `isFallSafe`.
+- Recipes: empty cartridge = iron ingot / glass / iron ingot (column); web cartridge = shapeless empty cartridge + slime
+  ball + cobweb + thick potion (NeoForge `neoforge:components` ingredient — Fabric will need its own ingredient).
 - Web cocoon: 5 sticky hits within 120 ticks -> `entity/web/WebCocoon` (60 ticks, `WebSlowness.hold` = speed/jump/fly
   -100%), `client/web/WebCocoonRenderer` (tiled box), first-person `client/web/WebOverlay` (head webs / cocoon).
 - Webs aim from the wrist at the crosshair's target point (`AbstractWebProjectile.aimPoint`). Head webs lie on the
