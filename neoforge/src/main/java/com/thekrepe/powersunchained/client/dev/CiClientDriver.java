@@ -264,7 +264,7 @@ public final class CiClientDriver {
             case 4957 -> shot("24_hud_settings_screen");
             case 5010 -> mc.gui.setScreen(null);
             case 5012 -> shot("25_hud_moved_in_game");
-            case 5100 -> {
+            case 5040 -> {
                 // web zip poses on mannequins seen from the side
                 run("kill @e[type=!player]");
                 run("tp @p 500.5 ~ 0.5 0 5");
