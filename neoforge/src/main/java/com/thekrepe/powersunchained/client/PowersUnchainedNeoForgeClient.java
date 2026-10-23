@@ -152,8 +152,8 @@ public class PowersUnchainedNeoForgeClient {
                 event.setCanceled(true);
             }
         });
-        // web swinging rope physics: on the local player, right after it moved
-        NeoForge.EVENT_BUS.addListener((PlayerTickEvent.Post event) -> {
+        // web swinging rope physics: on the local player, before it moves
+        NeoForge.EVENT_BUS.addListener((PlayerTickEvent.Pre event) -> {
             if (event.getEntity() == Minecraft.getInstance().player) {
                 WebSwingClient.playerTick(event.getEntity());
             }

@@ -14,6 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import com.thekrepe.powersunchained.web.WebShotTracker;
 
 /**
  * Web Zip and web swinging body animations for every player in view. Our own poses and timings, made in the spirit of the classic
@@ -245,6 +246,9 @@ public final class WebZipAnimation {
         }
         Vec3 mot = s.motion(partialTick);
         float air = 1.0F - s.ground(partialTick);
+        if (air > 0.0F) {
+            calmLimbs(model, entityId, air, partialTick);
+        }
         float dive = s.dive(partialTick) * air;
         if (dive > 0.0F) {
             applyDive(model, s.diveKind, smooth(dive), mot);
@@ -281,6 +285,22 @@ public final class WebZipAnimation {
         }
     }
 
+    /**
+     * In the air during web travel: no vanilla running / flailing limbs (the movement speed drives them), a calm
+     * base pose that every web pose blends from and back to. Arms aiming a web keep their aim.
+     */
+    private static void calmLimbs(PlayerModel m, int entityId, float d, float pt) {
+        rot(m.rightLeg, 8.0F, 2.0F, 3.0F, d);
+        rot(m.leftLeg, -6.0F, -2.0F, -3.0F, d);
+        WebShotTracker.State aim = WebShotTracker.get(entityId);
+        if (aim == null || aim.aim(WebShotTracker.RIGHT, pt) <= 0.0F) {
+            rot(m.rightArm, -10.0F, 0.0F, 14.0F, d);
+        }
+        if (aim == null || aim.aim(WebShotTracker.LEFT, pt) <= 0.0F) {
+            rot(m.leftArm, -10.0F, 0.0F, -14.0F, d);
+        }
+    }
+
     /** Swing shoot: the shooting arm reaches where you look, the other one pulls back, a knee comes up. */
     private static void applyShootSide(PlayerModel m, float d, float air, LivingEntity entity, boolean left) {
         if (d <= 0.0F) {
@@ -308,6 +328,7 @@ public final class WebZipAnimation {
      */
     private static void applyHang(PlayerModel m, int kind, float d, Vec3 mot, float t) {
         float vy = smooth(Mth.clamp((float) -mot.y / 1.2F * 0.5F + 0.5F, 0.0F, 1.0F)) * 2.0F - 1.0F;  // -1 up .. 1 down
+        t = 0.0F;  // no idle sway: the pose follows the motion only
         float speed = smooth(Mth.clamp((float) mot.length() / 1.4F, 0.0F, 1.0F));
         float sway = Mth.sin(t * 0.35F) * (1.0F - 0.6F * speed);
         if (kind == 0) {
@@ -326,11 +347,10 @@ public final class WebZipAnimation {
             // the free arm out for balance: forward and wide on the way down, swept back on the way up
             rot(free, -38.0F + 46.0F * (1.0F - vy) * 0.5F + 6.0F * sway, k * 12.0F, k * -(52.0F + 18.0F * speed), d);
         }
-        // legs: one knee always a little higher (the classic swing silhouette)
-        float trail = vy * (22.0F + 18.0F * speed);
-        rot(m.rightLeg, 8.0F + trail - 4.0F * sway, 4.0F, 7.0F, d);
-        rot(m.leftLeg, -34.0F + trail * 0.6F + 4.0F * sway - 26.0F * Math.max(-vy, 0.0F), -6.0F, -5.0F, d);
-        pos(m.leftLeg, 1.9F, 11.2F, -1.2F, d);
+        // legs together, the left one a little ahead: they trail behind on the way down, swing forward on the way up
+        float trail = vy * (20.0F + 16.0F * speed);
+        rot(m.rightLeg, 10.0F + trail, 3.0F, 6.0F, d);
+        rot(m.leftLeg, -12.0F + trail, -3.0F, -5.0F, d);
         m.head.xRot = lerp(m.head.xRot, m.head.xRot - 10.0F * DEG * speed, d);
     }
 
@@ -767,23 +787,11 @@ public final class WebZipAnimation {
                     Sounds.startFall(this.entity);
                 }
             }
-            // springboard: jumping right after landing from a swing
-            if (this.sinceSwingLand >= 0 && !onGround && this.wasOnGround && this.motion.y > 0.2 && this.sinceSwingLand <= 5) {
-                this.releaseKind = RANDOM.nextBoolean() ? 0 : 6;
-                this.releaseTicks = 17;
-                this.releaseAge = 0;
-                this.releaseWeight = this.prevReleaseWeight = 1.0F;
-                this.landAge = -1;
-                this.sinceSwingLand = -1;
-            }
-            if (onGround && !this.wasOnGround && this.fromSwing && !this.swingAttached) {
-                this.sinceSwingLand = 0;
-            } else if (this.sinceSwingLand >= 0 && ++this.sinceSwingLand > 5) {
-                this.sinceSwingLand = -1;
-            }
 
             // landing after a fast fall (only while this state lives, i.e. after zipping / swinging)
-            if (onGround && !this.wasOnGround && this.prevMotion.y < -0.35) {
+            // (a real fall, not an ordinary jump: diving / flipping, or falling fast)
+            if (onGround && !this.wasOnGround && this.prevMotion.y < -0.6
+                    && (this.dive > 0.3F || this.releaseKind >= 0 || this.prevMotion.y < -1.0)) {
                 this.landAge = 0;
                 this.landKind = RANDOM.nextInt(LAND_VARIANTS);
             } else if (this.landAge >= 0 && (++this.landAge > LAND_TICKS || !onGround && this.landAge > 2)) {

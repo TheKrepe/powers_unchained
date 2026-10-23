@@ -301,12 +301,9 @@ public final class CiClientDriver {
             case 5448 -> run("tick rate 4");
             case 5450 -> run("execute as @p at @s run tp @s ~ ~8 ~ 0 -48");
             case 5451 -> {
+                // hold the use key like a player: shoots the rope and keeps swinging
                 zipStart = mc.player.position();
-                net.minecraft.server.level.ServerPlayer player = serverPlayer();
-                Minecraft.getInstance().getSingleplayerServer().execute(() -> {
-                    player.level().addFreshEntity(new com.thekrepe.powersunchained.entity.web.WebSwingLine(player.level(), player, 0));
-                    com.thekrepe.powersunchained.web.WebShooting.announceShot(player, 0);
-                });
+                mc.options.keyUse.setDown(true);
             }
             case 5452 -> shot("30_swing_rope_shot");
             case 5459 -> shot("30b_swing_hanging_back");
@@ -315,7 +312,7 @@ public final class CiClientDriver {
             case 5470 -> {
                 Constants.LOG.info("[CI] swinging moved the player from {} to {} (motion {}), hanging {}", zipStart, mc.player.position(),
                         mc.player.getDeltaMovement(), com.thekrepe.powersunchained.client.web.WebZipAnimation.isHanging(mc.player.getId()));
-                Constants.LOG.info("[CI] swing release: {}", com.thekrepe.powersunchained.client.web.WebSwingClient.onAttackKey());
+                mc.options.keyUse.setDown(false);  // let go: release with a launch
             }
             case 5472 -> shot("31_swing_release_trick");
             case 5475 -> shot("31b_swing_release_trick");
@@ -324,14 +321,12 @@ public final class CiClientDriver {
                     mc.player.onGround());
             case 5560 -> mc.options.setCameraType(CameraType.FIRST_PERSON);
             case 5563 -> run("execute as @p at @s run tp @s ~ ~8 ~ 0 -48");
-            case 5564 -> {
-                net.minecraft.server.level.ServerPlayer player = serverPlayer();
-                Minecraft.getInstance().getSingleplayerServer().execute(() -> {
-                    player.level().addFreshEntity(new com.thekrepe.powersunchained.entity.web.WebSwingLine(player.level(), player, 2));
-                    com.thekrepe.powersunchained.web.WebShooting.announceShot(player, 1);
-                });
-            }
+            case 5564 -> mc.options.keyUse.setDown(true);
             case 5574 -> shot("32_swing_first_person");
+            case 5590 -> {
+                mc.options.keyUse.setDown(false);
+                Constants.LOG.info("[CI] first person swing: hanging {}", com.thekrepe.powersunchained.client.web.WebZipAnimation.isHanging(mc.player.getId()));
+            }
             case 5760 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();

@@ -19,14 +19,13 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Web swinging rope, modelled on Fisk's Superheroes {@code EntityWebRope}: shot with the use key while web swinging is
- * on, it flies fast and sticks to the first block it hits. While it holds, the rope keeps the shooter within its
- * length from the anchor (a soft rope: 20% of the overshoot is corrected per tick, so gravity and momentum make a
- * pendulum), and the movement keys steer and pump the swing. The attack key lets go with a boost (speed x1.9 and a
- * lift towards the anchor's height); a new rope replaces the old one.
+ * Web swinging rope (Fisk's Superheroes {@code EntityWebRope} idea, swing feel of Powerborne Heroes / Marvel Legacy):
+ * while web swinging is on, holding the use key shoots a rope (retried while it misses); it flies fast and sticks to
+ * the first block it hits, and the player swings on it as long as the key is held. Letting go of the key (or the
+ * attack key) releases it with a launch; a new rope replaces the old one.
  * <p>
- * Like every player movement, the swing physics run on the shooter's own client ({@link #applySwing}, called after
- * the player moved); the server only resets the fall distance and keeps the authority over the rope's life.
+ * Like every player movement, the swing physics run on the shooter's own client ({@link #applySwing}, called before
+ * the player moves); the server only resets the fall distance and keeps the authority over the rope's life.
  * When the rope catches a mob instead, the mob is held on the rope, and letting go yanks it to the shooter.
  * <p>
  * {@link #getKind() Kind}: 0 = hangs with both hands (rope from the right wrist), 1 = right hand, 2 = left hand —
@@ -188,49 +187,141 @@ public class WebSwingLine extends WebZipLine {
         return this.inGround && this.getHooked() == null && !this.isDetached();
     }
 
+    // ---- swing physics (shooter's client, before the player moves) ----
+
+    /** Rope pull back per block of overshoot (the rope is a little elastic). */
+    private static final double CONSTRAINT = 0.15;
+    /** Vanilla air drag is strong; while swinging most of it is given back so the swing keeps its momentum. */
+    private static final double DRAG_COMP = 1.05;
+    private static final double PUMP = 0.06;
+    private static final double STRAFE_PUMP = 0.03;
+    private static final double SPRINT_PUMP = 1.5;
+    private static final double TANGENTIAL_PUMP = 0.004;
+    private static final double REEL_SPEED = 0.38;
+    private static final double AUTO_REEL_SPEED = 0.06;
+    private static final double MIN_LENGTH = 1.5;
+    private static final double SOFT_CAP = 2.4;
+    private static final double HARD_CAP = 3.4;
+    /** Overshoot that snaps the rope (pulled through a wall, teleported). */
+    private static final double SNAP = 10.0;
+    private int airTicks;
+
     /**
-     * Shooter's client, after the player moved: keeps the player on the rope (Fisk's applyMotion with the player's
-     * motion as the "proxy") and lets the movement keys pump the swing.
+     * Rope physics on the shooter's own client, before the player moves (like Powerborne's / Marvel Legacy's swing,
+     * with Fisk's rope): the next position is predicted from the motion; if it would leave the rope's reach, the
+     * motion away from the anchor is removed and the overshoot pulled back, so the speed along the swing stays and
+     * gravity turns it into a pendulum. W pumps the swing towards where you look (stronger sprinting), A/D steer,
+     * jump reels the rope in (also lifts you off the ground), sprinting forward reels it in slowly.
+     *
+     * @return {@code false} if the rope snapped
      */
-    public void applySwing(Player player) {
+    public boolean applySwing(Player player, boolean reel) {
         if (!this.holdsShooter() || this.length() <= 0.0F) {
-            return;
+            return true;
         }
         Vec3 anchor = this.position();
-        Vec3 point = center(player);
-        float length = this.length();
-        Vec3 v = restrict(anchor, point, length, STIFFNESS);
-        if (v == null) {
-            return;
+        Vec3 pos = center(player);
+        Vec3 v = player.getDeltaMovement();
+        boolean onGround = player.onGround();
+        this.airTicks = onGround ? 0 : this.airTicks + 1;
+        double length = this.length();
+        if ((onGround || this.airTicks > 4) && length > MIN_LENGTH) {
+            double amount = (reel ? REEL_SPEED : 0.0) + (player.isSprinting() && player.zza > 0.0F ? AUTO_REEL_SPEED : 0.0);
+            if (amount > 0.0) {
+                double shorter = Math.max(MIN_LENGTH, length - amount);
+                v = v.scale(Math.min(1.03, length / shorter));
+                length = shorter;
+                this.localLength = (float) length;
+            }
         }
-        float vel = (float) player.getDeltaMovement().length();
-        player.moveRelative(Math.min(vel, 2.0F) / 12.0F, new Vec3(player.xxa, 0.0, player.zza));
-        player.move(MoverType.SELF, v);
-        player.setDeltaMovement(player.getDeltaMovement().add(v));
-        Vec3 v1 = restrict(anchor, point.add(player.getDeltaMovement()), length, STIFFNESS);
-        if (v1 != null) {
-            player.setDeltaMovement(player.getDeltaMovement().add(v1.subtract(v)));
+        // pumping / steering with the movement keys
+        float forward = Math.signum(player.zza);
+        float strafe = -Math.signum(player.xxa);
+        if (!onGround && (forward != 0.0F || strafe != 0.0F)) {
+            Vec3 look = player.getLookAngle();
+            double lh = Math.sqrt(look.x * look.x + look.z * look.z);
+            if (lh > 1.0E-6) {
+                double fx = look.x / lh;
+                double fz = look.z / lh;
+                double mx = fx * forward + -fz * strafe;
+                double mz = fz * forward + fx * strafe;
+                double ml = Math.sqrt(mx * mx + mz * mz);
+                double strength = (forward != 0.0F ? PUMP : STRAFE_PUMP) * (player.isSprinting() ? SPRINT_PUMP : 1.0);
+                v = v.add(mx / ml * strength, 0.0, mz / ml * strength);
+            }
+            if (forward > 0.0F) {
+                Vec3 out = pos.subtract(anchor);
+                if (out.lengthSqr() > 1.0E-6) {
+                    Vec3 ur = out.normalize();
+                    Vec3 t = v.subtract(ur.scale(v.dot(ur)));
+                    if (t.lengthSqr() > 1.0E-6) {
+                        v = v.add(t.normalize().scale(TANGENTIAL_PUMP));
+                    }
+                }
+            }
         }
-        Vec3 m = player.getDeltaMovement();
-        if (m.lengthSqr() > 9.0) {
-            player.setDeltaMovement(m.normalize().scale(3.0));
+        if (!onGround) {
+            v = new Vec3(v.x * DRAG_COMP, v.y * 1.015, v.z * DRAG_COMP);
         }
+        // the rope: no moving away from the anchor beyond its length
+        Vec3 next = pos.add(v);
+        Vec3 r = next.subtract(anchor);
+        double d = r.length();
+        if (d > length && d > 1.0E-6) {
+            Vec3 ur = r.scale(1.0 / d);
+            double out = v.dot(ur);
+            if (out > 0.0) {
+                v = v.subtract(ur.scale(out));
+            }
+            double excess = d - length;
+            if (excess > SNAP) {
+                return false;
+            }
+            v = v.subtract(ur.scale(excess * CONSTRAINT));
+        }
+        double speed = v.length();
+        if (speed > SOFT_CAP) {
+            v = v.scale(1.0 - Math.min(0.1 * (speed - SOFT_CAP), 0.12));
+        }
+        speed = v.length();
+        if (speed > HARD_CAP) {
+            v = v.scale(HARD_CAP / speed);
+        }
+        player.setDeltaMovement(v);
         player.resetFallDistance();
+        return true;
     }
 
-    /** Shooter's client: the attack key lets go with Fisk's boost (only after the rope held for a moment). */
-    public void releaseWithBoost(Player player) {
-        if (this.holdsShooter() && this.tickCount > 10 && !player.onGround()) {
+    /**
+     * Shooter's client: lets go with a launch (Fisk's / Powerborne's): a push towards where you look and a lift
+     * towards the anchor's height, if moving.
+     *
+     * @return whether it launched (moving in the air)
+     */
+    public boolean releaseWithBoost(Player player) {
+        boolean launched = false;
+        if (this.holdsShooter() && !player.onGround()) {
             Vec3 m = player.getDeltaMovement();
-            double lift = Mth.clamp((this.getY() - player.getY()) * 0.1, -1.0, 1.0);
-            Vec3 boosted = new Vec3(m.x * 1.9, m.y * 1.9 + lift, m.z * 1.9);
-            double hor = boosted.horizontalDistance();
-            if (hor > 2.5) {
-                boosted = new Vec3(boosted.x * 2.5 / hor, boosted.y, boosted.z * 2.5 / hor);
+            if (m.length() > 0.2) {
+                Vec3 look = player.getLookAngle();
+                double lh = Math.sqrt(look.x * look.x + look.z * look.z);
+                double x = m.x;
+                double z = m.z;
+                if (lh > 1.0E-6) {
+                    x += look.x / lh * 0.5;
+                    z += look.z / lh * 0.5;
+                }
+                double y = m.y + Mth.clamp((this.getY() - player.getY()) * 0.1, -1.0, 1.0);
+                Vec3 v = new Vec3(x, y, z);
+                if (v.length() > HARD_CAP) {
+                    v = v.scale(HARD_CAP / v.length());
+                }
+                player.setDeltaMovement(v);
+                launched = true;
             }
-            player.setDeltaMovement(boosted.x, Math.min(boosted.y, 1.6), boosted.z);
         }
         this.detach();
+        return launched;
     }
 
     /** Lets go without a boost (server, or the client when web swinging is turned off / after landing). */
