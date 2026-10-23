@@ -112,8 +112,15 @@ public final class WebArmAnimation {
         }
         float partial = mc.getDeltaTracker().getGameTimeDeltaPartialTick(false);
         boolean right = arm == HumanoidArm.RIGHT;
-        // hanging on a swing rope: the holding arm reaches up along the rope instead of aiming (see the end)
-        float hang = WebZipAnimation.hangHolds(mc.player.getId(), right) ? WebZipAnimation.firstPersonHangWeight(partial) : 0.0F;
+        // hanging on a swing rope: the holding arm (kept aimed) turns around the eye towards the rope's anchor, so
+        // it reaches up along the rope; the rope starts at that hand (WebProjectileRenderer.handPosition)
+        org.joml.Quaternionf hangRot = WebZipAnimation.hangHolds(mc.player.getId(), right) ? firstPersonHangRotation(partial) : null;
+        if (hangRot != null) {
+            PoseStack.Pose last = pose.last();
+            last.pose().set(new org.joml.Matrix4f().rotation(hangRot).mul(last.pose()));
+            last.normal().set(new org.joml.Matrix3f().rotation(hangRot).mul(last.normal()));
+        }
+        float hang = 0.0F;
         int side = right ? WebShotTracker.RIGHT : WebShotTracker.LEFT;
         float m = right ? 1.0F : -1.0F;  // mirror for a left main arm
 
@@ -135,57 +142,20 @@ public final class WebArmAnimation {
             pose.rotateDegrees(Axis.ZP, m * -17.0F * d);
             pose.translate(m * 0.3F * d, 0.0F, 0.0F);
         }
-        if (hang > 0.0F) {
-            reachUp(pose.last(), armPart, right, hang, partial);
-        }
     }
 
-    /** View-space wrist of each arm holding the swing rope (first person), for the rope's end; when it was set. */
-    private static final org.joml.Vector3f[] WRIST = {new org.joml.Vector3f(), new org.joml.Vector3f()};
-    private static final long[] WRIST_TIME = new long[2];
-    /** Dev/CI only: log the next first person reach. */
-    public static boolean debugLog;
 
     /**
-     * First person while hanging: the arm turns around its shoulder (in view space) so it points at the rope's
-     * anchor, reaching up along the rope like gripping it; remembers where the wrist ends up for the rope.
+     * First person while hanging: the view-space rotation turning "ahead" towards the rope's anchor, blended with the
+     * hanging weight (rotations about the eye keep the hand and the rope's end together), or null.
      */
-    private static void reachUp(PoseStack.Pose last, ModelPart armPart, boolean right, float weight, float partial) {
-        org.joml.Vector3f view = WebZipAnimation.firstPersonAnchorView(partial);
+    public static org.joml.@org.jspecify.annotations.Nullable Quaternionf firstPersonHangRotation(float partial) {
+        float weight = WebZipAnimation.firstPersonHangWeight(partial);
+        org.joml.Vector3f view = weight > 0.0F ? WebZipAnimation.firstPersonAnchorView(partial) : null;
         if (view == null) {
-            return;
+            return null;
         }
-        org.joml.Vector3f target = view;
-        org.joml.Matrix4f m = last.pose();
-        // the arm as it will be drawn: the first person arm is drawn in its rest pose (pivot, rotation) on top of
-        // the pose (the part's current angles are from the last third person frame)
-        net.minecraft.client.model.geom.PartPose rest = armPart.getInitialPose();
-        org.joml.Matrix4f pm = new org.joml.Matrix4f(m).translate(rest.x() / 16.0F, rest.y() / 16.0F, rest.z() / 16.0F)
-                .rotateZYX(rest.zRot(), rest.yRot(), rest.xRot());
-        org.joml.Vector3f shoulder = pm.transformPosition(new org.joml.Vector3f());
-        org.joml.Vector3f wrist = pm.transformPosition(new org.joml.Vector3f((right ? -1.0F : 1.0F) / 16.0F, 10.0F / 16.0F, 0.0F));
-        org.joml.Vector3f dir = new org.joml.Vector3f(wrist).sub(shoulder);
-        if (dir.lengthSquared() < 1.0E-8F) {
-            return;
-        }
-        dir.normalize();
-        org.joml.Quaternionf q = new org.joml.Quaternionf().slerp(new org.joml.Quaternionf().rotationTo(dir, target), weight);
-        org.joml.Matrix4f pre = new org.joml.Matrix4f().translation(shoulder).rotate(q).translate(-shoulder.x, -shoulder.y, -shoulder.z);
-        m.set(pre.mul(m));
-        last.normal().set(new org.joml.Matrix3f().rotation(q).mul(last.normal()));
-        int i = right ? 0 : 1;
-        WRIST[i].set(wrist).sub(shoulder).rotate(q).add(shoulder);
-        if (debugLog) {
-            debugLog = false;
-            com.thekrepe.powersunchained.Constants.LOG.info("[CI] reach {}: shoulder {} wrist {} target {} -> wrist {}", right ? "right" : "left",
-                    shoulder, wrist, target, WRIST[i]);
-        }
-        WRIST_TIME[i] = System.nanoTime();
-    }
-
-    /** First person: where the arm holding the swing rope has its wrist (view space), or null if not drawn lately. */
-    public static org.joml.@org.jspecify.annotations.Nullable Vector3f firstPersonWrist(boolean right) {
-        int i = right ? 0 : 1;
-        return System.nanoTime() - WRIST_TIME[i] < 200_000_000L ? WRIST[i] : null;
+        org.joml.Quaternionf q = new org.joml.Quaternionf().rotationTo(new org.joml.Vector3f(0.0F, 0.0F, -1.0F), view);
+        return new org.joml.Quaternionf().slerp(q, weight);
     }
 }

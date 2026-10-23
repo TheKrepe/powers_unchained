@@ -195,14 +195,14 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
             Vec3 look = shooter.getViewVector(pt);
             Vec3 right = new Vec3(-look.z, 0.0, look.x);
             right = right.lengthSqr() < 1.0E-6 ? new Vec3(1.0, 0.0, 0.0) : right.normalize();
-            org.joml.Vector3f wrist = line instanceof WebSwingLine sw && sw.isCaught()
-                    ? WebArmAnimation.firstPersonWrist(k > 0.0F) : null;
-            if (wrist != null) {
-                // the hand reaching up along the rope (WebArmAnimation.reachUp), view space -> world
-                Vec3 up = right.cross(look);
-                return shooter.getEyePosition(pt).add(right.scale(wrist.x)).add(up.scale(wrist.y)).add(look.scale(-wrist.z));
+            Vec3 up = right.cross(look);
+            // on the line of sight through the aimed hand (measured on screen), turned with the arm while hanging
+            org.joml.Vector3f hand = new org.joml.Vector3f(0.233F * k, -0.155F, -0.5F);
+            org.joml.Quaternionf hang = line instanceof WebSwingLine sw && sw.isCaught() ? WebArmAnimation.firstPersonHangRotation(pt) : null;
+            if (hang != null) {
+                hang.transform(hand);
             }
-            return shooter.getEyePosition(pt).add(look.scale(0.4)).add(right.scale(0.3 * k)).add(0.0, -0.15, 0.0);
+            return shooter.getEyePosition(pt).add(right.scale(hand.x)).add(up.scale(hand.y)).add(look.scale(-hand.z));
         }
         float bodyYaw = Mth.rotLerp(pt, shooter.yBodyRotO, shooter.yBodyRot) * Mth.DEG_TO_RAD;
         Vec3 right = new Vec3(-Math.cos(bodyYaw), 0.0, -Math.sin(bodyYaw)).scale(k);
