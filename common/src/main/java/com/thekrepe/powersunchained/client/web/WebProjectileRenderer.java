@@ -195,17 +195,23 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
             Vec3 look = shooter.getViewVector(pt);
             Vec3 right = new Vec3(-look.z, 0.0, look.x);
             right = right.lengthSqr() < 1.0E-6 ? new Vec3(1.0, 0.0, 0.0) : right.normalize();
+            org.joml.Quaternionf hang = line instanceof WebSwingLine ? WebZipAnimation.firstPersonHang(pt) : null;
+            if (hang != null) {
+                // the holding arm reaches up towards the anchor (same rotation as the arm, see WebArmAnimation)
+                Vec3 up = right.cross(look);
+                org.joml.Vector3f v = hang.transform(new org.joml.Vector3f(0.3F * k, -0.15F, -0.4F));
+                return shooter.getEyePosition(pt).add(right.scale(v.x)).add(up.scale(v.y)).add(look.scale(-v.z));
+            }
             return shooter.getEyePosition(pt).add(look.scale(0.4)).add(right.scale(0.3 * k)).add(0.0, -0.15, 0.0);
         }
         float bodyYaw = Mth.rotLerp(pt, shooter.yBodyRotO, shooter.yBodyRot) * Mth.DEG_TO_RAD;
         Vec3 right = new Vec3(-Math.cos(bodyYaw), 0.0, -Math.sin(bodyYaw)).scale(k);
-        if (line instanceof WebSwingLine swing && swing.isCaught() && swing.getHooked() == null && !shooter.onGround()) {
-            // hanging: the hands are above the head, along the rope (the body hangs along it)
-            Vec3 center = shooter.getPosition(pt).add(0.0, shooter.getBbHeight() / 2.0F, 0.0);
-            Vec3 dir = anchor.subtract(center);
-            if (dir.lengthSqr() > 1.0E-4) {
-                double side = swing.getKind() == WebSwingLine.BOTH_HANDS ? 0.06 : 0.2;
-                return center.add(dir.normalize().scale(1.45)).add(right.scale(side));
+        if (line instanceof WebSwingLine swing && swing.isCaught() && swing.getHooked() == null) {
+            // hanging: the wrist of the raised arm, with the same body rotation and arm pose as the model
+            Vec3 wrist = WebZipAnimation.hangingWrist(shooter.getId(), pt, Mth.rotLerp(pt, shooter.yBodyRotO, shooter.yBodyRot),
+                    shooter.getPosition(pt), k);
+            if (wrist != null) {
+                return wrist;
             }
         }
         double shoulderY = shooter.isCrouching() ? 1.2 : 1.41;

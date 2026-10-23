@@ -111,6 +111,14 @@ public final class WebArmAnimation {
         }
         float partial = mc.getDeltaTracker().getGameTimeDeltaPartialTick(false);
         boolean right = arm == HumanoidArm.RIGHT;
+        // hanging on a swing rope: the holding arm swings up around the eye towards the rope's anchor (the rope
+        // starts at that hand), instead of pointing at the crosshair
+        org.joml.Quaternionf hang = WebZipAnimation.firstPersonHang(partial);
+        if (hang != null && WebZipAnimation.hangHolds(mc.player.getId(), right)) {
+            PoseStack.Pose last = pose.last();
+            last.pose().set(new org.joml.Matrix4f().rotation(hang).mul(last.pose()));
+            last.normal().set(new org.joml.Matrix3f().rotation(hang).mul(last.normal()));
+        }
         int side = right ? WebShotTracker.RIGHT : WebShotTracker.LEFT;
         float m = right ? 1.0F : -1.0F;  // mirror for a left main arm
 

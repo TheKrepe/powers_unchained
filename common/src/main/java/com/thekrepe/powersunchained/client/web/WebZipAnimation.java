@@ -14,6 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.jspecify.annotations.Nullable;
 import com.thekrepe.powersunchained.web.WebShotTracker;
 
 /**
@@ -246,8 +247,9 @@ public final class WebZipAnimation {
         }
         Vec3 mot = s.motion(partialTick);
         float air = 1.0F - s.ground(partialTick);
-        if (air > 0.0F) {
-            calmLimbs(model, entityId, air, partialTick);
+        float calm = air * smooth(s.travel(partialTick));
+        if (calm > 0.0F) {
+            calmLimbs(model, entityId, calm, partialTick);
         }
         float dive = s.dive(partialTick) * air;
         if (dive > 0.0F) {
@@ -652,13 +654,24 @@ public final class WebZipAnimation {
      * the motion (the legs trail), limited to 120 degrees. Local frame after the body yaw: +X right, -Z forward.
      */
     private static void hangAlongRope(PoseStack poseStack, State s, float pt, float scale, float bodyYaw, float hang) {
+        Quaternionf q = hangRotation(s, pt, bodyYaw, hang);
+        if (q == null) {
+            return;
+        }
+        float py = 0.5F * 1.8F * scale;
+        poseStack.translate(0.0F, py, 0.0F);
+        poseStack.rotate(q);
+        poseStack.translate(0.0F, -py, 0.0F);
+    }
+
+    private static @Nullable Quaternionf hangRotation(State s, float pt, float bodyYaw, float hang) {
         Vec3 rel = s.prevAnchorRel.lerp(s.anchorRel, pt).subtract(0.0, 0.9, 0.0);
         if (rel.lengthSqr() < 0.04) {
-            return;
+            return null;
         }
         Vec3 up = rel.normalize().add(s.motion(pt).scale(0.35));
         if (up.lengthSqr() < 1.0E-6) {
-            return;
+            return null;
         }
         float yaw = bodyYaw * DEG;
         double rx = -Math.cos(yaw);
@@ -676,11 +689,70 @@ public final class WebZipAnimation {
             }
         }
         Quaternionf q = new Quaternionf().rotationTo(new Vector3f(0.0F, 1.0F, 0.0F), target);
-        q = new Quaternionf().slerp(q, hang);
-        float py = 0.5F * 1.8F * scale;
-        poseStack.translate(0.0F, py, 0.0F);
-        poseStack.rotate(q);
-        poseStack.translate(0.0F, -py, 0.0F);
+        return new Quaternionf().slerp(q, hang);
+    }
+
+    /**
+     * Third person: world position of the wrist holding the swing rope while hanging (the same body rotation and arm
+     * pose as drawn), or null when not hanging. {@code side} 1 = right wrist, -1 = left.
+     */
+    public static @Nullable Vec3 hangingWrist(int entityId, float pt, float bodyYaw, Vec3 feet, float side) {
+        State s = STATES.get(entityId);
+        if (s == null) {
+            return null;
+        }
+        float hang = smooth(s.swing(pt));
+        if (hang <= 0.0F) {
+            return null;
+        }
+        Quaternionf q = hangRotation(s, pt, bodyYaw, hang);
+        // the wrist of the raised arm, relative to the body's middle (local: +X right, +Y up, +Z back): the arm
+        // pose blends in with the same weight
+        Vector3f wrist = new Vector3f(side * 0.21F, Mth.lerp(hang, 0.45F, 1.13F), Mth.lerp(hang, -0.2F, 0.0F));
+        if (q != null) {
+            q.transform(wrist);
+        }
+        float yaw = bodyYaw * DEG;
+        Vec3 right = new Vec3(-Math.cos(yaw), 0.0, -Math.sin(yaw));
+        Vec3 back = new Vec3(Math.sin(yaw), 0.0, -Math.cos(yaw));
+        return feet.add(0.0, 0.9, 0.0).add(right.scale(wrist.x)).add(0.0, wrist.y, 0.0).add(back.scale(wrist.z));
+    }
+
+    /** Whether the given arm of the entity holds the swing rope while hanging (both, or the one-handed side). */
+    public static boolean hangHolds(int entityId, boolean rightArm) {
+        State s = STATES.get(entityId);
+        return s != null && s.swing > 0.0F && (s.swingKind == 0 || (s.swingKind == 2) != rightArm);
+    }
+
+    /**
+     * First person while hanging: the rotation (view space) that turns "forward" towards the rope's anchor, blended
+     * with the hanging weight, so the holding arm reaches up along the rope; null when not hanging.
+     */
+    public static @Nullable Quaternionf firstPersonHang(float pt) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) {
+            return null;
+        }
+        State s = STATES.get(mc.player.getId());
+        if (s == null) {
+            return null;
+        }
+        float hang = smooth(s.swing(pt));
+        if (hang <= 0.0F) {
+            return null;
+        }
+        Vec3 d = s.anchor.subtract(mc.player.getEyePosition(pt));
+        if (d.lengthSqr() < 0.01) {
+            return null;
+        }
+        d = d.normalize();
+        Vec3 look = mc.player.getViewVector(pt);
+        Vec3 right = new Vec3(-look.z, 0.0, look.x);
+        right = right.lengthSqr() < 1.0E-6 ? new Vec3(1.0, 0.0, 0.0) : right.normalize();
+        Vec3 up = right.cross(look);
+        Vector3f view = new Vector3f((float) d.dot(right), (float) d.dot(up), (float) -d.dot(look));
+        Quaternionf q = new Quaternionf().rotationTo(new Vector3f(0.0F, 0.0F, -1.0F), view);
+        return new Quaternionf().slerp(q, hang);
     }
 
     private static void rotate(PoseStack poseStack, float scale, float pivotY, float angleDeg, float ax, float ay, float az) {
@@ -738,6 +810,10 @@ public final class WebZipAnimation {
         /** Ticks since landing after swinging (springboard jump window), -1 = none. */
         int sinceSwingLand = -1;
         boolean fromSwing;
+        /** In web travel: a line out, a flip, or still in the air after one (ordinary jumps are not). */
+        boolean travelling;
+        float travel;
+        float prevTravel;
         Vec3 motion = Vec3.ZERO;
         Vec3 prevMotion = Vec3.ZERO;
         int idleTicks;
@@ -754,6 +830,10 @@ public final class WebZipAnimation {
             this.prevReleaseWeight = this.releaseWeight;
             this.prevSwing = this.swing;
             this.prevSwingShoot = this.swingShoot;
+            this.prevTravel = this.travel;
+            boolean wasTravelling = this.travelling;
+            this.travelling = this.lineOut || this.pulling || this.swingOut || this.swingAttached || this.releaseKind >= 0
+                    || wasTravelling && !onGround;
             this.ground = Mth.clamp(this.ground + (onGround ? 0.2F : -0.25F), 0.0F, 1.0F);
 
             // web swinging: hanging weight (in over 6 ticks, only in the air), the rope shot, sounds
@@ -790,7 +870,7 @@ public final class WebZipAnimation {
 
             // landing after a fast fall (only while this state lives, i.e. after zipping / swinging)
             // (a real fall, not an ordinary jump: diving / flipping, or falling fast)
-            if (onGround && !this.wasOnGround && this.prevMotion.y < -0.6
+            if (onGround && !this.wasOnGround && wasTravelling && this.prevMotion.y < -0.6
                     && (this.dive > 0.3F || this.releaseKind >= 0 || this.prevMotion.y < -1.0)) {
                 this.landAge = 0;
                 this.landKind = RANDOM.nextInt(LAND_VARIANTS);
@@ -830,7 +910,7 @@ public final class WebZipAnimation {
                 }
             }
             // falling afterwards: dive until landing
-            boolean diving = !onGround && !this.lineOut && !this.swingOut && !this.swingAttached && this.releaseKind < 0
+            boolean diving = this.travelling && !onGround && !this.lineOut && !this.swingOut && !this.swingAttached && this.releaseKind < 0
                     && this.motion.y < -0.12;
             if (diving) {
                 if (this.dive == 0.0F) {
@@ -840,6 +920,8 @@ public final class WebZipAnimation {
             } else {
                 this.dive = Math.max(this.dive - (onGround ? 0.2F : 0.1F), 0.0F);
             }
+            this.travelling |= this.releaseKind >= 0;
+            this.travel = Mth.clamp(this.travel + (this.travelling ? 0.34F : -0.25F), 0.0F, 1.0F);
             this.wasPulling = this.pulling;
             this.wasOnGround = onGround;
             this.wasSwingAttached = this.swingAttached;
@@ -857,7 +939,12 @@ public final class WebZipAnimation {
         boolean idle() {
             return this.idleTicks > 10 && this.shoot == 0.0F && this.pull == 0.0F && this.dive == 0.0F
                     && this.prevDive == 0.0F && this.releaseKind < 0 && this.landAge < 0 && this.swing == 0.0F
-                    && this.prevSwing == 0.0F && this.swingShoot == 0.0F && this.prevSwingShoot == 0.0F && this.sinceSwingLand < 0;
+                    && this.prevSwing == 0.0F && this.swingShoot == 0.0F && this.prevSwingShoot == 0.0F && this.sinceSwingLand < 0
+                    && this.travel == 0.0F && this.prevTravel == 0.0F;
+        }
+
+        float travel(float pt) {
+            return Mth.lerp(pt, this.prevTravel, this.travel);
         }
 
         float swing(float pt) {
