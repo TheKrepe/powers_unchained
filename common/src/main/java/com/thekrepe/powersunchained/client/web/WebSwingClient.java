@@ -102,7 +102,7 @@ public final class WebSwingClient {
         WebSwingLine line = WebSwingLine.of(player);
         if (holding) {
             // no rope out (or it missed): shoot one, retrying every few ticks like Powerborne's
-            if (line == null && cooldown == 0) {
+            if (line == null && cooldown == 0 && WebSwingLine.canReachAnything(player)) {
                 if (!WebCartridges.hasFluid(player)) {
                     if (!wasHolding) {
                         player.playSound(net.minecraft.sounds.SoundEvents.DISPENSER_FAIL, 0.5F, 1.6F);

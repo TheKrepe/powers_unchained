@@ -14,7 +14,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
@@ -158,6 +161,26 @@ public class WebSwingLine extends WebZipLine {
             player.resetFallDistance();
             WebShooting.markFallSafe(player);
         }
+    }
+
+    /**
+     * Whether a rope shot now could catch anything: a block (or a mob) within reach along the look (like Powerborne's
+     * check before firing), so no web fluid is wasted shooting into the sky.
+     */
+    public static boolean canReachAnything(Player player) {
+        Vec3 eye = player.getEyePosition();
+        Vec3 end = eye.add(player.getLookAngle().scale(SWING_RANGE));
+        HitResult hit = player.level().clip(new ClipContext(eye, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+        if (hit.getType() != HitResult.Type.MISS && eye.distanceTo(hit.getLocation()) >= 1.5) {
+            return true;
+        }
+        AABB box = new AABB(eye, end).inflate(1.0);
+        for (Entity e : player.level().getEntities(player, box, t -> t instanceof LivingEntity && t.isPickable() && !t.isSpectator())) {
+            if (e.getBoundingBox().inflate(0.3).clip(eye, end).isPresent()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Rope length: measured when it caught. */

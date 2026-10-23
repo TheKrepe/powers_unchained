@@ -116,6 +116,9 @@ public final class WebShooting {
         if (now - state.lastSwing < SWING_COOLDOWN - 2) {
             return;
         }
+        if (!WebSwingLine.canReachAnything(player)) {
+            return;  // nothing to catch on: no rope, no web fluid used
+        }
         if (!player.getAbilities().instabuild && !WebCartridges.consumeWorn(player)) {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.DISPENSER_FAIL,
                     SoundSource.PLAYERS, 0.5F, 1.6F);
