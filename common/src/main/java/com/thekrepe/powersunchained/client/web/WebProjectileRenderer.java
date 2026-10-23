@@ -199,7 +199,7 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
             if (hang != null) {
                 // the holding arm reaches up towards the anchor (same rotation as the arm, see WebArmAnimation)
                 Vec3 up = right.cross(look);
-                org.joml.Vector3f v = hang.transform(new org.joml.Vector3f(0.3F * k, -0.15F, -0.4F));
+                org.joml.Vector3f v = hang.transform(new org.joml.Vector3f(0.24F * k, -0.2F, -0.4F));
                 return shooter.getEyePosition(pt).add(right.scale(v.x)).add(up.scale(v.y)).add(look.scale(-v.z));
             }
             return shooter.getEyePosition(pt).add(look.scale(0.4)).add(right.scale(0.3 * k)).add(0.0, -0.15, 0.0);
