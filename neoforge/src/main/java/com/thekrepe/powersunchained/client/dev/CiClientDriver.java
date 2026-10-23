@@ -324,11 +324,20 @@ public final class CiClientDriver {
                 run("tick rate 4");
             }
             case 5563 -> run("tp @p 600.5 -52 0.5 0 -48");
-            case 5564 -> mc.options.keyUse.setDown(true);
-            case 5572 -> shot("32_swing_first_person");
+            case 5564 -> {
+                net.minecraft.server.level.ServerPlayer player = serverPlayer();
+                Minecraft.getInstance().getSingleplayerServer().execute(() -> {
+                    player.level().addFreshEntity(new com.thekrepe.powersunchained.entity.web.WebSwingLine(player.level(), player, 0));
+                    com.thekrepe.powersunchained.web.WebShooting.announceShot(player, 0);
+                });
+            }
+            case 5572 -> {
+                shot("32_swing_first_person");
+                Constants.LOG.info("[CI] first person hang rotation {}, lines {}", com.thekrepe.powersunchained.client.web.WebZipAnimation.firstPersonHang(0.0F),
+                        mc.level.getEntitiesOfClass(com.thekrepe.powersunchained.entity.web.WebSwingLine.class, mc.player.getBoundingBox().inflate(64.0)).size());
+            }
             case 5577 -> shot("32b_swing_first_person");
             case 5590 -> {
-                mc.options.keyUse.setDown(false);
                 run("tick rate 20");
                 Constants.LOG.info("[CI] first person swing: hanging {}", com.thekrepe.powersunchained.client.web.WebZipAnimation.isHanging(mc.player.getId()));
             }
