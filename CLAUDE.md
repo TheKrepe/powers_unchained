@@ -105,14 +105,21 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
 - Web Zip body animations (`client/web/WebZipAnimation`, our own poses in the spirit of Fisk / Powerborne / Marvel
   Legacy, no copied values): shoot, 3 pulls, 8 release flips, 3 dives, superhero landing; smoothstep keyframes,
   every phase fades; limbs via `PlayerModelMixin`, whole body via `LivingEntityRendererMixin` (after body yaw).
-- Web swinging (ability 3, B = mode toggle; RMB empty hand = rope, LMB while hanging = let go with Fisk's boost x1.9 +
-  lift; new rope replaces the old one; landed 6 ticks = rope dropped): `entity/web/WebSwingLine` (extends WebZipLine:
-  hooks `clientTick` / `whileCaught`; Fisk's soft rope `restrict` stiffness 0.2 + moveRelative pumping, run on the
-  shooter's client in `PlayerTickEvent.Post` via `client/web/WebSwingClient.playerTick`; kind 0 both hands / 1 right /
-  2 left picked like Fisk), `network/WebSwingPayload` (SHOOT / RELEASE / DROP), `WebShooting.swingShoot/swingRelease`.
-  Swing and web shot modes are exclusive (both RMB). Animations in `WebZipAnimation` (hang along the rope via
-  `hangAlongRope`, swing shoot, release tricks, springboard, 3 landings). Loop sounds `client/web/WebSwingSound`
-  (Fisk's whoosh / stress / wind sounds copied from the Fisk port).
+- Web swinging (ability 3, B = mode toggle, like Fisk; owner wants Fisk + Powerborne + Marvel Legacy feel): HOLD right
+  click (empty hand) = shoot a rope (retried every 6 ticks while it misses, like Powerborne) and swing while held; let
+  go of RMB (or LMB) = release with Powerborne's launch (+0.5 towards the look, lift towards the anchor height) and 40
+  ticks of x1.05 horizontal momentum; jump = reel in 0.38/tick, sprint+W = slow reel; 40 ticks on the ground = rope
+  dropped. `entity/web/WebSwingLine` (extends WebZipLine: hooks `clientTick` / `whileCaught`; velocity rope like
+  Powerborne/ML: predict next pos, remove outward radial velocity, pull back 0.15 x overshoot, drag compensation 1.05,
+  W pump 0.06 / strafe 0.03 towards the look, soft/hard speed caps 2.4/3.4, snaps at 10 blocks overshoot), run on the
+  local client in `PlayerTickEvent.Pre` via `client/web/WebSwingClient.playerTick`; kind 0 both hands / 1 right / 2
+  left picked like Fisk. `network/WebSwingPayload` (SHOOT / RELEASE / DROP), `WebShooting.swingShoot/swingRelease`.
+  Swing and web shot modes are exclusive (both RMB). Animations in `WebZipAnimation` (calm air base pose that hides
+  vanilla running limbs, hang along the rope via `hangAlongRope`, swing shoot, release tricks, dive, 3 landings only
+  after real falls; NO springboard / extra jump animations — owner removed them). Loop sounds `client/web/WebSwingSound`
+  (Fisk's whoosh / stress / wind sounds copied from the Fisk port). Powerborne's swing script for reference:
+  jar-reference `modrinth:AGvjxjAT:forge` -> `data/powerborne/kubejs_scripts/spiderman/web_swing.js`; Marvel Legacy:
+  `util/SwingManager`.
 - No fall damage after web travel: `WebShooting.markFallSafe` (zip, hanging, release) until landing; NeoForge
   `LivingFallEvent` is cancelled while `isFallSafe`.
 - Recipes: empty cartridge = iron ingot / glass / iron ingot (column); web cartridge = shapeless empty cartridge + slime
