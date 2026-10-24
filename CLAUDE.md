@@ -1,7 +1,7 @@
 # Powers Unchained — notes for Claude
 
 Superhero mod for Minecraft **26.3**, NeoForge + Fabric, built from the official MultiLoader-Template (branch 26.3).
-Owner: TheKrepe. Communicate with the owner in Russian.
+Owner: Star_1mp (GitHub account still TheKrepe — keep repo URLs as they are). Communicate with the owner in Russian.
 
 ## Current build target
 **NeoForge only for now** (owner's decision): `include('fabric')` is commented out in `settings.gradle`.
@@ -17,7 +17,7 @@ in `common/` and loader glue in `neoforge/`, so Fabric can be re-enabled later w
   in `build-logic/src/main/groovy/multiloader-common.gradle`.
 
 ## Conventions
-- Mod id `powers_unchained`, base package `com.thekrepe.powersunchained`.
+- Mod id `powers_unchained`, base package `com.star_1mp.powersunchained`.
 - Use `Constants.id("path")` for identifiers.
 - Plan for future MC versions: keep version-sensitive vanilla API usage behind small helper classes, avoid
   mixins when a loader event exists, keep content data-driven (JSON) where practical.
