@@ -87,8 +87,8 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   groups) in `config/powers_unchained-suit_creator.json` (`SuitCreatorPrefs`). Suit data: `suit/SuitCatalog`
   (`SuitInfo`: group, `SuitTag`s, stats, abilities, materials per piece, xpCost 20).
   ALL suits start locked (owner): unlock by scanning ANY piece of the suit in the scanner (durability doesn't matter,
-  the piece stays; owner removed suit fragments completely) or for 20 XP levels. Locked suits are listed / selectable
-  in the catalog like the others (dimmed, lock badge). Progress: `suit/SuitProgress` (set of unlocked ids) in NeoForge
+  the piece stays; owner removed suit fragments completely) or for 20 XP levels. Locked suits are selectable in the catalog but
+  their look stays hidden (owner): "???" group, lock icon, ghost hologram, generic part icons, encrypted dossier. Progress: `suit/SuitProgress` (set of unlocked ids) in NeoForge
   attachment `PUAttachments.SUIT_PROGRESS` (copyOnDeath, synced to self) via `IGameplayHelper.suitProgress/setSuitProgress`;
   toast `SuitUnlockToast` from `SuitCreatorClient.tick` diffing the synced set.
   Mouse buttons in 26.3 are SDL numbers: left = `InputConstants.MOUSE_BUTTON_LEFT` (1), right = 3 — never 0/1.
