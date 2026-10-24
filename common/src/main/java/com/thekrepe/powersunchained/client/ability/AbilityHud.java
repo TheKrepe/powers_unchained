@@ -247,13 +247,13 @@ public final class AbilityHud {
         boolean low = fill < 0.15F;
         int tx = 12;
         graphics.pose().pushMatrix();
-        graphics.pose().translate(tx, y + 2);
+        graphics.pose().translate(tx, y + 1.5F);
         graphics.pose().scale(GAUGE_SCALE);
         graphics.text(font, gaugeText(g), 0, 0, alpha(low ? 0xFFFF6A5A : 0xFFE8F8FF, opacity), true);
         graphics.pose().popMatrix();
         int bx0 = tx;
         int bx1 = w - 3;
-        int by = y + GAUGE_HEIGHT - 3;
+        int by = y + GAUGE_HEIGHT - 2;
         graphics.fill(bx0, by, bx1, by + 1, alpha(0x60FFFFFF, opacity));
         int bx = bx0 + Math.round((bx1 - bx0) * fill);
         if (bx > bx0) {
