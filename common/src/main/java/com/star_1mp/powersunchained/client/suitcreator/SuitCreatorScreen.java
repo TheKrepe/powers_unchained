@@ -779,11 +779,15 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         int hx = x + CENTER_X;
         int hy = y + 20;
         this.hologramFrame(g, hx, hy, CENTER_W, 208, false);
-        for (int i = 0; i < 3; i++) {
+        // no hanging pose in the dossier (owner)
+        if (this.pose == SuitHologram.Pose.HANG) {
+            this.pose = SuitHologram.Pose.STAND;
+        }
+        for (int i = 0; i < 2; i++) {
             SuitHologram.Pose p = SuitHologram.Pose.values()[i];
-            int bx = hx + 6 + i * 46;
-            this.button(g, bx, hy + 5, 44, 14, tr("pose." + p.name().toLowerCase(Locale.ROOT)), true,
-                    in(mx, my, bx, hy + 5, 44, 14), this.pose == p);
+            int bx = hx + 6 + i * 70;
+            this.button(g, bx, hy + 5, 66, 14, tr("pose." + p.name().toLowerCase(Locale.ROOT)), true,
+                    in(mx, my, bx, hy + 5, 66, 14), this.pose == p);
         }
         this.drawHologram(g, hx, hy + 22, CENTER_W, 172, 68.0F, suit, locked);
         this.drawVariantRow(g, hx, hy + 194, CENTER_W, mx, my);
@@ -1012,7 +1016,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 }
             }
             for (int i = 0; i < 4; i++) {
-                if (!locked && in(mx, my, x + RIGHT_X + i * 19, y + 31, 18, 18)) {
+                if (this.unlocked(suit) && in(mx, my, x + RIGHT_X + i * 19, y + 31, 18, 18)) {
                     g.setTooltipForNextFrame(this.font, pieceStack(suit, i), mx, my);
                 }
             }
@@ -1174,7 +1178,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 }
             }
             for (int i = 0; i < 4; i++) {
-                if (!locked && in(mx, my, x + RIGHT_X + i * 19, y + 31, 18, 18)) {
+                if (in(mx, my, x + RIGHT_X + i * 19, y + 31, 18, 18)) {
                     this.piece = this.piece == i ? SuitCatalog.ALL : i;
                     this.sewTicks = -1;
                     this.click();
@@ -1196,8 +1200,8 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 return true;
             }
         } else if (this.tab == TAB_DOSSIER) {
-            for (int i = 0; i < 3; i++) {
-                if (in(mx, my, hx + 6 + i * 46, y + 25, 44, 14)) {
+            for (int i = 0; i < 2; i++) {
+                if (in(mx, my, hx + 6 + i * 70, y + 25, 66, 14)) {
                     this.pose = SuitHologram.Pose.values()[i];
                     this.click();
                     return true;

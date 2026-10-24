@@ -81,7 +81,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   + screen `client/suitcreator/SuitCreatorScreen` (416x236, drawn procedurally: vanilla panel + dark monitors; tabs
   Catalog / Dossier / Scanner; tags popup; tag count + unlocked count in the top bar on every tab). Owner's edits:
   ONE "Теги" button + popup (no chip row, no crafting button), no ability tags, no subtitles under names, no
-  "missing materials" text, big Sew panel, no scan slot on the Catalog tab, Dossier: no levels, "Способностей нет"
+  "missing materials" text, big Sew panel, no scan slot on the Catalog tab, Dossier: no levels, no Hang pose (Stand / Run only), "Способностей нет"
   for suits without own abilities. Hologram = `SuitHologram` (own AvatarRenderState, Steve/Alex skin, pose encoded
   in the state id `ID_BASE + pose`, applied from `PlayerModelMixin`). View prefs (tags, favorites, collapsed
   groups) in `config/powers_unchained-suit_creator.json` (`SuitCreatorPrefs`). Suit data: `suit/SuitCatalog`
