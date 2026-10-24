@@ -10,7 +10,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import org.jspecify.annotations.Nullable;
 
@@ -37,7 +39,25 @@ public final class AbilityHud {
         @Nullable Entry get(LocalPlayer player, int slot);
     }
 
+    /**
+     * A resource shown under the key list (e.g. the web fluid left): a 9x9 icon, value / max as small text and a thin
+     * bar in {@code color}.
+     */
+    public record Gauge(Identifier icon, int value, int max, int color) {
+    }
+
+    /** Supplies a gauge for the player, or {@code null}. */
+    public interface GaugeProvider {
+        @Nullable Gauge get(LocalPlayer player);
+    }
+
     private static final List<Provider> PROVIDERS = new ArrayList<>();
+    private static final List<GaugeProvider> GAUGES = new ArrayList<>();
+    /** Gauge shown in the HUD settings preview when the player has none. */
+    public static @Nullable Gauge previewGauge;
+    private static final float GAUGE_SCALE = 0.75F;
+    private static final int GAUGE_GAP = 3;
+    private static final int GAUGE_HEIGHT = 11;
     private static final int ROW_HEIGHT = 12;
 
     private AbilityHud() {
@@ -45,6 +65,33 @@ public final class AbilityHud {
 
     public static void register(Provider provider) {
         PROVIDERS.add(provider);
+    }
+
+    public static void registerGauge(GaugeProvider provider) {
+        GAUGES.add(provider);
+    }
+
+    /** The first gauge of the local player (or the preview one in the HUD settings), or {@code null}. */
+    public static @Nullable Gauge gauge() {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player != null) {
+            for (GaugeProvider provider : GAUGES) {
+                Gauge g = provider.get(mc.player);
+                if (g != null) {
+                    return g;
+                }
+            }
+        }
+        return mc.gui.screen() instanceof AbilityHudConfigScreen ? previewGauge : null;
+    }
+
+    private static Component gaugeText(Gauge g) {
+        return Component.literal(g.value() + " / " + g.max());
+    }
+
+    /** Unscaled width of the gauge row. */
+    private static int gaugeWidth(Font font, Gauge g) {
+        return 9 + 3 + Math.round(font.width(gaugeText(g)) * GAUGE_SCALE) + 3;
     }
 
     public static void render(GuiGraphicsExtractor graphics, DeltaTracker delta) {
@@ -132,7 +179,13 @@ public final class AbilityHud {
             }
             width = Math.max(width, w);
         }
-        return new int[] {width, keys.size() * ROW_HEIGHT - 1};
+        int height = keys.size() * ROW_HEIGHT - 1;
+        Gauge g = gauge();
+        if (g != null) {
+            width = Math.max(width, gaugeWidth(font, g));
+            height += GAUGE_GAP + GAUGE_HEIGHT;
+        }
+        return new int[] {width, height};
     }
 
     /** Screen position {x, y} of the HUD's top-left corner: the saved one, or the default (left edge, middle). */
@@ -175,6 +228,36 @@ public final class AbilityHud {
                 }
             }
         }
+        Gauge g = gauge();
+        if (g != null) {
+            drawGauge(graphics, font, g, keys.size() * ROW_HEIGHT - 1 + GAUGE_GAP, opacity);
+        }
         graphics.pose().popMatrix();
+    }
+
+    /**
+     * The gauge row: a dark box with the icon, the small "value / max" text and a thin bar under it that empties
+     * (red when nearly empty).
+     */
+    private static void drawGauge(GuiGraphicsExtractor graphics, Font font, Gauge g, int y, float opacity) {
+        int w = gaugeWidth(font, g);
+        graphics.fill(0, y, w, y + GAUGE_HEIGHT, 0x90000000);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, g.icon(), 1, y + 1, 0.0F, 0.0F, 9, 9, 9, 9, 9, 9, alpha(0xFFFFFFFF, opacity));
+        float fill = g.max() > 0 ? Mth.clamp(g.value() / (float) g.max(), 0.0F, 1.0F) : 0.0F;
+        boolean low = fill < 0.15F;
+        int tx = 12;
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(tx, y + 2);
+        graphics.pose().scale(GAUGE_SCALE);
+        graphics.text(font, gaugeText(g), 0, 0, alpha(low ? 0xFFFF6A5A : 0xFFE8F8FF, opacity), true);
+        graphics.pose().popMatrix();
+        int bx0 = tx;
+        int bx1 = w - 3;
+        int by = y + GAUGE_HEIGHT - 3;
+        graphics.fill(bx0, by, bx1, by + 1, alpha(0x60FFFFFF, opacity));
+        int bx = bx0 + Math.round((bx1 - bx0) * fill);
+        if (bx > bx0) {
+            graphics.fill(bx0, by, bx, by + 1, alpha(low ? 0xFFFF5040 : g.color(), opacity));
+        }
     }
 }

@@ -10,7 +10,6 @@ import com.thekrepe.powersunchained.web.WebCartridges;
 import com.thekrepe.powersunchained.web.WebShooting;
 import com.thekrepe.powersunchained.web.WebType;
 import com.thekrepe.powersunchained.client.ability.AbilityHud;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
@@ -51,13 +50,22 @@ public final class WebShooterClient {
     /** Sample abilities for the HUD settings preview when the player has none. */
     public static AbilityHud.Entry[] previewEntries() {
         return new AbilityHud.Entry[] {
-            new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_shot"), Component.literal("64").withStyle(ChatFormatting.GRAY), true),
+            new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_shot"), null, true),
             new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_zip"), null, true)
         };
     }
 
+    public static final net.minecraft.resources.Identifier WEB_FLUID_ICON =
+            com.thekrepe.powersunchained.Constants.id("textures/gui/web_fluid.png");
+
     /** Puts "Web Shot" on ability key 1 in the ability HUD while web-shooters are worn, with the web fluid left. */
     public static void registerHud() {
+        // web fluid left / room in the web-shooters, under the ability list (not in creative: shots are free there)
+        AbilityHud.previewGauge = new AbilityHud.Gauge(WEB_FLUID_ICON, 187, WebCartridges.SLOTS * WebCartridges.MAX_FLUID, 0xFF8FE6F7);
+        AbilityHud.registerGauge(player -> hadWebShooters && !player.getAbilities().instabuild
+                ? new AbilityHud.Gauge(WEB_FLUID_ICON, WebCartridges.totalFluid(WebCartridges.wornShooters(player)),
+                        WebCartridges.SLOTS * WebCartridges.MAX_FLUID, 0xFF8FE6F7)
+                : null);
         AbilityHud.register((player, slot) -> {
             if (slot == 1 && hadWebShooters) {
                 return new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_zip"), null, zipCooldown == 0);
@@ -66,10 +74,6 @@ public final class WebShooterClient {
                 return null;
             }
             Component extra = null;
-            if (!player.getAbilities().instabuild) {
-                int fluid = WebCartridges.totalFluid(WebCartridges.wornShooters(player));
-                extra = Component.literal(String.valueOf(fluid)).withStyle(fluid > 0 ? ChatFormatting.GRAY : ChatFormatting.RED);
-            }
             return new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_shot"), extra, active);
         });
     }
