@@ -1,5 +1,5 @@
 # Dev helper: unpacks an archive uploaded to the 'upload-tmp' branch (rar/zip/7z) and pushes
-# downscaled JPEG copies of the images to 'upload-unpacked-tmp' so they can be viewed.
+# downscaled JPEG copies of the images (+ the original files under raw/) to 'upload-unpacked-tmp'.
 name: Unpack upload
 
 on:
@@ -25,6 +25,8 @@ jobs:
           ls -la /tmp/up
           for a in /tmp/up/*; do unar -o /tmp/x "$a" || 7z x -y -o/tmp/x "$a"; done
           find /tmp/x -type f | sort > /tmp/out/_all_files.txt
+          # the original files too (textures to import), keeping the folder layout
+          mkdir -p /tmp/out/raw && cp -r /tmp/x/. /tmp/out/raw/
           i=0
           while read -r f; do
             i=$((i+1))
