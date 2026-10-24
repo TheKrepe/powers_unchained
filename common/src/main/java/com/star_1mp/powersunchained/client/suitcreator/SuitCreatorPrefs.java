@@ -57,13 +57,18 @@ public final class SuitCreatorPrefs {
                 return;
             }
             if (data.tags != null) {
-                TAGS.clear();
+                java.util.Set<SuitTag> loadedTags = EnumSet.noneOf(SuitTag.class);
                 for (String name : data.tags) {
                     for (SuitTag tag : SuitTag.values()) {
                         if (tag.name().equalsIgnoreCase(name)) {
-                            TAGS.add(tag);
+                            loadedTags.add(tag);
                         }
                     }
+                }
+                // a saved list of tags that no longer exist (tags were renamed): keep all on
+                if (!loadedTags.isEmpty() || data.tags.isEmpty()) {
+                    TAGS.clear();
+                    TAGS.addAll(loadedTags);
                 }
             }
             if (data.favorites != null) {

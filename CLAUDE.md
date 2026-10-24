@@ -85,8 +85,9 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   for suits without own abilities. Hologram = `SuitHologram` (own AvatarRenderState, Steve/Alex skin, pose encoded
   in the state id `ID_BASE + pose`, applied from `PlayerModelMixin`). View prefs (tags, favorites, collapsed
   groups) in `config/powers_unchained-suit_creator.json` (`SuitCreatorPrefs`). Suit data: `suit/SuitCatalog`
-  (`SuitInfo`: group, `SuitTag`s, stats, abilities, materials per piece, xpCost 20).
-  ALL suits start locked (owner): unlock by scanning ANY piece of the suit in the scanner (durability doesn't matter,
+  (`SuitInfo`: group, `SuitTag`s = owner's list Marvel / DC / First Appearance / Movies / DCU / DCEU / MCU / Games /
+  Comics / Animation, stats, abilities, materials per piece, xpCost 20).
+  ALL suits start locked (owner): unlock by scanning ANY piece of the suit in the scanner (100 ticks; durability doesn't matter,
   the piece stays; owner removed suit fragments completely) or for 20 XP levels. Locked suits are selectable in the catalog but
   their look stays hidden (owner): "???" group, lock icon, ghost hologram, generic part icons, encrypted dossier. Progress: `suit/SuitProgress` (set of unlocked ids) in NeoForge
   attachment `PUAttachments.SUIT_PROGRESS` (copyOnDeath, synced to self) via `IGameplayHelper.suitProgress/setSuitProgress`;

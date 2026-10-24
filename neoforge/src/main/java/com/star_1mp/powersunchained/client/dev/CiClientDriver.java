@@ -404,7 +404,7 @@ public final class CiClientDriver {
                 scanSlot("powers_unchained:spider_man_first_appearance", 1);
             }
             case 6450 -> shot("39_sc_scanning");
-            case 6540 -> shot("40_sc_unlocked");
+            case 6580 -> shot("40_sc_unlocked");
             case 6700 -> creator(1, "spider_man_advanced_2", 4, false, 0, false);
             case 6740 -> shot("41_sc_dossier_locked");
             case 6820 -> {

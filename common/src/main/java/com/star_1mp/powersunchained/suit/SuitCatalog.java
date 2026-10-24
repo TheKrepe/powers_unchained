@@ -22,15 +22,15 @@ public final class SuitCatalog {
 
     static {
         spider(Suits.SPIDER_MAN, DyeColor.RED, DyeColor.BLUE, DyeColor.BLACK, new int[]{3, 7, 4, 4},
-                SuitTag.CLASSIC, SuitTag.COMICS, SuitTag.FABRIC, SuitTag.SPIDER, SuitTag.BRIGHT, SuitTag.STREET);
+                SuitTag.MARVEL, SuitTag.COMICS);
         spider(Suits.SPIDER_MAN_FIRST_APPEARANCE, DyeColor.RED, DyeColor.BLUE, DyeColor.BLACK, new int[]{3, 6, 4, 3},
-                SuitTag.RETRO, SuitTag.CLASSIC, SuitTag.COMICS, SuitTag.FABRIC, SuitTag.SPIDER);
+                SuitTag.MARVEL, SuitTag.COMICS, SuitTag.FIRST_APPEARANCE);
         spider(Suits.SPIDER_MAN_ADVANCED_2, DyeColor.RED, DyeColor.WHITE, DyeColor.BLACK, new int[]{5, 7, 4, 6},
-                SuitTag.GAMES, SuitTag.TECH, SuitTag.MODERN, SuitTag.ARMORED, SuitTag.SPIDER);
+                SuitTag.MARVEL, SuitTag.GAMES);
         spider(Suits.SPIDER_MAN_BRAND_NEW_DAY, DyeColor.RED, DyeColor.BLUE, DyeColor.BLACK, new int[]{3, 7, 5, 4},
-                SuitTag.COMICS, SuitTag.MODERN, SuitTag.FABRIC, SuitTag.SPIDER, SuitTag.STREET, SuitTag.DARK);
+                SuitTag.MARVEL, SuitTag.COMICS);
         spider(Suits.SPIDER_MAN_RAIMI, DyeColor.RED, DyeColor.BLUE, DyeColor.BLACK, new int[]{4, 7, 3, 5},
-                SuitTag.MOVIE, SuitTag.CLASSIC, SuitTag.FABRIC, SuitTag.SPIDER, SuitTag.BRIGHT);
+                SuitTag.MARVEL, SuitTag.MOVIE);
     }
 
     private SuitCatalog() {

@@ -4,28 +4,20 @@ import java.util.Locale;
 import net.minecraft.network.chat.Component;
 
 /**
- * Catalog tags of suits (Suit Creator filters). Only look / origin tags, no ability tags.
+ * Catalog tags of suits (Suit Creator filters): publisher, universe and origin (owner's list), no ability tags.
  * Colors are ARGB, lang key {@code suit_tag.powers_unchained.<name>}.
  */
 public enum SuitTag {
-    CLASSIC(0xFFB8322A),
-    MODERN(0xFF2F7FB0),
-    RETRO(0xFF9A6A3A),
-    COMICS(0xFFD9842A),
+    MARVEL(0xFFC8282E),
+    DC(0xFF2462C8),
+    FIRST_APPEARANCE(0xFFB8862A),
     MOVIE(0xFF7E4AB0),
+    DCU(0xFF2A8AB8),
+    DCEU(0xFF4A5468),
+    MCU(0xFF9A1E2A),
     GAMES(0xFF3E9A4A),
-    ANIMATION(0xFFC0508A),
-    TECH(0xFF2A9AA8),
-    FABRIC(0xFF8A7A5A),
-    ARMORED(0xFF6A727E),
-    STEALTH(0xFF3A3F55),
-    STREET(0xFF8A5A3A),
-    SPIDER(0xFFA82A3A),
-    BRIGHT(0xFFC8A02A),
-    DARK(0xFF4A4458),
-    COSMIC(0xFF4A3AA8),
-    MYSTIC(0xFF6A2A9A),
-    ALTERNATE(0xFF4A8A7A);
+    COMICS(0xFFD9842A),
+    ANIMATION(0xFFC0508A);
 
     private final int color;
 
