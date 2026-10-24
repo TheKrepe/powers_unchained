@@ -28,7 +28,7 @@ public final class SuitCatalog {
         spider(Suits.SPIDER_MAN_ADVANCED_2, DyeColor.RED, DyeColor.WHITE, DyeColor.BLACK, new int[]{5, 7, 4, 6},
                 SuitTag.MARVEL, SuitTag.GAMES);
         spider(Suits.SPIDER_MAN_BRAND_NEW_DAY, DyeColor.RED, DyeColor.BLUE, DyeColor.BLACK, new int[]{3, 7, 5, 4},
-                SuitTag.MARVEL, SuitTag.COMICS);
+                SuitTag.MARVEL, SuitTag.MOVIE, SuitTag.MCU);
         spider(Suits.SPIDER_MAN_RAIMI, DyeColor.RED, DyeColor.BLUE, DyeColor.BLACK, new int[]{4, 7, 3, 5},
                 SuitTag.MARVEL, SuitTag.MOVIE);
     }

@@ -404,7 +404,7 @@ public final class CiClientDriver {
                 scanSlot("powers_unchained:spider_man_first_appearance", 1);
             }
             case 6450 -> shot("39_sc_scanning");
-            case 6580 -> shot("40_sc_unlocked");
+            case 6680 -> shot("40_sc_unlocked");
             case 6820 -> {
                 creator(0, "spider_man_raimi", 0, false, 0, false);
                 run("tick rate 2");

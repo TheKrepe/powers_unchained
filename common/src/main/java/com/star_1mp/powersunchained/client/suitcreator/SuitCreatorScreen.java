@@ -396,7 +396,12 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
 
     /** Bounds of the tab at screen position {@code i} (see {@link #TABS}). */
     private int[] tabBounds(int i) {
-        int x = this.leftPos + 124;
+        // centred in the menu
+        int total = -2;
+        for (int tab : TABS) {
+            total += this.font.width(tabTitle(tab)) + 14;
+        }
+        int x = this.leftPos + (W - total) / 2;
         for (int t = 0; t < i; t++) {
             x += this.font.width(tabTitle(TABS[t])) + 14;
         }

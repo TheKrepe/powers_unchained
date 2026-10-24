@@ -35,7 +35,7 @@ import net.minecraft.world.item.equipment.ArmorType;
 public class SuitCreatorMenu extends AbstractContainerMenu {
 
     /** Ticks to scan one item. */
-    public static final int SCAN_TICKS = 100;
+    public static final int SCAN_TICKS = 200;
     /** Button ids: sew = suit index * 8 + piece (0-3, {@link SuitCatalog#ALL} = all); unlock = {@link #UNLOCK_BUTTON} + suit index. */
     public static final int UNLOCK_BUTTON = 4000;
 
