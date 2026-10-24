@@ -139,7 +139,7 @@
   "screen.powers_unchained.suit_creator.stat.durability": "Прочн.",
   "screen.powers_unchained.suit_creator.abilities": "Способности",
   "screen.powers_unchained.suit_creator.abilities.none": "Способностей нет",
-  "screen.powers_unchained.suit_creator.dossier.locked": "Костюм закрыт: отсканируй любую его часть или открой за уровни опыта.",
+  "screen.powers_unchained.suit_creator.dossier.locked": "Закрыт: отсканируй его часть или открой за опыт.",
   "screen.powers_unchained.suit_creator.scanner": "Сканер",
   "screen.powers_unchained.suit_creator.scan.empty": "Положи часть костюма",
   "screen.powers_unchained.suit_creator.scan.scanning": "Анализ ткани...",

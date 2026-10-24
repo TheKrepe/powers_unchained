@@ -139,7 +139,7 @@
   "screen.powers_unchained.suit_creator.stat.durability": "Durability",
   "screen.powers_unchained.suit_creator.abilities": "Abilities",
   "screen.powers_unchained.suit_creator.abilities.none": "No abilities",
-  "screen.powers_unchained.suit_creator.dossier.locked": "Locked: scan any piece of this suit or unlock it for experience levels.",
+  "screen.powers_unchained.suit_creator.dossier.locked": "Locked: scan a piece of it or unlock it for XP.",
   "screen.powers_unchained.suit_creator.scanner": "Scanner",
   "screen.powers_unchained.suit_creator.scan.empty": "Insert a suit piece",
   "screen.powers_unchained.suit_creator.scan.scanning": "Analyzing fabric...",
