@@ -27,7 +27,9 @@ public final class CiClientDriver {
             "spider_man_brand_new_day", "spider_man_raimi"};
 
     /** Dev: {@code -Dpowers_unchained.ci.start=N} skips the scenes before tick N. */
-    private static int ticks = Integer.getInteger("powers_unchained.ci.start", 0) - 1;
+    private static final int START = Integer.getInteger("powers_unchained.ci.start", 0);
+    /** When skipping, still wait ~15 s for the world to finish loading. */
+    private static int ticks = START > 0 ? START - 300 : -1;
 
     private CiClientDriver() {
     }
@@ -45,6 +47,9 @@ public final class CiClientDriver {
             return;
         }
         ticks++;
+        if (START > 0 && ticks < START) {
+            return;
+        }
         if (ticks >= 4080 && ticks <= 4220 && ticks % 3 == 0) {
             rawShot(ticks / 3 % 2);  // rapid fire from both wrists, third person
         }

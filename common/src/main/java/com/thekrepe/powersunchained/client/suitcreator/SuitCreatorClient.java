@@ -22,6 +22,7 @@ public final class SuitCreatorClient {
     private static @Nullable Suit lastUnlocked;
     private static long lastUnlockedAt;
     private static long ticks;
+    private static long baselineUntil;
 
     private SuitCreatorClient() {
     }
@@ -41,8 +42,11 @@ public final class SuitCreatorClient {
         }
         Set<Identifier> now = SuitUnlocks.progress(player).unlocked();
         if (player != lastPlayer) {
-            // new world / respawn: take the current state as known
             lastPlayer = player;
+            baselineUntil = ticks + 60;
+        }
+        if (ticks < baselineUntil) {
+            // new world / respawn: the synced progress may arrive a bit later; take it as known, no toasts
             known = new HashSet<>(now);
             return;
         }
