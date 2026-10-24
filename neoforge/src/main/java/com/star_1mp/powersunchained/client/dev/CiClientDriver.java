@@ -391,22 +391,20 @@ public final class CiClientDriver {
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.suitcreator.SuitCreatorScreen screen) {
                     screen.debugClickTab(2);
                     int afterFirst = com.star_1mp.powersunchained.client.suitcreator.SuitCreatorPrefs.tab;
-                    screen.debugClickTab(1);
-                    Constants.LOG.info("[CI] clicked tabs: scanner -> tab {}, dossier -> tab {}", afterFirst,
+                    screen.debugClickTab(0);
+                    Constants.LOG.info("[CI] clicked tabs: scanner -> tab {}, catalog -> tab {}", afterFirst,
                             com.star_1mp.powersunchained.client.suitcreator.SuitCreatorPrefs.tab);
                 }
             }
-            case 6280 -> shot("37b_sc_clicked_dossier_tab");
-            case 6310 -> creator(1, "spider_man_raimi", 4, false, 1, false);
-            case 6350 -> shot("38_sc_dossier_run");
+            case 6280 -> shot("37b_sc_clicked_catalog_tab");
+            case 6310 -> creator(0, "spider_man_raimi", 4, false, 2, false);
+            case 6350 -> shot("38_sc_catalog_hang");
             case 6430 -> {
                 creator(2, "spider_man", 4, false, 0, false);
                 scanSlot("powers_unchained:spider_man_first_appearance", 1);
             }
             case 6450 -> shot("39_sc_scanning");
             case 6580 -> shot("40_sc_unlocked");
-            case 6700 -> creator(1, "spider_man_advanced_2", 4, false, 0, false);
-            case 6740 -> shot("41_sc_dossier_locked");
             case 6820 -> {
                 creator(0, "spider_man_raimi", 0, false, 0, false);
                 run("tick rate 2");

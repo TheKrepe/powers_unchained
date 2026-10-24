@@ -79,17 +79,16 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   pickaxe. Menu `menu/SuitCreatorMenu` (inventory slots + scan slot, `ViewSlot`s hidden per tab; scanning ticks in
   `broadcastChanges` once per game tick; buttons: sew = suit index*8 + piece (4 = all), unlock for XP = 4000 + index)
   + screen `client/suitcreator/SuitCreatorScreen` (416x236, drawn procedurally: vanilla panel + dark monitors; tabs
-  Catalog / Dossier / Scanner; tags popup; tag count + unlocked count in the top bar on every tab). Owner's edits:
+  Catalog / Scanner (owner removed the Dossier tab); tags popup; tag count + unlocked count in the top bar on every tab). Owner's edits:
   ONE "Теги" button + popup (no chip row, no crafting button), no ability tags, no subtitles under names, no
-  "missing materials" text, big Sew panel, no scan slot on the Catalog tab, Dossier: no levels, no Hang pose (Stand / Run only), "Способностей нет"
-  for suits without own abilities. Hologram = `SuitHologram` (own AvatarRenderState, Steve/Alex skin, pose encoded
+  "missing materials" text, big Sew panel, no scan slot on the Catalog tab, Hologram = `SuitHologram` (own AvatarRenderState, Steve/Alex skin, pose encoded
   in the state id `ID_BASE + pose`, applied from `PlayerModelMixin`). View prefs (tags, favorites, collapsed
   groups) in `config/powers_unchained-suit_creator.json` (`SuitCreatorPrefs`). Suit data: `suit/SuitCatalog`
   (`SuitInfo`: group, `SuitTag`s = owner's list Marvel / DC / First Appearance / Movies / DCU / DCEU / MCU / Games /
   Comics / Animation, stats, abilities, materials per piece, xpCost 20).
   ALL suits start locked (owner): unlock by scanning ANY piece of the suit in the scanner (100 ticks; durability doesn't matter,
   the piece stays; owner removed suit fragments completely) or for 20 XP levels. Locked suits are selectable in the catalog but
-  their look stays hidden (owner): "???" group, lock icon, ghost hologram, generic part icons, encrypted dossier. Progress: `suit/SuitProgress` (set of unlocked ids) in NeoForge
+  their look stays hidden (owner): "???" group, lock icon, ghost hologram, generic part icons. Progress: `suit/SuitProgress` (set of unlocked ids) in NeoForge
   attachment `PUAttachments.SUIT_PROGRESS` (copyOnDeath, synced to self) via `IGameplayHelper.suitProgress/setSuitProgress`;
   toast `SuitUnlockToast` from `SuitCreatorClient.tick` diffing the synced set.
   Mouse buttons in 26.3 are SDL numbers: left = `InputConstants.MOUSE_BUTTON_LEFT` (1), right = 3 — never 0/1.

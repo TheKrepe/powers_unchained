@@ -40,7 +40,6 @@ import org.jspecify.annotations.Nullable;
  *   <li>Catalog: suit list (search, tag filter popup, collapsible hero groups, favorites, locked suits ("???", look hidden, still selectable)),
  *   hologram (Steve / Alex, poses, part toggles, drag to rotate, variant arrows), blueprint (pieces, materials have /
  *   need, armor, durability), a big Sew panel (or "unlock for XP" while the suit is locked) and the inventory.</li>
- *   <li>Dossier: tall hologram with pose buttons and the suit's file: tags, description, stats, abilities.</li>
  *   <li>Scanner: scan slot (any suit piece), progress, decoding ghost of the target suit, the inventory.</li>
  * </ul>
  * The tag count and unlocked count are shown in the top bar on every tab.
@@ -66,7 +65,8 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
     private static final int CARD_H = 22;
 
     private static final int TAB_CATALOG = 0;
-    private static final int TAB_DOSSIER = 1;
+    /** Tabs in their order on screen (the dossier tab was removed, owner). */
+    private static final int[] TABS = {0, 2};
     private static final int TAB_SCANNER = 2;
     private static final int SEW_TICKS = 20;
 
@@ -105,7 +105,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
     public SuitCreatorScreen(SuitCreatorMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, W, H);
         SuitCreatorPrefs.load();
-        this.tab = SuitCreatorPrefs.tab;
+        this.tab = SuitCreatorPrefs.tab == TAB_SCANNER ? TAB_SCANNER : TAB_CATALOG;
         this.selected = Suits.byName(SuitCreatorPrefs.selected);
     }
 
@@ -128,7 +128,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
     }
 
     private void applyTab() {
-        this.menu.inventoryVisible = this.tab != TAB_DOSSIER;
+        this.menu.inventoryVisible = true;
         this.menu.scannerVisible = this.tab == TAB_SCANNER;
         SuitCreatorPrefs.tab = this.tab;
     }
@@ -364,7 +364,6 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         this.drawTopBar(g, x, y, mouseX, mouseY);
         this.drawList(g, x, y, mouseX, mouseY);
         switch (this.tab) {
-            case TAB_DOSSIER -> this.drawDossier(g, x, y, mouseX, mouseY);
             case TAB_SCANNER -> this.drawScanner(g, x, y, mouseX, mouseY);
             default -> this.drawCatalog(g, x, y, mouseX, mouseY);
         }
@@ -395,23 +394,24 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
 
     // ---- top bar ----
 
+    /** Bounds of the tab at screen position {@code i} (see {@link #TABS}). */
     private int[] tabBounds(int i) {
         int x = this.leftPos + 124;
         for (int t = 0; t < i; t++) {
-            x += this.font.width(tabTitle(t)) + 14;
+            x += this.font.width(tabTitle(TABS[t])) + 14;
         }
-        return new int[]{x, this.topPos + 4, this.font.width(tabTitle(i)) + 12, 14};
+        return new int[]{x, this.topPos + 4, this.font.width(tabTitle(TABS[i])) + 12, 14};
     }
 
-    private static Component tabTitle(int i) {
-        return tr(i == TAB_CATALOG ? "tab.catalog" : i == TAB_DOSSIER ? "tab.dossier" : "tab.scanner");
+    private static Component tabTitle(int tab) {
+        return tr(tab == TAB_SCANNER ? "tab.scanner" : "tab.catalog");
     }
 
     private void drawTopBar(GuiGraphicsExtractor g, int x, int y, int mx, int my) {
         g.text(this.font, this.title, x + 8, y + 7, LABEL, false);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < TABS.length; i++) {
             int[] b = this.tabBounds(i);
-            this.button(g, b[0], b[1], b[2], b[3], tabTitle(i), true, in(mx, my, b[0], b[1], b[2], b[3]), this.tab == i);
+            this.button(g, b[0], b[1], b[2], b[3], tabTitle(TABS[i]), true, in(mx, my, b[0], b[1], b[2], b[3]), this.tab == TABS[i]);
         }
         // indicators: enabled tags, unlocked suits
         int bx = x + W - 8 - 78;
@@ -771,83 +771,6 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         return 0xFF000000 | r << 16 | gg << 8 | bl;
     }
 
-    // ---- dossier ----
-
-    private void drawDossier(GuiGraphicsExtractor g, int x, int y, int mx, int my) {
-        Suit suit = this.selected;
-        boolean locked = suit == null || !this.unlocked(suit);
-        int hx = x + CENTER_X;
-        int hy = y + 20;
-        this.hologramFrame(g, hx, hy, CENTER_W, 208, false);
-        // no hanging pose in the dossier (owner)
-        if (this.pose == SuitHologram.Pose.HANG) {
-            this.pose = SuitHologram.Pose.STAND;
-        }
-        for (int i = 0; i < 2; i++) {
-            SuitHologram.Pose p = SuitHologram.Pose.values()[i];
-            int bx = hx + 6 + i * 70;
-            this.button(g, bx, hy + 5, 66, 14, tr("pose." + p.name().toLowerCase(Locale.ROOT)), true,
-                    in(mx, my, bx, hy + 5, 66, 14), this.pose == p);
-        }
-        this.drawHologram(g, hx, hy + 22, CENTER_W, 172, 68.0F, suit, locked);
-        this.drawVariantRow(g, hx, hy + 194, CENTER_W, mx, my);
-
-        // file
-        int rx = x + RIGHT_X;
-        int ry = y + 20;
-        int tw = RIGHT_W - 8;
-        monitor(g, rx, ry, RIGHT_W, 208);
-        if (suit == null) {
-            return;
-        }
-        SuitInfo info = SuitCatalog.info(suit);
-        int ty = ry + 5;
-        if (locked) {
-            g.text(this.font, LOCKED_GROUP, rx + 4, ty, AMBER, false);
-            ty += 14;
-            g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("lock"), rx + 4, ty, 8, 9);
-            g.textWithWordWrap(this.font, tr("dossier.locked"), rx + 15, ty + 1, tw - 11, 0xFFB8C2CC, false);
-            return;
-        }
-        g.text(this.font, groupName(info.group()), rx + 4, ty, CYAN_DIM, false);
-        ty += 10;
-        ty = g.textWithWordWrap(this.font, variantName(suit), rx + 4, ty, tw, AMBER, false) + 3;
-        int chipX = rx + 4;
-        for (SuitTag tag : info.tags()) {
-            int cw = this.font.width(tag.title()) + 6;
-            if (chipX + cw > rx + RIGHT_W - 4) {
-                chipX = rx + 4;
-                ty += 13;
-            }
-            chipX += this.chip(g, chipX, ty, tag, true) + 2;
-        }
-        ty += 15;
-        ty = g.textWithWordWrap(this.font, Component.translatable("suit_desc.powers_unchained." + suit.id().getPath()), rx + 4, ty, tw, 0xFFD0D8E0, false) + 2;
-        g.fill(rx + 4, ty, rx + RIGHT_W - 4, ty + 1, 0xFF2A3A46);
-        ty += 4;
-        String[] stats = {"protection", "agility", "stealth", "durability"};
-        int[] colors = {0xFFDDE3EA, GREEN, 0xFF9A6AFF, AMBER};
-        for (int i = 0; i < 4; i++) {
-            g.text(this.font, tr("stat." + stats[i]), rx + 4, ty, 0xFFB8C2CC, false);
-            for (int c = 0; c < 8; c++) {
-                int cx = rx + RIGHT_W - 4 - 8 * 6 + c * 6;
-                g.fill(cx, ty + 1, cx + 5, ty + 6, c < info.stats()[i] ? colors[i] : 0xFF2A3038);
-            }
-            ty += 10;
-        }
-        g.fill(rx + 4, ty + 1, rx + RIGHT_W - 4, ty + 2, 0xFF2A3A46);
-        ty += 5;
-        g.text(this.font, tr("abilities"), rx + 4, ty, CYAN, false);
-        ty += 11;
-        if (info.abilities().isEmpty()) {
-            g.text(this.font, tr("abilities.none"), rx + 4, ty, GREY, false);
-        } else {
-            for (String ability : info.abilities()) {
-                ty = g.textWithWordWrap(this.font, Component.literal("• ").append(Component.translatable(ability)), rx + 4, ty, tw, WHITE, false);
-            }
-        }
-    }
-
     // ---- scanner ----
 
     private void drawScanner(GuiGraphicsExtractor g, int x, int y, int mx, int my) {
@@ -1088,11 +1011,11 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
 
     private boolean clickUi(double mx, double my, int x, int y) {
         // tabs
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < TABS.length; i++) {
             int[] b = this.tabBounds(i);
             if (in(mx, my, b[0], b[1], b[2], b[3])) {
-                if (this.tab != i) {
-                    this.tab = i;
+                if (this.tab != TABS[i]) {
+                    this.tab = TABS[i];
                     this.applyTab();
                 }
                 this.click();
@@ -1145,7 +1068,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         }
         int hx = x + CENTER_X;
         // variant arrows
-        int vy = this.tab == TAB_DOSSIER ? y + 20 + 194 : y + 20 + 95;
+        int vy = y + 20 + 95;
         if (this.tab != TAB_SCANNER && Suits.variantPosition(suit) != null) {
             if (in(mx, my, hx + 4, vy, 12, 11)) {
                 this.select(Suits.variant(suit, -1));
@@ -1196,18 +1119,6 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 return true;
             }
             if (in(mx, my, hx, y + 20, CENTER_W, 94)) {
-                this.dragging = true;
-                return true;
-            }
-        } else if (this.tab == TAB_DOSSIER) {
-            for (int i = 0; i < 2; i++) {
-                if (in(mx, my, hx + 6 + i * 70, y + 25, 66, 14)) {
-                    this.pose = SuitHologram.Pose.values()[i];
-                    this.click();
-                    return true;
-                }
-            }
-            if (in(mx, my, hx, y + 42, CENTER_W, 170)) {
                 this.dragging = true;
                 return true;
             }
@@ -1319,9 +1230,9 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
 
     // ---- CI / screenshots ----
 
-    /** Dev/CI only: a real left click in the middle of tab {@code i}. */
-    public void debugClickTab(int i) {
-        int[] b = this.tabBounds(i);
+    /** Dev/CI only: a real left click in the middle of tab {@code tab}. */
+    public void debugClickTab(int tab) {
+        int[] b = this.tabBounds(tab == TAB_SCANNER ? 1 : 0);
         this.mouseClicked(new MouseButtonEvent(b[0] + b[2] / 2.0, b[1] + b[3] / 2.0,
                 new net.minecraft.client.input.MouseButtonInfo(com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_LEFT, 0)), false);
     }
@@ -1335,7 +1246,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
 
     /** Dev/CI only: sets up the screen for a screenshot. */
     public void debugSetup(int tab, @Nullable String suit, int piece, boolean tagsOpen, SuitHologram.Pose pose, boolean slim) {
-        this.tab = tab;
+        this.tab = tab == TAB_SCANNER ? TAB_SCANNER : TAB_CATALOG;
         this.applyTab();
         if (suit != null && Suits.byName(suit) != null) {
             this.select(Suits.byName(suit));
