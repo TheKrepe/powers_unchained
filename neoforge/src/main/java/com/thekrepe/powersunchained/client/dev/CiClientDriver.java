@@ -427,6 +427,11 @@ public final class CiClientDriver {
         net.minecraft.server.level.ServerPlayer player = serverPlayer();
         Minecraft.getInstance().getSingleplayerServer().execute(() -> {
             net.minecraft.core.BlockPos pos = new net.minecraft.core.BlockPos(760, -60, -2);
+            if (!player.level().getBlockState(pos).is(com.thekrepe.powersunchained.registry.PUBlocks.SUIT_CREATOR.get())) {
+                // the setblock command may have run before the chunk was loaded
+                player.level().setBlockAndUpdate(pos, com.thekrepe.powersunchained.registry.PUBlocks.SUIT_CREATOR.get().defaultBlockState());
+            }
+            Constants.LOG.info("[CI] opening the Suit Creator at {} (player at {})", pos, player.position());
             player.openMenu(player.level().getBlockState(pos).getMenuProvider(player.level(), pos));
         });
     }
