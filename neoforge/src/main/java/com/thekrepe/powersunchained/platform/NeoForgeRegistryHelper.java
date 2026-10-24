@@ -71,8 +71,8 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
 
     @Override
     public <T extends net.minecraft.world.inventory.AbstractContainerMenu> Supplier<net.minecraft.world.inventory.MenuType<T>> registerMenu(
-            String name, net.minecraft.world.inventory.MenuType.MenuSupplier<T> factory) {
-        return MENUS.register(name, () -> new net.minecraft.world.inventory.MenuType<>(factory, net.minecraft.world.flag.FeatureFlags.VANILLA_SET));
+            String name, java.util.function.BiFunction<Integer, net.minecraft.world.entity.player.Inventory, T> factory) {
+        return MENUS.register(name, () -> new net.minecraft.world.inventory.MenuType<T>(factory::apply, net.minecraft.world.flag.FeatureFlags.VANILLA_SET));
     }
 
     @Override

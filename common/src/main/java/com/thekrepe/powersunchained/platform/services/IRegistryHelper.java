@@ -38,9 +38,9 @@ public interface IRegistryHelper {
     /** Registers an entity type; the builder is built with the registry key. */
     <T extends Entity> Supplier<EntityType<T>> registerEntityType(String name, Supplier<EntityType.Builder<T>> builder);
 
-    /** Registers a menu type (no extra open data). */
+    /** Registers a menu type (no extra open data); {@code factory} = (container id, player inventory) -> menu. */
     <T extends net.minecraft.world.inventory.AbstractContainerMenu> Supplier<net.minecraft.world.inventory.MenuType<T>> registerMenu(
-            String name, net.minecraft.world.inventory.MenuType.MenuSupplier<T> factory);
+            String name, java.util.function.BiFunction<Integer, net.minecraft.world.entity.player.Inventory, T> factory);
 
     /**
      * Registers a creative tab. The loader builds it (vanilla's tab builder API is partly
