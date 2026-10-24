@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.core.ClientAsset;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.PlayerModelType;
 import net.minecraft.world.entity.player.PlayerSkin;
 import net.minecraft.world.item.ItemStack;
@@ -55,11 +54,10 @@ public final class SuitHologram {
     public static void draw(GuiGraphicsExtractor graphics, int x0, int y0, int x1, int y1, float scale, Suit suit,
             boolean[] parts, boolean slim, Pose pose, float yaw, float ageInTicks) {
         AvatarRenderState state = new AvatarRenderState();
-        state.entityType = EntityType.PLAYER;
+        state.entityType = net.minecraft.world.entity.EntityTypes.PLAYER;
         state.skin = slim ? ALEX : STEVE;
         state.id = ID_BASE + pose.ordinal();
         state.ageInTicks = ageInTicks;
-        state.partialTick = ageInTicks - Mth.floor(ageInTicks);
         state.bodyRot = 180.0F + yaw;
         state.yRot = 0.0F;
         state.xRot = pose == Pose.HANG ? -12.0F : 0.0F;

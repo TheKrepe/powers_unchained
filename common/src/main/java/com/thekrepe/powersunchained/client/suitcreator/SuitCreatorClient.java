@@ -52,7 +52,7 @@ public final class SuitCreatorClient {
                 if (suit != null) {
                     lastUnlocked = suit;
                     lastUnlockedAt = ticks;
-                    mc.getToastManager().addToast(new SuitUnlockToast(PUItems.piece(suit, ArmorType.HELMET).get().getDefaultInstance(), displayName(suit)));
+                    mc.gui.toastManager().addToast(new SuitUnlockToast(PUItems.piece(suit, ArmorType.HELMET).get().getDefaultInstance(), displayName(suit)));
                 }
             }
         }

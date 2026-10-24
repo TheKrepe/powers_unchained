@@ -200,8 +200,11 @@ public class SuitCreatorMenu extends AbstractContainerMenu {
         for (int p = 0; p < 4; p++) {
             if (piece == SuitCatalog.ALL || piece == p) {
                 ItemStack result = PUItems.piece(suit, PIECES[p]).get().getDefaultInstance();
-                if (!player.getInventory().add(result)) {
-                    player.drop(result, false);
+                if (!player.getInventory().add(result) || !result.isEmpty()) {
+                    net.minecraft.world.entity.item.ItemEntity drop = player.createItemStackToDrop(result, false, false);
+                    if (drop != null) {
+                        player.level().addFreshEntity(drop);
+                    }
                 }
             }
         }
