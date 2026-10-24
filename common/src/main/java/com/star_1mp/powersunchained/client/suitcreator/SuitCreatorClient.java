@@ -61,7 +61,7 @@ public final class SuitCreatorClient {
         known.retainAll(now);
     }
 
-    /** Full name of a suit, e.g. "Человек-паук: Рэйми". */
+    /** Full name of a suit, e.g. "Человек-Паук: Рэйми". */
     public static Component displayName(Suit suit) {
         return Component.translatable("screen.powers_unchained.suit_creator.full_name",
                 Component.translatable("suit_group.powers_unchained." + com.star_1mp.powersunchained.suit.SuitCatalog.info(suit).group()),

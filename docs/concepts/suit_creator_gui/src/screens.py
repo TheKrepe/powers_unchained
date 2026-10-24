@@ -216,7 +216,7 @@ def catalog(img, GX, GY, query=None, chips=('Все',), selected='Классич
     U.monitor(img, LX, GY + 67, 124, 183)
     ly = GY + 70
     rows = [c for c in CARDS if only is None or c[1] in only]
-    group_header(img, LX + 2, ly, 112, 'Человек-паук', len(rows))
+    group_header(img, LX + 2, ly, 112, 'Человек-Паук', len(rows))
     ly += 13
     for icon_name, name, sub, tags, fav in rows:
         suit_card(img, LX + 2, ly, 112, item(icon_name), name, sub, [TAG[t] for t in tags], name == selected, False, fav)
