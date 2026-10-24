@@ -5,6 +5,11 @@ name: Client test
 
 on:
   workflow_dispatch:
+    inputs:
+      start_tick:
+        description: "Skip the driver's scenes before this tick (0 = all)"
+        required: false
+        default: "0"
 
 permissions:
   contents: write
@@ -70,6 +75,8 @@ jobs:
           # Xvfb's GLX visuals don't match what the game asks for, Mesa's EGL works.
           export SDL_VIDEO_X11_FORCE_EGL=1
           { glxinfo -B; glxinfo -t | head -60; eglinfo -B 2>/dev/null | head -60; vulkaninfo --summary; } > /tmp/out/gfxinfo.txt 2>&1 || true
+          # the forked game JVM inherits this; the driver skips scenes before the given tick
+          export JAVA_TOOL_OPTIONS="-Dpowers_unchained.ci.start=${{ inputs.start_tick || '0' }}"
           (./gradlew :neoforge:runCiClient --stacktrace > /tmp/client.log 2>&1; echo "[CI] gradle exited $?" >> /tmp/client.log) &
           end=$((SECONDS + 1500))
           taken=""

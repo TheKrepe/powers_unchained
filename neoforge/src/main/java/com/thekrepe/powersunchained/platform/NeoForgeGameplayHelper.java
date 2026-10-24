@@ -64,4 +64,15 @@ public class NeoForgeGameplayHelper implements IGameplayHelper {
     public void sendToServer(CustomPacketPayload payload) {
         ClientPacketDistributor.sendToServer(payload);
     }
+
+    @Override
+    public com.thekrepe.powersunchained.suit.SuitProgress suitProgress(Player player) {
+        return player.getData(com.thekrepe.powersunchained.PUAttachments.SUIT_PROGRESS);
+    }
+
+    @Override
+    public void setSuitProgress(Player player, com.thekrepe.powersunchained.suit.SuitProgress progress) {
+        player.setData(com.thekrepe.powersunchained.PUAttachments.SUIT_PROGRESS, progress);
+        player.syncData(com.thekrepe.powersunchained.PUAttachments.SUIT_PROGRESS);
+    }
 }

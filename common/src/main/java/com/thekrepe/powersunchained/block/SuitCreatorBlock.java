@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 /**
  * Suit Creator: a steel machine (corner pillars, recessed body, glowing amber vent on the front, glowing data
  * screen on top, light strips on the sides). Where suits will be made. Full-block collision.
- * For now only the block itself (placement direction) — no menu yet.
+ * Opens the Suit Creator menu (catalog, dossier, scanner).
  */
 public class SuitCreatorBlock extends Block {
 
@@ -22,6 +22,23 @@ public class SuitCreatorBlock extends Block {
     public SuitCreatorBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
+    private static final net.minecraft.network.chat.Component TITLE = net.minecraft.network.chat.Component.translatable("container.powers_unchained.suit_creator");
+
+    @Override
+    protected net.minecraft.world.InteractionResult useWithoutItem(BlockState state, net.minecraft.world.level.Level level,
+            net.minecraft.core.BlockPos pos, net.minecraft.world.entity.player.Player player, net.minecraft.world.phys.BlockHitResult hit) {
+        if (!level.isClientSide()) {
+            player.openMenu(state.getMenuProvider(level, pos));
+        }
+        return net.minecraft.world.InteractionResult.SUCCESS;
+    }
+
+    @Override
+    protected net.minecraft.world.MenuProvider getMenuProvider(BlockState state, net.minecraft.world.level.Level level, net.minecraft.core.BlockPos pos) {
+        return new net.minecraft.world.SimpleMenuProvider((id, inventory, player) -> new com.thekrepe.powersunchained.menu.SuitCreatorMenu(
+                id, inventory, net.minecraft.world.inventory.ContainerLevelAccess.create(level, pos)), TITLE);
     }
 
     @Override

@@ -30,6 +30,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     private static final DeferredRegister.DataComponents COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, Constants.MOD_ID);
     private static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, Constants.MOD_ID);
     private static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, Constants.MOD_ID);
+    private static final DeferredRegister<net.minecraft.world.inventory.MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, Constants.MOD_ID);
     private static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Constants.MOD_ID);
 
     /** Hooks all deferred registers to the mod event bus. Call after common content has been declared. */
@@ -39,6 +40,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         ITEMS.register(modEventBus);
         ENTITY_TYPES.register(modEventBus);
         SOUNDS.register(modEventBus);
+        MENUS.register(modEventBus);
         CREATIVE_TABS.register(modEventBus);
     }
 
@@ -65,6 +67,12 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     @Override
     public <T extends Entity> Supplier<EntityType<T>> registerEntityType(String name, Supplier<EntityType.Builder<T>> builder) {
         return ENTITY_TYPES.register(name, id -> builder.get().build(ResourceKey.create(Registries.ENTITY_TYPE, id)));
+    }
+
+    @Override
+    public <T extends net.minecraft.world.inventory.AbstractContainerMenu> Supplier<net.minecraft.world.inventory.MenuType<T>> registerMenu(
+            String name, net.minecraft.world.inventory.MenuType.MenuSupplier<T> factory) {
+        return MENUS.register(name, () -> new net.minecraft.world.inventory.MenuType<>(factory, net.minecraft.world.flag.FeatureFlags.VANILLA_SET));
     }
 
     @Override

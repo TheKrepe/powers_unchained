@@ -36,7 +36,13 @@ public final class PUCreativeTabs {
 
     public static final Supplier<CreativeModeTab> ITEMS = tab("items", "weapons",
             () -> PUItems.FABRICS.get(DyeColor.RED).get().getDefaultInstance(),
-            output -> all(output, PUItems.items()));
+            output -> {
+                PUItems.items().stream().filter(item -> item != PUItems.SUIT_FRAGMENT)
+                        .forEach(item -> output.accept(item.get().getDefaultInstance(), false));
+                // one fragment per suit
+                com.thekrepe.powersunchained.suit.Suits.ALL.forEach(suit ->
+                        output.accept(com.thekrepe.powersunchained.item.SuitFragmentItem.of(suit), false));
+            });
 
     public static final Supplier<CreativeModeTab> BLOCKS = tab("blocks", "items",
             () -> PUItems.SUIT_CREATOR.get().getDefaultInstance(), output -> all(output, PUItems.blocks()));

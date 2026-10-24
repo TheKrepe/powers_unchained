@@ -27,6 +27,11 @@ public class PowersUnchainedNeoForge {
     public PowersUnchainedNeoForge(IEventBus modEventBus) {
         PowersUnchained.init();
         NeoForgeRegistryHelper.register(modEventBus);
+        PUAttachments.register(modEventBus);
+        net.neoforged.neoforge.registries.DeferredRegister<com.mojang.serialization.MapCodec<? extends net.neoforged.neoforge.common.loot.IGlobalLootModifier>> lootModifiers =
+                net.neoforged.neoforge.registries.DeferredRegister.create(net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Constants.MOD_ID);
+        lootModifiers.register("suit_fragments", () -> com.thekrepe.powersunchained.loot.SuitFragmentLootModifier.CODEC);
+        lootModifiers.register(modEventBus);
         NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post event) -> {
             WebShooting.tick();
             WebSlowness.endTick();

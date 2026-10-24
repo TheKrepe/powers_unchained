@@ -131,7 +131,13 @@ public class PowersUnchainedNeoForgeClient {
             WebSwingClient.tick();
             WebShotTracker.tick();
             WebZipAnimation.tick();
+            com.thekrepe.powersunchained.client.suitcreator.SuitCreatorClient.tick();
         });
+        // Suit Creator
+        com.thekrepe.powersunchained.client.suitcreator.SuitCreatorClient.init();
+        modEventBus.addListener((net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) -> event.register(
+                com.thekrepe.powersunchained.registry.PUMenus.SUIT_CREATOR.get(),
+                com.thekrepe.powersunchained.client.suitcreator.SuitCreatorScreen::new));
         // first person: the empty off hand arm shows up while it shoots webs (rapid fire alternates wrists)
         NeoForge.EVENT_BUS.addListener(PowersUnchainedNeoForgeClient::renderWebShootingOffArm);
         // web-shooter first person arm pose: before anything draws the arm

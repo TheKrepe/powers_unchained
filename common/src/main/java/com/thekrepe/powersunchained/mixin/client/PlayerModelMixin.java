@@ -23,5 +23,6 @@ public abstract class PlayerModelMixin {
         WebArmAnimation.apply((PlayerModel) (Object) this, state.id, partialTick);
         // after the web shot arm poses: the zip poses take over the arms while zipping
         WebZipAnimation.applyParts((PlayerModel) (Object) this, state.id, partialTick);
+        com.thekrepe.powersunchained.client.suitcreator.SuitHologram.applyPose((PlayerModel) (Object) this, state);
     }
 }

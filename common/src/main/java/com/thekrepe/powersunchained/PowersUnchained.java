@@ -27,6 +27,7 @@ public final class PowersUnchained {
         PUItems.init();
         PUEntities.init();
         PUSounds.init();
+        com.thekrepe.powersunchained.registry.PUMenus.init();
         PUCreativeTabs.init();
     }
 }

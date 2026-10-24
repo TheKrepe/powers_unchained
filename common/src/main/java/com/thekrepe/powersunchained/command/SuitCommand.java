@@ -36,12 +36,52 @@ public final class SuitCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("suit")
                 .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                .then(unlockCommand("unlock", true))
+                .then(unlockCommand("lock", false))
                 .then(Commands.argument("suit", StringArgumentType.word())
                         .suggests((context, builder) -> SharedSuggestionProvider.suggest(
                                 Suits.ALL.stream().map(suit -> suit.id().getPath()), builder))
                         .executes(context -> give(context, List.of(context.getSource().getPlayerOrException())))
                         .then(Commands.argument("targets", EntityArgument.players())
                                 .executes(context -> give(context, EntityArgument.getPlayers(context, "targets"))))));
+    }
+
+    /** {@code /suit unlock|lock <suit|all> [targets]}: Suit Creator progress. */
+    private static com.mojang.brigadier.builder.LiteralArgumentBuilder<CommandSourceStack> unlockCommand(String name, boolean unlock) {
+        return Commands.literal(name)
+                .then(Commands.argument("suit", StringArgumentType.word())
+                        .suggests((context, builder) -> SharedSuggestionProvider.suggest(
+                                java.util.stream.Stream.concat(java.util.stream.Stream.of("all"), Suits.ALL.stream().map(suit -> suit.id().getPath())), builder))
+                        .executes(context -> setUnlocked(context, List.of(context.getSource().getPlayerOrException()), unlock))
+                        .then(Commands.argument("targets", EntityArgument.players())
+                                .executes(context -> setUnlocked(context, EntityArgument.getPlayers(context, "targets"), unlock))));
+    }
+
+    private static int setUnlocked(CommandContext<CommandSourceStack> context, Collection<ServerPlayer> players, boolean unlock)
+            throws CommandSyntaxException {
+        String name = StringArgumentType.getString(context, "suit");
+        List<Suit> suits;
+        if (name.equals("all")) {
+            suits = Suits.ALL;
+        } else {
+            Suit suit = Suits.byName(name);
+            if (suit == null) {
+                throw UNKNOWN_SUIT.create(name);
+            }
+            suits = List.of(suit);
+        }
+        for (ServerPlayer player : players) {
+            for (Suit suit : suits) {
+                if (unlock) {
+                    com.thekrepe.powersunchained.suit.SuitUnlocks.unlock(player, suit);
+                } else {
+                    com.thekrepe.powersunchained.suit.SuitUnlocks.lock(player, suit);
+                }
+            }
+        }
+        context.getSource().sendSuccess(() -> Component.translatable(
+                "commands.powers_unchained.suit." + (unlock ? "unlocked" : "locked"), suits.size(), players.size()), true);
+        return players.size();
     }
 
     private static int give(CommandContext<CommandSourceStack> context, Collection<ServerPlayer> players)

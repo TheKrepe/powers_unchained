@@ -33,4 +33,10 @@ public interface IGameplayHelper {
 
     /** Client side: sends a payload to the server. */
     void sendToServer(CustomPacketPayload payload);
+
+    /** The player's Suit Creator progress (both sides; the client only knows its own). */
+    com.thekrepe.powersunchained.suit.SuitProgress suitProgress(Player player);
+
+    /** Server side: stores the player's Suit Creator progress and syncs it to them. */
+    void setSuitProgress(Player player, com.thekrepe.powersunchained.suit.SuitProgress progress);
 }

@@ -26,7 +26,8 @@ public final class CiClientDriver {
     private static final String[] VARIANTS = {"spider_man", "spider_man_first_appearance", "spider_man_advanced_2",
             "spider_man_brand_new_day", "spider_man_raimi"};
 
-    private static int ticks = -1;
+    /** Dev: {@code -Dpowers_unchained.ci.start=N} skips the scenes before tick N. */
+    private static int ticks = Integer.getInteger("powers_unchained.ci.start", 0) - 1;
 
     private CiClientDriver() {
     }
@@ -353,13 +354,98 @@ public final class CiClientDriver {
                 run("setblock 700 -60 -5 powers_unchained:tech_table[facing=south]");
             }
             case 5680 -> shot("33_tech_table");
+            // ---- Suit Creator menu ----
             case 5760 -> {
+                run("kill @e[type=!player]");
+                run("time set 6000");
+                run("gamemode survival @p");
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+                run("tp @p 760.5 -60 0.5 180 20");
+                run("setblock 760 -60 -2 powers_unchained:suit_creator[facing=south]");
+                run("clear @p");
+                run("suit lock all @p");
+                run("suit unlock spider_man @p");
+                run("suit unlock spider_man_raimi @p");
+                run("xp set @p 25 levels");
+                run("give @p powers_unchained:red_fabric 20");
+                run("give @p powers_unchained:blue_fabric 10");
+                run("give @p powers_unchained:black_fabric 4");
+                run("give @p minecraft:string 3");
+                run("give @p powers_unchained:suit_fragment[powers_unchained:suit_fragment=\"powers_unchained:spider_man_first_appearance\"] 2");
+            }
+            case 5800 -> openSuitCreator();
+            case 5830 -> creator(0, "spider_man", 4, false, 0, false);
+            case 5850 -> shot("34_sc_catalog");
+            case 5880 -> creator(0, "spider_man", 0, false, 1, true);
+            case 5900 -> shot("35_sc_catalog_mask_alex_run");
+            case 5930 -> creator(0, "spider_man", 4, true, 0, false);
+            case 5950 -> shot("36_sc_tags_popup");
+            case 5980 -> creator(0, "spider_man_advanced_2", 4, false, 0, false);
+            case 6000 -> shot("37_sc_locked_unlock_for_xp");
+            case 6030 -> creator(1, "spider_man_raimi", 4, false, 2, false);
+            case 6050 -> shot("38_sc_dossier_hang");
+            case 6080 -> {
+                creator(2, "spider_man", 4, false, 0, false);
+                scanSlot("powers_unchained:spider_man_first_appearance", 3);
+            }
+            case 6110 -> shot("39_sc_scanning");
+            case 6275 -> shot("40_sc_unlocked");
+            case 6310 -> creator(1, "spider_man_advanced_2", 4, false, 0, false);
+            case 6330 -> shot("41_sc_dossier_locked");
+            case 6360 -> {
+                creator(0, "spider_man_raimi", 0, false, 0, false);
+                run("tick rate 2");
+            }
+            case 6362 -> {
+                if (mc.gui.screen() instanceof com.thekrepe.powersunchained.client.suitcreator.SuitCreatorScreen screen) {
+                    screen.debugSew();
+                }
+            }
+            case 6366 -> shot("42_sc_sewing");
+            case 6380 -> run("tick rate 20");
+            case 6420 -> shot("43_sc_sewn");
+            case 6450 -> {
+                mc.player.closeContainer();
+                run("gamemode creative @p");
+            }
+            case 6480 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
             default -> {
             }
         }
+    }
+
+    /** Opens the Suit Creator next to the player (server side, like right-clicking the block). */
+    private static void openSuitCreator() {
+        net.minecraft.server.level.ServerPlayer player = serverPlayer();
+        Minecraft.getInstance().getSingleplayerServer().execute(() -> {
+            net.minecraft.core.BlockPos pos = new net.minecraft.core.BlockPos(760, -60, -2);
+            player.openMenu(player.level().getBlockState(pos).getMenuProvider(player.level(), pos));
+        });
+    }
+
+    /** Sets up the open Suit Creator screen: tab, suit, blueprint piece, tags popup, pose, Alex. */
+    private static void creator(int tab, String suit, int piece, boolean tags, int pose, boolean slim) {
+        if (Minecraft.getInstance().gui.screen() instanceof com.thekrepe.powersunchained.client.suitcreator.SuitCreatorScreen screen) {
+            screen.debugSetup(tab, suit, piece, tags, com.thekrepe.powersunchained.client.suitcreator.SuitHologram.Pose.values()[pose], slim);
+        } else {
+            Constants.LOG.warn("[CI] Suit Creator screen is not open: {}", Minecraft.getInstance().gui.screen());
+        }
+    }
+
+    /** Puts fragments of a suit into the scanner slot (server side). */
+    private static void scanSlot(String suit, int count) {
+        net.minecraft.server.level.ServerPlayer player = serverPlayer();
+        Minecraft.getInstance().getSingleplayerServer().execute(() -> {
+            if (player.containerMenu instanceof com.thekrepe.powersunchained.menu.SuitCreatorMenu menu) {
+                com.thekrepe.powersunchained.suit.Suit s = com.thekrepe.powersunchained.suit.Suits.byName(suit.substring(suit.indexOf(':') + 1));
+                net.minecraft.world.item.ItemStack stack = com.thekrepe.powersunchained.item.SuitFragmentItem.of(s);
+                stack.setCount(count);
+                menu.getSlot(com.thekrepe.powersunchained.menu.SuitCreatorMenu.SCAN_SLOT).set(stack);
+            }
+        });
     }
 
     private static void summon(double x, String profile, String equipment) {
