@@ -116,8 +116,8 @@ public final class SuitHologram {
                 float sway = Mth.sin(t * 0.08F) * 0.06F;
                 model.rightArm.xRot = -2.95F;
                 model.rightArm.zRot = 0.12F + sway;
-                model.leftArm.xRot = -2.2F;
-                model.leftArm.zRot = -0.55F + sway;
+                model.leftArm.xRot = -2.75F;
+                model.leftArm.zRot = -0.3F + sway;
                 model.rightLeg.xRot = -0.55F;
                 model.rightLeg.zRot = 0.06F;
                 model.leftLeg.xRot = 0.35F;

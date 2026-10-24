@@ -593,7 +593,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         int hx = x + CENTER_X;
         int hy = y + 20;
         this.hologramFrame(g, hx, hy, CENTER_W, 108, true);
-        this.drawHologram(g, hx, hy, CENTER_W, 96, 44.0F, suit, locked);
+        this.drawHologram(g, hx, hy, CENTER_W, 96, 40.0F, suit, locked);
         this.drawVariantRow(g, hx, hy + 95, CENTER_W, mx, my);
 
         // controls: Steve / Alex, pose, part toggles
@@ -896,8 +896,8 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         this.hologramFrame(g, gx, gy, RIGHT_W, 128, false);
         Suit recent = SuitCreatorClient.recentlyUnlocked(120);
         if (recent != null) {
-            this.drawHologram(g, gx, gy + 4, RIGHT_W, 104, 46.0F, recent, false);
             g.centeredText(this.font, tr("unlocked"), gx + RIGHT_W / 2, gy + 6, GREEN);
+            this.drawHologram(g, gx, gy + 16, RIGHT_W, 92, 38.0F, recent, false);
             g.centeredText(this.font, Component.literal(this.trim(variantName(recent).getString(), RIGHT_W - 8)), gx + RIGHT_W / 2, gy + 114, AMBER);
         } else {
             this.drawHologram(g, gx, gy + 4, RIGHT_W, 104, 46.0F, null, true);

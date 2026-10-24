@@ -380,40 +380,40 @@ public final class CiClientDriver {
             }
             case 5800 -> openSuitCreator();
             case 5830 -> creator(0, "spider_man", 4, false, 0, false);
-            case 5850 -> shot("34_sc_catalog");
-            case 5880 -> creator(0, "spider_man", 0, false, 1, true);
-            case 5900 -> shot("35_sc_catalog_mask_alex_run");
-            case 5930 -> creator(0, "spider_man", 4, true, 0, false);
-            case 5950 -> shot("36_sc_tags_popup");
-            case 5980 -> creator(0, "spider_man_advanced_2", 4, false, 0, false);
-            case 6000 -> shot("37_sc_locked_unlock_for_xp");
-            case 6030 -> creator(1, "spider_man_raimi", 4, false, 2, false);
-            case 6050 -> shot("38_sc_dossier_hang");
-            case 6080 -> {
+            case 5870 -> shot("34_sc_catalog");
+            case 5950 -> creator(0, "spider_man", 0, false, 1, true);
+            case 5990 -> shot("35_sc_catalog_mask_alex_run");
+            case 6070 -> creator(0, "spider_man", 4, true, 0, false);
+            case 6110 -> shot("36_sc_tags_popup");
+            case 6190 -> creator(0, "spider_man_advanced_2", 4, false, 0, false);
+            case 6230 -> shot("37_sc_locked_unlock_for_xp");
+            case 6310 -> creator(1, "spider_man_raimi", 4, false, 2, false);
+            case 6350 -> shot("38_sc_dossier_hang");
+            case 6430 -> {
                 creator(2, "spider_man", 4, false, 0, false);
                 scanSlot("powers_unchained:spider_man_first_appearance", 3);
             }
-            case 6110 -> shot("39_sc_scanning");
-            case 6275 -> shot("40_sc_unlocked");
-            case 6310 -> creator(1, "spider_man_advanced_2", 4, false, 0, false);
-            case 6330 -> shot("41_sc_dossier_locked");
-            case 6360 -> {
+            case 6450 -> shot("39_sc_scanning");
+            case 6620 -> shot("40_sc_unlocked");
+            case 6700 -> creator(1, "spider_man_advanced_2", 4, false, 0, false);
+            case 6740 -> shot("41_sc_dossier_locked");
+            case 6820 -> {
                 creator(0, "spider_man_raimi", 0, false, 0, false);
                 run("tick rate 2");
             }
-            case 6362 -> {
+            case 6822 -> {
                 if (mc.gui.screen() instanceof com.thekrepe.powersunchained.client.suitcreator.SuitCreatorScreen screen) {
                     screen.debugSew();
                 }
             }
-            case 6366 -> shot("42_sc_sewing");
-            case 6380 -> run("tick rate 20");
-            case 6420 -> shot("43_sc_sewn");
-            case 6450 -> {
+            case 6826 -> shot("42_sc_sewing");
+            case 6840 -> run("tick rate 20");
+            case 6880 -> shot("43_sc_sewn");
+            case 6960 -> {
                 mc.player.closeContainer();
                 run("gamemode creative @p");
             }
-            case 6480 -> {
+            case 7000 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
