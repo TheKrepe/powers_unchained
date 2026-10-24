@@ -64,6 +64,7 @@ jobs:
           tutorialStep:none
           skipMultiplayerWarning:true
           joinedFirstServer:true
+          lang:ru_ru
           EOF
           sed -i 's/^ *//' neoforge/runs/ciclient/options.txt
           Xvfb :99 -screen 0 1280x720x24 +extension GLX +extension RENDER -nolisten tcp &
