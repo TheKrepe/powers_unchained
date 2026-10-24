@@ -204,6 +204,11 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
             }
             return shooter.getEyePosition(pt).add(right.scale(hand.x)).add(up.scale(hand.y)).add(look.scale(-hand.z));
         }
+        // the wrist as the model was really drawn (the line follows every pose)
+        Vec3 drawn = WebHandTracker.wrist(shooter.getId(), shooter.getPosition(pt), k > 0.0F);
+        if (drawn != null) {
+            return drawn;
+        }
         float bodyYaw = Mth.rotLerp(pt, shooter.yBodyRotO, shooter.yBodyRot) * Mth.DEG_TO_RAD;
         Vec3 right = new Vec3(-Math.cos(bodyYaw), 0.0, -Math.sin(bodyYaw)).scale(k);
         if (line instanceof WebSwingLine swing && swing.isCaught() && swing.getHooked() == null) {

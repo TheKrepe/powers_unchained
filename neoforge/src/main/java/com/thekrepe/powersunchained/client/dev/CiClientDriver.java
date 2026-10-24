@@ -343,6 +343,16 @@ public final class CiClientDriver {
                 run("tick rate 20");
                 Constants.LOG.info("[CI] first person swing: hanging {}", com.thekrepe.powersunchained.client.web.WebZipAnimation.isHanging(mc.player.getId()));
             }
+            case 5640 -> {
+                // the Tech Table: front, side and top
+                run("kill @e[type=!player]");
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+                run("tp @p 700.5 -60 0.5 180 30");
+                run("setblock 699 -60 -3 powers_unchained:tech_table[facing=south]");
+                run("setblock 701 -60 -3 powers_unchained:tech_table[facing=east]");
+                run("setblock 700 -60 -5 powers_unchained:tech_table[facing=south]");
+            }
+            case 5680 -> shot("33_tech_table");
             case 5760 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();

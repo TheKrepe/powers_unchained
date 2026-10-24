@@ -47,6 +47,7 @@ public final class PUItems {
 
     // Blocks
     public static final Supplier<BlockItem> SUIT_CREATOR = blockItem("suit_creator", PUBlocks.SUIT_CREATOR);
+    public static final Supplier<BlockItem> TECH_TABLE = blockItem("tech_table", PUBlocks.TECH_TABLE);
 
     // Suits: four pieces for every suit in Suits.ALL
     private static final Map<Suit, Map<ArmorType, Supplier<SuitPieceItem>>> SUIT_PIECES = registerSuits();

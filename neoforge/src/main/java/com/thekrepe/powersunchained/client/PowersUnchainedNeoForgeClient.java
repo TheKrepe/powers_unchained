@@ -171,6 +171,7 @@ public class PowersUnchainedNeoForgeClient {
             AvatarRenderer<?> player = event.getPlayerRenderer(skin);
             if (player != null) {
                 player.addLayer(new SuitLayer(player, event.getEntityModels(), slim));
+                player.addLayer(new com.thekrepe.powersunchained.client.web.WebHandLayer(player));
             }
             AvatarRenderer<?> mannequin = event.getMannequinRenderer(skin);
             if (mannequin != null) {

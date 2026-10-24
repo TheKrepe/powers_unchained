@@ -1,18 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
+  "category": "misc",
   "key": {
     "I": "minecraft:iron_ingot",
     "R": "minecraft:redstone",
     "C": "minecraft:copper_ingot",
-    "P": "minecraft:piston"
+    "T": "minecraft:crafting_table",
+    "P": "#minecraft:planks"
   },
   "pattern": [
     "IRI",
-    "CPC",
-    "I I"
+    "CTC",
+    "PPP"
   ],
   "result": {
-    "id": "powers_unchained:web_shooters"
+    "id": "powers_unchained:tech_table"
   }
 }

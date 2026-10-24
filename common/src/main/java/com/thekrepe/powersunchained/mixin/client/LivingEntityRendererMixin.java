@@ -21,6 +21,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LivingEntityRendererMixin<S extends LivingEntityRenderState> {
 
     @Inject(method = "submit(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V",
+            at = @At("HEAD"))
+    private void powers_unchained$webHandsOrigin(S state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera,
+            CallbackInfo ci) {
+        if (state instanceof AvatarRenderState avatar) {
+            com.thekrepe.powersunchained.client.web.WebHandTracker.begin(avatar.id, poseStack);
+        }
+    }
+
+    @Inject(method = "submit(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;scale(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;)V"))
     private void powers_unchained$webZipBody(S state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera,
             CallbackInfo ci) {

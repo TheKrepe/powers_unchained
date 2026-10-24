@@ -1,6 +1,7 @@
 package com.thekrepe.powersunchained.registry;
 
 import com.thekrepe.powersunchained.block.SuitCreatorBlock;
+import com.thekrepe.powersunchained.block.TechTableBlock;
 import com.thekrepe.powersunchained.platform.Services;
 import java.util.function.Supplier;
 import net.minecraft.world.level.block.SoundType;
@@ -18,6 +19,16 @@ public final class PUBlocks {
                     .strength(3.5F, 6.0F)
                     .sound(SoundType.METAL)
                     .noOcclusion());
+
+    /** Wooden workbench with steel parts: axe, strength 2.5 like the crafting table, wood sound. */
+    public static final Supplier<TechTableBlock> TECH_TABLE = Services.REGISTRY.registerBlock(
+            "tech_table",
+            TechTableBlock::new,
+            properties -> properties
+                    .mapColor(MapColor.COLOR_BROWN)
+                    .strength(2.5F)
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava());
 
     private PUBlocks() {
     }
