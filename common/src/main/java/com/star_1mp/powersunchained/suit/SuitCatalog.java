@@ -15,8 +15,6 @@ public final class SuitCatalog {
 
     /** Experience levels to unlock a suit without the scanner. */
     public static final int DEFAULT_XP_COST = 20;
-    /** Fragments to scan to unlock a suit. */
-    public static final int DEFAULT_FRAGMENTS = 3;
     /** Piece index of "the whole suit" in the blueprint. */
     public static final int ALL = 4;
 
@@ -73,7 +71,7 @@ public final class SuitCatalog {
                 List.of(m(p, 5), m(s, 3), m(a, 1), m(string, 2)),
                 List.of(m(s, 4), m(p, 2), m(string, 1)),
                 List.of(m(p, 2), m(s, 1), m(string, 1)));
-        INFO.put(suit, new SuitInfo("spider_man", List.of(tags), stats, List.of(), materials, DEFAULT_XP_COST, DEFAULT_FRAGMENTS));
+        INFO.put(suit, new SuitInfo("spider_man", List.of(tags), stats, List.of(), materials, DEFAULT_XP_COST));
     }
 
     private static SuitInfo.Material m(Supplier<? extends Item> item, int count) {

@@ -1,4 +1,4 @@
-"""Suit Creator GUI sprites (generic, shared by every suit) + the suit fragment item texture.
+"""Suit Creator GUI sprites (generic, shared by every suit).
 
 Sprites go to textures/gui/sprites/suit_creator/ (GUI atlas, id powers_unchained:suit_creator/<name>).
 Usage: python3 tools/gen_suit_creator_gui.py <resources root>
@@ -224,25 +224,4 @@ for y in range(48):
 g = g.crop((0, 0, 24, 32))
 save(g, "ghost")
 
-# ---- suit fragment item (16x16): torn red/blue fabric scrap with a glowing data strip ----
-art = """
-................
-.....#####......
-....#rrrrr##....
-...#rrRrrrrr#...
-..#rrrrrrRrrr#..
-..#rrbbbbrrrr#..
-.#rrbbBbbbbrr#..
-.#rrbbbbbbbbrr#.
-.#ccccccccccccc#
-.#CccCccCccCcc#.
-..#bbbbbbbrrr#..
-..#bbBbbbrrr#...
-...#bbbbrr##....
-....#####.......
-................
-................"""
-frag = from_art(art, {"#": hx("#2a1a1a"), "r": hx("#b8302a"), "R": hx("#e05a48"), "b": hx("#2d4fa0"),
-                      "B": hx("#4f74c8"), "c": hx("#3bc6e8"), "C": hx("#c8f6ff")})
-frag.save(os.path.join(A, "item", "suit_fragment.png"))
 print("suit creator gui sprites written")

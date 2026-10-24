@@ -68,7 +68,7 @@ public final class CiClientDriver {
                 run("item replace entity @p armor.chest with powers_unchained:spider_man_chestplate");
                 run("item replace entity @p armor.legs with powers_unchained:spider_man_pants");
                 run("item replace entity @p armor.feet with powers_unchained:spider_man_boots");
-                run("suit spider_man_raimi @p");
+                run("suit give spider_man_raimi @p");
             }
             // Each scene: set up, wait ~5 s for it to render, log the shot marker, then hold ~10 s so the
             // workflow (which polls the log) captures the screen before the next scene starts.
@@ -376,7 +376,6 @@ public final class CiClientDriver {
                 run("give @p powers_unchained:blue_fabric 10");
                 run("give @p powers_unchained:black_fabric 4");
                 run("give @p minecraft:string 3");
-                run("give @p powers_unchained:suit_fragment[powers_unchained:suit_fragment=\"powers_unchained:spider_man_first_appearance\"] 2");
             }
             case 5800 -> openSuitCreator();
             case 5830 -> creator(0, "spider_man", 4, false, 0, false);
@@ -387,14 +386,25 @@ public final class CiClientDriver {
             case 6110 -> shot("36_sc_tags_popup");
             case 6190 -> creator(0, "spider_man_advanced_2", 4, false, 0, false);
             case 6230 -> shot("37_sc_locked_unlock_for_xp");
+            case 6260 -> {
+                // a real mouse click (SDL left button) on the Scanner tab, then on the Dossier tab
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.suitcreator.SuitCreatorScreen screen) {
+                    screen.debugClickTab(2);
+                    int afterFirst = com.star_1mp.powersunchained.client.suitcreator.SuitCreatorPrefs.tab;
+                    screen.debugClickTab(1);
+                    Constants.LOG.info("[CI] clicked tabs: scanner -> tab {}, dossier -> tab {}", afterFirst,
+                            com.star_1mp.powersunchained.client.suitcreator.SuitCreatorPrefs.tab);
+                }
+            }
+            case 6280 -> shot("37b_sc_clicked_dossier_tab");
             case 6310 -> creator(1, "spider_man_raimi", 4, false, 2, false);
             case 6350 -> shot("38_sc_dossier_hang");
             case 6430 -> {
                 creator(2, "spider_man", 4, false, 0, false);
-                scanSlot("powers_unchained:spider_man_first_appearance", 3);
+                scanSlot("powers_unchained:spider_man_first_appearance", 1);
             }
             case 6450 -> shot("39_sc_scanning");
-            case 6620 -> shot("40_sc_unlocked");
+            case 6540 -> shot("40_sc_unlocked");
             case 6700 -> creator(1, "spider_man_advanced_2", 4, false, 0, false);
             case 6740 -> shot("41_sc_dossier_locked");
             case 6820 -> {
@@ -445,14 +455,16 @@ public final class CiClientDriver {
         }
     }
 
-    /** Puts fragments of a suit into the scanner slot (server side). */
+    /** Puts a worn-out piece of a suit into the scanner slot (server side). */
     private static void scanSlot(String suit, int count) {
         net.minecraft.server.level.ServerPlayer player = serverPlayer();
         Minecraft.getInstance().getSingleplayerServer().execute(() -> {
             if (player.containerMenu instanceof com.star_1mp.powersunchained.menu.SuitCreatorMenu menu) {
                 com.star_1mp.powersunchained.suit.Suit s = com.star_1mp.powersunchained.suit.Suits.byName(suit.substring(suit.indexOf(':') + 1));
-                net.minecraft.world.item.ItemStack stack = com.star_1mp.powersunchained.item.SuitFragmentItem.of(s);
+                net.minecraft.world.item.ItemStack stack = com.star_1mp.powersunchained.registry.PUItems.piece(s,
+                        net.minecraft.world.item.equipment.ArmorType.HELMET).get().getDefaultInstance();
                 stack.setCount(count);
+                stack.setDamageValue(stack.getMaxDamage() - 5);  // durability doesn't matter
                 menu.getSlot(com.star_1mp.powersunchained.menu.SuitCreatorMenu.SCAN_SLOT).set(stack);
             }
         });

@@ -18,10 +18,6 @@ public final class PUDataComponents {
     public static final Supplier<DataComponentType<List<Integer>>> WEB_CARTRIDGES = Services.REGISTRY.registerDataComponent("web_cartridges",
             builder -> builder.persistent(Codec.INT.listOf()).networkSynchronized(ByteBufCodecs.VAR_INT.apply(ByteBufCodecs.list())));
 
-    /** Suit a suit fragment belongs to (scanned in the Suit Creator). */
-    public static final Supplier<DataComponentType<net.minecraft.resources.Identifier>> SUIT_FRAGMENT = Services.REGISTRY.registerDataComponent("suit_fragment",
-            builder -> builder.persistent(net.minecraft.resources.Identifier.CODEC).networkSynchronized(net.minecraft.resources.Identifier.STREAM_CODEC));
-
     private PUDataComponents() {
     }
 

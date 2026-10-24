@@ -21,7 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorType;
 
 /**
- * {@code /suit <suit> [targets]} — gives the full set (mask, suit, pants, boots) of a suit to the targets
+ * {@code /suit give <suit> [targets]} — gives the full set (mask, suit, pants, boots) of a suit to the targets
  * (default: the player running the command). Suit names are tab-completed. Needs permission level 2.
  */
 public final class SuitCommand {
@@ -38,12 +38,12 @@ public final class SuitCommand {
                 .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(unlockCommand("unlock", true))
                 .then(unlockCommand("lock", false))
-                .then(Commands.argument("suit", StringArgumentType.word())
+                .then(Commands.literal("give").then(Commands.argument("suit", StringArgumentType.word())
                         .suggests((context, builder) -> SharedSuggestionProvider.suggest(
                                 Suits.ALL.stream().map(suit -> suit.id().getPath()), builder))
                         .executes(context -> give(context, List.of(context.getSource().getPlayerOrException())))
                         .then(Commands.argument("targets", EntityArgument.players())
-                                .executes(context -> give(context, EntityArgument.getPlayers(context, "targets"))))));
+                                .executes(context -> give(context, EntityArgument.getPlayers(context, "targets")))))));
     }
 
     /** {@code /suit unlock|lock <suit|all> [targets]}: Suit Creator progress. */

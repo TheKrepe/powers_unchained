@@ -37,11 +37,11 @@ import org.jspecify.annotations.Nullable;
 /**
  * Suit Creator screen (vanilla container look with dark "tech" monitors). Three tabs:
  * <ul>
- *   <li>Catalog: suit list (search, tag filter popup, collapsible hero groups, favorites, locked "???" suits),
+ *   <li>Catalog: suit list (search, tag filter popup, collapsible hero groups, favorites, locked suits (shown dimmed with a lock)),
  *   hologram (Steve / Alex, poses, part toggles, drag to rotate, variant arrows), blueprint (pieces, materials have /
  *   need, armor, durability), a big Sew panel (or "unlock for XP" while the suit is locked) and the inventory.</li>
  *   <li>Dossier: tall hologram with pose buttons and the suit's file: tags, description, stats, abilities.</li>
- *   <li>Scanner: scan slot, progress, fragments, decoding ghost of the target suit, the inventory.</li>
+ *   <li>Scanner: scan slot (any suit piece), progress, decoding ghost of the target suit, the inventory.</li>
  * </ul>
  * The tag count and unlocked count are shown in the top bar on every tab.
  */
@@ -213,16 +213,9 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         SuitProgress progress = this.progress();
         String query = this.search.getValue().trim().toLowerCase(Locale.ROOT);
         Map<String, List<Suit>> groups = new LinkedHashMap<>();
-        List<Suit> locked = new ArrayList<>();
         for (Suit suit : Suits.ALL) {
             SuitInfo info = SuitCatalog.info(suit);
             if (info.tags().stream().noneMatch(SuitCreatorPrefs.TAGS::contains)) {
-                continue;
-            }
-            if (!progress.isUnlocked(suit)) {
-                if (query.isEmpty()) {
-                    locked.add(suit);
-                }
                 continue;
             }
             String name = variantName(suit).getString().toLowerCase(Locale.ROOT);
@@ -233,18 +226,14 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
             groups.computeIfAbsent(info.group(), g -> new ArrayList<>()).add(suit);
         }
         groups.forEach((group, suits) -> {
-            suits.sort(Comparator.comparing(s -> SuitCreatorPrefs.FAVORITES.contains(s.id().getPath()) ? 0 : 1));
+            // favorites first, then unlocked, then locked
+            suits.sort(Comparator.comparing((Suit s) -> SuitCreatorPrefs.FAVORITES.contains(s.id().getPath()) ? 0 : 1)
+                    .thenComparing(s -> progress.isUnlocked(s) ? 0 : 1));
             this.rows.add(new Row(Row.HEADER, group, null, suits.size()));
             if (!SuitCreatorPrefs.COLLAPSED.contains(group)) {
-                suits.forEach(s -> this.rows.add(new Row(Row.CARD, group, s, 0)));
+                suits.forEach(s -> this.rows.add(new Row(progress.isUnlocked(s) ? Row.CARD : Row.LOCKED_CARD, group, s, 0)));
             }
         });
-        if (!locked.isEmpty()) {
-            this.rows.add(new Row(Row.HEADER, LOCKED_GROUP, null, locked.size()));
-            if (!SuitCreatorPrefs.COLLAPSED.contains(LOCKED_GROUP)) {
-                locked.forEach(s -> this.rows.add(new Row(Row.LOCKED_CARD, LOCKED_GROUP, s, 0)));
-            }
-        }
         if (this.rows.isEmpty()) {
             this.rows.add(new Row(Row.MESSAGE, SuitCreatorPrefs.TAGS.isEmpty() ? "empty_tags" : "empty", null, 0));
         }
@@ -492,15 +481,16 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 SuitInfo info = SuitCatalog.info(suit);
                 g.fill(x, y, x + 2, y + CARD_H - 1, locked ? 0xFF3A3F46 : info.tags().get(0).color());
                 inset(g, x + 4, y + 2, 18, 18, 0xFF0E1216);
+                g.item(pieceStack(suit, 0), x + 5, y + 3);
                 if (locked) {
-                    g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("lock"), x + 9, y + 6, 8, 9);
-                } else {
-                    g.item(pieceStack(suit, 0), x + 5, y + 3);
+                    // dim the icon and put a small lock on it
+                    g.fill(x + 5, y + 3, x + 21, y + 19, 0x880E1216);
+                    g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("lock"), x + 14, y + 11, 8, 9);
                 }
                 boolean fav = SuitCreatorPrefs.FAVORITES.contains(suit.id().getPath());
-                String name = locked ? LOCKED_GROUP : variantName(suit).getString();
-                g.text(this.font, this.trim(name, w - 26 - 12), x + 26, y + 7, locked ? DIM : sel ? 0xFFFFD27A : WHITE, false);
-                if (!locked && (fav || hover)) {
+                String name = variantName(suit).getString();
+                g.text(this.font, this.trim(name, w - 26 - 12), x + 26, y + 7, sel ? 0xFFFFD27A : locked ? 0xFF8A939E : WHITE, false);
+                if (fav || hover) {
                     boolean starHover = in(mx, my, x + w - 10, y + 6, 8, 9);
                     g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite(fav || starHover ? "star_on" : "star_off"), x + w - 10, y + 7, 7, 7);
                 }
@@ -532,7 +522,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         // platform rings
         this.ring(g, cx, feet, (int) (scale * 0.62F), 3, 0xFF59E4FF);
         this.ring(g, cx, feet, (int) (scale * 0.45F), 2, 0x8859E4FF);
-        if (suit == null || locked) {
+        if (suit == null) {
             float pulse = 0.65F + 0.25F * Mth.sin(this.time * 0.15F);
             int gh = (int) (scale * 1.8F);
             int gw = gh * 24 / 32;
@@ -549,6 +539,14 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 int handX = Math.round(cx - 0.363F * s * Mth.cos(yawRad));
                 int handY = Math.round(feet - 2 - 1.86F * s);
                 g.fill(handX, y + 3, handX + 1, handY, 0xDDF2F6FA);
+            }
+            if (locked) {
+                Component text = tr("locked");
+                int tw = this.font.width(text) + 14;
+                g.fill(cx - tw / 2, y + 16, cx + tw / 2, y + 28, 0xCC1A1F26);
+                g.outline(cx - tw / 2, y + 16, tw, 12, 0xFF8A939E);
+                g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("lock"), cx - tw / 2 + 3, y + 18, 8, 9);
+                g.text(this.font, text, cx - tw / 2 + 12, y + 18, 0xFFD0D8E0, false);
             }
         }
     }
@@ -624,12 +622,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
             int sx = rx + i * 19;
             g.blitSprite(RenderPipelines.GUI_TEXTURED, Identifier.withDefaultNamespace("container/slot"), sx, y + 31, 18, 18);
             if (suit != null) {
-                if (locked) {
-                    g.fill(sx + 1, y + 32, sx + 17, y + 48, 0xFF5A5A5A);
-                    g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("part_" + PART_SPRITES[i] + "_off"), sx + 4, y + 35, 10, 10);
-                } else {
-                    g.item(pieceStack(suit, i), sx + 1, y + 32);
-                }
+                g.item(pieceStack(suit, i), sx + 1, y + 32);
             }
             if (this.piece == i) {
                 g.outline(sx - 1, y + 30, 20, 20, AMBER);
@@ -675,7 +668,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 g.text(this.font, pcs, rx + RIGHT_W - this.font.width(pcs), ay + 1, LABEL, false);
             }
             // a few tags of the suit
-            if (!locked) {
+            {
                 int chipX = rx;
                 for (SuitTag tag : SuitCatalog.info(suit).tags()) {
                     int cw = this.font.width(tag.title()) + 6;
@@ -708,7 +701,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
             g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("xp_orb"), x + 24, y + 31, 6, 6);
             Component cost = tr("unlock.cost", info.xpCost());
             g.text(this.font, cost, x + 34, y + 30, can ? GREEN : RED, true);
-            Component scan = tr("unlock.or_scan", this.progress().fragments(suit), info.fragments());
+            Component scan = tr("unlock.or_scan");
             g.centeredText(this.font, scan, x + SEW_W / 2, y + 46, 0xFFB8C2CC);
             g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("lock"), x + SEW_W / 2 - 4, y + 60, 8, 9, can ? 0xFFB6FF7A : 0xFF8A9099);
             return;
@@ -797,12 +790,6 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         }
         SuitInfo info = SuitCatalog.info(suit);
         int ty = ry + 5;
-        if (locked) {
-            g.text(this.font, LOCKED_GROUP, rx + 4, ty, AMBER, false);
-            ty += 14;
-            g.textWithWordWrap(this.font, tr("dossier.locked"), rx + 4, ty, tw, 0xFFB8C2CC, false);
-            return;
-        }
         g.text(this.font, groupName(info.group()), rx + 4, ty, CYAN_DIM, false);
         ty += 10;
         ty = g.textWithWordWrap(this.font, variantName(suit), rx + 4, ty, tw, AMBER, false) + 3;
@@ -831,6 +818,12 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         }
         g.fill(rx + 4, ty + 1, rx + RIGHT_W - 4, ty + 2, 0xFF2A3A46);
         ty += 5;
+        if (locked) {
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("lock"), rx + 4, ty, 8, 9);
+            ty = g.textWithWordWrap(this.font, tr("dossier.locked"), rx + 15, ty + 1, tw - 11, 0xFF8A939E, false) + 3;
+            g.fill(rx + 4, ty, rx + RIGHT_W - 4, ty + 1, 0xFF2A3A46);
+            ty += 4;
+        }
         g.text(this.font, tr("abilities"), rx + 4, ty, CYAN, false);
         ty += 11;
         if (info.abilities().isEmpty()) {
@@ -869,7 +862,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
             g.fill(slotX - 8, ly + 1, slotX + 24, ly + 2, 0x55FFB13B);
         }
         String key = switch (state) {
-            case SuitCreatorMenu.STATE_SCANNING -> stack.getItem() instanceof com.star_1mp.powersunchained.item.SuitPieceItem ? "scan.piece" : "scan.scanning";
+            case SuitCreatorMenu.STATE_SCANNING -> "scan.scanning";
             case SuitCreatorMenu.STATE_KNOWN -> "scan.known";
             case SuitCreatorMenu.STATE_INVALID -> "scan.invalid";
             default -> "scan.empty";
@@ -884,18 +877,12 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         g.fill(bx, sy + 66, bx + fillW, sy + 72, state == SuitCreatorMenu.STATE_KNOWN ? CYAN_DIM : AMBER);
         g.centeredText(this.font, Component.literal((fillW * 100 / bw) + "%"), cx, sy + 76, scanning ? AMBER : GREY);
 
-        // fragments of the target suit
-        g.text(this.font, tr("fragments"), sx + 8, sy + 100, 0xFFB8C2CC, false);
-        int need = target != null ? SuitCatalog.info(target).fragments() : SuitCatalog.DEFAULT_FRAGMENTS;
-        int have = target == null ? 0 : this.unlocked(target) ? need : this.progress().fragments(target);
-        ItemStack frag = new ItemStack(PUItems.SUIT_FRAGMENT.get());
-        for (int i = 0; i < need; i++) {
-            int fx = sx + CENTER_W - 8 - (need - i) * 20;
-            inset(g, fx, sy + 95, 18, 18, i < have ? 0xFF2A3A46 : 0xFF181C21);
-            if (i < have) {
-                g.item(frag, fx + 1, sy + 96);
-            }
-        }
+        // the sample's suit
+        g.fill(sx + 8, sy + 94, sx + CENTER_W - 8, sy + 95, 0xFF2A3A46);
+        g.text(this.font, tr("sample"), sx + 8, sy + 100, 0xFF8A939E, false);
+        Component sample = target == null ? Component.literal("—")
+                : scanning ? Component.literal("???") : SuitCreatorClient.displayName(target);
+        g.textWithWordWrap(this.font, sample, sx + 8, sy + 110, CENTER_W - 16, target == null ? DIM : scanning ? CYAN : AMBER, false);
 
         // decoding ghost / just unlocked suit
         int gx = x + RIGHT_X;
@@ -908,8 +895,8 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
             g.centeredText(this.font, Component.literal(this.trim(variantName(recent).getString(), RIGHT_W - 8)), gx + RIGHT_W / 2, gy + 114, AMBER);
         } else {
             this.drawHologram(g, gx, gy + 4, RIGHT_W, 104, 46.0F, null, true);
-            Component label = target != null && !this.unlocked(target)
-                    ? tr("decoding", have, need) : tr("decoding.idle");
+            Component label = scanning
+                    ? tr("decoding", progress * 100 / SuitCreatorMenu.SCAN_TICKS) : tr("decoding.idle");
             g.centeredText(this.font, label, gx + RIGHT_W / 2, gy + 114, CYAN);
         }
 
@@ -1016,7 +1003,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 }
             }
             for (int i = 0; i < 4; i++) {
-                if (!locked && in(mx, my, x + RIGHT_X + i * 19, y + 31, 18, 18)) {
+                if (in(mx, my, x + RIGHT_X + i * 19, y + 31, 18, 18)) {
                     g.setTooltipForNextFrame(this.font, pieceStack(suit, i), mx, my);
                 }
             }
@@ -1077,10 +1064,10 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 this.setFocused(null);
             }
         }
-        if (event.button() == 0 && this.clickUi(mx, my, x, y)) {
+        if (event.button() == com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_LEFT && this.clickUi(mx, my, x, y)) {
             return true;
         }
-        if (event.button() == 1 && this.rightClickList(mx, my, x, y)) {
+        if (event.button() == com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_RIGHT && this.rightClickList(mx, my, x, y)) {
             return true;
         }
         return super.mouseClicked(event, doubleClick);
@@ -1121,7 +1108,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                         SuitCreatorPrefs.save();
                         this.click();
                     } else if (row.suit != null) {
-                        if (row.kind == Row.CARD && in(mx, my, ix + iw - 11, ry + 5, 10, 11)) {
+                        if (in(mx, my, ix + iw - 11, ry + 5, 10, 11)) {
                             this.toggleFavorite(row.suit);
                         } else {
                             this.select(row.suit);
@@ -1223,7 +1210,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         }
         int ry = iy - this.listScroll;
         for (Row row : this.rows) {
-            if (my >= ry && my < ry + row.height() && row.kind == Row.CARD && row.suit != null) {
+            if (my >= ry && my < ry + row.height() && row.suit != null) {
                 this.toggleFavorite(row.suit);
                 return true;
             }
@@ -1318,6 +1305,13 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
     }
 
     // ---- CI / screenshots ----
+
+    /** Dev/CI only: a real left click in the middle of tab {@code i}. */
+    public void debugClickTab(int i) {
+        int[] b = this.tabBounds(i);
+        this.mouseClicked(new MouseButtonEvent(b[0] + b[2] / 2.0, b[1] + b[3] / 2.0,
+                new net.minecraft.client.input.MouseButtonInfo(com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_LEFT, 0)), false);
+    }
 
     /** Dev/CI only: presses the Sew panel. */
     public void debugSew() {

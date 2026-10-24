@@ -1,6 +1,5 @@
 package com.star_1mp.powersunchained.menu;
 
-import com.star_1mp.powersunchained.item.SuitFragmentItem;
 import com.star_1mp.powersunchained.registry.PUBlocks;
 import com.star_1mp.powersunchained.registry.PUItems;
 import com.star_1mp.powersunchained.registry.PUMenus;
@@ -151,17 +150,9 @@ public class SuitCreatorMenu extends AbstractContainerMenu {
             return;
         }
         this.scanProgress.set(0);
-        boolean unlocked;
-        if (stack.getItem() instanceof SuitFragmentItem) {
-            stack.shrink(1);
-            this.scan.setChanged();
-            unlocked = SuitUnlocks.addFragment(player, target);
-        } else {
-            // a piece of the suit itself: the whole pattern can be read from it, the piece stays
-            SuitUnlocks.unlock(player, target);
-            unlocked = true;
-        }
-        this.sound(player, unlocked ? SoundEvents.PLAYER_LEVELUP : SoundEvents.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, 0.8F, unlocked ? 1.4F : 1.0F);
+        // any piece of the suit (whatever its durability): the whole pattern is read from it, the piece stays
+        SuitUnlocks.unlock(player, target);
+        this.sound(player, SoundEvents.PLAYER_LEVELUP, 0.8F, 1.4F);
     }
 
     private void sound(Player player, SoundEvent sound, float volume, float pitch) {

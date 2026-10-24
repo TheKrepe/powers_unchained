@@ -14,8 +14,7 @@ import net.minecraft.world.item.Item;
  * @param abilities  lang keys of the abilities the suit itself gives (empty: none — e.g. Spider-Man's come from
  *                   gadgets, not the suit)
  * @param materials  blueprint per piece: mask, chestplate, pants, boots
- * @param xpCost     experience levels to unlock it without scanning
- * @param fragments  fragments to scan to unlock it
+ * @param xpCost     experience levels to unlock it without scanning a piece of it
  */
 public record SuitInfo(
         String group,
@@ -23,8 +22,7 @@ public record SuitInfo(
         int[] stats,
         List<String> abilities,
         List<List<Material>> materials,
-        int xpCost,
-        int fragments) {
+        int xpCost) {
 
     /** {@code count} of an item, resolved lazily (items are registered later). */
     public record Material(Supplier<? extends Item> item, int count) {

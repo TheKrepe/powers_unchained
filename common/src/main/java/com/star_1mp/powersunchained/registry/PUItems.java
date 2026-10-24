@@ -1,7 +1,6 @@
 package com.star_1mp.powersunchained.registry;
 
 import com.star_1mp.powersunchained.item.SuitPieceItem;
-import com.star_1mp.powersunchained.item.SuitFragmentItem;
 import com.star_1mp.powersunchained.item.EmptyWebCartridgeItem;
 import com.star_1mp.powersunchained.item.WebCartridgeItem;
 import com.star_1mp.powersunchained.item.WebShootersItem;
@@ -34,10 +33,6 @@ public final class PUItems {
 
     // Items: fabric in every dye color, made from wool and a stick
     public static final Map<DyeColor, Supplier<Item>> FABRICS = registerFabrics();
-
-    /** A scrap of a suit found in chests: scanned in the Suit Creator to unlock that suit. */
-    public static final Supplier<SuitFragmentItem> SUIT_FRAGMENT = register(ITEMS, "suit_fragment", SuitFragmentItem::new,
-            properties -> properties.rarity(net.minecraft.world.item.Rarity.UNCOMMON));
 
     // Weapons & gadgets
     public static final Supplier<WebShootersItem> WEB_SHOOTERS = register(WEAPONS, "web_shooters", WebShootersItem::new,

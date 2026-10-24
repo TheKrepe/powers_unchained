@@ -1,6 +1,5 @@
 package com.star_1mp.powersunchained.client.suitcreator;
 
-import com.star_1mp.powersunchained.item.SuitFragmentItem;
 import com.star_1mp.powersunchained.registry.PUItems;
 import com.star_1mp.powersunchained.suit.Suit;
 import com.star_1mp.powersunchained.suit.SuitUnlocks;
@@ -28,7 +27,6 @@ public final class SuitCreatorClient {
     }
 
     public static void init() {
-        SuitFragmentItem.localPlayer = () -> Minecraft.getInstance().player;
     }
 
     /** Client tick: compares the synced progress with the last one and toasts new suits. */

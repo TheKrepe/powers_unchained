@@ -1,6 +1,5 @@
 package com.star_1mp.powersunchained.suit;
 
-import com.star_1mp.powersunchained.item.SuitFragmentItem;
 import com.star_1mp.powersunchained.item.SuitPieceItem;
 import com.star_1mp.powersunchained.platform.Services;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
-/** Unlocking suits: by scanning (fragments or a piece of the suit) or for experience levels. */
+/** Unlocking suits: by scanning a piece of the suit in the Suit Creator or for experience levels. */
 public final class SuitUnlocks {
 
     private SuitUnlocks() {
@@ -32,18 +31,6 @@ public final class SuitUnlocks {
         Services.GAMEPLAY.setSuitProgress(player, progress(player).lock(suit));
     }
 
-    /** Adds a scanned fragment; unlocks the suit when enough were scanned. @return whether it got unlocked */
-    public static boolean addFragment(ServerPlayer player, Suit suit) {
-        SuitProgress progress = progress(player);
-        int count = progress.fragments(suit) + 1;
-        if (count >= SuitCatalog.info(suit).fragments()) {
-            unlock(player, suit);
-            return true;
-        }
-        Services.GAMEPLAY.setSuitProgress(player, progress.withFragments(suit, count));
-        return false;
-    }
-
     /** Unlocks a suit for experience levels (free in creative). @return whether it worked */
     public static boolean buyWithExperience(ServerPlayer player, Suit suit) {
         if (isUnlocked(player, suit)) {
@@ -61,11 +48,8 @@ public final class SuitUnlocks {
         return true;
     }
 
-    /** The suit a scanned item reveals: a fragment's suit or the suit of a suit piece; {@code null} if none. */
+    /** The suit a scanned item reveals: any piece of a suit (whatever its durability); {@code null} if none. */
     public static @Nullable Suit scanTarget(ItemStack stack) {
-        if (stack.getItem() instanceof SuitPieceItem piece) {
-            return piece.getSuit();
-        }
-        return SuitFragmentItem.suit(stack);
+        return stack.getItem() instanceof SuitPieceItem piece ? piece.getSuit() : null;
     }
 }
