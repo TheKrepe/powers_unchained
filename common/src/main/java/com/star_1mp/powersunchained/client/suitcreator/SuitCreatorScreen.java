@@ -481,6 +481,10 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 }
                 Component name = locked ? Component.literal(LOCKED_GROUP) : groupName(row.group);
                 g.text(this.font, name, x + 11, y + 2, AMBER, false);
+                if (!locked) {
+                    // the hero's emblem right after the name (textures/gui/sprites/suit_creator/group/<group>.png)
+                    g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("group/" + row.group), x + 13 + this.font.width(name), y + 1, 9, 9);
+                }
                 String count = String.valueOf(row.count);
                 g.text(this.font, count, x + w - 3 - this.font.width(count), y + 2, GREY, false);
             }

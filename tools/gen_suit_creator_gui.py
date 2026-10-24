@@ -224,4 +224,18 @@ for y in range(48):
 g = g.crop((0, 0, 24, 32))
 save(g, "ghost")
 
+# ---- hero group icons (9x9), drawn after the group name in the catalog: suit_creator/group/<group> ----
+GROUP = os.path.join(SPR, "group")
+os.makedirs(GROUP, exist_ok=True)
+save(from_art("""
+.r.....r.
+r..r.r..r
+r.rRRRr.r
+.rrRRRrr.
+...rRr...
+.rrRRRrr.
+r.rRRRr.r
+r..rrr..r
+.r..r..r.""", {"r": hx("#d4252c"), "R": hx("#ff5a52")}), "spider_man", GROUP)
+
 print("suit creator gui sprites written")
