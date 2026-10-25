@@ -139,7 +139,7 @@
   "screen.powers_unchained.suit_creator.decoding": "Расшифровка %s%%",
   "screen.powers_unchained.suit_creator.decoding.idle": "Нет данных",
   "screen.powers_unchained.suit_creator.unlocked": "Открыт!",
-  "screen.powers_unchained.suit_creator.hint": "Положи в сканер любую часть костюма (прочность не важна) — после скана его можно шить.",
+  "screen.powers_unchained.suit_creator.hint": "Положи в сканер любую часть костюма — после скана его можно шить.",
   "screen.powers_unchained.suit_creator.full_name": "%s: %s",
   "suit_desc.powers_unchained.spider_man": "Классический красно-синий костюм из эластичной ткани. Лёгкий и не мешает движениям.",
   "suit_desc.powers_unchained.spider_man_first_appearance": "Самый первый костюм Паука: сетка паутины, «крылья» под руками и большие глаза.",

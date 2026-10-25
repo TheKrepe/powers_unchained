@@ -37,7 +37,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * Suit Creator screen (vanilla container look with dark "tech" monitors). Three tabs:
  * <ul>
- *   <li>Catalog: suit list (search, tag filter popup, collapsible hero groups, favorites, locked suits ("???", look hidden, still selectable)),
+ *   <li>Catalog: suit list (search, tag filter popup, collapsible hero groups, favorites, locked suits (name + tags known, lock icon instead of the look, still selectable)),
  *   hologram (Steve / Alex, poses, part toggles, drag to rotate, variant arrows), blueprint (pieces, materials have /
  *   need, armor, durability), a big Sew panel (or "unlock for XP" while the suit is locked) and the inventory.</li>
  *   <li>Scanner: scan slot (any suit piece), progress, decoding ghost of the target suit, the inventory.</li>
@@ -213,17 +213,9 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         SuitProgress progress = this.progress();
         String query = this.search.getValue().trim().toLowerCase(Locale.ROOT);
         Map<String, List<Suit>> groups = new LinkedHashMap<>();
-        List<Suit> locked = new ArrayList<>();
         for (Suit suit : Suits.ALL) {
             SuitInfo info = SuitCatalog.info(suit);
             if (info.tags().stream().noneMatch(SuitCreatorPrefs.TAGS::contains)) {
-                continue;
-            }
-            if (!progress.isUnlocked(suit)) {
-                // the look and name stay hidden until it is unlocked
-                if (query.isEmpty()) {
-                    locked.add(suit);
-                }
                 continue;
             }
             String name = variantName(suit).getString().toLowerCase(Locale.ROOT);
@@ -234,18 +226,14 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
             groups.computeIfAbsent(info.group(), g -> new ArrayList<>()).add(suit);
         }
         groups.forEach((group, suits) -> {
-            suits.sort(Comparator.comparing(s -> SuitCreatorPrefs.FAVORITES.contains(s.id().getPath()) ? 0 : 1));
+            // favorites first, then unlocked, then locked (locked ones show their name and tags, not their look)
+            suits.sort(Comparator.comparing((Suit s) -> SuitCreatorPrefs.FAVORITES.contains(s.id().getPath()) ? 0 : 1)
+                    .thenComparing(s -> progress.isUnlocked(s) ? 0 : 1));
             this.rows.add(new Row(Row.HEADER, group, null, suits.size()));
             if (!SuitCreatorPrefs.COLLAPSED.contains(group)) {
-                suits.forEach(s -> this.rows.add(new Row(Row.CARD, group, s, 0)));
+                suits.forEach(s -> this.rows.add(new Row(progress.isUnlocked(s) ? Row.CARD : Row.LOCKED_CARD, group, s, 0)));
             }
         });
-        if (!locked.isEmpty()) {
-            this.rows.add(new Row(Row.HEADER, LOCKED_GROUP, null, locked.size()));
-            if (!SuitCreatorPrefs.COLLAPSED.contains(LOCKED_GROUP)) {
-                locked.forEach(s -> this.rows.add(new Row(Row.LOCKED_CARD, LOCKED_GROUP, s, 0)));
-            }
-        }
         if (this.rows.isEmpty()) {
             this.rows.add(new Row(Row.MESSAGE, SuitCreatorPrefs.TAGS.isEmpty() ? "empty_tags" : "empty", null, 0));
         }
@@ -508,8 +496,8 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                     g.item(pieceStack(suit, 0), x + 5, y + 3);
                 }
                 boolean fav = SuitCreatorPrefs.FAVORITES.contains(suit.id().getPath());
-                String name = locked ? LOCKED_GROUP : variantName(suit).getString();
-                g.text(this.font, this.trim(name, w - 26 - 12), x + 26, y + 7, sel ? 0xFFFFD27A : locked ? DIM : WHITE, false);
+                String name = variantName(suit).getString();
+                g.text(this.font, this.trim(name, w - 26 - 12), x + 26, y + 7, sel ? 0xFFFFD27A : locked ? 0xFF8A939E : WHITE, false);
                 if (!locked && (fav || hover)) {
                     boolean starHover = in(mx, my, x + w - 10, y + 6, 8, 9);
                     g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite(fav || starHover ? "star_on" : "star_off"), x + w - 10, y + 7, 7, 7);
@@ -675,8 +663,8 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 Component pcs = tr("pieces", 4);
                 g.text(this.font, pcs, rx + RIGHT_W - this.font.width(pcs), ay + 1, LABEL, false);
             }
-            // a few tags of the suit
-            if (!locked) {
+            // a few tags of the suit (known even while it is locked)
+            {
                 int chipX = rx;
                 for (SuitTag tag : SuitCatalog.info(suit).tags()) {
                     int cw = this.font.width(tag.title()) + 6;

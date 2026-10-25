@@ -139,7 +139,7 @@
   "screen.powers_unchained.suit_creator.decoding": "Decoding %s%%",
   "screen.powers_unchained.suit_creator.decoding.idle": "No data",
   "screen.powers_unchained.suit_creator.unlocked": "Unlocked!",
-  "screen.powers_unchained.suit_creator.hint": "Put any piece of a suit in the scanner (durability doesn't matter) to be able to sew it.",
+  "screen.powers_unchained.suit_creator.hint": "Put any piece of a suit in the scanner to be able to sew it.",
   "screen.powers_unchained.suit_creator.full_name": "%s: %s",
   "suit_desc.powers_unchained.spider_man": "The classic red and blue suit of stretch fabric. Light and never in the way.",
   "suit_desc.powers_unchained.spider_man_first_appearance": "Spidey's very first suit: web lines, underarm webbing and big eyes.",

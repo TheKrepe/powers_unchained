@@ -14,7 +14,7 @@ import net.minecraft.world.item.Items;
 public final class SuitCatalog {
 
     /** Experience levels to unlock a suit without the scanner. */
-    public static final int DEFAULT_XP_COST = 20;
+    public static final int DEFAULT_XP_COST = 10;
     /** Piece index of "the whole suit" in the blueprint. */
     public static final int ALL = 4;
 
