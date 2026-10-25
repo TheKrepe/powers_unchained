@@ -26,7 +26,7 @@ public final class SuitHologram {
     public static final int ID_BASE = Integer.MIN_VALUE + 4096;
 
     public enum Pose {
-        STAND, RUN, HANG;
+        STAND, RUN;
 
         public Pose next() {
             return values()[(this.ordinal() + 1) % values().length];
@@ -60,7 +60,7 @@ public final class SuitHologram {
         state.ageInTicks = ageInTicks;
         state.bodyRot = 180.0F + yaw;
         state.yRot = 0.0F;
-        state.xRot = pose == Pose.HANG ? -12.0F : 0.0F;
+        state.xRot = 0.0F;
         state.boundingBoxWidth = 0.6F;
         state.boundingBoxHeight = 1.8F;
         state.eyeHeight = 1.62F;
@@ -110,20 +110,6 @@ public final class SuitHologram {
                 model.leftArm.xRot = -s * 1.3F;
                 model.rightArm.zRot = 0.08F;
                 model.leftArm.zRot = -0.08F;
-            }
-            case HANG -> {
-                // hanging from a web line with the right hand, left hand reaching, legs bent, slow sway
-                float sway = Mth.sin(t * 0.08F) * 0.06F;
-                model.rightArm.xRot = -2.95F;
-                model.rightArm.zRot = 0.12F + sway;
-                model.leftArm.xRot = -2.75F;
-                model.leftArm.zRot = -0.3F + sway;
-                model.rightLeg.xRot = -0.55F;
-                model.rightLeg.zRot = 0.06F;
-                model.leftLeg.xRot = 0.35F;
-                model.leftLeg.zRot = -0.08F;
-                model.body.zRot = sway * 0.5F;
-                model.head.xRot = -0.25F;
             }
             default -> {
             }

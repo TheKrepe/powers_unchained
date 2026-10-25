@@ -397,8 +397,8 @@ public final class CiClientDriver {
                 }
             }
             case 6280 -> shot("37b_sc_clicked_catalog_tab");
-            case 6310 -> creator(0, "spider_man_raimi", 4, false, 2, false);
-            case 6350 -> shot("38_sc_catalog_hang");
+            case 6310 -> creator(0, "spider_man_raimi", 4, false, 1, true);
+            case 6350 -> shot("38_sc_catalog_raimi_run");
             case 6430 -> {
                 creator(2, "spider_man", 4, false, 0, false);
                 scanSlot("powers_unchained:spider_man_first_appearance", 1);

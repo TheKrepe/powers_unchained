@@ -550,16 +550,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
             g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("ghost"), cx - gw / 2, feet - gh, gw, gh, color);
             g.centeredText(this.font, Component.literal("?"), cx, feet - gh * 3 / 4, CYAN);
         } else {
-            // arms up while hanging: a bit smaller so the hands stay inside
-            float s = this.pose == SuitHologram.Pose.HANG ? scale * 0.82F : scale;
-            SuitHologram.draw(g, x + 2, y + 2, x + w - 2, feet, s, suit, this.parts, SuitCreatorPrefs.slim, this.pose, this.yaw, this.time);
-            if (this.pose == SuitHologram.Pose.HANG) {
-                // the web line the suit hangs from: from the right hand straight up
-                float yawRad = this.yaw * Mth.DEG_TO_RAD;
-                int handX = Math.round(cx - 0.363F * s * Mth.cos(yawRad));
-                int handY = Math.round(feet - 2 - 1.86F * s);
-                g.fill(handX, y + 3, handX + 1, handY, 0xDDF2F6FA);
-            }
+            SuitHologram.draw(g, x + 2, y + 2, x + w - 2, feet, scale, suit, this.parts, SuitCreatorPrefs.slim, this.pose, this.yaw, this.time);
         }
     }
 
