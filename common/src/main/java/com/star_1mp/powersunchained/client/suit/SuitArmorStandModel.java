@@ -85,7 +85,7 @@ public class SuitArmorStandModel extends ArmorStandArmorModel {
         boolean legs = this.part == SuitModel.Part.LEGS || this.part == SuitModel.Part.FEET;
         this.head.visible = head;
         this.hat.visible = head;
-        this.body.visible = chest;
+        this.body.visible = chest || legs;  // pants may paint the torso (belt)
         this.rightArm.visible = chest;
         this.leftArm.visible = chest;
         this.rightLeg.visible = legs;

@@ -15,9 +15,11 @@ public final class SuitModelSet {
     public static SuitModelSet bake(EntityModelSet modelSet, boolean slim) {
         SuitModelSet set = new SuitModelSet();
         for (SuitModel.Part part : SuitModel.Part.values()) {
-            var layer = part == SuitModel.Part.FEET
-                    ? (slim ? SuitModelLayers.BOOTS_SLIM : SuitModelLayers.BOOTS)
-                    : (slim ? SuitModelLayers.SUIT_SLIM : SuitModelLayers.SUIT);
+            var layer = switch (part) {
+                case FEET -> slim ? SuitModelLayers.BOOTS_SLIM : SuitModelLayers.BOOTS;
+                case LEGS -> slim ? SuitModelLayers.PANTS_SLIM : SuitModelLayers.PANTS;
+                default -> slim ? SuitModelLayers.SUIT_SLIM : SuitModelLayers.SUIT;
+            };
             // bakeLayer creates a new ModelPart tree every call, so every piece gets its own instance.
             SuitModel model = new SuitModel(modelSet.bakeLayer(layer), slim, part);
             model.applyVisibility();

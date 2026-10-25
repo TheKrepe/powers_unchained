@@ -24,11 +24,18 @@ public class SuitArmorStandLayer extends RenderLayer<ArmorStandRenderState, Armo
     public SuitArmorStandLayer(RenderLayerParent<ArmorStandRenderState, ArmorStandArmorModel> renderer, EntityModelSet modelSet) {
         super(renderer);
         for (SuitModel.Part part : SuitModel.Part.values()) {
-            boolean boots = part == SuitModel.Part.FEET;
-            this.models.put(part, new SuitArmorStandModel(
-                    modelSet.bakeLayer(boots ? SuitModelLayers.ARMOR_STAND_BOOTS : SuitModelLayers.ARMOR_STAND), part));
-            this.smallModels.put(part, new SuitArmorStandModel(
-                    modelSet.bakeLayer(boots ? SuitModelLayers.ARMOR_STAND_SMALL_BOOTS : SuitModelLayers.ARMOR_STAND_SMALL), part));
+            var layer = switch (part) {
+                case FEET -> SuitModelLayers.ARMOR_STAND_BOOTS;
+                case LEGS -> SuitModelLayers.ARMOR_STAND_PANTS;
+                default -> SuitModelLayers.ARMOR_STAND;
+            };
+            var smallLayer = switch (part) {
+                case FEET -> SuitModelLayers.ARMOR_STAND_SMALL_BOOTS;
+                case LEGS -> SuitModelLayers.ARMOR_STAND_SMALL_PANTS;
+                default -> SuitModelLayers.ARMOR_STAND_SMALL;
+            };
+            this.models.put(part, new SuitArmorStandModel(modelSet.bakeLayer(layer), part));
+            this.smallModels.put(part, new SuitArmorStandModel(modelSet.bakeLayer(smallLayer), part));
         }
     }
 

@@ -16,9 +16,9 @@ public class SuitModel extends PlayerModel {
         HEAD,
         /** Body + jacket, both arms + sleeves. */
         CHEST,
-        /** Both legs + pants layer. */
+        /** Both legs + pants layer, and the body (pants textures may cover the bottom of the torso, e.g. a belt). */
         LEGS,
-        /** Both legs + pants layer, drawn slightly larger than {@link #LEGS}. */
+        /** Like {@link #LEGS}, drawn slightly larger. */
         FEET
     }
 
@@ -49,8 +49,9 @@ public class SuitModel extends PlayerModel {
 
         this.head.visible = head;
         this.hat.visible = head;
-        this.body.visible = chest;
-        this.jacket.visible = chest;
+        // pants / boots textures may also paint the torso (a belt): drawn over the chestplate (larger inflate)
+        this.body.visible = chest || legs;
+        this.jacket.visible = chest || legs;
         this.rightArm.visible = chest;
         this.leftArm.visible = chest;
         this.rightSleeve.visible = chest;
