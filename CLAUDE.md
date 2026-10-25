@@ -69,8 +69,9 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
 - Suits: `suit/Suit` + `suit/Suits` (definitions), `item/SuitPieceItem` (armor-like item without a vanilla
   equipment asset, so vanilla does not draw it). Rendering in `client/suit/`: `SuitLayer` (added to player and
   mannequin renderers), `SuitModel` (player-skin-shaped model, one instance per piece), `SuitModelLayers`
-  (inflate 0.05 suit / 0.075 pants / 0.1 boots, wide + slim; pants and boots also draw the torso — the owner's pants
-  texture has a belt there — over the chestplate), `SuitRendering.extract` (render-state modifier:
+  (inflate 0.05 chestplate + pants / 0.1 boots, wide + slim; pants also draw the torso — the owner's pants texture
+  has a belt there — on the SAME geometry as the chestplate, like Palladium's suit_leggings layer; a different inflate
+  misaligns the pixel rows and shows hairline gaps of skin), `SuitRendering.extract` (render-state modifier:
   copies suit pieces into the state — vanilla only copies real armor —, hides the skin's outer layer under
   worn pieces and the flat head item), `SuitFirstPersonRenderer` (first-person sleeve).
 - Fabrics: `<color>_fabric` for all 16 `DyeColor`s (`PUItems.FABRICS`), tag `powers_unchained:fabrics`;

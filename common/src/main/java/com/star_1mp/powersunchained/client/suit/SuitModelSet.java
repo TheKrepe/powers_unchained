@@ -17,7 +17,6 @@ public final class SuitModelSet {
         for (SuitModel.Part part : SuitModel.Part.values()) {
             var layer = switch (part) {
                 case FEET -> slim ? SuitModelLayers.BOOTS_SLIM : SuitModelLayers.BOOTS;
-                case LEGS -> slim ? SuitModelLayers.PANTS_SLIM : SuitModelLayers.PANTS;
                 default -> slim ? SuitModelLayers.SUIT_SLIM : SuitModelLayers.SUIT;
             };
             // bakeLayer creates a new ModelPart tree every call, so every piece gets its own instance.

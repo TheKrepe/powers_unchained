@@ -26,12 +26,10 @@ public class SuitArmorStandLayer extends RenderLayer<ArmorStandRenderState, Armo
         for (SuitModel.Part part : SuitModel.Part.values()) {
             var layer = switch (part) {
                 case FEET -> SuitModelLayers.ARMOR_STAND_BOOTS;
-                case LEGS -> SuitModelLayers.ARMOR_STAND_PANTS;
                 default -> SuitModelLayers.ARMOR_STAND;
             };
             var smallLayer = switch (part) {
                 case FEET -> SuitModelLayers.ARMOR_STAND_SMALL_BOOTS;
-                case LEGS -> SuitModelLayers.ARMOR_STAND_SMALL_PANTS;
                 default -> SuitModelLayers.ARMOR_STAND_SMALL;
             };
             this.models.put(part, new SuitArmorStandModel(modelSet.bakeLayer(layer), part));

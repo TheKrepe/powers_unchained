@@ -49,7 +49,7 @@ public class SuitModel extends PlayerModel {
 
         this.head.visible = head;
         this.hat.visible = head;
-        // pants / boots textures may also paint the torso (a belt): drawn over the chestplate (larger inflate)
+        // pants / boots textures may also paint the torso (a belt), on the same geometry as the chestplate
         this.body.visible = chest || legs;
         this.jacket.visible = chest || legs;
         this.rightArm.visible = chest;

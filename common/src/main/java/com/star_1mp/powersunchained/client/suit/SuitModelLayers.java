@@ -15,13 +15,13 @@ import net.minecraft.client.model.player.PlayerModel;
  */
 public final class SuitModelLayers {
 
-    /** How far the suit's base layer sits above the skin (skin is 0.0, vanilla armor is 1.0). */
-    public static final float SUIT_INFLATE = 0.05F;
     /**
-     * Pants sit between the chestplate and the boots: their texture may also cover the body (e.g. a belt at the
-     * bottom of the torso), which has to show over the chestplate.
+     * How far the suit's base layer sits above the skin (skin is 0.0, vanilla armor is 1.0). Chestplate AND pants use
+     * it (like Palladium's suit_chestplate / suit_leggings layers share one inflate): the pants also draw the torso
+     * (e.g. a belt), and only identical geometry keeps the two textures' pixel rows aligned — a different inflate
+     * leaves hairline gaps where the skin shows through.
      */
-    public static final float PANTS_INFLATE = 0.075F;
+    public static final float SUIT_INFLATE = 0.05F;
     /** Boots are drawn a bit above the leggings so both can be worn at once. */
     public static final float BOOTS_INFLATE = 0.1F;
 
@@ -33,10 +33,6 @@ public final class SuitModelLayers {
 
     public static final ModelLayerLocation SUIT = location("suit");
     public static final ModelLayerLocation SUIT_SLIM = location("suit_slim");
-    public static final ModelLayerLocation PANTS = location("suit_pants");
-    public static final ModelLayerLocation PANTS_SLIM = location("suit_pants_slim");
-    public static final ModelLayerLocation ARMOR_STAND_PANTS = location("suit_pants_armor_stand");
-    public static final ModelLayerLocation ARMOR_STAND_SMALL_PANTS = location("suit_pants_armor_stand_small");
     public static final ModelLayerLocation BOOTS = location("suit_boots");
     public static final ModelLayerLocation BOOTS_SLIM = location("suit_boots_slim");
     public static final ModelLayerLocation WEB_SHOOTERS = location("web_shooters");
@@ -52,10 +48,6 @@ public final class SuitModelLayers {
     public static void register(BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> registrar) {
         registrar.accept(SUIT, () -> create(SUIT_INFLATE, false));
         registrar.accept(SUIT_SLIM, () -> create(SUIT_INFLATE, true));
-        registrar.accept(PANTS, () -> create(PANTS_INFLATE, false));
-        registrar.accept(PANTS_SLIM, () -> create(PANTS_INFLATE, true));
-        registrar.accept(ARMOR_STAND_PANTS, () -> createArmorStand(PANTS_INFLATE));
-        registrar.accept(ARMOR_STAND_SMALL_PANTS, () -> createArmorStand(PANTS_INFLATE).apply(HumanoidModel.BABY_TRANSFORMER));
         registrar.accept(BOOTS, () -> create(BOOTS_INFLATE, false));
         registrar.accept(BOOTS_SLIM, () -> create(BOOTS_INFLATE, true));
         registrar.accept(WEB_SHOOTERS, () -> create(WEB_SHOOTERS_INFLATE, false));
