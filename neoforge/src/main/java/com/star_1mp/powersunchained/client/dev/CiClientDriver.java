@@ -377,6 +377,9 @@ public final class CiClientDriver {
                 run("give @p powers_unchained:blue_fabric 10");
                 run("give @p powers_unchained:black_fabric 4");
                 run("give @p minecraft:string 3");
+                run("give @p powers_unchained:white_fabric 2");
+                run("give @p minecraft:tinted_glass 1");
+                run("give @p minecraft:iron_ingot 1");
             }
             case 5800 -> openSuitCreator();
             case 5830 -> creator(0, "spider_man", 4, false, 0, false);

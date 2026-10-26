@@ -88,7 +88,7 @@ for color in COLORS:
         "type": "minecraft:crafting_shapeless",
         "category": "misc",
         "group": "powers_unchained_fabric",
-        "ingredients": [f"minecraft:{color}_wool", f"minecraft:{color}_wool", "minecraft:stick"],
+        "ingredients": [f"minecraft:{color}_wool", f"minecraft:{color}_wool", "minecraft:stick", "minecraft:string"],
         "result": {"count": 4, "id": f"{NS}:{name}"},
     })
     # dyeing: dye + any other fabric -> 1 fabric of that color

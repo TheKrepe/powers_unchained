@@ -5,7 +5,8 @@
   "ingredients": [
     "minecraft:magenta_wool",
     "minecraft:magenta_wool",
-    "minecraft:stick"
+    "minecraft:stick",
+    "minecraft:string"
   ],
   "result": {
     "count": 4,

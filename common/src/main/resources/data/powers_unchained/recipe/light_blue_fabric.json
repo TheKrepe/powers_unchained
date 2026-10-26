@@ -5,7 +5,8 @@
   "ingredients": [
     "minecraft:light_blue_wool",
     "minecraft:light_blue_wool",
-    "minecraft:stick"
+    "minecraft:stick",
+    "minecraft:string"
   ],
   "result": {
     "count": 4,

@@ -5,7 +5,8 @@
   "ingredients": [
     "minecraft:black_wool",
     "minecraft:black_wool",
-    "minecraft:stick"
+    "minecraft:stick",
+    "minecraft:string"
   ],
   "result": {
     "count": 4,

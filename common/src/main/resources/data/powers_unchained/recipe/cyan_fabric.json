@@ -5,7 +5,8 @@
   "ingredients": [
     "minecraft:cyan_wool",
     "minecraft:cyan_wool",
-    "minecraft:stick"
+    "minecraft:stick",
+    "minecraft:string"
   ],
   "result": {
     "count": 4,
