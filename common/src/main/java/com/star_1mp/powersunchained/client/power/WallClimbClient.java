@@ -46,6 +46,8 @@ public final class WallClimbClient {
     private static int cooldown;
     private static int pushTicks;
     private static boolean wasJump;
+    /** Looking away from the wall (with hysteresis, like the pose): hanging there, back to it, no crawling. */
+    private static boolean facingOut;
     private static int sentMode = WallClimbing.MODE_NONE;
     private static int sentWall = -1;
     /** Scripted moves of an edge crossing (one per tick) and what follows them. */
@@ -279,6 +281,15 @@ public final class WallClimbClient {
             return;
         }
         Vec3 n = normal(wall);
+        Vec3 lookH = new Vec3(player.getLookAngle().x, 0.0, player.getLookAngle().z);
+        double away = lookH.lengthSqr() > 1.0E-4 ? -lookH.normalize().dot(n) : 0.0;
+        facingOut = facingOut ? away > 0.1 : away > 0.35;
+        if (facingOut) {
+            // back to the wall: just hold on (jump / sneak / the roll key still work)
+            pushTicks = 0;
+            setMotion(player, n.scale(0.1));
+            return;
+        }
         Vec3 wish = lookWish(player, move);
         double into = wish.dot(n);
         Vec3 w = wish.subtract(n.scale(into)).add(0.0, into, 0.0);

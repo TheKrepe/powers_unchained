@@ -169,10 +169,10 @@ public final class ClimbState {
 
         float out = smooth(Mth.lerp(partialTick, e.prevOut, e.out)) * d;
         if (out > 0.0F) {
-            // back to the wall: arms spread wide, hands behind on the wall; one leg straight, one knee up
+            // back to the wall: arms spread wide, hands behind on the wall; both legs straight down to it
             rot(m.rightArm, 28.0F, 0.0F, 74.0F, out);
             rot(m.leftArm, 28.0F, 0.0F, -74.0F, out);
-            rot(m.rightLeg, -78.0F, 12.0F, 22.0F, out);
+            rot(m.rightLeg, 14.0F, 4.0F, 8.0F, out);
             rot(m.leftLeg, 14.0F, -4.0F, -8.0F, out);
             rot(m.body, 0.0F, 0.0F, 0.0F, out);
             rot(m.head, 12.0F, 0.0F, 0.0F, out);
