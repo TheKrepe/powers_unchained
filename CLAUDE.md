@@ -202,8 +202,9 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   client tick and drains unassigned keys. HUD lines come from the registered abilities.
   Client in `client/power/`: `PowerClient`, `AbilityWheel` (NOT a screen — a GUI layer shown while its key is held, so
   the player keeps moving; NeoForge `CalculatePlayerTurnEvent`: mouse deltas move a pointer and sensitivity -1/3 stops the
-  camera; LMB via `InteractionKeyMappingTriggered` toggles; 5-tick grow/fade; ring rasterised with
-  `fill` in real pixels, blue = on / grey = off, toggles -> `PowerTogglePayload`; icons
+  camera; LMB via `InteractionKeyMappingTriggered` toggles; 5-tick grow/fade; ring rasterised in real pixels into a
+  `DynamicTexture` ONLY when its state changes and drawn as one quad (thousands of `fill`s per frame lagged badly),
+  blue = on / grey = off, toggles -> `PowerTogglePayload`; icons
   `textures/gui/sprites/power/*.png` from `tools/gen_power_icons.py`), `SpiderSense` (client threat scan: aggressive/near
   enemies, incoming projectiles, swelling creepers, lit TNT -> amethyst chime + wavy HUD marks), `WallClimbClient`
   (client-authoritative climbing in NeoForge `MovementInputUpdateEvent`; clears the move vector via the
@@ -211,9 +212,11 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   it wraps round (`clearance` search: on past the edge until the box clears it, then round), mantle stops right on the
   edge (no step forward), wall bottom -> underside, ceiling edge -> outer face, camera yaw turns with the surface;
   `ClimbPayload` -> server `power/WallClimbing`, broadcasts `ClimbSyncPayload`), `ClimbState` (render: body orientation
-  quaternion slerped per tick, applied in `LivingEntityRendererMixin` after undoing the body yaw; frog-stance crawl limbs
-  in `PlayerModelMixin`, body centre ~0.42 off walls/ceilings so limbs touch the surface instead of sinking in (owner);
-  looking away from a wall = back-to-wall pose (hands + feet behind, one knee up, like the owner's photo); `MODE_MANTLE`
+  quaternion slerped per tick, applied in `LivingEntityRendererMixin` after undoing the body yaw; crawl limbs in
+  `PlayerModelMixin` (owner: like Powerborne's `wall_crawling_anim.js` / Marvel Legacy's `player_animations/wall_crawl.json`
+  — arms up over the head and APART, legs nearly straight, diagonal gait with the knee drawn up), body centre ~0.45 off
+  walls/ceilings so limbs touch the surface instead of sinking in; looking away from a wall = back-to-wall pose (arms
+  spread behind, both legs straight) and NO crawling (just hangs); `MODE_MANTLE`
   = climbing-over pose during the mantle script; `CameraMixin` lowers the third person camera under ceilings), `RollClient` / `RollAnimation`
   (ground dodge roll 10 ticks at 0.85, air front flip 13 ticks once per jump; roll key while clinging = flip off
   (`WallClimbClient.flipOff`: back flip `KIND_BACKFLIP` facing the wall, front flip facing away / off a ceiling);
