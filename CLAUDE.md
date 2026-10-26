@@ -130,7 +130,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   vanilla `enchantment_glint_override` (`WebShootersItem.creative()`), Operator Utilities tab (NeoForge
   `BuildCreativeModeTabContentsEvent`): endless web (`WebCartridges.freeShots`), no cartridges, tooltip
   "Творческие"; no glint on the wrists (shooter layer never uses a glint render type).
-- Ability keys (`client/input/PUKeyMappings`, category "Powers Unchained"): Ability 1-5 = C, V, B, M, comma.
+- Ability keys (`client/input/PUKeyMappings`, category "Powers Unchained"): Ability 1-5 = C, V, B, M, comma (assigned by `AbilitySlots`).
 - Web cartridges (`web/WebCartridges`, `item/WebCartridgeItem`, `empty_web_cartridge`): web-shooters hold 2 cartridges in
   data component `powers_unchained:web_cartridges` (list of fluid ints, 0 = used up), loaded bundle-style
   (`WebShootersItem` overrideStacked*, like Powerborne Heroes' vial web-shooters) or by using a cartridge while wearing
@@ -189,21 +189,30 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
 - Loader services: `IRegistryHelper` (blocks, items, entity types, sounds, tabs), `IGameplayHelper` (accessory
   check, sendToServer). NeoForge glue ticks `WebShooting.tick()` + `WebSlowness.endTick()` on ServerTickEvent.Post.
 - Recipe unlocks: `data/powers_unchained/advancement/recipes/...` (Suit Creator unlocks with the copper block recipe).
-- Superpowers (`power/`): `Superpower` enum (WALL_CLIMBING, NIGHT_VISION, SPIDER_SENSE toggleable; ROLL always on;
-  defaults: all on except night vision), `PowerData` (owned + enabled ids) in NeoForge attachment `PUAttachments.POWERS`
-  (copyOnDeath, synced to self) via `IGameplayHelper.powerData/setPowerData`; `Superpowers` (add/remove/toggle, night
-  vision = hidden ambient effect refreshed server-side). Given ONLY by `/superpower add|remove <power|all> [targets]`
-  (`command/SuperpowerCommand`). Client in `client/power/`: `PowerClient` (keys: Ability Wheel = R hold, Roll = Z),
-  `AbilityWheelScreen` (ring rasterised with `fill` in real pixels, blue = on / grey = off, click toggles ->
-  `PowerTogglePayload`; icons `textures/gui/sprites/power/*.png` from `tools/gen_power_icons.py`), `SpiderSense`
-  (client threat scan: aggressive/near enemies, incoming projectiles, swelling creepers, lit TNT -> amethyst chime +
-  wavy HUD marks towards threats), `WallClimbClient` (client-authoritative climbing in NeoForge
-  `MovementInputUpdateEvent`; clears the move vector via the `ClientInputAccessor` mixin; walls + ceilings, inner/outer
-  corners, mantle over tops, wall bottom -> underside, ceiling edge -> outer face, camera yaw turns with the surface;
-  `ClimbPayload` -> server `power/WallClimbing` (no fall damage while clinging, broadcasts `ClimbSyncPayload`)),
-  `ClimbState` (render: body orientation quaternion slerped per tick, applied in `LivingEntityRendererMixin` after undoing
-  the body yaw; crawl limbs in `PlayerModelMixin`), `RollClient` / `RollAnimation` (ground dodge roll 10 ticks, air front
-  flip 13 ticks once per jump; `RollPayload` both ways, server `power/Rolling`). CI scenes from tick 7040.
+- Superpowers (`power/`): ONE superpower `Superpower.SPIDERMAN` (owner: all Spider-Man abilities are one power, like
+  Palladium) made of `PowerAbility`s (WALL_CLIMBING, NIGHT_VISION, SPIDER_SENSE switchable in the wheel; ROLL always on;
+  defaults: all on except night vision). `PowerData` (owned superpower ids + enabled ability ids) in NeoForge attachment
+  `PUAttachments.POWERS` (copyOnDeath, synced to self) via `IGameplayHelper.powerData/setPowerData`; `Superpowers`
+  (add/remove/toggle, night vision = hidden ambient effect refreshed server-side, `fallImmune`: Spider-Man takes NO fall
+  damage at all, like Fisk). Given ONLY by `/superpower add|remove <spiderman|all> [targets]`.
+  ONE ability key system: `client/ability/AbilitySlots` — every ability the player has now (web_shot, web_zip,
+  web_swing, roll, ability_wheel) gets the next Ability key 1-5 in the player's order (`AbilityHudConfig.abilityOrder`,
+  arrows in the HUD settings swap neighbours; default = web-shooters 1-3, roll + wheel after them, so without shooters
+  roll = 1, wheel = 2). Abilities read keys via `AbilitySlots.clicks/isDown(id)`; `AbilitySlots.tick()` runs first each
+  client tick and drains unassigned keys. HUD lines come from the registered abilities.
+  Client in `client/power/`: `PowerClient`, `AbilityWheelScreen` (held key closes it on release; ring rasterised with
+  `fill` in real pixels, blue = on / grey = off, click toggles -> `PowerTogglePayload`; icons
+  `textures/gui/sprites/power/*.png` from `tools/gen_power_icons.py`), `SpiderSense` (client threat scan: aggressive/near
+  enemies, incoming projectiles, swelling creepers, lit TNT -> amethyst chime + wavy HUD marks), `WallClimbClient`
+  (client-authoritative climbing in NeoForge `MovementInputUpdateEvent`; clears the move vector via the
+  `ClientInputAccessor` mixin; the body's MIDDLE must stay over the surface (`grips`, owner's pillar bug) — past an edge
+  it wraps round (`clearance` search: on past the edge until the box clears it, then round), mantle stops right on the
+  edge (no step forward), wall bottom -> underside, ceiling edge -> outer face, camera yaw turns with the surface;
+  `ClimbPayload` -> server `power/WallClimbing`, broadcasts `ClimbSyncPayload`), `ClimbState` (render: body orientation
+  quaternion slerped per tick, applied in `LivingEntityRendererMixin` after undoing the body yaw; frog-stance crawl limbs
+  in `PlayerModelMixin`; `CameraMixin` lowers the third person camera under ceilings), `RollClient` / `RollAnimation`
+  (ground dodge roll 10 ticks, air front flip 13 ticks once per jump; `RollPayload` c->s, `RollAnimPayload` s->c).
+  CI scenes from tick 7040 (wheel, wall, ceiling, roll, sense, mannequin climb poses, ability keys, HUD order, 1x1 pillar).
 - Chest pieces are `<suit>_chestplate` (renamed from `_suit`).
 - Creative tabs (`PUCreativeTabs`): Suits, Weapons, Items, Blocks;
   ordered with `withTabsBefore`. Tab contents go through `IRegistryHelper.TabOutput` (search-only flag).
