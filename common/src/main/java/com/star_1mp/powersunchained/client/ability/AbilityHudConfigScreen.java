@@ -81,18 +81,20 @@ public class AbilityHudConfigScreen extends Screen {
         // order of the abilities on the keys: move one up / down (swaps it with its neighbour)
         List<String> shown = this.shownAbilities();
         int ox = this.orderX();
+        int row = this.orderRow(shown.size());
+        int bh = Math.min(20, row - 1);
         for (int i = 0; i < shown.size(); i++) {
             String id = shown.get(i);
-            int ry = ORDER_Y + 14 + i * ORDER_ROW;
+            int ry = ORDER_Y + 14 + i * row;
             Button up = Button.builder(Component.literal("\u25B2"), button -> {
                 AbilitySlots.move(this.shownAbilities(), id, -1);
                 this.rebuildWidgets();
-            }).bounds(ox + ORDER_W - 40, ry, 20, 20).build();
+            }).bounds(ox + ORDER_W - 40, ry, 20, bh).build();
             up.active = i > 0;
             Button down = Button.builder(Component.literal("\u25BC"), button -> {
                 AbilitySlots.move(this.shownAbilities(), id, 1);
                 this.rebuildWidgets();
-            }).bounds(ox + ORDER_W - 20, ry, 20, 20).build();
+            }).bounds(ox + ORDER_W - 20, ry, 20, bh).build();
             down.active = i < shown.size() - 1;
             this.addRenderableWidget(up);
             this.addRenderableWidget(down);
@@ -106,8 +108,13 @@ public class AbilityHudConfigScreen extends Screen {
     }
 
     private static final int ORDER_W = 170;
-    private static final int ORDER_Y = 44;
-    private static final int ORDER_ROW = 22;
+    private static final int ORDER_Y = 42;
+
+    /** Row height of the order list: up to 22, less on small screens so it stays above the buttons. */
+    private int orderRow(int rows) {
+        int bottom = this.height - 4 * 24 - 8 - 6;
+        return Math.max(12, Math.min(22, (bottom - ORDER_Y - 14) / Math.max(1, rows)));
+    }
 
     private int orderX() {
         return this.width - ORDER_W - 8;
@@ -129,18 +136,20 @@ public class AbilityHudConfigScreen extends Screen {
     private void drawOrder(GuiGraphicsExtractor graphics) {
         List<String> shown = this.shownAbilities();
         int ox = this.orderX();
-        int h = 14 + shown.size() * ORDER_ROW + 2;
+        int row = this.orderRow(shown.size());
+        int h = 14 + shown.size() * row + 2;
         graphics.fill(ox - 4, ORDER_Y - 4, ox + ORDER_W + 4, ORDER_Y + h, 0x90000000);
         graphics.text(this.font, Component.translatable("screen.powers_unchained.hud_settings.order"), ox, ORDER_Y, 0xFFFFD24A, true);
         for (int i = 0; i < shown.size(); i++) {
             AbilitySlots.Ability ability = AbilitySlots.get(shown.get(i));
-            int ry = ORDER_Y + 14 + i * ORDER_ROW;
+            int ry = ORDER_Y + 14 + i * row;
+            int mid = ry + Math.min(20, row - 1) / 2;
             Component key = AbilityHud.keyLabel(PUKeyMappings.ALL.get(i));
             int box = Math.max(this.font.width(key) + 6, 14);
-            graphics.fill(ox, ry + 3, ox + box, ry + 17, 0xC0000000);
-            graphics.centeredText(this.font, key, ox + box / 2, ry + 6, 0xFFFFFFFF);
+            graphics.fill(ox, mid - 6, ox + box, mid + 6, 0xC0000000);
+            graphics.centeredText(this.font, key, ox + box / 2, mid - 4, 0xFFFFFFFF);
             if (ability != null) {
-                graphics.text(this.font, ability.previewName(), ox + box + 5, ry + 6, 0xFFFFFFFF, true);
+                graphics.text(this.font, ability.previewName(), ox + box + 5, mid - 4, 0xFFFFFFFF, true);
             }
         }
     }

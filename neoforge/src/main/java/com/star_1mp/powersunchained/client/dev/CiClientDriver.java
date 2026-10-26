@@ -660,7 +660,37 @@ public final class CiClientDriver {
                 com.star_1mp.powersunchained.client.ability.AbilityHudConfig.get().abilityOrder = null;
                 mc.gui.setScreen(null);
             }
+            // a 1x1 pillar: crawling round it, the body wraps round every edge
             case 7980 -> {
+                run("gamemode survival @p");
+                run("tp @p 900.5 -60 -1.69 180 10");
+                mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
+            }
+            case 7990 -> run("fill 900 -60 -3 900 -54 -3 minecraft:stone_bricks");
+            case 8000 -> {
+                run("tp @p 900.5 -59 -1.69 180 10");
+                run("tick rate 5");
+            }
+            case 8004 -> com.star_1mp.powersunchained.client.power.WallClimbClient.debugAttach(mc.player,
+                    com.star_1mp.powersunchained.power.WallClimbing.MODE_WALL, net.minecraft.core.Direction.NORTH);
+            case 8006 -> {
+                mc.player.setYRot(-90.0F);
+                mc.player.setXRot(0.0F);
+                mc.options.keyUp.setDown(true);
+            }
+            case 8012 -> shot("58_pillar_edge");
+            case 8020 -> climbLog("pillar 1");
+            case 8022 -> shot("58b_pillar_round");
+            case 8034 -> climbLog("pillar 2");
+            case 8036 -> shot("58c_pillar_round");
+            case 8050 -> climbLog("pillar 3");
+            case 8052 -> shot("58d_pillar_round");
+            case 8064 -> {
+                mc.options.keyUp.setDown(false);
+                run("tick rate 20");
+                climbLog("pillar end");
+            }
+            case 8100 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
