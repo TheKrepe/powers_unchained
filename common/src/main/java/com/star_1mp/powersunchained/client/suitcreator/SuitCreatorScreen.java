@@ -632,15 +632,24 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         if (suit != null) {
             List<SuitInfo.Material> cost = SuitCatalog.cost(suit, this.piece);
             int row = 0;
+            int rowH = materialRowHeight(cost.size());
             for (SuitInfo.Material m : cost) {
-                int ry = y + 54 + row * 16;
+                int ry = y + 54 + row * rowH;
                 ItemStack icon = new ItemStack(m.item().get());
-                g.item(icon, rx + 3, ry);
+                // up to 4 materials: 16 px rows; more: 13 px rows with 3/4-size icons, so 5 still fit the monitor
+                g.pose().pushMatrix();
+                g.pose().translate(rx + 3, ry + (rowH < 16 ? 0.5F : 0.0F));
+                if (rowH < 16) {
+                    g.pose().scale(0.75F, 0.75F);
+                }
+                g.item(icon, 0, 0);
+                g.pose().popMatrix();
+                int ty = ry + (rowH - 8) / 2;
                 int have = SuitCreatorMenu.count(this.minecraft.player.getInventory(), m.item().get());
                 String count = have + "/" + m.count();
                 int cw = this.font.width(count);
-                g.text(this.font, this.trim(icon.getHoverName().getString(), RIGHT_W - 26 - cw - 4), rx + 21, ry + 4, 0xFFD8DEE6, false);
-                g.text(this.font, count, rx + RIGHT_W - 4 - cw, ry + 4, have >= m.count() ? GREEN : RED, false);
+                g.text(this.font, this.trim(icon.getHoverName().getString(), RIGHT_W - 26 - cw - 4), rx + 21, ty, 0xFFD8DEE6, false);
+                g.text(this.font, count, rx + RIGHT_W - 4 - cw, ty, have >= m.count() ? GREEN : RED, false);
                 row++;
             }
         }
@@ -741,6 +750,11 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         } else if (can) {
             g.fill(bx, by + 2, bx + bw, by + 3, 0x55FFB13B);
         }
+    }
+
+    /** Height of a material row in the blueprint: the monitor holds 4 rows of 16 px or 5 of 13 px. */
+    private static int materialRowHeight(int rows) {
+        return rows > 4 ? 13 : 16;
     }
 
     private void bigText(GuiGraphicsExtractor g, Component text, int cx, int y, int color, float scale) {
@@ -933,7 +947,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
             }
             List<SuitInfo.Material> cost = SuitCatalog.cost(suit, this.piece);
             for (int i = 0; i < cost.size(); i++) {
-                if (in(mx, my, x + RIGHT_X + 2, y + 54 + i * 16, 18, 16)) {
+                if (in(mx, my, x + RIGHT_X + 2, y + 54 + i * materialRowHeight(cost.size()), RIGHT_W - 4, materialRowHeight(cost.size()))) {
                     g.setTooltipForNextFrame(this.font, new ItemStack(cost.get(i).item().get()), mx, my);
                 }
             }
