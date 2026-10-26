@@ -102,18 +102,19 @@ public class SpiderSenseLayer extends RenderLayer<AvatarRenderState, PlayerModel
             poseStack.rotateDegrees(Axis.YP, plane * 90.0F);
             for (int i = 0; i < BOLTS.length; i++) {
                 float flicker = 0.7F + 0.3F * Mth.sin(time * 2.3F + i * 1.9F + plane);
-                float jitter = Mth.sin(time * 3.1F + i) * 4.0F;
+                float jitter = Mth.sin(time * 3.1F + i) * 2.0F;
                 int alpha = Mth.clamp(Math.round(255 * s * flicker), 0, 255);
                 if (alpha < 8) {
                     continue;
                 }
                 int color = alpha << 24 | 0xFFFFFF;
                 float angle = BOLTS[i][0] + jitter;
-                float len = 0.55F * BOLTS[i][1] * pop;
+                boolean mirror = BOLTS[i][0] < 0.0F;  // the zigzag leans outwards on both sides
+                float len = 8.0F / 16.0F * 0.8F * BOLTS[i][1] * pop;
                 poseStack.pushPose();
                 poseStack.rotateDegrees(Axis.ZP, angle);
                 collector.submitCustomGeometry(poseStack, RenderTypes.entityTranslucent(TEXTURE),
-                        (pose, consumer) -> bolt(pose.pose(), consumer, len, color));
+                        (pose, consumer) -> bolt(pose.pose(), consumer, len, color, mirror));
                 poseStack.popPose();
             }
             poseStack.popPose();
@@ -122,18 +123,21 @@ public class SpiderSenseLayer extends RenderLayer<AvatarRenderState, PlayerModel
     }
 
     /** One bolt: a quad pointing "up" (head space -y), from just outside the head outwards, both sides. */
-    private static void bolt(Matrix4f m, VertexConsumer c, float len, int color) {
-        float w = len / 5.0F;
-        float y0 = -0.34F;
+    private static void bolt(Matrix4f m, VertexConsumer c, float len, int color, boolean mirror) {
+        // texture 5x8 texels: keep its pixels square
+        float w = len * 5.0F / 8.0F / 2.0F;
+        float y0 = -0.32F;
         float y1 = y0 - len;
-        vertex(m, c, -w, y0, 0.0F, 0.0F, 1.0F, color);
-        vertex(m, c, w, y0, 0.0F, 1.0F, 1.0F, color);
-        vertex(m, c, w, y1, 0.0F, 1.0F, 0.0F, color);
-        vertex(m, c, -w, y1, 0.0F, 0.0F, 0.0F, color);
-        vertex(m, c, -w, y1, 0.0F, 0.0F, 0.0F, color);
-        vertex(m, c, w, y1, 0.0F, 1.0F, 0.0F, color);
-        vertex(m, c, w, y0, 0.0F, 1.0F, 1.0F, color);
-        vertex(m, c, -w, y0, 0.0F, 0.0F, 1.0F, color);
+        float ua = mirror ? 1.0F : 0.0F;
+        float ub = 1.0F - ua;
+        vertex(m, c, -w, y0, 0.0F, ua, 1.0F, color);
+        vertex(m, c, w, y0, 0.0F, ub, 1.0F, color);
+        vertex(m, c, w, y1, 0.0F, ub, 0.0F, color);
+        vertex(m, c, -w, y1, 0.0F, ua, 0.0F, color);
+        vertex(m, c, -w, y1, 0.0F, ua, 0.0F, color);
+        vertex(m, c, w, y1, 0.0F, ub, 0.0F, color);
+        vertex(m, c, w, y0, 0.0F, ub, 1.0F, color);
+        vertex(m, c, -w, y0, 0.0F, ua, 1.0F, color);
     }
 
     private static void vertex(Matrix4f m, VertexConsumer c, float x, float y, float z, float u, float v, int color) {

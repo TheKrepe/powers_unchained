@@ -1,31 +1,34 @@
-"""Comic-style spider-sense bolt (one jagged zigzag, white-gold core, dark outline): textures/entity/power/spider_sense_bolt.png.
-Our own drawing (the JMCT model was only looked at as an idea)."""
+"""Spider-Sense bolt, Minecraft pixel-art style (one texel = one model pixel when drawn): a small stepped zigzag in
+yellow with a white-hot edge — textures/entity/power/spider_sense_bolt.png. Our own drawing (the JMCT model was only
+looked at as an idea)."""
 import os
-from PIL import Image, ImageDraw
+from PIL import Image
 
 OUT = os.path.join(os.path.dirname(__file__), '..', 'common/src/main/resources/assets/powers_unchained/textures/entity/power/spider_sense_bolt.png')
-W, H = 16, 48
 
-# zigzag from the bottom (near the head) to the tip
-pts = [(7, 46), (11, 36), (4, 30), (12, 20), (5, 14), (10, 7), (7, 1)]
+# top = tip (far from the head), bottom = root (next to the head)
+GRID = """
+...wy
+..wy.
+.wy..
+wyyyy
+..yy.
+.yy..
+.y...
+y....
+"""
+COLOURS = {'y': (255, 214, 48, 255), 'w': (255, 252, 214, 255)}
 
 
 def main():
-    img = Image.new('RGBA', (W, H), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    # hard pixel lines: a gold body 3px wide, a white-hot core, then a dark outline round it all
-    d.line(pts, fill=(255, 190, 40, 255), width=3)
-    d.line(pts, fill=(255, 250, 225, 255), width=1)
-    px = img.load()
-    out = img.copy()
-    po = out.load()
-    for y in range(H):
-        for x in range(W):
-            if px[x, y][3] == 0 and any(0 <= x + dx < W and 0 <= y + dy < H and px[x + dx, y + dy][3] > 0
-                                        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
-                po[x, y] = (34, 14, 6, 255)
+    rows = GRID.strip('\n').split('\n')
+    img = Image.new('RGBA', (len(rows[0]), len(rows)), (0, 0, 0, 0))
+    for y, row in enumerate(rows):
+        for x, ch in enumerate(row):
+            if ch in COLOURS:
+                img.putpixel((x, y), COLOURS[ch])
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    out.save(OUT)
+    img.save(OUT)
 
 
 if __name__ == '__main__':
