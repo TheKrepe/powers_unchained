@@ -157,5 +157,14 @@
   "suit_tag.powers_unchained.mcu": "MCU",
   "suit_tag.powers_unchained.games": "Игры",
   "suit_tag.powers_unchained.comics": "Комиксы",
-  "suit_tag.powers_unchained.animation": "Анимация"
+  "suit_tag.powers_unchained.animation": "Анимация",
+  "item.powers_unchained.spider_man_marvel_midnight_mask": "Маска Человека-Паука (Marvel Midnight)",
+  "item.powers_unchained.spider_man_marvel_midnight_chestplate": "Нагрудник Человека-Паука (Marvel Midnight)",
+  "item.powers_unchained.spider_man_marvel_midnight_pants": "Штаны Человека-Паука (Marvel Midnight)",
+  "item.powers_unchained.spider_man_marvel_midnight_boots": "Ботинки Человека-Паука (Marvel Midnight)",
+  "suit.powers_unchained.spider_man_marvel_midnight": "Marvel Midnight",
+  "suit_tag.powers_unchained.marvel_midnight": "Marvel Midnight",
+  "suit_desc.powers_unchained.spider_man_marvel_midnight": "Тёмный костюм из Marvel's Midnight Suns.",
+  "tooltip.powers_unchained.web_shooters.creative": "Творческие",
+  "tooltip.powers_unchained.web_shooters.endless": "Бесконечная паутина, картриджи не нужны"
 }

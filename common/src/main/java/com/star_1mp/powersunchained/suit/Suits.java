@@ -35,12 +35,16 @@ public final class Suits {
     /** Spider-Man (Raimi). */
     public static final Suit SPIDER_MAN_RAIMI = cloth("spider_man_raimi");
 
+    /** Spider-Man (Marvel's Midnight Suns). */
+    public static final Suit SPIDER_MAN_MARVEL_MIDNIGHT = cloth("spider_man_marvel_midnight");
+
     /**
      * Groups of suit variants (different items, same hero). In the Suits creative tab only the first suit of
      * a group is shown; scrolling the mouse wheel over one of its pieces cycles through the group.
      */
     public static final List<List<Suit>> VARIANT_GROUPS = List.of(
-            List.of(SPIDER_MAN, SPIDER_MAN_FIRST_APPEARANCE, SPIDER_MAN_ADVANCED_2, SPIDER_MAN_BRAND_NEW_DAY, SPIDER_MAN_RAIMI));
+            List.of(SPIDER_MAN, SPIDER_MAN_FIRST_APPEARANCE, SPIDER_MAN_ADVANCED_2, SPIDER_MAN_BRAND_NEW_DAY, SPIDER_MAN_RAIMI,
+                    SPIDER_MAN_MARVEL_MIDNIGHT));
 
     /** Every suit, in creative-tab order. */
     public static final List<Suit> ALL = VARIANT_GROUPS.stream().flatMap(List::stream).toList();

@@ -140,7 +140,12 @@ public final class WebCartridges {
 
     /** Whether the player can fire a web now (has web fluid, or is in creative mode). */
     public static boolean hasFluid(Player player) {
-        return player.getAbilities().instabuild || totalFluid(wornShooters(player)) > 0;
+        return freeShots(player) || totalFluid(wornShooters(player)) > 0;
+    }
+
+    /** Webs cost nothing: creative mode, or creative web-shooters worn. */
+    public static boolean freeShots(Player player) {
+        return player.getAbilities().instabuild || com.star_1mp.powersunchained.item.WebShootersItem.isCreative(wornShooters(player));
     }
 
     public static void playInsertSound(Player player) {

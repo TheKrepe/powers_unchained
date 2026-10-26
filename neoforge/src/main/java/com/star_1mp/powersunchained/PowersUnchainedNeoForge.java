@@ -44,6 +44,12 @@ public class PowersUnchainedNeoForge {
             }
         });
         NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedOutEvent event) -> WebShooting.forget(event.getEntity()));
+        // creative web-shooters (endless web) in the Operator Utilities tab
+        modEventBus.addListener((net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent event) -> {
+            if (event.getTabKey() == net.minecraft.world.item.CreativeModeTabs.OP_BLOCKS && event.hasPermissions()) {
+                event.accept(com.star_1mp.powersunchained.item.WebShootersItem.creative());
+            }
+        });
         modEventBus.addListener((RegisterPayloadHandlersEvent event) -> event.registrar("1")
                 .playToServer(ShootWebPayload.TYPE, ShootWebPayload.STREAM_CODEC, (payload, context) -> {
                     if (context.player() instanceof ServerPlayer player) {

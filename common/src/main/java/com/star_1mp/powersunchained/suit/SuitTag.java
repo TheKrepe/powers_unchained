@@ -17,7 +17,8 @@ public enum SuitTag {
     MCU(0xFF9A1E2A),
     GAMES(0xFF3E9A4A),
     COMICS(0xFFD9842A),
-    ANIMATION(0xFFC0508A);
+    ANIMATION(0xFFC0508A),
+    MARVEL_MIDNIGHT(0xFF5A2A7A);
 
     private final int color;
 

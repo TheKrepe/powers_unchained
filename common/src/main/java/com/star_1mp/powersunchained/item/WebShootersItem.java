@@ -31,9 +31,24 @@ public class WebShootersItem extends Item {
         super(properties);
     }
 
+    /**
+     * Creative web-shooters: the same item with {@code powers_unchained:creative_web_shooters} — endless web fluid,
+     * no cartridges, enchantment glint on the item (not on the player's wrists). Operator Utilities tab.
+     */
+    public static ItemStack creative() {
+        ItemStack stack = new ItemStack(com.star_1mp.powersunchained.registry.PUItems.WEB_SHOOTERS.get());
+        stack.set(com.star_1mp.powersunchained.registry.PUDataComponents.CREATIVE_WEB_SHOOTERS.get(), true);
+        stack.set(net.minecraft.core.component.DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
+        return stack;
+    }
+
+    public static boolean isCreative(ItemStack stack) {
+        return Boolean.TRUE.equals(stack.get(com.star_1mp.powersunchained.registry.PUDataComponents.CREATIVE_WEB_SHOOTERS.get()));
+    }
+
     @Override
     public boolean overrideStackedOnOther(ItemStack self, Slot slot, ClickAction action, Player player) {
-        if (self.getCount() != 1) {
+        if (self.getCount() != 1 || isCreative(self)) {
             return false;
         }
         ItemStack other = slot.getItem();
@@ -69,7 +84,7 @@ public class WebShootersItem extends Item {
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack self, ItemStack other, Slot slot, ClickAction action, Player player,
             SlotAccess carried) {
-        if (self.getCount() != 1 || !slot.allowModification(player)) {
+        if (self.getCount() != 1 || isCreative(self) || !slot.allowModification(player)) {
             return false;
         }
         if (!other.isEmpty()) {
@@ -107,7 +122,7 @@ public class WebShootersItem extends Item {
 
     @Override
     public boolean isBarVisible(ItemStack stack) {
-        return true;
+        return !isCreative(stack);
     }
 
     @Override
@@ -124,6 +139,11 @@ public class WebShootersItem extends Item {
     @SuppressWarnings("deprecation")
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> builder,
             TooltipFlag flag) {
+        if (isCreative(stack)) {
+            builder.accept(Component.translatable("tooltip.powers_unchained.web_shooters.creative").withStyle(ChatFormatting.LIGHT_PURPLE));
+            builder.accept(Component.translatable("tooltip.powers_unchained.web_shooters.endless").withStyle(ChatFormatting.GRAY));
+            return;
+        }
         List<Integer> contents = WebCartridges.contents(stack);
         builder.accept(Component.translatable("tooltip.powers_unchained.web_shooters.cartridges", contents.size(), WebCartridges.SLOTS)
                 .withStyle(ChatFormatting.GRAY));
@@ -136,7 +156,7 @@ public class WebShootersItem extends Item {
 
     @Override
     public Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
-        return Optional.of(new WebShootersTooltip(WebCartridges.contents(stack)));
+        return isCreative(stack) ? Optional.empty() : Optional.of(new WebShootersTooltip(WebCartridges.contents(stack)));
     }
 
     /** Tooltip image: the cartridge slots with the loaded cartridges. */

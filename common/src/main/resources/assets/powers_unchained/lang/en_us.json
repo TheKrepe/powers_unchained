@@ -157,5 +157,14 @@
   "suit_tag.powers_unchained.mcu": "MCU",
   "suit_tag.powers_unchained.games": "Games",
   "suit_tag.powers_unchained.comics": "Comics",
-  "suit_tag.powers_unchained.animation": "Animation"
+  "suit_tag.powers_unchained.animation": "Animation",
+  "item.powers_unchained.spider_man_marvel_midnight_mask": "Spider-Man Mask (Marvel Midnight)",
+  "item.powers_unchained.spider_man_marvel_midnight_chestplate": "Spider-Man Chestplate (Marvel Midnight)",
+  "item.powers_unchained.spider_man_marvel_midnight_pants": "Spider-Man Pants (Marvel Midnight)",
+  "item.powers_unchained.spider_man_marvel_midnight_boots": "Spider-Man Boots (Marvel Midnight)",
+  "suit.powers_unchained.spider_man_marvel_midnight": "Marvel Midnight",
+  "suit_tag.powers_unchained.marvel_midnight": "Marvel Midnight",
+  "suit_desc.powers_unchained.spider_man_marvel_midnight": "The dark suit from Marvel's Midnight Suns.",
+  "tooltip.powers_unchained.web_shooters.creative": "Creative",
+  "tooltip.powers_unchained.web_shooters.endless": "Endless web fluid, no cartridges needed"
 }

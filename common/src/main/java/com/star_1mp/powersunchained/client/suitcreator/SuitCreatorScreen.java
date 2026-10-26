@@ -694,7 +694,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
             g.fillGradient(x + 1, y + 1, x + SEW_W - 1, y + SEW_H - 1, can ? 0xFF1E3418 : 0xFF23272D, can ? 0xFF10200C : 0xFF181B20);
             g.outline(x + 1, y + 1, SEW_W - 2, SEW_H - 2, frame);
             this.bigText(g, tr("unlock"), x + SEW_W / 2, y + 7, can ? 0xFFB6FF7A : 0xFF8A9099, 1.5F);
-            g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("xp_orb"), x + 24, y + 31, 6, 6);
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("xp_orb"), x + 22, y + 29, 9, 9);
             Component cost = tr("unlock.cost", info.xpCost());
             g.text(this.font, cost, x + 34, y + 30, can ? GREEN : RED, true);
             Component scan = tr("unlock.or_scan");

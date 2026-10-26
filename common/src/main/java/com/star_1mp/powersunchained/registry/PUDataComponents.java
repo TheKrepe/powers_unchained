@@ -18,6 +18,10 @@ public final class PUDataComponents {
     public static final Supplier<DataComponentType<List<Integer>>> WEB_CARTRIDGES = Services.REGISTRY.registerDataComponent("web_cartridges",
             builder -> builder.persistent(Codec.INT.listOf()).networkSynchronized(ByteBufCodecs.VAR_INT.apply(ByteBufCodecs.list())));
 
+    /** Creative web-shooters: endless web fluid (same item as the normal web-shooters). */
+    public static final Supplier<DataComponentType<Boolean>> CREATIVE_WEB_SHOOTERS = Services.REGISTRY.registerDataComponent("creative_web_shooters",
+            builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL));
+
     private PUDataComponents() {
     }
 

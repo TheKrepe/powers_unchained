@@ -41,7 +41,7 @@ public final class WebShooting {
         if (!state.ammo.canUse(type)) {
             return;
         }
-        if (!player.getAbilities().instabuild) {
+        if (!WebCartridges.freeShots(player)) {
             if (!WebCartridges.consumeWorn(player)) {
                 // out of web fluid: dry click
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.DISPENSER_FAIL,
@@ -86,7 +86,7 @@ public final class WebShooting {
         if (now - state.lastZip < ZIP_COOLDOWN - 2) {  // a little slack for lag
             return;
         }
-        if (!player.getAbilities().instabuild && !WebCartridges.consumeWorn(player)) {
+        if (!WebCartridges.freeShots(player) && !WebCartridges.consumeWorn(player)) {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.DISPENSER_FAIL,
                     SoundSource.PLAYERS, 0.5F, 1.6F);
             return;
@@ -119,7 +119,7 @@ public final class WebShooting {
         if (!WebSwingLine.canReachAnything(player)) {
             return;  // nothing to catch on: no rope, no web fluid used
         }
-        if (!player.getAbilities().instabuild && !WebCartridges.consumeWorn(player)) {
+        if (!WebCartridges.freeShots(player) && !WebCartridges.consumeWorn(player)) {
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.DISPENSER_FAIL,
                     SoundSource.PLAYERS, 0.5F, 1.6F);
             return;

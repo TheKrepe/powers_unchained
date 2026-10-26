@@ -62,7 +62,7 @@ public final class WebShooterClient {
     public static void registerHud() {
         // web fluid left / room in the web-shooters, under the ability list (not in creative: shots are free there)
         AbilityHud.previewGauge = new AbilityHud.Gauge(WEB_FLUID_ICON, 187, WebCartridges.SLOTS * WebCartridges.MAX_FLUID, 0xFF8FE6F7);
-        AbilityHud.registerGauge(player -> hadWebShooters && !player.getAbilities().instabuild
+        AbilityHud.registerGauge(player -> hadWebShooters && !WebCartridges.freeShots(player)
                 ? new AbilityHud.Gauge(WEB_FLUID_ICON, WebCartridges.totalFluid(WebCartridges.wornShooters(player)),
                         WebCartridges.SLOTS * WebCartridges.MAX_FLUID, 0xFF8FE6F7)
                 : null);

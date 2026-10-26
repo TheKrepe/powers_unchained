@@ -21,16 +21,20 @@ public final class SuitCatalog {
     private static final Map<Suit, SuitInfo> INFO = new LinkedHashMap<>();
 
     static {
-        spider(Suits.SPIDER_MAN, DyeColor.RED, DyeColor.BLUE, DyeColor.BLACK, new int[]{3, 7, 4, 4},
-                SuitTag.MARVEL, SuitTag.COMICS);
-        spider(Suits.SPIDER_MAN_FIRST_APPEARANCE, DyeColor.RED, DyeColor.BLUE, DyeColor.BLACK, new int[]{3, 6, 4, 3},
-                SuitTag.MARVEL, SuitTag.COMICS, SuitTag.FIRST_APPEARANCE);
-        spider(Suits.SPIDER_MAN_ADVANCED_2, DyeColor.RED, DyeColor.WHITE, DyeColor.BLACK, new int[]{5, 7, 4, 6},
-                SuitTag.MARVEL, SuitTag.GAMES);
-        spider(Suits.SPIDER_MAN_BRAND_NEW_DAY, DyeColor.RED, DyeColor.BLUE, DyeColor.BLACK, new int[]{3, 7, 5, 4},
-                SuitTag.MARVEL, SuitTag.MOVIE, SuitTag.MCU);
-        spider(Suits.SPIDER_MAN_RAIMI, DyeColor.RED, DyeColor.BLUE, DyeColor.BLACK, new int[]{4, 7, 3, 5},
-                SuitTag.MARVEL, SuitTag.MOVIE);
+        // fabrics per piece (mask | chestplate | pants | boots), picked from the colours of each suit's textures;
+        // string is added on top (1 / 2 / 1 / 1)
+        spider(Suits.SPIDER_MAN, "red 4, black 1 | red 4, blue 2, black 2 | light_blue 3, blue 2, black 1 | red 2, black 1",
+                new int[]{3, 7, 4, 4}, SuitTag.MARVEL, SuitTag.COMICS);
+        spider(Suits.SPIDER_MAN_FIRST_APPEARANCE, "red 4, black 1 | red 3, blue 3, black 1 | blue 4 | red 2, black 1",
+                new int[]{3, 6, 4, 3}, SuitTag.MARVEL, SuitTag.COMICS, SuitTag.FIRST_APPEARANCE);
+        spider(Suits.SPIDER_MAN_ADVANCED_2, "red 2, black 2, white 1 | red 2, black 2, white 2, blue 1 | blue 3, light_blue 1, black 1 | red 1, white 1, black 1",
+                new int[]{5, 7, 4, 6}, SuitTag.MARVEL, SuitTag.GAMES);
+        spider(Suits.SPIDER_MAN_BRAND_NEW_DAY, "red 4, black 1 | red 4, black 2, gray 1 | black 3, gray 1, blue 1 | black 1, red 1",
+                new int[]{3, 7, 5, 4}, SuitTag.MARVEL, SuitTag.MOVIE, SuitTag.MCU);
+        spider(Suits.SPIDER_MAN_RAIMI, "red 4, black 1 | red 3, blue 2, black 2 | blue 3, black 2 | red 2, black 1",
+                new int[]{4, 7, 3, 5}, SuitTag.MARVEL, SuitTag.MOVIE);
+        spider(Suits.SPIDER_MAN_MARVEL_MIDNIGHT, "red 4, black 1 | red 4, black 2, purple 1 | black 3, purple 1 | red 2, black 1",
+                new int[]{4, 7, 6, 5}, SuitTag.MARVEL, SuitTag.GAMES, SuitTag.MARVEL_MIDNIGHT);
     }
 
     private SuitCatalog() {
@@ -57,21 +61,27 @@ public final class SuitCatalog {
         return out;
     }
 
+    private static final int[] STRING_PER_PIECE = {1, 2, 1, 1};
+
     /**
-     * A cloth Spider-Man suit: {@code primary} fabric for most of it, {@code secondary} for the legs / sides,
-     * {@code accent} for the eyes and web lines, and string. No abilities of its own (those come from gadgets).
+     * A cloth Spider-Man suit. {@code recipe}: fabrics per piece, "colour count, ..." separated by "|" in the order
+     * mask | chestplate | pants | boots (dye colour names). No abilities of its own (those come from gadgets).
      */
-    private static void spider(Suit suit, DyeColor primary, DyeColor secondary, DyeColor accent, int[] stats, SuitTag... tags) {
-        Supplier<? extends Item> p = PUItems.FABRICS.get(primary);
-        Supplier<? extends Item> s = PUItems.FABRICS.get(secondary);
-        Supplier<? extends Item> a = PUItems.FABRICS.get(accent);
-        Supplier<? extends Item> string = () -> Items.STRING;
-        List<List<SuitInfo.Material>> materials = List.of(
-                List.of(m(p, 4), m(a, 1), m(string, 1)),
-                List.of(m(p, 5), m(s, 3), m(a, 1), m(string, 2)),
-                List.of(m(s, 4), m(p, 2), m(string, 1)),
-                List.of(m(p, 2), m(s, 1), m(string, 1)));
-        INFO.put(suit, new SuitInfo("spider_man", List.of(tags), stats, List.of(), materials, DEFAULT_XP_COST));
+    private static void spider(Suit suit, String recipe, int[] stats, SuitTag... tags) {
+        String[] pieces = recipe.split("\\|");
+        List<List<SuitInfo.Material>> materials = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            List<SuitInfo.Material> list = new ArrayList<>();
+            for (String entry : pieces[i].split(",")) {
+                String[] parts = entry.trim().split(" ");
+                DyeColor color = java.util.Arrays.stream(DyeColor.values()).filter(c -> c.getSerializedName().equals(parts[0]))
+                        .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown dye colour " + parts[0] + " in " + suit.id()));
+                list.add(m(PUItems.FABRICS.get(color), Integer.parseInt(parts[1])));
+            }
+            list.add(m(() -> Items.STRING, STRING_PER_PIECE[i]));
+            materials.add(List.copyOf(list));
+        }
+        INFO.put(suit, new SuitInfo("spider_man", List.of(tags), stats, List.of(), List.copyOf(materials), DEFAULT_XP_COST));
     }
 
     private static SuitInfo.Material m(Supplier<? extends Item> item, int count) {

@@ -24,7 +24,7 @@ public final class CiClientDriver {
     private static final String SLIM = "profile:{model:\"slim\",texture:\"minecraft:entity/player/slim/alex\"}";
 
     private static final String[] VARIANTS = {"spider_man", "spider_man_first_appearance", "spider_man_advanced_2",
-            "spider_man_brand_new_day", "spider_man_raimi"};
+            "spider_man_brand_new_day", "spider_man_raimi", "spider_man_marvel_midnight"};
 
     /** Dev: {@code -Dpowers_unchained.ci.start=N} skips the scenes before tick N. */
     private static final int START = Integer.getInteger("powers_unchained.ci.start", 0);
