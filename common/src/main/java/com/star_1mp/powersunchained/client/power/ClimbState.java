@@ -72,6 +72,12 @@ public final class ClimbState {
         }
     }
 
+    /** 0..1: how far the entity is into its ceiling pose (the third person camera goes lower under a ceiling). */
+    public static float ceilingWeight(int entityId, float partialTick) {
+        Entry e = ENTRIES.get(entityId);
+        return e == null ? 0.0F : Mth.lerp(partialTick, e.prevCeiling, e.ceiling);
+    }
+
     public static boolean isClimbing(int entityId) {
         Entry e = ENTRIES.get(entityId);
         return e != null && e.mode != WallClimbing.MODE_NONE;
@@ -173,6 +179,8 @@ public final class ClimbState {
         @Nullable Vec3 heading;
         float weight;
         float prevWeight;
+        float ceiling;
+        float prevCeiling;
         float phase;
         float prevPhase;
         float amp;
@@ -225,6 +233,8 @@ public final class ClimbState {
             this.prevOffset = this.offset;
             this.offset = this.offset.lerp(targetOffset, TURN);
 
+            this.prevCeiling = this.ceiling;
+            this.ceiling = Mth.approach(this.ceiling, this.mode == WallClimbing.MODE_CEILING ? 1.0F : 0.0F, 0.25F);
             this.prevWeight = this.weight;
             this.weight = Mth.approach(this.weight, climbing ? 1.0F : 0.0F, 0.2F);
             this.prevPhase = this.phase;
