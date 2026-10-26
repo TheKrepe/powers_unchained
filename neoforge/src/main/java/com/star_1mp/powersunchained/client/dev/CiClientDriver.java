@@ -511,6 +511,7 @@ public final class CiClientDriver {
             case 7310 -> climbLog("after the mantle");
             // ceiling: cling, walk along it, over its edge onto the outer face, up and over the top
             case 7336 -> {
+                run("gamemode survival @p");
                 run("tp @p 821.5 -60 -1 -90 10");
                 mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
             }
@@ -592,14 +593,49 @@ public final class CiClientDriver {
                 com.star_1mp.powersunchained.client.power.SpiderSense.debugForce(false);
                 run("tick rate 20");
             }
-            case 7600 -> {
+            // climbing poses on mannequins: wall (head up), wall (crawling sideways), ceiling
+            case 7560 -> {
                 run("kill @e[type=!player]");
                 run("gamemode creative @p");
+                run("tp @p 884.5 -59 2.5 150 12");
+            }
+            case 7570 -> {
+                run("fill 877 -60 -3 884 -56 -3 minecraft:stone_bricks");
+                run("fill 886 -57 -5 889 -57 -1 minecraft:stone_bricks");
+                summonAt(879.5, -59.0, -1.69, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
+                summonAt(882.5, -59.0, -1.69, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
+                summonAt(887.5, -58.8, -3.0, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
+            }
+            case 7580 -> {
+                java.util.List<net.minecraft.world.entity.Entity> mannequins = new java.util.ArrayList<>();
+                for (net.minecraft.world.entity.Entity e : mc.level.entitiesForRendering()) {
+                    if (net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(e.getType()).getPath().equals("mannequin")) {
+                        mannequins.add(e);
+                    }
+                }
+                mannequins.sort(java.util.Comparator.comparingDouble(net.minecraft.world.entity.Entity::getX));
+                Constants.LOG.info("[CI] climbing mannequins: {}", mannequins.size());
+                net.minecraft.core.Direction north = net.minecraft.core.Direction.NORTH;
+                int wall = com.star_1mp.powersunchained.power.WallClimbing.MODE_WALL;
+                if (mannequins.size() >= 3) {
+                    com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(0).getId(), wall, north,
+                            new net.minecraft.world.phys.Vec3(0, 1, 0));
+                    com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(1).getId(), wall, north,
+                            new net.minecraft.world.phys.Vec3(1, 0, 0));
+                    com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(2).getId(),
+                            com.star_1mp.powersunchained.power.WallClimbing.MODE_CEILING, north, new net.minecraft.world.phys.Vec3(1, 0, 0));
+                }
+            }
+            case 7600 -> shot("54_climb_poses");
+            case 7620 -> run("tp @p 880.5 -59 1.5 -150 12");
+            case 7640 -> shot("54b_climb_poses_other_side");
+            case 7660 -> {
+                run("kill @e[type=!player]");
                 run("time set 18000");
                 run("tp @p 860.5 -60 0.5 180 5");
             }
-            case 7640 -> shot("53_night_vision");
-            case 7700 -> {
+            case 7700 -> shot("53_night_vision");
+            case 7760 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -644,6 +680,10 @@ public final class CiClientDriver {
                 menu.getSlot(com.star_1mp.powersunchained.menu.SuitCreatorMenu.SCAN_SLOT).set(stack);
             }
         });
+    }
+
+    private static void summonAt(double x, double y, double z, String nbt) {
+        run("summon minecraft:mannequin " + x + " " + y + " " + z + " " + nbt);
     }
 
     private static void summon(double x, String profile, String equipment) {

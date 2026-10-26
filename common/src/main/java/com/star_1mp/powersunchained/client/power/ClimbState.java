@@ -63,6 +63,15 @@ public final class ClimbState {
         }
     }
 
+    /** Dev/CI only: poses an entity (e.g. a mannequin) as climbing, its head towards {@code heading}, mid-crawl. */
+    public static void debugSet(int entityId, int mode, Direction wall, Vec3 heading) {
+        set(entityId, mode, wall);
+        Entry e = ENTRIES.get(entityId);
+        if (e != null) {
+            e.debugHeading = heading.normalize();
+        }
+    }
+
     public static boolean isClimbing(int entityId) {
         Entry e = ENTRIES.get(entityId);
         return e != null && e.mode != WallClimbing.MODE_NONE;
@@ -169,6 +178,7 @@ public final class ClimbState {
         float amp;
         float prevAmp;
         @Nullable Vec3 lastPos;
+        @Nullable Vec3 debugHeading;
 
         /** @return whether it is done (upright again) */
         boolean tick(LivingEntity entity) {
@@ -180,7 +190,10 @@ public final class ClimbState {
             // head direction: along the surface, where it moves
             Vec3 n = this.mode == WallClimbing.MODE_CEILING ? new Vec3(0.0, 1.0, 0.0) : normal(this.wall);
             Vec3 along = moved.subtract(n.scale(moved.dot(n)));
-            if (climbing) {
+            if (this.debugHeading != null) {
+                this.heading = this.debugHeading;
+                along = this.debugHeading.scale(0.1);
+            } else if (climbing) {
                 if (along.lengthSqr() > 4.0E-4) {
                     this.heading = along.normalize();
                 } else if (this.heading != null) {
