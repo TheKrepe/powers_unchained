@@ -164,8 +164,8 @@ public final class ClimbState {
         // opposite knee draws up while the other leg pushes; all within reach of the surface (~0.45 ahead)
         float up = Math.max(0.0F, c);
         float down = Math.max(0.0F, -c);
-        rot(m.rightArm, -160.0F - 12.0F * c, 0.0F, 20.0F + 16.0F * up, d);
-        rot(m.leftArm, -160.0F + 12.0F * c, 0.0F, -20.0F - 16.0F * down, d);
+        rot(m.rightArm, -160.0F - 12.0F * c, 0.0F, 29.0F + 14.0F * up, d);
+        rot(m.leftArm, -160.0F + 12.0F * c, 0.0F, -29.0F - 14.0F * down, d);
         rot(m.rightLeg, -16.0F + 14.0F * c, 0.0F, 8.0F + 6.0F * down, d);
         rot(m.leftLeg, -16.0F - 14.0F * c, 0.0F, -8.0F - 6.0F * up, d);
         // the drawn-up knee: its hip lifts a little
