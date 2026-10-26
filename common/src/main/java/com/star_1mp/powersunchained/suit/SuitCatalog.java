@@ -18,6 +18,9 @@ public final class SuitCatalog {
     /** Piece index of "the whole suit" in the blueprint. */
     public static final int ALL = 4;
 
+    /** String per piece (mask, chestplate, pants, boots); declared before the static block that uses it. */
+    private static final int[] STRING_PER_PIECE = {1, 2, 1, 1};
+
     private static final Map<Suit, SuitInfo> INFO = new LinkedHashMap<>();
 
     static {
@@ -60,8 +63,6 @@ public final class SuitCatalog {
         sum.forEach((item, count) -> out.add(new SuitInfo.Material(item, count)));
         return out;
     }
-
-    private static final int[] STRING_PER_PIECE = {1, 2, 1, 1};
 
     /**
      * A cloth Spider-Man suit. {@code recipe}: fabrics per piece, "colour count, ..." separated by "|" in the order
