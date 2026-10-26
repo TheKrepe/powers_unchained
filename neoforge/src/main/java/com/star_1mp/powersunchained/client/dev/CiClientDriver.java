@@ -441,12 +441,13 @@ public final class CiClientDriver {
                 run("gamemode creative @p");
                 run("clear @p");
                 run("superpower add all @p");
-                run("fill 798 -60 -3 802 -56 -3 minecraft:stone_bricks");
-                run("fill 818 -56 -4 824 -56 2 minecraft:stone_bricks");
                 run("tp @p 800.5 -60 0.5 180 0");
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
             }
             case 7060 -> {
+                // after the teleport: the chunks are loaded now
+                run("fill 798 -60 -3 802 -56 -3 minecraft:stone_bricks");
+                run("fill 818 -56 -4 824 -56 2 minecraft:stone_bricks");
                 run("item replace entity @p armor.head with powers_unchained:spider_man_mask");
                 run("item replace entity @p armor.chest with powers_unchained:spider_man_chestplate");
                 run("item replace entity @p armor.legs with powers_unchained:spider_man_pants");
@@ -459,14 +460,14 @@ public final class CiClientDriver {
                 wheel.debugHover(0);
             }
             case 7110 -> shot("44_ability_wheel");
-            case 7130 -> com.star_1mp.powersunchained.client.power.AbilityWheelScreen.toggle(com.star_1mp.powersunchained.power.Superpower.NIGHT_VISION);
-            case 7135 -> {
+            case 7150 -> com.star_1mp.powersunchained.client.power.AbilityWheelScreen.toggle(com.star_1mp.powersunchained.power.Superpower.NIGHT_VISION);
+            case 7155 -> {
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.power.AbilityWheelScreen wheel) {
                     wheel.debugHover(1);
                 }
             }
-            case 7160 -> shot("44b_ability_wheel_night_vision_on");
-            case 7190 -> {
+            case 7170 -> shot("44b_ability_wheel_night_vision_on");
+            case 7194 -> {
                 mc.gui.setScreen(null);
                 run("tp @p 800.5 -60 -1.69 180 10");
                 mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
@@ -532,9 +533,15 @@ public final class CiClientDriver {
                 run("tick rate 4");
             }
             case 7452 -> net.minecraft.client.KeyMapping.click(com.star_1mp.powersunchained.client.input.PUKeyMappings.ROLL.getKey());
-            case 7455 -> shot("50_roll");
-            case 7458 -> shot("50b_roll");
-            case 7460 -> {
+            case 7454 -> {
+                rollLog();
+                com.star_1mp.powersunchained.client.power.RollAnimation.debugHold(0.3F);
+            }
+            case 7456 -> shot("50_roll");
+            case 7462 -> com.star_1mp.powersunchained.client.power.RollAnimation.debugHold(0.55F);
+            case 7464 -> shot("50b_roll");
+            case 7469 -> {
+                com.star_1mp.powersunchained.client.power.RollAnimation.debugHold(-1.0F);
                 mc.options.keyLeft.setDown(false);
                 run("tick rate 20");
             }
@@ -545,17 +552,33 @@ public final class CiClientDriver {
                 run("tick rate 4");
             }
             case 7486 -> net.minecraft.client.KeyMapping.click(com.star_1mp.powersunchained.client.input.PUKeyMappings.ROLL.getKey());
-            case 7491 -> shot("51_air_flip");
-            case 7494 -> shot("51b_air_flip");
-            case 7500 -> run("tick rate 20");
+            case 7488 -> {
+                rollLog();
+                com.star_1mp.powersunchained.client.power.RollAnimation.debugHold(0.35F);
+            }
+            case 7490 -> shot("51_air_flip");
+            case 7496 -> com.star_1mp.powersunchained.client.power.RollAnimation.debugHold(0.6F);
+            case 7498 -> shot("51b_air_flip");
+            case 7503 -> {
+                com.star_1mp.powersunchained.client.power.RollAnimation.debugHold(-1.0F);
+                run("tick rate 20");
+            }
             // spider-sense: a zombie close by
             case 7530 -> {
                 run("gamemode survival @p");
                 run("tp @p 860.5 -60 0.5 180 5");
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
             }
-            case 7540 -> run("summon minecraft:zombie 863.5 -60 -1.5");
+            case 7540 -> run("summon minecraft:zombie 861.5 -60 -2.5");
+            case 7544 -> {
+                com.star_1mp.powersunchained.client.power.SpiderSense.debugForce(true);
+                run("tick rate 5");
+            }
             case 7546 -> shot("52_spider_sense");
+            case 7552 -> {
+                com.star_1mp.powersunchained.client.power.SpiderSense.debugForce(false);
+                run("tick rate 20");
+            }
             case 7600 -> {
                 run("kill @e[type=!player]");
                 run("gamemode creative @p");
@@ -681,6 +704,12 @@ public final class CiClientDriver {
         run("execute at @p run summon minecraft:item_display ~" + x + " ~" + y + " ~4 {item:{id:\"" + item + "\",count:1},"
                 + "billboard:\"center\",transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],"
                 + "translation:[0f,0f,0f],scale:[0.55f,0.55f,0.55f]}}");
+    }
+
+    private static void rollLog() {
+        Minecraft mc = Minecraft.getInstance();
+        Constants.LOG.info("[CI] roll: rolling {} animated {} on ground {} at {}", com.star_1mp.powersunchained.client.power.RollClient.isRolling(),
+                com.star_1mp.powersunchained.client.power.RollAnimation.isRolling(mc.player.getId()), mc.player.onGround(), mc.player.position());
     }
 
     private static void climbLog(String what) {

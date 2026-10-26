@@ -22,6 +22,8 @@ public final class RollAnimation {
     private static final Map<Integer, Roll> ROLLS = new ConcurrentHashMap<>();
     private static final float DEG = Mth.DEG_TO_RAD;
     private static long clock;
+    /** Dev/CI only: holds every roll at this progress (negative = off). */
+    private static float debugHold = -1.0F;
 
     private record Roll(int kind, float yaw, long start) {
         int length() {
@@ -45,8 +47,16 @@ public final class RollAnimation {
         ROLLS.put(entityId, new Roll(kind, yaw, clock));
     }
 
+    /** Dev/CI only. */
+    public static void debugHold(float progress) {
+        debugHold = progress;
+    }
+
     public static void tick() {
         clock++;
+        if (debugHold >= 0.0F) {
+            return;
+        }
         Iterator<Roll> it = ROLLS.values().iterator();
         while (it.hasNext()) {
             Roll r = it.next();
@@ -65,6 +75,9 @@ public final class RollAnimation {
 
     /** Progress 0..1, or -1 without a roll. */
     private static float progress(Roll r, float partialTick) {
+        if (debugHold >= 0.0F) {
+            return debugHold;
+        }
         float t = (clock - r.start + partialTick) / r.length();
         return t >= 1.0F ? -1.0F : Math.max(t, 0.0F);
     }
