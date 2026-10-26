@@ -104,8 +104,25 @@ public final class AbilityHud {
         return AbilitySlots.entries(player);
     }
 
+    /** The same keys on a Russian (ЙЦУКЕН) keyboard: the labels follow the game language. */
+    private static final java.util.Map<String, String> RU_LAYOUT = java.util.Map.ofEntries(
+            java.util.Map.entry("Q", "Й"), java.util.Map.entry("W", "Ц"), java.util.Map.entry("E", "У"), java.util.Map.entry("R", "К"),
+            java.util.Map.entry("T", "Е"), java.util.Map.entry("Y", "Н"), java.util.Map.entry("U", "Г"), java.util.Map.entry("I", "Ш"),
+            java.util.Map.entry("O", "Щ"), java.util.Map.entry("P", "З"), java.util.Map.entry("[", "Х"), java.util.Map.entry("]", "Ъ"),
+            java.util.Map.entry("A", "Ф"), java.util.Map.entry("S", "Ы"), java.util.Map.entry("D", "В"), java.util.Map.entry("F", "А"),
+            java.util.Map.entry("G", "П"), java.util.Map.entry("H", "Р"), java.util.Map.entry("J", "О"), java.util.Map.entry("K", "Л"),
+            java.util.Map.entry("L", "Д"), java.util.Map.entry(";", "Ж"), java.util.Map.entry("'", "Э"), java.util.Map.entry("Z", "Я"),
+            java.util.Map.entry("X", "Ч"), java.util.Map.entry("C", "С"), java.util.Map.entry("V", "М"), java.util.Map.entry("B", "И"),
+            java.util.Map.entry("N", "Т"), java.util.Map.entry("M", "Ь"), java.util.Map.entry(",", "Б"), java.util.Map.entry(".", "Ю"),
+            java.util.Map.entry("`", "Ё"));
+
+    private static boolean russian() {
+        String lang = Minecraft.getInstance().options.languageCode;
+        return lang != null && lang.startsWith("ru");
+    }
+
     /**
-     * The key's label as printed on the key: letters and punctuation by their Latin key name (vanilla names them by
+     * The key's label as printed on the key (in Russian the Russian letter of that key): letters and punctuation by their Latin key name (vanilla names them by
      * the current keyboard layout, e.g. Cyrillic letters on a Russian layout), anything else as vanilla does.
      */
     public static Component keyLabel(KeyMapping mapping) {
@@ -114,7 +131,8 @@ public final class AbilityHud {
         if (name.startsWith(prefix)) {
             String key = name.substring(prefix.length());
             if (key.length() == 1) {
-                return Component.literal(key.toUpperCase(Locale.ROOT));
+                String latin = key.toUpperCase(Locale.ROOT);
+                return Component.literal(russian() ? RU_LAYOUT.getOrDefault(latin, latin) : latin);
             }
             String symbol = switch (key) {
                 case "comma" -> ",";
@@ -131,7 +149,7 @@ public final class AbilityHud {
                 default -> null;
             };
             if (symbol != null) {
-                return Component.literal(symbol);
+                return Component.literal(russian() ? RU_LAYOUT.getOrDefault(symbol, symbol) : symbol);
             }
         }
         return mapping.getTranslatedKeyMessage();
