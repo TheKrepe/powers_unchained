@@ -583,7 +583,10 @@ public final class CiClientDriver {
                 run("tick rate 5");
             }
             case 7546 -> shot("52_spider_sense");
-            case 7552 -> {
+            case 7547 -> mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
+            case 7550 -> shot("52b_spider_sense_bolts");
+            case 7554 -> {
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
                 com.star_1mp.powersunchained.client.power.SpiderSense.debugForce(false);
                 run("tick rate 20");
             }
@@ -626,7 +629,16 @@ public final class CiClientDriver {
                             com.star_1mp.powersunchained.power.WallClimbing.MODE_CEILING, north, new net.minecraft.world.phys.Vec3(1, 0, 0));
                 }
             }
-            case 7600 -> shot("54_climb_poses");
+            case 7596 -> {
+                for (net.minecraft.world.entity.Entity e : mc.level.entitiesForRendering()) {
+                    if (net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(e.getType()).getPath().equals("mannequin")) {
+                        com.star_1mp.powersunchained.client.power.SpiderSenseLayer.burst(e.getId());
+                    }
+                }
+                run("tick rate 4");
+            }
+            case 7598 -> shot("54_climb_poses");
+            case 7606 -> run("tick rate 20");
             case 7620 -> run("tp @p 892.5 -59 1.5 120 8");
             case 7630 -> shot("54b_climb_ceiling_pose");
             case 7670 -> {

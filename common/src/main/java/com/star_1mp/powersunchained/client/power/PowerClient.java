@@ -39,6 +39,7 @@ public final class PowerClient {
         ClimbState.tick();
         RollAnimation.tick();
         SpiderSense.tick();
+        SpiderSenseLayer.tick();
     }
 
     /** Movement input event of the local player (inside its tick, before vanilla applies the keys). */

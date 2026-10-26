@@ -203,10 +203,12 @@ public class PowersUnchainedNeoForgeClient {
             if (player != null) {
                 player.addLayer(new SuitLayer(player, event.getEntityModels(), slim));
                 player.addLayer(new com.star_1mp.powersunchained.client.web.WebHandLayer(player));
+                player.addLayer(new com.star_1mp.powersunchained.client.power.SpiderSenseLayer(player));
             }
             AvatarRenderer<?> mannequin = event.getMannequinRenderer(skin);
             if (mannequin != null) {
                 mannequin.addLayer(new SuitLayer(mannequin, event.getEntityModels(), slim));
+                mannequin.addLayer(new com.star_1mp.powersunchained.client.power.SpiderSenseLayer(mannequin));
             }
         }
         // web cocoon over every living entity's model

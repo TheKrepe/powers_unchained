@@ -53,6 +53,9 @@ public final class SpiderSense {
     /** Dev/CI only: keep the flash on. */
     public static void debugForce(boolean on) {
         debugForce = on;
+        if (on && Minecraft.getInstance().player != null) {
+            SpiderSenseLayer.burst(Minecraft.getInstance().player.getId());
+        }
     }
 
     public static void tick() {
@@ -103,6 +106,10 @@ public final class SpiderSense {
         }
         if (fresh) {
             flash = FLASH_TICKS;
+            // comic bolts over the head, for us and everyone watching
+            SpiderSenseLayer.burst(player.getId());
+            com.star_1mp.powersunchained.platform.Services.GAMEPLAY.sendToServer(
+                    new com.star_1mp.powersunchained.network.SenseAlertPayload(player.getId()));
             if (soundCooldown == 0) {
                 soundCooldown = SOUND_COOLDOWN;
                 // louder: full volume, a few layers
@@ -112,6 +119,15 @@ public final class SpiderSense {
                 player.playSound(SoundEvents.NOTE_BLOCK_CHIME.value(), 0.7F, 1.6F);
             }
         }
+    }
+
+    /** The strongest danger sensed right now (0..1). */
+    public static float danger() {
+        float max = 0.0F;
+        for (Threat t : THREATS.values()) {
+            max = Math.max(max, t.strength);
+        }
+        return max;
     }
 
     /** 0 = harmless, up to 1 = urgent. */
