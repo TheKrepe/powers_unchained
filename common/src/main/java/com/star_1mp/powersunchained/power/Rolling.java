@@ -25,6 +25,6 @@ public final class Rolling {
             // a flip off a jump or a web lands softly
             WebShooting.markFallSafe(player);
         }
-        Services.GAMEPLAY.sendToTrackingAndSelf(player, new RollPayload(player.getId(), kind, yaw));
+        Services.GAMEPLAY.sendToTrackingAndSelf(player, new com.star_1mp.powersunchained.network.RollAnimPayload(player.getId(), kind, yaw));
     }
 }

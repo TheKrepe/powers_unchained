@@ -94,14 +94,15 @@ public class PowersUnchainedNeoForge {
                 .playToClient(com.star_1mp.powersunchained.network.ClimbSyncPayload.TYPE,
                         com.star_1mp.powersunchained.network.ClimbSyncPayload.STREAM_CODEC, (payload, context) ->
                                 com.star_1mp.powersunchained.client.power.ClimbState.onSync(payload.entityId(), payload.mode(), payload.direction()))
-                .playBidirectional(com.star_1mp.powersunchained.network.RollPayload.TYPE,
+                .playToServer(com.star_1mp.powersunchained.network.RollPayload.TYPE,
                         com.star_1mp.powersunchained.network.RollPayload.STREAM_CODEC, (payload, context) -> {
                     if (context.player() instanceof ServerPlayer player) {
                         com.star_1mp.powersunchained.power.Rolling.roll(player, payload.kind(), payload.yaw());
-                    } else {
-                        com.star_1mp.powersunchained.client.power.RollAnimation.onRoll(payload.entityId(), payload.kind(), payload.yaw());
                     }
                 })
+                .playToClient(com.star_1mp.powersunchained.network.RollAnimPayload.TYPE,
+                        com.star_1mp.powersunchained.network.RollAnimPayload.STREAM_CODEC, (payload, context) ->
+                                com.star_1mp.powersunchained.client.power.RollAnimation.onRoll(payload.entityId(), payload.kind(), payload.yaw()))
                 .playToClient(WebShotAnimPayload.TYPE, WebShotAnimPayload.STREAM_CODEC,
                         (payload, context) -> WebShotTracker.onShot(payload.entityId(), payload.side())));
         CiServerHook.register();
