@@ -90,6 +90,8 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
     private static final ArmorType[] PIECES = {ArmorType.HELMET, ArmorType.CHESTPLATE, ArmorType.LEGGINGS, ArmorType.BOOTS};
     private static final String[] PART_SPRITES = {"head", "chest", "legs", "feet"};
     private static final String LOCKED_GROUP = "???";
+    /** List group of the starred suits (they stay in their hero group too). */
+    private static final String FAVORITES_GROUP = "__favorites";
 
     private EditBox search;
     private final List<Row> rows = new ArrayList<>();
@@ -232,10 +234,19 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
             }
             groups.computeIfAbsent(info.group(), g -> new ArrayList<>()).add(suit);
         }
+        // Favorites: starred suits, listed here AND in their own hero group
+        List<Suit> favorites = new ArrayList<>();
+        groups.values().forEach(list -> list.stream().filter(s -> SuitCreatorPrefs.FAVORITES.contains(s.id().getPath())
+                && progress.isUnlocked(s)).forEach(favorites::add));
+        if (!favorites.isEmpty()) {
+            this.rows.add(new Row(Row.HEADER, FAVORITES_GROUP, null, favorites.size()));
+            if (!SuitCreatorPrefs.COLLAPSED.contains(FAVORITES_GROUP)) {
+                favorites.forEach(s -> this.rows.add(new Row(Row.CARD, FAVORITES_GROUP, s, 0)));
+            }
+        }
         groups.forEach((group, suits) -> {
-            // favorites first, then unlocked, then locked (locked ones show their name and tags, not their look)
-            suits.sort(Comparator.comparing((Suit s) -> SuitCreatorPrefs.FAVORITES.contains(s.id().getPath()) ? 0 : 1)
-                    .thenComparing(s -> progress.isUnlocked(s) ? 0 : 1));
+            // unlocked first, then locked (locked ones show their name and tags, not their look)
+            suits.sort(Comparator.comparing((Suit s) -> progress.isUnlocked(s) ? 0 : 1));
             this.rows.add(new Row(Row.HEADER, group, null, suits.size()));
             if (!SuitCreatorPrefs.COLLAPSED.contains(group)) {
                 suits.forEach(s -> this.rows.add(new Row(progress.isUnlocked(s) ? Row.CARD : Row.LOCKED_CARD, group, s, 0)));
@@ -506,9 +517,12 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                         g.fill(ax + i, ay + 1 + i, ax + 5 - i, ay + 2 + i, AMBER);
                     }
                 }
-                Component name = locked ? Component.literal(LOCKED_GROUP) : groupName(row.group);
+                boolean favorites = FAVORITES_GROUP.equals(row.group);
+                Component name = locked ? Component.literal(LOCKED_GROUP) : favorites ? tr("favorites") : groupName(row.group);
                 g.text(this.font, name, x + 11, y + 2, AMBER, false);
-                if (!locked) {
+                if (favorites) {
+                    g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("star_on"), x + 14 + this.font.width(name), y + 2, 7, 7);
+                } else if (!locked) {
                     // the hero's emblem right after the name (textures/gui/sprites/suit_creator/group/<group>.png)
                     g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite("group/" + row.group), x + 13 + this.font.width(name), y + 1, 9, 9);
                 }
@@ -761,7 +775,9 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 can ? 0xFF1E1408 : 0xFF181416);
         g.outline(x + 1, y + 1, SEW_W - 2, SEW_H - 2, frame);
         g.outline(x + 2, y + 2, SEW_W - 4, SEW_H - 4, can ? AMBER_DARK : 0xFF3A2A2A);
-        this.bigText(g, tr("sew"), x + SEW_W / 2, y + 6, can ? (hover ? 0xFFFFE2A8 : AMBER) : 0xFF8A7070, 2.0F);
+        Component sewTitle = tr("sew");
+        float sewScale = Math.min(2.0F, (SEW_W - 10) / (float) this.font.width(sewTitle.copy().withStyle(net.minecraft.ChatFormatting.BOLD)));
+        this.bigText(g, sewTitle, x + SEW_W / 2, y + 6 + (int) ((2.0F - sewScale) * 4), can ? (hover ? 0xFFFFE2A8 : AMBER) : 0xFF8A7070, sewScale);
         // result icon (2x) and what it makes
         g.pose().pushMatrix();
         g.pose().translate(x + 8, y + 26);

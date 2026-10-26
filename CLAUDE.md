@@ -88,7 +88,8 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `broadcastChanges` once per game tick; buttons: sew = suit index*8 + piece (4 = all), unlock for XP = 4000 + index)
   + screen `client/suitcreator/SuitCreatorScreen` (416x236, drawn procedurally: vanilla panel + dark monitors; tabs
   Catalog / Scanner (owner removed the Dossier tab); tags popup; tag count + unlocked count in the top bar on every tab). Owner's edits:
-  ONE "Теги" button + popup (no chip row, no crafting button), no ability tags, no subtitles under names, no
+  ONE "Теги" button + popup (no chip row, no crafting button), "Избранное" group on top with the starred suits
+  (they stay in their hero group too), the craft panel says "СОЗДАТЬ", tags above it shrink to fit, no ability tags, no subtitles under names, no
   "missing materials" text, big Sew panel, no scan slot on the Catalog tab, Hologram = `SuitHologram` (own AvatarRenderState, Steve/Alex skin, poses Stand / Run only — owner removed Hang, pose encoded
   in the state id `ID_BASE + pose`, applied from `PlayerModelMixin`). View prefs (tags, favorites, collapsed
   groups) in `config/powers_unchained-suit_creator.json` (`SuitCreatorPrefs`). Suit data: `suit/SuitCatalog` (materials per piece as a string; owner's whole-suit totals for Classic / Advanced 2.0 /

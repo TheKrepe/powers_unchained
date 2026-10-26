@@ -127,7 +127,7 @@
   "screen.powers_unchained.suit_creator.all": "Весь",
   "screen.powers_unchained.suit_creator.durability": "Прочн. %s",
   "screen.powers_unchained.suit_creator.pieces": "Частей: %s",
-  "screen.powers_unchained.suit_creator.sew": "СШИТЬ",
+  "screen.powers_unchained.suit_creator.sew": "СОЗДАТЬ",
   "screen.powers_unchained.suit_creator.unlock": "ОТКРЫТЬ",
   "screen.powers_unchained.suit_creator.unlock.cost": "%s ур.",
   "screen.powers_unchained.suit_creator.unlock.or_scan": "или скан части",
@@ -166,5 +166,6 @@
   "suit_tag.powers_unchained.marvel_midnight": "Марвел Полночь",
   "suit_desc.powers_unchained.spider_man_marvel_midnight": "Тёмный костюм из Marvel's Midnight Suns.",
   "tooltip.powers_unchained.web_shooters.creative": "Творческие",
-  "tooltip.powers_unchained.web_shooters.endless": "Бесконечная паутина, картриджи не нужны"
+  "tooltip.powers_unchained.web_shooters.endless": "Бесконечная паутина, картриджи не нужны",
+  "screen.powers_unchained.suit_creator.favorites": "Избранное"
 }

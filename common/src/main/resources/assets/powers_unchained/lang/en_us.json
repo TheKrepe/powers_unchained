@@ -127,7 +127,7 @@
   "screen.powers_unchained.suit_creator.all": "All",
   "screen.powers_unchained.suit_creator.durability": "Dur. %s",
   "screen.powers_unchained.suit_creator.pieces": "Pieces: %s",
-  "screen.powers_unchained.suit_creator.sew": "SEW",
+  "screen.powers_unchained.suit_creator.sew": "CREATE",
   "screen.powers_unchained.suit_creator.unlock": "UNLOCK",
   "screen.powers_unchained.suit_creator.unlock.cost": "%s lvl",
   "screen.powers_unchained.suit_creator.unlock.or_scan": "or scan a piece",
@@ -166,5 +166,6 @@
   "suit_tag.powers_unchained.marvel_midnight": "Marvel Midnight",
   "suit_desc.powers_unchained.spider_man_marvel_midnight": "The dark suit from Marvel's Midnight Suns.",
   "tooltip.powers_unchained.web_shooters.creative": "Creative",
-  "tooltip.powers_unchained.web_shooters.endless": "Endless web fluid, no cartridges needed"
+  "tooltip.powers_unchained.web_shooters.endless": "Endless web fluid, no cartridges needed",
+  "screen.powers_unchained.suit_creator.favorites": "Favorites"
 }

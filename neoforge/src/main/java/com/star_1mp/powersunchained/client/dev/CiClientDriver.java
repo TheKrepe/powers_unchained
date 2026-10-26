@@ -382,7 +382,10 @@ public final class CiClientDriver {
                 run("give @p minecraft:iron_ingot 1");
             }
             case 5800 -> openSuitCreator();
-            case 5830 -> creator(0, "spider_man", 4, false, 0, false);
+            case 5830 -> {
+                com.star_1mp.powersunchained.client.suitcreator.SuitCreatorPrefs.FAVORITES.add("spider_man_raimi");
+                creator(0, "spider_man", 4, false, 0, false);
+            }
             case 5870 -> shot("34_sc_catalog");
             case 5900 -> {
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.suitcreator.SuitCreatorScreen screen) {
