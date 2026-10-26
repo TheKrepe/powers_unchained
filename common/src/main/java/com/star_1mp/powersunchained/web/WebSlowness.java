@@ -37,8 +37,30 @@ public final class WebSlowness {
         HELD.put(entity, true);
     }
 
+    /** Wrapped mobs' looks to keep this tick (players turn on their own client, so only mobs). */
+    private static final Map<LivingEntity, float[]> LOOKS = new WeakHashMap<>();
+
+    /** Server side, every tick by a web cocoon: the mob can't turn its head or body (yaw, head yaw, pitch, body yaw). */
+    public static void lockLook(LivingEntity entity, float[] look) {
+        if (!(entity instanceof net.minecraft.world.entity.player.Player)) {
+            LOOKS.put(entity, look);
+        }
+    }
+
     /** Server side, at the end of every server tick. */
     public static void endTick() {
+        // after the mobs' own AI turned them: back to the wrapped-up look
+        LOOKS.forEach((entity, look) -> {
+            entity.setYRot(look[0]);
+            entity.yRotO = look[0];
+            entity.setYHeadRot(look[1]);
+            entity.yHeadRotO = look[1];
+            entity.setXRot(look[2]);
+            entity.xRotO = look[2];
+            entity.yBodyRot = look[3];
+            entity.yBodyRotO = look[3];
+        });
+        LOOKS.clear();
         HELD.replaceAll((entity, held) -> {
             setHeld(entity, held);
             return false;

@@ -110,9 +110,17 @@ public class WebCocoon extends Entity {
                 this.level().playSound(null, target.getX(), target.getY(), target.getZ(), SoundEvents.WOOL_BREAK, SoundSource.NEUTRAL, 1.0F, 0.8F);
             } else {
                 WebSlowness.hold(target);
+                // wrapped up: the head (and body) can't turn either — the look it had when wrapped is kept
+                if (this.lockedLook == null) {
+                    this.lockedLook = new float[] {target.getYRot(), target.getYHeadRot(), target.getXRot(), target.yBodyRot};
+                }
+                WebSlowness.lockLook(target, this.lockedLook);
             }
         }
     }
+
+    /** Server: yaw, head yaw, pitch, body yaw of the target when it got wrapped. */
+    private float @org.jspecify.annotations.Nullable [] lockedLook;
 
     @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
