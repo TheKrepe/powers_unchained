@@ -342,7 +342,7 @@ public final class WallClimbClient {
         AABB beside = next.move(n.scale(WRAP));
         Direction newWall = sd.getOpposite();
         if (!player.level().noCollision(player, next) || !player.level().noCollision(player, beside)
-                || !touches(player, beside, newWall)) {
+                || !touches(player, beside.move(normal(newWall).scale(0.2)), newWall)) {
             return false;
         }
         SCRIPT.clear();
@@ -419,7 +419,7 @@ public final class WallClimbClient {
         Direction newWall = sd.getOpposite();
         AABB up = next.move(0.0, 0.75, 0.0);
         if (!player.level().noCollision(player, next) || !player.level().noCollision(player, up)
-                || !touches(player, up, newWall)) {
+                || !touches(player, up.move(normal(newWall).scale(0.2)), newWall)) {
             return false;
         }
         SCRIPT.clear();
