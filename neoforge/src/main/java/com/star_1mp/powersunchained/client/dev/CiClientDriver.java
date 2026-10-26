@@ -381,6 +381,12 @@ public final class CiClientDriver {
             case 5800 -> openSuitCreator();
             case 5830 -> creator(0, "spider_man", 4, false, 0, false);
             case 5870 -> shot("34_sc_catalog");
+            case 5900 -> {
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.suitcreator.SuitCreatorScreen screen) {
+                    screen.debugScrollMaterials(-3.0);  // wheel down over the materials
+                }
+            }
+            case 5925 -> shot("34b_sc_materials_scrolled");
             case 5950 -> creator(0, "spider_man", 0, false, 1, true);
             case 5990 -> shot("35_sc_catalog_mask_alex_run");
             case 6070 -> creator(0, "spider_man", 4, true, 0, false);

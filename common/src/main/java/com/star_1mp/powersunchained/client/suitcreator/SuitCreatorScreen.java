@@ -62,6 +62,10 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
     private static final int SEW_W = 102;
     private static final int SEW_H = 76;
     private static final int HEADER_H = 12;
+    /** Blueprint material list: monitor top (relative), row height, visible height (4 rows). */
+    private static final int MAT_Y = 52;
+    private static final int MAT_ROW = 16;
+    private static final int MAT_VISIBLE = 64;
     private static final int CARD_H = 22;
 
     private static final int TAB_CATALOG = 0;
@@ -98,6 +102,8 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
     private SuitHologram.Pose pose = SuitHologram.Pose.STAND;
     private float yaw = -20.0F;
     private boolean dragging;
+    private int materialScroll;
+    private boolean draggingMaterialBar;
     private int sewTicks = -1;
     private int sewButton;
     private float time;
@@ -145,6 +151,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         if (suit != this.selected) {
             this.selected = suit;
             this.sewTicks = -1;
+            this.materialScroll = 0;
             SuitCreatorPrefs.selected = suit.id().getPath();
         }
     }
@@ -631,26 +638,39 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         monitor(g, rx, y + 52, RIGHT_W, 68);
         if (suit != null) {
             List<SuitInfo.Material> cost = SuitCatalog.cost(suit, this.piece);
+            int max = this.maxMaterialScroll(cost.size());
+            this.materialScroll = Mth.clamp(this.materialScroll, 0, max);
+            boolean bar = max > 0;
+            int listW = RIGHT_W - (bar ? 7 : 0);
+            int top = y + MAT_Y + 2;
+            // clipped to the monitor; more than 4 materials scroll (mouse wheel or the bar on the right)
+            g.enableScissor(rx + 1, top, rx + RIGHT_W - 1, top + MAT_VISIBLE);
             int row = 0;
-            int rowH = materialRowHeight(cost.size());
             for (SuitInfo.Material m : cost) {
-                int ry = y + 54 + row * rowH;
-                ItemStack icon = new ItemStack(m.item().get());
-                // up to 4 materials: 16 px rows; more: 13 px rows with 3/4-size icons, so 5 still fit the monitor
-                g.pose().pushMatrix();
-                g.pose().translate(rx + 3, ry + (rowH < 16 ? 0.5F : 0.0F));
-                if (rowH < 16) {
-                    g.pose().scale(0.75F, 0.75F);
+                int ry = top + row * MAT_ROW - this.materialScroll;
+                row++;
+                if (ry + MAT_ROW <= top || ry >= top + MAT_VISIBLE) {
+                    continue;
                 }
-                g.item(icon, 0, 0);
-                g.pose().popMatrix();
-                int ty = ry + (rowH - 8) / 2;
+                ItemStack icon = new ItemStack(m.item().get());
+                g.item(icon, rx + 3, ry);
+                int ty = ry + 4;
                 int have = SuitCreatorMenu.count(this.minecraft.player.getInventory(), m.item().get());
                 String count = have + "/" + m.count();
                 int cw = this.font.width(count);
-                g.text(this.font, this.trim(icon.getHoverName().getString(), RIGHT_W - 26 - cw - 4), rx + 21, ty, 0xFFD8DEE6, false);
-                g.text(this.font, count, rx + RIGHT_W - 4 - cw, ty, have >= m.count() ? GREEN : RED, false);
-                row++;
+                g.text(this.font, this.trim(icon.getHoverName().getString(), listW - 26 - cw - 4), rx + 21, ty, 0xFFD8DEE6, false);
+                g.text(this.font, count, rx + listW - 4 - cw, ty, have >= m.count() ? GREEN : RED, false);
+            }
+            g.disableScissor();
+            if (bar) {
+                int bx = rx + RIGHT_W - 6;
+                g.fill(bx, top, bx + 4, top + MAT_VISIBLE, 0xFF0A0D10);
+                int content = cost.size() * MAT_ROW;
+                int thumb = Math.max(10, MAT_VISIBLE * MAT_VISIBLE / content);
+                int pos = (MAT_VISIBLE - thumb) * this.materialScroll / max;
+                boolean hot = this.draggingMaterialBar || in(mx, my, bx, top, 4, MAT_VISIBLE);
+                g.fill(bx, top + pos, bx + 4, top + pos + thumb, hot ? 0xFF8A96A2 : 0xFF6F7A86);
+                g.fill(bx, top + pos, bx + 3, top + pos + thumb - 1, hot ? 0xFFC8D2DC : 0xFFA9B4C0);
             }
         }
 
@@ -752,9 +772,15 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         }
     }
 
-    /** Height of a material row in the blueprint: the monitor holds 4 rows of 16 px or 5 of 13 px. */
-    private static int materialRowHeight(int rows) {
-        return rows > 4 ? 13 : 16;
+    /** How far the blueprint's material list can scroll (4 rows of 16 px are visible). */
+    private int maxMaterialScroll(int rows) {
+        return Math.max(0, rows * MAT_ROW - MAT_VISIBLE);
+    }
+
+    private void setMaterialScrollFromBar(double my, int rows) {
+        int top = this.topPos + MAT_Y + 2;
+        int max = this.maxMaterialScroll(rows);
+        this.materialScroll = Mth.clamp((int) Math.round((my - top) / MAT_VISIBLE * (max + MAT_VISIBLE) - MAT_VISIBLE / 2.0), 0, max);
     }
 
     private void bigText(GuiGraphicsExtractor g, Component text, int cx, int y, int color, float scale) {
@@ -946,8 +972,12 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 }
             }
             List<SuitInfo.Material> cost = SuitCatalog.cost(suit, this.piece);
+            int top = y + MAT_Y + 2;
             for (int i = 0; i < cost.size(); i++) {
-                if (in(mx, my, x + RIGHT_X + 2, y + 54 + i * materialRowHeight(cost.size()), RIGHT_W - 4, materialRowHeight(cost.size()))) {
+                int ry = top + i * MAT_ROW - this.materialScroll;
+                int y0 = Math.max(ry, top);
+                int y1 = Math.min(ry + MAT_ROW, top + MAT_VISIBLE);
+                if (y1 > y0 && in(mx, my, x + RIGHT_X + 2, y0, RIGHT_W - 10, y1 - y0)) {
                     g.setTooltipForNextFrame(this.font, new ItemStack(cost.get(i).item().get()), mx, my);
                 }
             }
@@ -1105,6 +1135,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
             for (int i = 0; i < 4; i++) {
                 if (in(mx, my, x + RIGHT_X + i * 19, y + 31, 18, 18)) {
                     this.piece = this.piece == i ? SuitCatalog.ALL : i;
+                    this.materialScroll = 0;
                     this.sewTicks = -1;
                     this.click();
                     return true;
@@ -1112,8 +1143,15 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
             }
             if (in(mx, my, x + RIGHT_X + 77, y + 31, RIGHT_W - 77, 18)) {
                 this.piece = SuitCatalog.ALL;
+                this.materialScroll = 0;
                 this.sewTicks = -1;
                 this.click();
+                return true;
+            }
+            int rows = SuitCatalog.cost(suit, this.piece).size();
+            if (this.maxMaterialScroll(rows) > 0 && in(mx, my, x + RIGHT_X + RIGHT_W - 7, y + MAT_Y + 2, 6, MAT_VISIBLE)) {
+                this.draggingMaterialBar = true;
+                this.setMaterialScrollFromBar(my, rows);
                 return true;
             }
             if (in(mx, my, x + SEW_X, y + SEW_Y, SEW_W, SEW_H)) {
@@ -1184,6 +1222,10 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
 
     @Override
     public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
+        if (this.draggingMaterialBar && this.selected != null) {
+            this.setMaterialScrollFromBar(event.y(), SuitCatalog.cost(this.selected, this.piece).size());
+            return true;
+        }
         if (this.dragging) {
             this.yaw -= (float) dx * 2.5F;
             return true;
@@ -1193,6 +1235,10 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
 
     @Override
     public boolean mouseReleased(MouseButtonEvent event) {
+        if (this.draggingMaterialBar) {
+            this.draggingMaterialBar = false;
+            return true;
+        }
         if (this.dragging) {
             this.dragging = false;
             return true;
@@ -1204,6 +1250,12 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
     public boolean mouseScrolled(double mx, double my, double scrollX, double scrollY) {
         if (!this.tagsOpen && in(mx, my, this.leftPos + LIST_X, this.topPos + LIST_Y, LIST_W, LIST_H)) {
             this.listScroll = Mth.clamp(this.listScroll - (int) (scrollY * 14), 0, this.maxScroll());
+            return true;
+        }
+        if (!this.tagsOpen && this.tab == TAB_CATALOG && this.selected != null
+                && in(mx, my, this.leftPos + RIGHT_X, this.topPos + MAT_Y, RIGHT_W, 68)) {
+            int rows = SuitCatalog.cost(this.selected, this.piece).size();
+            this.materialScroll = Mth.clamp(this.materialScroll - (int) (scrollY * 8), 0, this.maxMaterialScroll(rows));
             return true;
         }
         return super.mouseScrolled(mx, my, scrollX, scrollY);
@@ -1237,6 +1289,11 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         int[] b = this.tabBounds(tab == TAB_SCANNER ? 1 : 0);
         this.mouseClicked(new MouseButtonEvent(b[0] + b[2] / 2.0, b[1] + b[3] / 2.0,
                 new net.minecraft.client.input.MouseButtonInfo(com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_LEFT, 0)), false);
+    }
+
+    /** Dev/CI only: a mouse wheel turn over the blueprint's material list. */
+    public void debugScrollMaterials(double amount) {
+        this.mouseScrolled(this.leftPos + RIGHT_X + 20, this.topPos + MAT_Y + 20, 0.0, amount);
     }
 
     /** Dev/CI only: presses the Sew panel. */
