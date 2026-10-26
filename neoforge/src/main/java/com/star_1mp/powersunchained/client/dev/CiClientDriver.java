@@ -580,12 +580,13 @@ public final class CiClientDriver {
             case 7540 -> run("summon minecraft:zombie 861.5 -60 -2.5");
             case 7544 -> {
                 com.star_1mp.powersunchained.client.power.SpiderSense.debugForce(true);
-                run("tick rate 5");
+                run("tick rate 3");
             }
             case 7546 -> shot("52_spider_sense");
             case 7547 -> mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
-            case 7550 -> shot("52b_spider_sense_bolts");
-            case 7554 -> {
+            case 7549 -> com.star_1mp.powersunchained.client.power.SpiderSenseLayer.burst(mc.player.getId());
+            case 7551 -> shot("52b_spider_sense_bolts");
+            case 7558 -> {
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
                 com.star_1mp.powersunchained.client.power.SpiderSense.debugForce(false);
                 run("tick rate 20");

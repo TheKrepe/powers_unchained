@@ -109,7 +109,7 @@ public class SpiderSenseLayer extends RenderLayer<AvatarRenderState, PlayerModel
                 }
                 int color = alpha << 24 | 0xFFFFFF;
                 float angle = BOLTS[i][0] + jitter;
-                float len = 0.34F * BOLTS[i][1] * pop;
+                float len = 0.55F * BOLTS[i][1] * pop;
                 poseStack.pushPose();
                 poseStack.rotateDegrees(Axis.ZP, angle);
                 collector.submitCustomGeometry(poseStack, RenderTypes.entityTranslucent(TEXTURE),
@@ -123,8 +123,8 @@ public class SpiderSenseLayer extends RenderLayer<AvatarRenderState, PlayerModel
 
     /** One bolt: a quad pointing "up" (head space -y), from just outside the head outwards, both sides. */
     private static void bolt(Matrix4f m, VertexConsumer c, float len, int color) {
-        float w = len / 6.0F;
-        float y0 = -0.36F;
+        float w = len / 5.0F;
+        float y0 = -0.34F;
         float y1 = y0 - len;
         vertex(m, c, -w, y0, 0.0F, 0.0F, 1.0F, color);
         vertex(m, c, w, y0, 0.0F, 1.0F, 1.0F, color);
