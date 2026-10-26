@@ -31,12 +31,12 @@ public final class ClimbState {
     /** Body centre's height over the feet when upright. */
     private static final double CENTER = 0.9;
     /** Body centre's distance below the ceiling (the limbs reach up to it). */
-    private static final double CEILING_DROP = 0.36;
+    private static final double CEILING_DROP = 0.45;
     /**
      * Body centre's shift towards a wall: negative = away from it, so the limbs reaching onto the wall touch it
      * instead of sinking into the blocks (the centre then sits ~0.42 off the wall, like under a ceiling).
      */
-    private static final double WALL_SHIFT = -0.06;
+    private static final double WALL_SHIFT = -0.15;
     /** Lean over the top of a wall while climbing onto it (degrees). */
     private static final double MANTLE_LEAN = 42.0;
     private static final float TURN = 0.38F;
@@ -159,13 +159,19 @@ public final class ClimbState {
         float c = Mth.sin(phase) * amp;
         float lift = Math.max(0.0F, Mth.cos(phase)) * amp;
         float lift2 = Math.max(0.0F, -Mth.cos(phase)) * amp;
-        // like Powerborne's wall crawl: arms up over the head, apart, legs nearly straight; arms and legs reach and
-        // pull in turn (a hand up while the other comes down, the opposite leg with it) as it moves
-        rot(m.rightArm, -162.0F - 14.0F * c, 0.0F, 14.0F + 4.0F * lift, d);
-        rot(m.leftArm, -162.0F + 14.0F * c, 0.0F, -14.0F - 4.0F * lift2, d);
-        rot(m.rightLeg, -12.0F + 14.0F * c, 0.0F, 6.0F, d);
-        rot(m.leftLeg, -12.0F - 14.0F * c, 0.0F, -6.0F, d);
-        rot(m.body, 0.0F, 3.0F * c, 0.0F, d);
+        // in the spirit of Powerborne's / Marvel Legacy's wall crawl: arms up over the head and apart, legs nearly
+        // straight; a diagonal gait as it moves — one hand reaches up and out while the other pulls down, and the
+        // opposite knee draws up while the other leg pushes; all within reach of the surface (~0.45 ahead)
+        float up = Math.max(0.0F, c);
+        float down = Math.max(0.0F, -c);
+        rot(m.rightArm, -160.0F - 12.0F * c, 0.0F, 20.0F + 16.0F * up, d);
+        rot(m.leftArm, -160.0F + 12.0F * c, 0.0F, -20.0F - 16.0F * down, d);
+        rot(m.rightLeg, -16.0F + 14.0F * c, 0.0F, 8.0F + 6.0F * down, d);
+        rot(m.leftLeg, -16.0F - 14.0F * c, 0.0F, -8.0F - 6.0F * up, d);
+        // the drawn-up knee: its hip lifts a little
+        m.rightLeg.y = Mth.lerp(d, m.rightLeg.y, 12.0F - 2.5F * down);
+        m.leftLeg.y = Mth.lerp(d, m.leftLeg.y, 12.0F - 2.5F * up);
+        rot(m.body, 0.0F, 4.0F * c, 0.0F, d);
         rot(m.head, -30.0F, 0.0F, -3.0F * c, d);
 
         float out = smooth(Mth.lerp(partialTick, e.prevOut, e.out)) * d;
