@@ -41,7 +41,8 @@ public class PowersUnchainedNeoForge {
         // no fall damage when landing after travelling by web (zip, swing)
         NeoForge.EVENT_BUS.addListener((LivingFallEvent event) -> {
             if (event.getEntity() instanceof ServerPlayer player
-                    && (WebShooting.isFallSafe(player) || com.star_1mp.powersunchained.power.WallClimbing.isClimbing(player))) {
+                    && (WebShooting.isFallSafe(player) || com.star_1mp.powersunchained.power.WallClimbing.isClimbing(player)
+                            || com.star_1mp.powersunchained.power.Superpowers.fallImmune(player))) {
                 event.setCanceled(true);
             }
         });

@@ -24,6 +24,11 @@ public final class Superpowers {
         return data(player).isActive(ability);
     }
 
+    /** Spider-Man takes no fall damage at all (like Fisk's Superheroes' Spider-Man): swings, jumps, drops. */
+    public static boolean fallImmune(Player player) {
+        return data(player).has(Superpower.SPIDERMAN);
+    }
+
     public static void add(ServerPlayer player, Superpower power) {
         Services.GAMEPLAY.setPowerData(player, data(player).add(power));
     }
