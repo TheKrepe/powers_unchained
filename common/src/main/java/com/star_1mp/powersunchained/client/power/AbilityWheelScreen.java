@@ -79,8 +79,8 @@ public class AbilityWheelScreen extends Screen {
             return;
         }
         if (this.heldKey) {
-            InputConstants.Key key = PUKeyMappings.ABILITY_WHEEL.getKey();
-            if (key.getType() == InputConstants.Type.KEYSYM && !InputConstants.isKeyDown(key.getValue())) {
+            InputConstants.Key key = InputConstants.getKey(PUKeyMappings.ABILITY_WHEEL.saveString());
+            if (key.getType() == InputConstants.Type.KEYBOARD && !InputConstants.isKeyDown(key.getValue())) {
                 this.onClose();
             }
         }

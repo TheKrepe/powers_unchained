@@ -111,10 +111,10 @@ public final class ClimbState {
             return;
         }
         // back to world axes, then the climbing orientation around the body's centre
-        poseStack.mulPose(Axis.YP.rotationDegrees(-(180.0F - bodyYaw)));
+        poseStack.rotateDegrees(Axis.YP, -(180.0F - bodyYaw));
         Vec3 off = e.prevOffset.lerp(e.offset, partialTick);
         poseStack.translate(off.x * scale, off.y * scale, off.z * scale);
-        poseStack.mulPose(new Quaternionf(e.prev).slerp(e.cur, partialTick));
+        poseStack.rotate(new Quaternionf(e.prev).slerp(e.cur, partialTick));
         poseStack.translate(0.0, -CENTER * scale, 0.0);
     }
 

@@ -161,7 +161,7 @@ public final class SpiderSense {
     public static void render(GuiGraphicsExtractor g, DeltaTracker delta) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        if (player == null || mc.options.hideGui || (THREATS.isEmpty() && flash <= 0 && !debugForce)) {
+        if (player == null || (THREATS.isEmpty() && flash <= 0 && !debugForce)) {
             return;
         }
         float pt = delta.getGameTimeDeltaPartialTick(false);

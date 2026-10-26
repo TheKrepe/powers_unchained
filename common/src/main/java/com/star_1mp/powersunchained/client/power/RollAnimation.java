@@ -87,7 +87,7 @@ public final class RollAnimation {
         float tuck = tuck(p);
         // face the roll's direction
         float turn = Mth.wrapDegrees(bodyYaw - r.yaw) * smooth(Math.min(p / 0.12F, 1.0F)) * smooth(Math.min((1.0F - p) / 0.12F, 1.0F));
-        poseStack.mulPose(Axis.YP.rotationDegrees(turn));
+        poseStack.rotateDegrees(Axis.YP, turn);
         if (r.kind == Rolling.KIND_FLIP) {
             float spin = smooth(Mth.clamp((p - 0.05F) / 0.85F, 0.0F, 1.0F));
             rotate(poseStack, scale, 0.55F, -360.0F * spin);
@@ -135,7 +135,7 @@ public final class RollAnimation {
     private static void rotate(PoseStack poseStack, float scale, float pivot, float angleDeg) {
         float py = pivot * 1.8F * scale;
         poseStack.translate(0.0F, py, 0.0F);
-        poseStack.mulPose(new Quaternionf().rotationX(angleDeg * DEG));
+        poseStack.rotate(new Quaternionf().rotationX(angleDeg * DEG));
         poseStack.translate(0.0F, -py, 0.0F);
     }
 }
