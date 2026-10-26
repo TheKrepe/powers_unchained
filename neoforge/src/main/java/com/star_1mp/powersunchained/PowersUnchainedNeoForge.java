@@ -35,15 +35,22 @@ public class PowersUnchainedNeoForge {
         NeoForge.EVENT_BUS.addListener((PlayerTickEvent.Post event) -> {
             if (event.getEntity() instanceof ServerPlayer player) {
                 WebShooting.playerTick(player);
+                com.star_1mp.powersunchained.power.Superpowers.serverTick(player);
             }
         });
         // no fall damage when landing after travelling by web (zip, swing)
         NeoForge.EVENT_BUS.addListener((LivingFallEvent event) -> {
-            if (event.getEntity() instanceof ServerPlayer player && WebShooting.isFallSafe(player)) {
+            if (event.getEntity() instanceof ServerPlayer player
+                    && (WebShooting.isFallSafe(player) || com.star_1mp.powersunchained.power.WallClimbing.isClimbing(player))) {
                 event.setCanceled(true);
             }
         });
-        NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedOutEvent event) -> WebShooting.forget(event.getEntity()));
+        NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedOutEvent event) -> {
+            WebShooting.forget(event.getEntity());
+            if (event.getEntity() instanceof ServerPlayer player) {
+                com.star_1mp.powersunchained.power.WallClimbing.forget(player);
+            }
+        });
         // creative web-shooters (endless web) in the Operator Utilities tab
         modEventBus.addListener((net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent event) -> {
             if (event.getTabKey() == net.minecraft.world.item.CreativeModeTabs.OP_BLOCKS && event.hasPermissions()) {
@@ -70,9 +77,37 @@ public class PowersUnchainedNeoForge {
                         }
                     }
                 })
+                .playToServer(com.star_1mp.powersunchained.network.PowerTogglePayload.TYPE,
+                        com.star_1mp.powersunchained.network.PowerTogglePayload.STREAM_CODEC, (payload, context) -> {
+                    com.star_1mp.powersunchained.power.Superpower power =
+                            com.star_1mp.powersunchained.power.Superpower.byId(payload.power());
+                    if (power != null && context.player() instanceof ServerPlayer player) {
+                        com.star_1mp.powersunchained.power.Superpowers.toggle(player, power);
+                    }
+                })
+                .playToServer(com.star_1mp.powersunchained.network.ClimbPayload.TYPE,
+                        com.star_1mp.powersunchained.network.ClimbPayload.STREAM_CODEC, (payload, context) -> {
+                    if (context.player() instanceof ServerPlayer player) {
+                        com.star_1mp.powersunchained.power.WallClimbing.update(player, payload.mode(), payload.direction());
+                    }
+                })
+                .playToClient(com.star_1mp.powersunchained.network.ClimbSyncPayload.TYPE,
+                        com.star_1mp.powersunchained.network.ClimbSyncPayload.STREAM_CODEC, (payload, context) ->
+                                com.star_1mp.powersunchained.client.power.ClimbState.onSync(payload.entityId(), payload.mode(), payload.direction()))
+                .playBidirectional(com.star_1mp.powersunchained.network.RollPayload.TYPE,
+                        com.star_1mp.powersunchained.network.RollPayload.STREAM_CODEC, (payload, context) -> {
+                    if (context.player() instanceof ServerPlayer player) {
+                        com.star_1mp.powersunchained.power.Rolling.roll(player, payload.kind(), payload.yaw());
+                    } else {
+                        com.star_1mp.powersunchained.client.power.RollAnimation.onRoll(payload.entityId(), payload.kind(), payload.yaw());
+                    }
+                })
                 .playToClient(WebShotAnimPayload.TYPE, WebShotAnimPayload.STREAM_CODEC,
                         (payload, context) -> WebShotTracker.onShot(payload.entityId(), payload.side())));
         CiServerHook.register();
-        NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent event) -> SuitCommand.register(event.getDispatcher()));
+        NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent event) -> {
+            SuitCommand.register(event.getDispatcher());
+            com.star_1mp.powersunchained.command.SuperpowerCommand.register(event.getDispatcher());
+        });
     }
 }

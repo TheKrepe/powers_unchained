@@ -167,5 +167,18 @@
   "suit_desc.powers_unchained.spider_man_marvel_midnight": "Тёмный костюм из Marvel's Midnight Suns.",
   "tooltip.powers_unchained.web_shooters.creative": "Творческие",
   "tooltip.powers_unchained.web_shooters.endless": "Бесконечная паутина, картриджи не нужны",
-  "screen.powers_unchained.suit_creator.favorites": "Избранное"
+  "screen.powers_unchained.suit_creator.favorites": "Избранное",
+  "superpower.powers_unchained.wall_climbing": "Ползание по стенам",
+  "superpower.powers_unchained.night_vision": "Ночное зрение",
+  "superpower.powers_unchained.spider_sense": "Паучье чутьё",
+  "superpower.powers_unchained.roll": "Кувырок",
+  "commands.powers_unchained.superpower.unknown": "Неизвестная способность: %s",
+  "commands.powers_unchained.superpower.all": "все способности",
+  "commands.powers_unchained.superpower.added": "Выдано: %s (игроков: %s)",
+  "commands.powers_unchained.superpower.removed": "Забрано: %s (игроков: %s)",
+  "screen.powers_unchained.ability_wheel": "Способности",
+  "screen.powers_unchained.ability_wheel.on": "Включено",
+  "screen.powers_unchained.ability_wheel.off": "Выключено",
+  "key.powers_unchained.ability_wheel": "Колесо способностей",
+  "key.powers_unchained.roll": "Кувырок"
 }

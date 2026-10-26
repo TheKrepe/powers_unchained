@@ -167,5 +167,18 @@
   "suit_desc.powers_unchained.spider_man_marvel_midnight": "The dark suit from Marvel's Midnight Suns.",
   "tooltip.powers_unchained.web_shooters.creative": "Creative",
   "tooltip.powers_unchained.web_shooters.endless": "Endless web fluid, no cartridges needed",
-  "screen.powers_unchained.suit_creator.favorites": "Favorites"
+  "screen.powers_unchained.suit_creator.favorites": "Favorites",
+  "superpower.powers_unchained.wall_climbing": "Wall Climbing",
+  "superpower.powers_unchained.night_vision": "Night Vision",
+  "superpower.powers_unchained.spider_sense": "Spider-Sense",
+  "superpower.powers_unchained.roll": "Roll",
+  "commands.powers_unchained.superpower.unknown": "Unknown superpower: %s",
+  "commands.powers_unchained.superpower.all": "all superpowers",
+  "commands.powers_unchained.superpower.added": "Gave %s to %s player(s)",
+  "commands.powers_unchained.superpower.removed": "Took %s from %s player(s)",
+  "screen.powers_unchained.ability_wheel": "Abilities",
+  "screen.powers_unchained.ability_wheel.on": "On",
+  "screen.powers_unchained.ability_wheel.off": "Off",
+  "key.powers_unchained.ability_wheel": "Ability Wheel",
+  "key.powers_unchained.roll": "Roll"
 }

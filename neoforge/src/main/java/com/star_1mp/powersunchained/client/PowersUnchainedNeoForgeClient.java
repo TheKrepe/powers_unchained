@@ -107,6 +107,8 @@ public class PowersUnchainedNeoForgeClient {
             event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("web_shooters"), WebShooterHud::render);
             event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("abilities"), AbilityHud::render);
             event.registerBelow(VanillaGuiLayers.CROSSHAIR, Constants.id("web_overlay"), WebOverlay::render);
+            event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("spider_sense"),
+                    com.star_1mp.powersunchained.client.power.SpiderSense::render);
         });
         WebShooterClient.registerHud();
         WebZipLine.zipListener = WebZipAnimation::zip;
@@ -132,7 +134,11 @@ public class PowersUnchainedNeoForgeClient {
             WebShotTracker.tick();
             WebZipAnimation.tick();
             com.star_1mp.powersunchained.client.suitcreator.SuitCreatorClient.tick();
+            com.star_1mp.powersunchained.client.power.PowerClient.tick();
         });
+        // wall climbing / rolls take the movement keys over (after the keys are read, before vanilla applies them)
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.MovementInputUpdateEvent event) ->
+                com.star_1mp.powersunchained.client.power.PowerClient.onMovementInput(event.getEntity(), event.getInput()));
         // Suit Creator
         com.star_1mp.powersunchained.client.suitcreator.SuitCreatorClient.init();
         modEventBus.addListener((net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) -> event.register(

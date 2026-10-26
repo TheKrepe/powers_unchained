@@ -166,7 +166,7 @@ public abstract class AbstractWebProjectile extends Entity {
         return true;
     }
 
-    protected boolean isStuck() {
+    public boolean isStuck() {
         return this.inGround;
     }
 

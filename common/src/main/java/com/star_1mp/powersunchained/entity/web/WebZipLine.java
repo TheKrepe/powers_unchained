@@ -118,7 +118,7 @@ public class WebZipLine extends AbstractWebProjectile {
     }
 
     @Override
-    protected boolean isStuck() {
+    public boolean isStuck() {
         return this.inGround || this.entityData.get(HOOKED) > 0;
     }
 

@@ -434,7 +434,136 @@ public final class CiClientDriver {
                 mc.player.closeContainer();
                 run("gamemode creative @p");
             }
-            case 7000 -> {
+            // ---- superpowers ----
+            case 7040 -> {
+                run("kill @e[type=!player]");
+                run("time set 6000");
+                run("gamemode creative @p");
+                run("clear @p");
+                run("superpower add all @p");
+                run("fill 798 -60 -3 802 -56 -3 minecraft:stone_bricks");
+                run("fill 818 -56 -4 824 -56 2 minecraft:stone_bricks");
+                run("tp @p 800.5 -60 0.5 180 0");
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+            }
+            case 7060 -> {
+                run("item replace entity @p armor.head with powers_unchained:spider_man_mask");
+                run("item replace entity @p armor.chest with powers_unchained:spider_man_chestplate");
+                run("item replace entity @p armor.legs with powers_unchained:spider_man_pants");
+                run("item replace entity @p armor.feet with powers_unchained:spider_man_boots");
+            }
+            case 7080 -> {
+                Constants.LOG.info("[CI] powers: {}", com.star_1mp.powersunchained.power.Superpowers.data(mc.player));
+                com.star_1mp.powersunchained.client.power.AbilityWheelScreen wheel = new com.star_1mp.powersunchained.client.power.AbilityWheelScreen(false);
+                mc.gui.setScreen(wheel);
+                wheel.debugHover(0);
+            }
+            case 7110 -> shot("44_ability_wheel");
+            case 7130 -> com.star_1mp.powersunchained.client.power.AbilityWheelScreen.toggle(com.star_1mp.powersunchained.power.Superpower.NIGHT_VISION);
+            case 7135 -> {
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.power.AbilityWheelScreen wheel) {
+                    wheel.debugHover(1);
+                }
+            }
+            case 7160 -> shot("44b_ability_wheel_night_vision_on");
+            case 7190 -> {
+                mc.gui.setScreen(null);
+                run("tp @p 800.5 -60 -1.69 180 10");
+                mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
+                run("tick rate 5");  // slow motion for the whole climbing part (screenshots lag ~1 s)
+            }
+            // walk into the wall: clings after a few ticks, W climbs up
+            case 7200 -> mc.options.keyUp.setDown(true);
+            case 7212 -> climbLog("pressing into the wall");
+            case 7214 -> shot("45_climb_wall_up");
+            case 7218 -> {
+                mc.player.setYRot(-90.0F);  // look along the wall: W crawls sideways
+                mc.player.setXRot(10.0F);
+            }
+            case 7224 -> shot("46_climb_wall_sideways");
+            case 7226 -> climbLog("sideways");
+            // round the wall's end (outer corner), the camera turning along
+            case 7244 -> shot("47_climb_outer_corner");
+            case 7246 -> climbLog("outer corner");
+            case 7256 -> shot("47b_climb_around");
+            case 7258 -> climbLog("around");
+            case 7262 -> mc.options.keyUp.setDown(false);
+            // up to the top: over it (mantle)
+            case 7266 -> run("tp @p 800.5 -58 -1.69 180 -30");
+            case 7270 -> com.star_1mp.powersunchained.client.power.WallClimbClient.debugAttach(mc.player,
+                    com.star_1mp.powersunchained.power.WallClimbing.MODE_WALL, net.minecraft.core.Direction.NORTH);
+            case 7272 -> mc.options.keyUp.setDown(true);
+            case 7284 -> climbLog("near the top");
+            case 7286 -> shot("48_climb_mantle");
+            case 7300 -> {
+                climbLog("mantle");
+                mc.options.keyUp.setDown(false);
+            }
+            case 7310 -> climbLog("after the mantle");
+            // ceiling: cling, walk along it, over its edge onto the outer face, up and over the top
+            case 7340 -> {
+                run("tp @p 821.5 -57.81 -1 -90 10");
+                mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
+            }
+            case 7342 -> com.star_1mp.powersunchained.client.power.WallClimbClient.debugAttach(mc.player,
+                    com.star_1mp.powersunchained.power.WallClimbing.MODE_CEILING, net.minecraft.core.Direction.NORTH);
+            case 7344 -> mc.options.keyUp.setDown(true);
+            case 7352 -> climbLog("ceiling");
+            case 7354 -> shot("49_climb_ceiling");
+            case 7370 -> climbLog("ceiling edge");
+            case 7372 -> shot("49b_climb_ceiling_edge");
+            case 7380 -> shot("49c_climb_ceiling_edge");
+            case 7384 -> climbLog("outer face");
+            case 7400 -> climbLog("over the platform");
+            case 7402 -> mc.options.setCameraType(CameraType.THIRD_PERSON_FRONT);
+            case 7406 -> shot("49d_climb_ceiling_front");
+            case 7410 -> {
+                mc.options.keyUp.setDown(false);
+                climbLog("end");
+                run("tick rate 20");
+            }
+            // dodge roll (strafe left: seen from the side) and an air flip
+            case 7440 -> {
+                run("tp @p 840.5 -60 0.5 180 15");
+                mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
+            }
+            case 7450 -> {
+                mc.options.keyLeft.setDown(true);
+                run("tick rate 4");
+            }
+            case 7452 -> net.minecraft.client.KeyMapping.click(com.star_1mp.powersunchained.client.input.PUKeyMappings.ROLL.getKey());
+            case 7455 -> shot("50_roll");
+            case 7458 -> shot("50b_roll");
+            case 7460 -> {
+                mc.options.keyLeft.setDown(false);
+                run("tick rate 20");
+            }
+            case 7470 -> Constants.LOG.info("[CI] after the roll: {}", mc.player.position());
+            case 7480 -> mc.options.keyJump.setDown(true);
+            case 7482 -> {
+                mc.options.keyJump.setDown(false);
+                run("tick rate 4");
+            }
+            case 7486 -> net.minecraft.client.KeyMapping.click(com.star_1mp.powersunchained.client.input.PUKeyMappings.ROLL.getKey());
+            case 7491 -> shot("51_air_flip");
+            case 7494 -> shot("51b_air_flip");
+            case 7500 -> run("tick rate 20");
+            // spider-sense: a zombie close by
+            case 7530 -> {
+                run("gamemode survival @p");
+                run("tp @p 860.5 -60 0.5 180 5");
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+            }
+            case 7540 -> run("summon minecraft:zombie 863.5 -60 -1.5");
+            case 7546 -> shot("52_spider_sense");
+            case 7600 -> {
+                run("kill @e[type=!player]");
+                run("gamemode creative @p");
+                run("time set 18000");
+                run("tp @p 860.5 -60 0.5 180 5");
+            }
+            case 7640 -> shot("53_night_vision");
+            case 7700 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -552,6 +681,12 @@ public final class CiClientDriver {
         run("execute at @p run summon minecraft:item_display ~" + x + " ~" + y + " ~4 {item:{id:\"" + item + "\",count:1},"
                 + "billboard:\"center\",transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],"
                 + "translation:[0f,0f,0f],scale:[0.55f,0.55f,0.55f]}}");
+    }
+
+    private static void climbLog(String what) {
+        Minecraft mc = Minecraft.getInstance();
+        Constants.LOG.info("[CI] climb {}: mode {} wall {} at {} yaw {}", what, com.star_1mp.powersunchained.client.power.WallClimbClient.mode(),
+                com.star_1mp.powersunchained.client.power.WallClimbClient.wall(), mc.player.position(), mc.player.getYRot());
     }
 
     private static void shot(String name) {

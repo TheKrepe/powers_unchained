@@ -68,7 +68,7 @@ public class StickyWeb extends AbstractWebProjectile {
     }
 
     @Override
-    protected boolean isStuck() {
+    public boolean isStuck() {
         return this.inGround || this.entityData.get(HIT_ENTITY) > 0;
     }
 

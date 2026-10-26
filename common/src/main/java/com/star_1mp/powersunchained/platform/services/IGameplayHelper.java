@@ -39,4 +39,10 @@ public interface IGameplayHelper {
 
     /** Server side: stores the player's Suit Creator progress and syncs it to them. */
     void setSuitProgress(Player player, com.star_1mp.powersunchained.suit.SuitProgress progress);
+
+    /** The player's superpowers (both sides; the client only knows its own). */
+    com.star_1mp.powersunchained.power.PowerData powerData(Player player);
+
+    /** Server side: stores the player's superpowers and syncs them to them. */
+    void setPowerData(Player player, com.star_1mp.powersunchained.power.PowerData data);
 }
