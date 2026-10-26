@@ -136,10 +136,11 @@ public final class ClimbState {
         float c = Mth.sin(phase) * amp;
         float lift = Math.max(0.0F, Mth.cos(phase)) * amp;
         float lift2 = Math.max(0.0F, -Mth.cos(phase)) * amp;
-        rot(m.rightArm, -150.0F + 32.0F * c, 8.0F, 28.0F + 10.0F * lift, d);
-        rot(m.leftArm, -150.0F - 32.0F * c, -8.0F, -28.0F - 10.0F * lift2, d);
-        rot(m.rightLeg, -42.0F - 26.0F * c, 6.0F, 26.0F + 8.0F * lift2, d);
-        rot(m.leftLeg, -42.0F + 26.0F * c, -6.0F, -26.0F - 8.0F * lift, d);
+        // wide frog stance: hands up and out, knees (legs) splayed far to the sides, reaching onto the surface
+        rot(m.rightArm, -142.0F + 30.0F * c, 10.0F, 40.0F + 10.0F * lift, d);
+        rot(m.leftArm, -142.0F - 30.0F * c, -10.0F, -40.0F - 10.0F * lift2, d);
+        rot(m.rightLeg, -58.0F - 22.0F * c, 8.0F, 38.0F + 8.0F * lift2, d);
+        rot(m.leftLeg, -58.0F + 22.0F * c, -8.0F, -38.0F - 8.0F * lift, d);
         rot(m.body, 4.0F, 3.0F * c, 0.0F, d);
         rot(m.head, -38.0F, 0.0F, -4.0F * c, d);
     }

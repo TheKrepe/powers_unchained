@@ -447,7 +447,7 @@ public final class CiClientDriver {
             case 7060 -> {
                 // after the teleport: the chunks are loaded now
                 run("fill 798 -60 -3 802 -56 -3 minecraft:stone_bricks");
-                run("fill 818 -56 -4 824 -56 2 minecraft:stone_bricks");
+                run("fill 818 -57 -4 824 -57 2 minecraft:stone_bricks");
                 run("item replace entity @p armor.head with powers_unchained:spider_man_mask");
                 run("item replace entity @p armor.chest with powers_unchained:spider_man_chestplate");
                 run("item replace entity @p armor.legs with powers_unchained:spider_man_pants");
