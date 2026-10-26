@@ -164,8 +164,9 @@ public final class ClimbState {
         // opposite knee draws up while the other leg pushes; all within reach of the surface (~0.45 ahead)
         float up = Math.max(0.0F, c);
         float down = Math.max(0.0F, -c);
-        rot(m.rightArm, -160.0F - 12.0F * c, 0.0F, 29.0F + 14.0F * up, d);
-        rot(m.leftArm, -160.0F + 12.0F * c, 0.0F, -29.0F - 14.0F * down, d);
+        // arms in a wide V over the head (like Marvel Legacy's crawl: well apart, out to the sides), reaching in turn
+        rot(m.rightArm, -164.0F - 10.0F * c, 0.0F, 52.0F + 12.0F * up, d);
+        rot(m.leftArm, -164.0F + 10.0F * c, 0.0F, -52.0F - 12.0F * down, d);
         rot(m.rightLeg, -16.0F + 14.0F * c, 0.0F, 8.0F + 6.0F * down, d);
         rot(m.leftLeg, -16.0F - 14.0F * c, 0.0F, -8.0F - 6.0F * up, d);
         // the drawn-up knee: its hip lifts a little
@@ -176,13 +177,32 @@ public final class ClimbState {
 
         float out = smooth(Mth.lerp(partialTick, e.prevOut, e.out)) * d;
         if (out > 0.0F) {
-            // back to the wall: arms spread wide, hands behind on the wall; both legs straight down to it
-            rot(m.rightArm, 28.0F, 0.0F, 74.0F, out);
-            rot(m.leftArm, 28.0F, 0.0F, -74.0F, out);
-            rot(m.rightLeg, 14.0F, 4.0F, 8.0F, out);
-            rot(m.leftLeg, 14.0F, -4.0F, -8.0F, out);
-            rot(m.body, 0.0F, 0.0F, 0.0F, out);
-            rot(m.head, 12.0F, 0.0F, 0.0F, out);
+            // perched, back to the wall: crouched, knees out, hands down at the sides gripping the wall behind
+            rot(m.rightArm, 24.0F, 0.0F, 58.0F, out);
+            rot(m.leftArm, 24.0F, 0.0F, -58.0F, out);
+            rot(m.rightLeg, -64.0F, 10.0F, 26.0F, out);
+            rot(m.leftLeg, -64.0F, -10.0F, -26.0F, out);
+            m.rightLeg.y = Mth.lerp(out, m.rightLeg.y, 12.0F);
+            m.leftLeg.y = Mth.lerp(out, m.leftLeg.y, 12.0F);
+            rot(m.body, 14.0F, 0.0F, 0.0F, out);
+            rot(m.head, 4.0F, 0.0F, 0.0F, out);
+        }
+        float side = smooth(Mth.lerp(partialTick, e.prevSide, e.side)) * d;
+        if (side > 0.0F) {
+            // perched side-on (looking along the wall): crouched, the wall-side hand on the wall, the other on the knee
+            float k = e.sideSign;
+            ModelPart wallArm = k > 0 ? m.rightArm : m.leftArm;
+            ModelPart freeArm = k > 0 ? m.leftArm : m.rightArm;
+            ModelPart wallLeg = k > 0 ? m.rightLeg : m.leftLeg;
+            ModelPart freeLeg = k > 0 ? m.leftLeg : m.rightLeg;
+            rot(wallArm, -28.0F, 0.0F, 84.0F * k, side);
+            rot(freeArm, -52.0F, 8.0F * k, -12.0F * k, side);
+            rot(wallLeg, -48.0F, 0.0F, 16.0F * k, side);
+            rot(freeLeg, -74.0F, 0.0F, -14.0F * k, side);
+            m.rightLeg.y = Mth.lerp(side, m.rightLeg.y, 12.0F);
+            m.leftLeg.y = Mth.lerp(side, m.leftLeg.y, 12.0F);
+            rot(m.body, 18.0F, 0.0F, 6.0F * k, side);
+            rot(m.head, -6.0F, 0.0F, 0.0F, side);
         }
         float mantle = smooth(Mth.lerp(partialTick, e.prevMantle, e.mantle)) * d;
         if (mantle > 0.0F) {
@@ -226,6 +246,12 @@ public final class ClimbState {
         float out;
         float prevOut;
         boolean facingOut;
+        /** 0..1 perched side-on (looking along the wall, not moving); which side the wall is on (+1 = right). */
+        float side;
+        float prevSide;
+        boolean sidePerch;
+        float sideSign = 1.0F;
+        @Nullable Vec3 sideFacing;
         /** 0..1 climbing over a top. */
         float mantle;
         float prevMantle;
@@ -251,8 +277,21 @@ public final class ClimbState {
                 Vec3 look = new Vec3(-Mth.sin(hy), 0.0, Mth.cos(hy));
                 double away = -look.dot(n);
                 this.facingOut = this.facingOut ? away > 0.1 : away > 0.35;
+                // looking along the wall and keeping still: perched side-on, facing where it looks
+                boolean still = moved.subtract(n.scale(moved.dot(n))).lengthSqr() < 1.0E-4;
+                this.sidePerch = !this.facingOut && away > -0.55 && still;
+                if (this.sidePerch) {
+                    Vec3 t = look.subtract(n.scale(look.dot(n)));
+                    if (t.lengthSqr() > 1.0E-4) {
+                        this.sideFacing = t.normalize();
+                        this.sideSign = this.sideFacing.cross(new Vec3(0.0, 1.0, 0.0)).dot(n) > 0.0 ? 1.0F : -1.0F;
+                    } else {
+                        this.sidePerch = false;
+                    }
+                }
             } else {
                 this.facingOut = false;
+                this.sidePerch = false;
             }
             Vec3 along = moved.subtract(n.scale(moved.dot(n)));
             if (this.debugHeading != null) {
@@ -286,6 +325,10 @@ public final class ClimbState {
                 // back to the wall, facing out, head up
                 target = basis(n.scale(-1.0), new Vec3(0.0, 1.0, 0.0));
                 targetOffset = new Vec3(0.0, CENTER, 0.0).add(n.scale(0.06));
+            } else if (this.sidePerch && this.sideFacing != null) {
+                // side-on to the wall, facing along it
+                target = basis(this.sideFacing, new Vec3(0.0, 1.0, 0.0));
+                targetOffset = new Vec3(0.0, CENTER, 0.0).add(n.scale(0.02));
             } else if (this.mode == WallClimbing.MODE_CEILING) {
                 target = basis(new Vec3(0.0, 1.0, 0.0), this.heading);
                 targetOffset = new Vec3(0.0, entity.getBbHeight() - CEILING_DROP, 0.0);
@@ -305,6 +348,8 @@ public final class ClimbState {
             this.ceiling = Mth.approach(this.ceiling, this.mode == WallClimbing.MODE_CEILING ? 1.0F : 0.0F, 0.25F);
             this.prevOut = this.out;
             this.out = Mth.approach(this.out, this.facingOut ? 1.0F : 0.0F, 0.2F);
+            this.prevSide = this.side;
+            this.side = Mth.approach(this.side, this.sidePerch ? 1.0F : 0.0F, 0.2F);
             this.prevMantle = this.mantle;
             this.mantle = Mth.approach(this.mantle, this.mode == WallClimbing.MODE_MANTLE ? 1.0F : 0.0F, 0.34F);
             this.prevWeight = this.weight;

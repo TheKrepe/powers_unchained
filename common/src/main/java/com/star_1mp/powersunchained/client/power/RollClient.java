@@ -85,8 +85,11 @@ public final class RollClient {
             flipUsed = true;
             cooldown = COOLDOWN;
             Vec3 m = player.getDeltaMovement();
-            Vec3 h = new Vec3(m.x, 0.0, m.z).add(dir.scale(0.45));
-            double max = Math.max(0.85, Math.sqrt(m.x * m.x + m.z * m.z));
+            // as far forward as the ground roll: ~0.75 along the flip's direction (air drag eats ~9 % a tick)
+            Vec3 h = new Vec3(m.x, 0.0, m.z);
+            double along = h.dot(dir);
+            h = h.add(dir.scale(Math.max(0.0, 0.75 - along)));
+            double max = Math.max(1.0, Math.sqrt(m.x * m.x + m.z * m.z));
             if (h.length() > max) {
                 h = h.normalize().scale(max);
             }

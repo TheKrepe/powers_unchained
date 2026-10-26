@@ -595,11 +595,12 @@ public final class CiClientDriver {
             case 7560 -> {
                 run("kill @e[type=!player]");
                 run("gamemode creative @p");
-                run("tp @p 881.5 -58.5 5.5 175 8");
+                run("tp @p 880.5 -58.5 5.8 172 8");
             }
             case 7570 -> {
                 run("fill 873 -60 -3 884 -56 -3 minecraft:stone_bricks");
                 run("fill 886 -57 -5 889 -57 -1 minecraft:stone_bricks");
+                summonAt(874.4, -59.0, -1.69, "{NoGravity:1b,immovable:1b,Rotation:[90f,0f]," + WIDE + "," + fullSuit("spider_man") + "}");
                 summonAt(876.5, -59.0, -1.69, "{NoGravity:1b,immovable:1b,Rotation:[0f,0f]," + WIDE + "," + fullSuit("spider_man") + "}");
                 summonAt(878.6, -59.0, -1.69, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
                 summonAt(880.5, -59.0, -1.69, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
@@ -617,7 +618,9 @@ public final class CiClientDriver {
                 Constants.LOG.info("[CI] climbing mannequins: {}", mannequins.size());
                 net.minecraft.core.Direction north = net.minecraft.core.Direction.NORTH;
                 int wall = com.star_1mp.powersunchained.power.WallClimbing.MODE_WALL;
-                if (mannequins.size() >= 5) {
+                if (mannequins.size() >= 6) {
+                    // looking along the wall, still: perched side-on
+                    com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.remove(0).getId(), wall, north, null);
                     // looking away from the wall (no fixed heading): back to it
                     com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(0).getId(), wall, north, null);
                     com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(1).getId(),

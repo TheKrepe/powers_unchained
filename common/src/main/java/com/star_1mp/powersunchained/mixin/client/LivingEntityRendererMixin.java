@@ -25,6 +25,7 @@ public abstract class LivingEntityRendererMixin<S extends LivingEntityRenderStat
     private void powers_unchained$webHandsOrigin(S state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera,
             CallbackInfo ci) {
         if (state instanceof AvatarRenderState avatar) {
+            com.star_1mp.powersunchained.client.power.SpiderSenseLayer.cameraOrientation.set(camera.orientation);
             com.star_1mp.powersunchained.client.web.WebHandTracker.begin(avatar.id, poseStack);
         }
     }
