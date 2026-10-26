@@ -206,7 +206,10 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `DynamicTexture` ONLY when its state changes and drawn as one quad (thousands of `fill`s per frame lagged badly),
   blue = on / grey = off, toggles -> `PowerTogglePayload`; icons
   `textures/gui/sprites/power/*.png` from `tools/gen_power_icons.py`), `SpiderSense` (client threat scan: aggressive/near
-  enemies, incoming projectiles, swelling creepers, lit TNT -> amethyst chime + wavy HUD marks), `WallClimbClient`
+  enemies, incoming projectiles, swelling creepers, lit TNT -> amethyst chime + wavy HUD marks + comic bolts round the
+  head: `SpiderSenseLayer` on player + mannequin renderers, 34-tick burst, two crossed planes of 6 bolts, texture from
+  `tools/gen_spider_sense_bolt.py` (our own; JMCT's spideysense model was only an idea), others see it via
+  `SenseAlertPayload` c->s -> `SenseAlertSyncPayload` s->c), `WallClimbClient`
   (client-authoritative climbing in NeoForge `MovementInputUpdateEvent`; clears the move vector via the
   `ClientInputAccessor` mixin; the body's MIDDLE must stay over the surface (`grips`, owner's pillar bug) — past an edge
   it wraps round (`clearance` search: on past the edge until the box clears it, then round), mantle stops right on the
