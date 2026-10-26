@@ -106,8 +106,10 @@ public final class RollAnimation {
             rotate(poseStack, scale, 0.55F, -360.0F * spin);
         } else {
             float spin = smooth(Mth.clamp((p - 0.1F) / 0.75F, 0.0F, 1.0F));
-            poseStack.translate(0.0F, -0.5F * tuck * scale, 0.0F);
-            rotate(poseStack, scale, 0.25F + 0.25F * (1.0F - tuck), -360.0F * spin);
+            // a ball around the chest (legs tucked up), rolling on the ground: the chest drops to about the
+            // ball's radius over the ground and the body turns around it
+            poseStack.translate(0.0F, -0.52F * tuck * scale, 0.0F);
+            rotate(poseStack, scale, 0.62F, -360.0F * spin);
         }
     }
 
