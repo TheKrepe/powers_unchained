@@ -371,6 +371,7 @@ public final class CiClientDriver {
                 run("suit lock all @p");
                 run("suit unlock spider_man @p");
                 run("suit unlock spider_man_raimi @p");
+                run("suit unlock spider_man_marvel_midnight @p");
                 run("xp set @p 25 levels");
                 run("give @p powers_unchained:red_fabric 20");
                 run("give @p powers_unchained:blue_fabric 10");
@@ -397,8 +398,8 @@ public final class CiClientDriver {
                 }
             }
             case 6280 -> shot("37b_sc_clicked_catalog_tab");
-            case 6310 -> creator(0, "spider_man_raimi", 4, false, 1, true);
-            case 6350 -> shot("38_sc_catalog_raimi_run");
+            case 6310 -> creator(0, "spider_man_marvel_midnight", 4, false, 0, false);
+            case 6350 -> shot("38_sc_catalog_midnight");
             case 6430 -> {
                 creator(2, "spider_man", 4, false, 0, false);
                 scanSlot("powers_unchained:spider_man_first_appearance", 1);
