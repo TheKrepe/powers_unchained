@@ -165,8 +165,10 @@ public final class ClimbState {
         float up = Math.max(0.0F, c);
         float down = Math.max(0.0F, -c);
         // arms in a wide V over the head (like Marvel Legacy's crawl: well apart, out to the sides), reaching in turn
-        rot(m.rightArm, -164.0F - 10.0F * c, 0.0F, 52.0F + 12.0F * up, d);
-        rot(m.leftArm, -164.0F + 10.0F * c, 0.0F, -52.0F - 12.0F * down, d);
+        // NOTE: for an arm raised over the head the roll goes the other way: outwards is -z for the right arm
+        // (with +z the raised arms crossed over the head — the "joined hands" the owner saw)
+        rot(m.rightArm, -164.0F - 10.0F * c, 0.0F, -40.0F - 12.0F * up, d);
+        rot(m.leftArm, -164.0F + 10.0F * c, 0.0F, 40.0F + 12.0F * down, d);
         rot(m.rightLeg, -16.0F + 14.0F * c, 0.0F, 8.0F + 6.0F * down, d);
         rot(m.leftLeg, -16.0F - 14.0F * c, 0.0F, -8.0F - 6.0F * up, d);
         // the drawn-up knee: its hip lifts a little
