@@ -32,8 +32,13 @@ public final class ClimbState {
     private static final double CENTER = 0.9;
     /** Body centre's distance below the ceiling (the limbs reach up to it). */
     private static final double CEILING_DROP = 0.42;
-    /** Body centre's shift towards a wall (the hitbox's half width keeps it a little off). */
-    private static final double WALL_SHIFT = 0.04;
+    /**
+     * Body centre's shift towards a wall: negative = away from it, so the limbs reaching onto the wall touch it
+     * instead of sinking into the blocks (the centre then sits ~0.42 off the wall, like under a ceiling).
+     */
+    private static final double WALL_SHIFT = -0.12;
+    /** Lean over the top of a wall while climbing onto it (degrees). */
+    private static final double MANTLE_LEAN = 42.0;
     private static final float TURN = 0.38F;
 
     private ClimbState() {
@@ -58,7 +63,7 @@ public final class ClimbState {
             ENTRIES.put(entityId, e);
         }
         e.mode = mode;
-        if (mode == WallClimbing.MODE_WALL) {
+        if (mode == WallClimbing.MODE_WALL || mode == WallClimbing.MODE_MANTLE) {
             e.wall = wall.getAxis().isHorizontal() ? wall : Direction.NORTH;
         }
     }
@@ -135,7 +140,10 @@ public final class ClimbState {
 
     // ---- limbs ----
 
-    /** Spider crawl: arms reaching ahead and onto the surface, legs splayed onto it, alternating as it moves. */
+    /**
+     * Spider crawl: arms reaching ahead and onto the surface, legs splayed onto it, alternating as it moves; facing
+     * away from a wall: hands and feet holding on behind the back; climbing over a top: pushing up on the ledge.
+     */
     public static void applyParts(PlayerModel m, int entityId, float partialTick) {
         Entry e = ENTRIES.get(entityId);
         if (e == null) {
@@ -145,19 +153,45 @@ public final class ClimbState {
         if (d <= 0.0F) {
             return;
         }
-        d = d * d * (3.0F - 2.0F * d);
+        d = smooth(d);
         float phase = Mth.lerp(partialTick, e.prevPhase, e.phase);
         float amp = Mth.lerp(partialTick, e.prevAmp, e.amp);
         float c = Mth.sin(phase) * amp;
         float lift = Math.max(0.0F, Mth.cos(phase)) * amp;
         float lift2 = Math.max(0.0F, -Mth.cos(phase)) * amp;
-        // wide frog stance: hands up and out, knees (legs) splayed far to the sides, reaching onto the surface
-        rot(m.rightArm, -142.0F + 30.0F * c, 10.0F, 40.0F + 10.0F * lift, d);
-        rot(m.leftArm, -142.0F - 30.0F * c, -10.0F, -40.0F - 10.0F * lift2, d);
-        rot(m.rightLeg, -58.0F - 22.0F * c, 8.0F, 38.0F + 8.0F * lift2, d);
-        rot(m.leftLeg, -58.0F + 22.0F * c, -8.0F, -38.0F - 8.0F * lift, d);
+        // wide frog stance: hands up and out, legs splayed to the sides; the limbs reach ~0.42 ahead (the surface)
+        rot(m.rightArm, -154.0F + 14.0F * c, 10.0F, 42.0F + 14.0F * lift, d);
+        rot(m.leftArm, -154.0F - 14.0F * c, -10.0F, -42.0F - 14.0F * lift2, d);
+        rot(m.rightLeg, -28.0F - 12.0F * c, 8.0F, 34.0F + 12.0F * lift2, d);
+        rot(m.leftLeg, -28.0F + 12.0F * c, -8.0F, -34.0F - 12.0F * lift, d);
         rot(m.body, 4.0F, 3.0F * c, 0.0F, d);
         rot(m.head, -38.0F, 0.0F, -4.0F * c, d);
+
+        float out = smooth(Mth.lerp(partialTick, e.prevOut, e.out)) * d;
+        if (out > 0.0F) {
+            // back to the wall: arms spread wide, hands behind on the wall; one leg straight, one knee up
+            rot(m.rightArm, 28.0F, 0.0F, 74.0F, out);
+            rot(m.leftArm, 28.0F, 0.0F, -74.0F, out);
+            rot(m.rightLeg, -78.0F, 12.0F, 22.0F, out);
+            rot(m.leftLeg, 14.0F, -4.0F, -8.0F, out);
+            rot(m.body, 0.0F, 0.0F, 0.0F, out);
+            rot(m.head, 12.0F, 0.0F, 0.0F, out);
+        }
+        float mantle = smooth(Mth.lerp(partialTick, e.prevMantle, e.mantle)) * d;
+        if (mantle > 0.0F) {
+            // over the ledge: hands pushing down on the top, one knee up onto it, the other leg trailing
+            rot(m.rightArm, -38.0F, 6.0F, 14.0F, mantle);
+            rot(m.leftArm, -38.0F, -6.0F, -14.0F, mantle);
+            rot(m.rightLeg, -96.0F, 6.0F, 10.0F, mantle);
+            rot(m.leftLeg, 22.0F, -4.0F, -6.0F, mantle);
+            rot(m.body, 0.0F, 0.0F, 0.0F, mantle);
+            rot(m.head, -24.0F, 0.0F, 0.0F, mantle);
+        }
+    }
+
+    private static float smooth(float t) {
+        t = Mth.clamp(t, 0.0F, 1.0F);
+        return t * t * (3.0F - 2.0F * t);
     }
 
     private static void rot(ModelPart p, float x, float y, float z, float d) {
@@ -181,6 +215,13 @@ public final class ClimbState {
         float prevWeight;
         float ceiling;
         float prevCeiling;
+        /** 0..1 facing away from the wall (holding on behind the back). */
+        float out;
+        float prevOut;
+        boolean facingOut;
+        /** 0..1 climbing over a top. */
+        float mantle;
+        float prevMantle;
         float phase;
         float prevPhase;
         float amp;
@@ -197,6 +238,15 @@ public final class ClimbState {
 
             // head direction: along the surface, where it moves
             Vec3 n = this.mode == WallClimbing.MODE_CEILING ? new Vec3(0.0, 1.0, 0.0) : normal(this.wall);
+            // looking away from the wall (with hysteresis): turn round, back to it
+            if (this.mode == WallClimbing.MODE_WALL && this.debugHeading == null) {
+                float hy = entity.getYHeadRot() * DEG;
+                Vec3 look = new Vec3(-Mth.sin(hy), 0.0, Mth.cos(hy));
+                double away = -look.dot(n);
+                this.facingOut = this.facingOut ? away > 0.1 : away > 0.35;
+            } else {
+                this.facingOut = false;
+            }
             Vec3 along = moved.subtract(n.scale(moved.dot(n)));
             if (this.debugHeading != null) {
                 this.heading = this.debugHeading;
@@ -218,6 +268,17 @@ public final class ClimbState {
             if (!climbing) {
                 target = basis(facing(entity), new Vec3(0.0, 1.0, 0.0));
                 targetOffset = new Vec3(0.0, CENTER, 0.0);
+            } else if (this.mode == WallClimbing.MODE_MANTLE) {
+                // upright facing the wall, leaning forward over its top
+                double a = Math.toRadians(MANTLE_LEAN);
+                Vec3 down = new Vec3(0.0, -1.0, 0.0);
+                Vec3 up = new Vec3(0.0, 1.0, 0.0);
+                target = basis(n.scale(Math.cos(a)).add(down.scale(Math.sin(a))), up.scale(Math.cos(a)).add(n.scale(Math.sin(a))));
+                targetOffset = new Vec3(0.0, CENTER, 0.0).add(n.scale(0.12));
+            } else if (this.facingOut) {
+                // back to the wall, facing out, head up
+                target = basis(n.scale(-1.0), new Vec3(0.0, 1.0, 0.0));
+                targetOffset = new Vec3(0.0, CENTER, 0.0).add(n.scale(0.06));
             } else if (this.mode == WallClimbing.MODE_CEILING) {
                 target = basis(new Vec3(0.0, 1.0, 0.0), this.heading);
                 targetOffset = new Vec3(0.0, entity.getBbHeight() - CEILING_DROP, 0.0);
@@ -235,6 +296,10 @@ public final class ClimbState {
 
             this.prevCeiling = this.ceiling;
             this.ceiling = Mth.approach(this.ceiling, this.mode == WallClimbing.MODE_CEILING ? 1.0F : 0.0F, 0.25F);
+            this.prevOut = this.out;
+            this.out = Mth.approach(this.out, this.facingOut ? 1.0F : 0.0F, 0.2F);
+            this.prevMantle = this.mantle;
+            this.mantle = Mth.approach(this.mantle, this.mode == WallClimbing.MODE_MANTLE ? 1.0F : 0.0F, 0.34F);
             this.prevWeight = this.weight;
             this.weight = Mth.approach(this.weight, climbing ? 1.0F : 0.0F, 0.2F);
             this.prevPhase = this.phase;

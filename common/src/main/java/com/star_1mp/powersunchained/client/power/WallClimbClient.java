@@ -210,6 +210,34 @@ public final class WallClimbClient {
         sync();
     }
 
+    /**
+     * Roll key while clinging: a flip off the surface — off a wall a back flip when facing it (a front flip when facing
+     * away), away from it with a lift; off a ceiling a front flip down.
+     *
+     * @return {roll kind, body yaw} for the animation, or {@code null}
+     */
+    public static float @Nullable [] flipOff(LocalPlayer player) {
+        if (!SCRIPT.isEmpty() || (mode != WallClimbing.MODE_WALL && mode != WallClimbing.MODE_CEILING)) {
+            return null;
+        }
+        Vec3 look = player.getLookAngle();
+        Vec3 lookH = new Vec3(look.x, 0.0, look.z);
+        if (mode == WallClimbing.MODE_CEILING) {
+            Vec3 dir = lookH.lengthSqr() > 1.0E-4 ? lookH.normalize() : Vec3.ZERO;
+            detach(player, dir.scale(0.35).add(0.0, -0.15, 0.0), 12);
+            return new float[] {com.star_1mp.powersunchained.power.Rolling.KIND_FLIP, player.getYRot()};
+        }
+        Vec3 n = normal(wall);
+        Vec3 out = n.scale(-1.0);
+        boolean facingWall = lookH.lengthSqr() < 1.0E-4 || lookH.normalize().dot(n) > -0.2;
+        Vec3 dir = facingWall || lookH.normalize().dot(out) < 0.3 ? out : lookH.normalize();
+        detach(player, dir.scale(0.75).add(0.0, 0.55, 0.0), 12);
+        float yawOut = (float) (Mth.atan2(dir.z, dir.x) * Mth.RAD_TO_DEG) - 90.0F;
+        return facingWall
+                ? new float[] {com.star_1mp.powersunchained.power.Rolling.KIND_BACKFLIP, yawOut + 180.0F}
+                : new float[] {com.star_1mp.powersunchained.power.Rolling.KIND_FLIP, yawOut};
+    }
+
     /** Jump: a leap off the wall (where you look, if that's away from it) / a drop from the ceiling. */
     private static void leap(LocalPlayer player) {
         if (mode == WallClimbing.MODE_CEILING) {
@@ -326,12 +354,15 @@ public final class WallClimbClient {
                         forward = f;
                     }
                     SCRIPT.clear();
-                    int upTicks = Math.max(2, Mth.ceil((dy + 0.02) / 0.2));
+                    // the climbing-over pose while it lasts
+                    mode = WallClimbing.MODE_MANTLE;
+                    sync();
+                    int upTicks = Math.max(3, Mth.ceil((dy + 0.02) / 0.16));
                     for (int i = 0; i < upTicks; i++) {
                         SCRIPT.add(new Step(new Vec3(0.0, (dy + 0.02) / upTicks, 0.0).add(n.scale(0.02)), 0.0F));
                     }
-                    for (int i = 0; i < 2; i++) {
-                        SCRIPT.add(new Step(n.scale(forward / 2.0), 0.0F));
+                    for (int i = 0; i < 3; i++) {
+                        SCRIPT.add(new Step(n.scale(forward / 3.0), 0.0F));
                     }
                     scriptMode = WallClimbing.MODE_NONE;
                     scriptWall = wall;

@@ -109,6 +109,8 @@ public class PowersUnchainedNeoForgeClient {
             event.registerBelow(VanillaGuiLayers.CROSSHAIR, Constants.id("web_overlay"), WebOverlay::render);
             event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("spider_sense"),
                     com.star_1mp.powersunchained.client.power.SpiderSense::render);
+            event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("ability_wheel"),
+                    com.star_1mp.powersunchained.client.power.AbilityWheel::render);
         });
         WebShooterClient.registerHud();
         WebZipLine.zipListener = WebZipAnimation::zip;
@@ -138,6 +140,14 @@ public class PowersUnchainedNeoForgeClient {
             com.star_1mp.powersunchained.client.suitcreator.SuitCreatorClient.tick();
             com.star_1mp.powersunchained.client.power.PowerClient.tick();
         });
+        // the ability wheel: while open the mouse moves its pointer, not the camera
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.CalculatePlayerTurnEvent event) -> {
+            Minecraft mc = Minecraft.getInstance();
+            if (com.star_1mp.powersunchained.client.power.AbilityWheel.onMouseTurn(mc.mouseHandler.getXVelocity(), mc.mouseHandler.getYVelocity())) {
+                event.setMouseSensitivity(-1.0 / 3.0);  // 0.6 * s + 0.2 = 0: no turning
+                event.setCinematicCameraEnabled(false);
+            }
+        });
         // wall climbing / rolls take the movement keys over (after the keys are read, before vanilla applies them)
         NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.MovementInputUpdateEvent event) ->
                 com.star_1mp.powersunchained.client.power.PowerClient.onMovementInput(event.getEntity(), event.getInput()));
@@ -158,7 +168,14 @@ public class PowersUnchainedNeoForgeClient {
         });
         NeoForge.EVENT_BUS.addListener((InputEvent.InteractionKeyMappingTriggered event) -> {
             boolean mainHand = event.getHand() == InteractionHand.MAIN_HAND;
-            if (event.isUseItem() && (WebShooterClient.onUseKey(mainHand) || WebSwingClient.onUseKey(mainHand))) {
+            if (event.isAttack() && com.star_1mp.powersunchained.client.power.AbilityWheel.onClick()) {
+                // the ability wheel is open: the click switches the pointed ability
+                event.setSwingHand(false);
+                event.setCanceled(true);
+            } else if (event.isUseItem() && com.star_1mp.powersunchained.client.power.AbilityWheel.isOpen()) {
+                event.setSwingHand(false);
+                event.setCanceled(true);
+            } else if (event.isUseItem() && (WebShooterClient.onUseKey(mainHand) || WebSwingClient.onUseKey(mainHand))) {
                 event.setSwingHand(false);
                 event.setCanceled(true);
             } else if (event.isAttack() && WebSwingClient.onAttackKey()) {

@@ -24,7 +24,7 @@ public final class RollClient {
     /** Air flip length (ticks). */
     public static final int FLIP_TICKS = 13;
     private static final int COOLDOWN = 16;
-    private static final double ROLL_SPEED = 0.62;
+    private static final double ROLL_SPEED = 0.85;
 
     private static int rollTicks;
     private static Vec3 rollDir = Vec3.ZERO;
@@ -51,6 +51,18 @@ public final class RollClient {
         if (player.onGround() || WallClimbClient.isClimbing() || WebSwingLine.of(player) != null) {
             flipUsed = false;
         }
+        if (keyPressed && cooldown == 0 && WallClimbClient.isClimbing()
+                && Superpowers.isActive(player, com.star_1mp.powersunchained.power.PowerAbility.ROLL)) {
+            // on a wall / ceiling: a flip off it
+            float[] flip = WallClimbClient.flipOff(player);
+            if (flip != null) {
+                flipUsed = true;
+                cooldown = COOLDOWN;
+                send(player, (int) flip[0], flip[1]);
+                player.playSound(SoundEvents.PLAYER_ATTACK_SWEEP, 0.4F, 1.7F);
+            }
+            return;
+        }
         if (!keyPressed || cooldown > 0 || rollTicks > 0 || !Superpowers.isActive(player, com.star_1mp.powersunchained.power.PowerAbility.ROLL)
                 || player.isSpectator() || player.getAbilities().flying || player.isPassenger() || player.isFallFlying()
                 || player.isInWater() || player.isInLava() || player.isSleeping() || WallClimbClient.isClimbing()) {
@@ -73,12 +85,12 @@ public final class RollClient {
             flipUsed = true;
             cooldown = COOLDOWN;
             Vec3 m = player.getDeltaMovement();
-            Vec3 h = new Vec3(m.x, 0.0, m.z).add(dir.scale(0.25));
-            double max = Math.max(0.6, Math.sqrt(m.x * m.x + m.z * m.z));
+            Vec3 h = new Vec3(m.x, 0.0, m.z).add(dir.scale(0.45));
+            double max = Math.max(0.85, Math.sqrt(m.x * m.x + m.z * m.z));
             if (h.length() > max) {
                 h = h.normalize().scale(max);
             }
-            player.setDeltaMovement(h.x, Math.max(m.y, 0.0) + 0.32, h.z);
+            player.setDeltaMovement(h.x, Math.max(m.y, 0.0) + 0.42, h.z);
             send(player, Rolling.KIND_FLIP, yaw);
             player.playSound(SoundEvents.PLAYER_ATTACK_SWEEP, 0.35F, 1.8F);
         }

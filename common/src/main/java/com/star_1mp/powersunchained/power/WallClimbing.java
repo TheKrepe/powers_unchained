@@ -17,6 +17,8 @@ public final class WallClimbing {
     public static final int MODE_NONE = 0;
     public static final int MODE_WALL = 1;
     public static final int MODE_CEILING = 2;
+    /** Climbing over the top of a wall (for the pose). */
+    public static final int MODE_MANTLE = 3;
 
     private static final Map<UUID, int[]> STATES = new HashMap<>();
 

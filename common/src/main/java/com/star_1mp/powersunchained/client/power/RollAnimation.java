@@ -27,7 +27,7 @@ public final class RollAnimation {
 
     private record Roll(int kind, float yaw, long start) {
         int length() {
-            return this.kind == Rolling.KIND_FLIP ? RollClient.FLIP_TICKS : RollClient.ROLL_TICKS;
+            return this.kind != Rolling.KIND_ROLL ? RollClient.FLIP_TICKS : RollClient.ROLL_TICKS;
         }
     }
 
@@ -101,7 +101,10 @@ public final class RollAnimation {
         // face the roll's direction
         float turn = Mth.wrapDegrees(bodyYaw - r.yaw) * smooth(Math.min(p / 0.12F, 1.0F)) * smooth(Math.min((1.0F - p) / 0.12F, 1.0F));
         poseStack.rotateDegrees(Axis.YP, turn);
-        if (r.kind == Rolling.KIND_FLIP) {
+        if (r.kind == Rolling.KIND_BACKFLIP) {
+            float spin = smooth(Mth.clamp((p - 0.05F) / 0.85F, 0.0F, 1.0F));
+            rotate(poseStack, scale, 0.55F, 360.0F * spin);
+        } else if (r.kind == Rolling.KIND_FLIP) {
             float spin = smooth(Mth.clamp((p - 0.05F) / 0.85F, 0.0F, 1.0F));
             rotate(poseStack, scale, 0.55F, -360.0F * spin);
         } else {
@@ -124,7 +127,7 @@ public final class RollAnimation {
             return;
         }
         float d = tuck(p);
-        boolean flip = r.kind == Rolling.KIND_FLIP;
+        boolean flip = r.kind != Rolling.KIND_ROLL;
         rot(m.head, 32.0F, 0.0F, 0.0F, d);
         rot(m.body, 18.0F, 0.0F, 0.0F, d);
         rot(m.rightArm, flip ? -62.0F : -48.0F, 10.0F, 18.0F, d);

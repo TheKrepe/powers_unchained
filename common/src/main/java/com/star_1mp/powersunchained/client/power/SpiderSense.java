@@ -105,8 +105,11 @@ public final class SpiderSense {
             flash = FLASH_TICKS;
             if (soundCooldown == 0) {
                 soundCooldown = SOUND_COOLDOWN;
-                player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 0.9F, 1.7F);
-                player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 0.6F, 0.9F);
+                // louder: full volume, a few layers
+                player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1.0F, 1.7F);
+                player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1.0F, 0.9F);
+                player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1.0F, 1.25F);
+                player.playSound(SoundEvents.NOTE_BLOCK_CHIME.value(), 0.7F, 1.6F);
             }
         }
     }

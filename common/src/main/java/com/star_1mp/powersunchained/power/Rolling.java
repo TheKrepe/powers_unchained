@@ -13,15 +13,17 @@ public final class Rolling {
 
     public static final int KIND_ROLL = 0;
     public static final int KIND_FLIP = 1;
+    /** Back flip off a wall (facing it). */
+    public static final int KIND_BACKFLIP = 2;
 
     private Rolling() {
     }
 
     public static void roll(ServerPlayer player, int kind, float yaw) {
-        if (!Superpowers.isActive(player, com.star_1mp.powersunchained.power.PowerAbility.ROLL) || (kind != KIND_ROLL && kind != KIND_FLIP)) {
+        if (!Superpowers.isActive(player, com.star_1mp.powersunchained.power.PowerAbility.ROLL) || (kind < KIND_ROLL || kind > KIND_BACKFLIP)) {
             return;
         }
-        if (kind == KIND_FLIP) {
+        if (kind != KIND_ROLL) {
             // a flip off a jump or a web lands softly
             WebShooting.markFallSafe(player);
         }

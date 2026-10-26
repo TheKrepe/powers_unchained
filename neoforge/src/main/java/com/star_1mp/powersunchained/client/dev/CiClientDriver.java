@@ -455,20 +455,14 @@ public final class CiClientDriver {
             }
             case 7080 -> {
                 Constants.LOG.info("[CI] powers: {}", com.star_1mp.powersunchained.power.Superpowers.data(mc.player));
-                com.star_1mp.powersunchained.client.power.AbilityWheelScreen wheel = new com.star_1mp.powersunchained.client.power.AbilityWheelScreen(null);
-                mc.gui.setScreen(wheel);
-                wheel.debugHover(0);
+                com.star_1mp.powersunchained.client.power.AbilityWheel.debugOpen(true, 0);
             }
             case 7110 -> shot("44_ability_wheel");
-            case 7150 -> com.star_1mp.powersunchained.client.power.AbilityWheelScreen.toggle(com.star_1mp.powersunchained.power.PowerAbility.NIGHT_VISION);
-            case 7155 -> {
-                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.power.AbilityWheelScreen wheel) {
-                    wheel.debugHover(1);
-                }
-            }
+            case 7150 -> com.star_1mp.powersunchained.client.power.AbilityWheel.toggle(com.star_1mp.powersunchained.power.PowerAbility.NIGHT_VISION);
+            case 7155 -> com.star_1mp.powersunchained.client.power.AbilityWheel.debugOpen(true, 1);
             case 7166 -> shot("44b_ability_wheel_night_vision_on");
             case 7194 -> {
-                mc.gui.setScreen(null);
+                com.star_1mp.powersunchained.client.power.AbilityWheel.debugOpen(false, -1);
                 run("tp @p 800.5 -60 -1.69 180 10");
                 mc.options.setCameraType(CameraType.THIRD_PERSON_BACK);
                 run("tick rate 5");  // slow motion for the whole climbing part (screenshots lag ~1 s)
