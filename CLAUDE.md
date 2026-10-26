@@ -165,7 +165,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
 - Recipes: empty cartridge = iron ingot / glass / iron ingot (column); web cartridge = shapeless empty cartridge + cobweb
   + potion of oozing (NeoForge `neoforge:components` ingredient — Fabric will need its own ingredient).
 - Web cocoon: 5 sticky hits within 120 ticks -> `entity/web/WebCocoon` (60 ticks, `WebSlowness.hold` = speed/jump/fly
-  -100%), `client/web/WebCocoonRenderer` (tiled box), first-person `client/web/WebOverlay` (head webs / cocoon).
+  -100%, `WebSlowness.lockLook`: wrapped mobs keep their head/body rotation, reset at the end of each server tick), `client/web/WebCocoonRenderer` (tiled box), first-person `client/web/WebOverlay` (head webs / cocoon).
 - Webs aim from the wrist at the crosshair's target point (`AbstractWebProjectile.aimPoint`). Head webs lie on the
   head box faces and follow head yaw/pitch (`StickyWeb.isOnHead/headPivot`).
 - Ability HUD `client/ability/AbilityHud` (providers per key slot; small vanilla-like key boxes at the left edge).
@@ -207,7 +207,8 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   blue = on / grey = off, toggles -> `PowerTogglePayload`; icons
   `textures/gui/sprites/power/*.png` from `tools/gen_power_icons.py`), `SpiderSense` (client threat scan: aggressive/near
   enemies, incoming projectiles, swelling creepers, lit TNT -> amethyst chime + wavy HUD marks + comic bolts round the
-  head: `SpiderSenseLayer` on player + mannequin renderers, 34-tick burst, two crossed planes of 6 bolts, texture from
+  head: `SpiderSenseLayer` on player + mannequin renderers, 34-tick burst, 6 camera-facing bolts (camera orientation
+  saved from `LivingEntityRendererMixin` HEAD; crossed planes / double faces looked broken), 5x8 pixel-art texture from
   `tools/gen_spider_sense_bolt.py` (our own; JMCT's spideysense model was only an idea), others see it via
   `SenseAlertPayload` c->s -> `SenseAlertSyncPayload` s->c), `WallClimbClient`
   (client-authoritative climbing in NeoForge `MovementInputUpdateEvent`; clears the move vector via the
@@ -218,8 +219,10 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   quaternion slerped per tick, applied in `LivingEntityRendererMixin` after undoing the body yaw; crawl limbs in
   `PlayerModelMixin` (owner: like Powerborne's `wall_crawling_anim.js` / Marvel Legacy's `player_animations/wall_crawl.json`
   — arms up over the head and APART, legs nearly straight, diagonal gait with the knee drawn up), body centre ~0.45 off
-  walls/ceilings so limbs touch the surface instead of sinking in; looking away from a wall = back-to-wall pose (arms
-  spread behind, both legs straight) and NO crawling (just hangs); `MODE_MANTLE`
+  walls/ceilings so limbs touch the surface instead of sinking in; looking away from a wall = PERCH back to the wall (owner's
+  WallPerching video: crouched, knees out, hands gripping behind) and NO crawling; looking along the wall while still =
+  side-on perch (wall-side hand on the wall, crouched), moving = normal crawl. NOTE raised arms (xRot ~-164) roll
+  OUTWARDS with -z for the right arm / +z left (the opposite of hanging arms) — +z crossed them over the head; `MODE_MANTLE`
   = climbing-over pose during the mantle script; `CameraMixin` lowers the third person camera under ceilings), `RollClient` / `RollAnimation`
   (ground dodge roll 10 ticks at 0.85, air front flip 13 ticks once per jump; roll key while clinging = flip off
   (`WallClimbClient.flipOff`: back flip `KIND_BACKFLIP` facing the wall, front flip facing away / off a ceiling);
