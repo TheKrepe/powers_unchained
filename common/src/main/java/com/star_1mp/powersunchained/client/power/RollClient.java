@@ -5,7 +5,6 @@ import com.star_1mp.powersunchained.mixin.client.ClientInputAccessor;
 import com.star_1mp.powersunchained.network.RollPayload;
 import com.star_1mp.powersunchained.platform.Services;
 import com.star_1mp.powersunchained.power.Rolling;
-import com.star_1mp.powersunchained.power.Superpower;
 import com.star_1mp.powersunchained.power.Superpowers;
 import net.minecraft.client.player.ClientInput;
 import net.minecraft.client.player.LocalPlayer;
@@ -35,6 +34,11 @@ public final class RollClient {
     private RollClient() {
     }
 
+    /** Off cooldown. */
+    public static boolean ready() {
+        return cooldown == 0 && rollTicks == 0;
+    }
+
     public static boolean isRolling() {
         return rollTicks > 0;
     }
@@ -47,7 +51,7 @@ public final class RollClient {
         if (player.onGround() || WallClimbClient.isClimbing() || WebSwingLine.of(player) != null) {
             flipUsed = false;
         }
-        if (!keyPressed || cooldown > 0 || rollTicks > 0 || !Superpowers.isActive(player, Superpower.ROLL)
+        if (!keyPressed || cooldown > 0 || rollTicks > 0 || !Superpowers.isActive(player, com.star_1mp.powersunchained.power.PowerAbility.ROLL)
                 || player.isSpectator() || player.getAbilities().flying || player.isPassenger() || player.isFallFlying()
                 || player.isInWater() || player.isInLava() || player.isSleeping() || WallClimbClient.isClimbing()) {
             return;

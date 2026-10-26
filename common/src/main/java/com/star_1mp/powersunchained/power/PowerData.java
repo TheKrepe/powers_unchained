@@ -10,8 +10,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
 /**
- * A player's superpowers (saved, kept on death, synced to that player): the owned powers and which of them are
- * switched on (ids of {@link Superpower}).
+ * A player's superpowers (saved, kept on death, synced to that player): the owned powers ({@link Superpower} ids) and
+ * which switchable abilities are on ({@link PowerAbility} ids).
  */
 public record PowerData(Set<String> owned, Set<String> enabled) {
 
@@ -33,13 +33,29 @@ public record PowerData(Set<String> owned, Set<String> enabled) {
         return this.owned.contains(power.id());
     }
 
-    /** Owned and switched on (powers that can't be switched off are always on). */
-    public boolean isActive(Superpower power) {
-        return this.has(power) && (!power.toggleable() || this.enabled.contains(power.id()));
+    /** Some owned superpower has the ability. */
+    public boolean has(PowerAbility ability) {
+        for (String id : this.owned) {
+            Superpower p = Superpower.byId(id);
+            if (p != null && p.abilities().contains(ability)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public boolean isEnabled(Superpower power) {
-        return this.enabled.contains(power.id());
+    /** Owned and switched on (abilities that can't be switched off are always on). */
+    public boolean isActive(PowerAbility ability) {
+        return this.has(ability) && (!ability.toggleable() || this.enabled.contains(ability.id()));
+    }
+
+    public boolean hasAny() {
+        for (String id : this.owned) {
+            if (Superpower.byId(id) != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public PowerData add(Superpower power) {
@@ -49,8 +65,10 @@ public record PowerData(Set<String> owned, Set<String> enabled) {
         Set<String> o = new HashSet<>(this.owned);
         o.add(power.id());
         Set<String> e = new HashSet<>(this.enabled);
-        if (power.onByDefault()) {
-            e.add(power.id());
+        for (PowerAbility a : power.abilities()) {
+            if (a.onByDefault()) {
+                e.add(a.id());
+            }
         }
         return new PowerData(Set.copyOf(o), Set.copyOf(e));
     }
@@ -58,15 +76,20 @@ public record PowerData(Set<String> owned, Set<String> enabled) {
     public PowerData remove(Superpower power) {
         Set<String> o = new HashSet<>(this.owned);
         o.remove(power.id());
+        PowerData left = new PowerData(Set.copyOf(o), this.enabled);
         Set<String> e = new HashSet<>(this.enabled);
-        e.remove(power.id());
+        for (PowerAbility a : power.abilities()) {
+            if (!left.has(a)) {
+                e.remove(a.id());
+            }
+        }
         return new PowerData(Set.copyOf(o), Set.copyOf(e));
     }
 
-    public PowerData toggle(Superpower power) {
+    public PowerData toggle(PowerAbility ability) {
         Set<String> e = new HashSet<>(this.enabled);
-        if (!e.remove(power.id())) {
-            e.add(power.id());
+        if (!e.remove(ability.id())) {
+            e.add(ability.id());
         }
         return new PowerData(this.owned, Set.copyOf(e));
     }

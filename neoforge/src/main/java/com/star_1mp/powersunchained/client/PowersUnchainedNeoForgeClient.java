@@ -114,6 +114,7 @@ public class PowersUnchainedNeoForgeClient {
         WebZipLine.zipListener = WebZipAnimation::zip;
         WebSwingLine.swingListener = WebZipAnimation::swing;
         WebSwingClient.registerHud();
+        com.star_1mp.powersunchained.client.power.PowerClient.register();
         modEventBus.addListener((RegisterClientTooltipComponentFactoriesEvent event) ->
                 event.register(WebShootersItem.WebShootersTooltip.class, ClientWebShootersTooltip::new));
         modEventBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {
@@ -129,6 +130,7 @@ public class PowersUnchainedNeoForgeClient {
                     Minecraft.getInstance().gui.setScreen(new AbilityHudConfigScreen());
                 }
             }
+            com.star_1mp.powersunchained.client.ability.AbilitySlots.tick();  // which ability is on which key, before they read them
             WebShooterClient.tick();
             WebSwingClient.tick();
             WebShotTracker.tick();

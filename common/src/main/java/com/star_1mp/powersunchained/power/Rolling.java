@@ -18,7 +18,7 @@ public final class Rolling {
     }
 
     public static void roll(ServerPlayer player, int kind, float yaw) {
-        if (!Superpowers.isActive(player, Superpower.ROLL) || (kind != KIND_ROLL && kind != KIND_FLIP)) {
+        if (!Superpowers.isActive(player, com.star_1mp.powersunchained.power.PowerAbility.ROLL) || (kind != KIND_ROLL && kind != KIND_FLIP)) {
             return;
         }
         if (kind == KIND_FLIP) {

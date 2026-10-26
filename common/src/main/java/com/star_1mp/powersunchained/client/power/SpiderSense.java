@@ -1,6 +1,5 @@
 package com.star_1mp.powersunchained.client.power;
 
-import com.star_1mp.powersunchained.power.Superpower;
 import com.star_1mp.powersunchained.power.Superpowers;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -65,7 +64,7 @@ public final class SpiderSense {
         if (flash > 0) {
             flash--;
         }
-        if (player == null || mc.level == null || !Superpowers.isActive(player, Superpower.SPIDER_SENSE) || player.isSpectator()) {
+        if (player == null || mc.level == null || !Superpowers.isActive(player, com.star_1mp.powersunchained.power.PowerAbility.SPIDER_SENSE) || player.isSpectator()) {
             THREATS.clear();
             return;
         }

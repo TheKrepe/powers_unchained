@@ -179,6 +179,8 @@
   "screen.powers_unchained.ability_wheel": "Abilities",
   "screen.powers_unchained.ability_wheel.on": "On",
   "screen.powers_unchained.ability_wheel.off": "Off",
-  "key.powers_unchained.ability_wheel": "Ability Wheel",
-  "key.powers_unchained.roll": "Roll"
+  "ability.powers_unchained.roll": "Roll",
+  "ability.powers_unchained.ability_wheel": "Ability Wheel",
+  "superpower.powers_unchained.spiderman": "Spider-Man",
+  "screen.powers_unchained.hud_settings.order": "Ability order (keys)"
 }

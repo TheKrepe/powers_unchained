@@ -16,12 +16,12 @@ public final class Superpowers {
         return Services.GAMEPLAY.powerData(player);
     }
 
-    public static boolean has(Player player, Superpower power) {
-        return data(player).has(power);
+    public static boolean has(Player player, PowerAbility ability) {
+        return data(player).has(ability);
     }
 
-    public static boolean isActive(Player player, Superpower power) {
-        return data(player).isActive(power);
+    public static boolean isActive(Player player, PowerAbility ability) {
+        return data(player).isActive(ability);
     }
 
     public static void add(ServerPlayer player, Superpower power) {
@@ -30,32 +30,32 @@ public final class Superpowers {
 
     public static void remove(ServerPlayer player, Superpower power) {
         Services.GAMEPLAY.setPowerData(player, data(player).remove(power));
-        if (power == Superpower.NIGHT_VISION) {
+        if (!isActive(player, PowerAbility.NIGHT_VISION)) {
             clearNightVision(player);
         }
-        if (power == Superpower.WALL_CLIMBING) {
+        if (!isActive(player, PowerAbility.WALL_CLIMBING)) {
             WallClimbing.stop(player);
         }
     }
 
     /** From the ability wheel. */
-    public static void toggle(ServerPlayer player, Superpower power) {
+    public static void toggle(ServerPlayer player, PowerAbility power) {
         PowerData data = data(player);
         if (!data.has(power) || !power.toggleable()) {
             return;
         }
         Services.GAMEPLAY.setPowerData(player, data.toggle(power));
-        if (power == Superpower.NIGHT_VISION && !data(player).isActive(power)) {
+        if (power == PowerAbility.NIGHT_VISION && !data(player).isActive(power)) {
             clearNightVision(player);
         }
-        if (power == Superpower.WALL_CLIMBING && !data(player).isActive(power)) {
+        if (power == PowerAbility.WALL_CLIMBING && !data(player).isActive(power)) {
             WallClimbing.stop(player);
         }
     }
 
     /** Server, every player tick. */
     public static void serverTick(ServerPlayer player) {
-        if (isActive(player, Superpower.NIGHT_VISION)) {
+        if (isActive(player, PowerAbility.NIGHT_VISION)) {
             MobEffectInstance current = player.getEffect(MobEffects.NIGHT_VISION);
             // refreshed before it gets near 10 seconds left, where vanilla starts to flicker the screen
             if (current == null || current.getDuration() < 260) {

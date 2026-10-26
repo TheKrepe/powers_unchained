@@ -5,7 +5,6 @@ import com.star_1mp.powersunchained.entity.web.WebZipLine;
 import com.star_1mp.powersunchained.mixin.client.ClientInputAccessor;
 import com.star_1mp.powersunchained.network.ClimbPayload;
 import com.star_1mp.powersunchained.platform.Services;
-import com.star_1mp.powersunchained.power.Superpower;
 import com.star_1mp.powersunchained.power.Superpowers;
 import com.star_1mp.powersunchained.power.WallClimbing;
 import java.util.ArrayDeque;
@@ -135,7 +134,7 @@ public final class WallClimbClient {
     }
 
     private static boolean canClimb(LocalPlayer player) {
-        return Superpowers.isActive(player, Superpower.WALL_CLIMBING)
+        return Superpowers.isActive(player, com.star_1mp.powersunchained.power.PowerAbility.WALL_CLIMBING)
                 && !player.isSpectator()
                 && !player.getAbilities().flying
                 && !player.isPassenger()
@@ -296,8 +295,8 @@ public final class WallClimbClient {
         if (v.y > 0.0 && !touches(player, upperPart(next, 1.0), wall) && tryMantle(player, next)) {
             return;
         }
-        if (!touches(player, next, wall)) {
-            // the wall ends this way: round the edge if there is room, else stop at it
+        if (!grips(player, next, wall)) {
+            // the wall ends this way (under the body's middle): round the edge if there is room, else stop at it
             if (side.lengthSqr() > 1.0E-4 && tryOuterCorner(player, next, v, horizontalDirection(side))) {
                 return;
             }
@@ -309,45 +308,69 @@ public final class WallClimbClient {
         setMotion(player, v.add(n.scale(0.1)));
     }
 
-    /** Over the top of a wall: up until the feet clear it, then a step onto it. */
+    /** Over the top of a wall: up until the feet clear it, then just onto its edge (no step further). */
     private static boolean tryMantle(LocalPlayer player, AABB next) {
         AABB box = player.getBoundingBox();
         Vec3 n = normal(wall);
         for (double dy = 0.0; dy <= 1.3; dy += 0.05) {
             AABB up = box.move(0.0, dy + 0.02, 0.0);
-            AABB on = up.move(n.scale(0.7));
-            if (player.level().noCollision(player, up) && player.level().noCollision(player, on)
-                    && !player.level().noCollision(player, on.move(0.0, -0.12, 0.0))) {
-                SCRIPT.clear();
-                int upTicks = Math.max(2, Mth.ceil((dy + 0.02) / 0.2));
-                for (int i = 0; i < upTicks; i++) {
-                    SCRIPT.add(new Step(new Vec3(0.0, (dy + 0.02) / upTicks, 0.0).add(n.scale(0.02)), 0.0F));
+            if (!player.level().noCollision(player, up)) {
+                continue;
+            }
+            // the shortest move onto the top that stands safely on it
+            for (double f = 0.1; f <= 0.75; f += 0.05) {
+                AABB on = up.move(n.scale(f));
+                if (player.level().noCollision(player, on) && !player.level().noCollision(player, on.move(0.0, -0.12, 0.0))) {
+                    double forward = Math.min(f + 0.12, 0.75);
+                    if (!player.level().noCollision(player, up.move(n.scale(forward)))) {
+                        forward = f;
+                    }
+                    SCRIPT.clear();
+                    int upTicks = Math.max(2, Mth.ceil((dy + 0.02) / 0.2));
+                    for (int i = 0; i < upTicks; i++) {
+                        SCRIPT.add(new Step(new Vec3(0.0, (dy + 0.02) / upTicks, 0.0).add(n.scale(0.02)), 0.0F));
+                    }
+                    for (int i = 0; i < 2; i++) {
+                        SCRIPT.add(new Step(n.scale(forward / 2.0), 0.0F));
+                    }
+                    scriptMode = WallClimbing.MODE_NONE;
+                    scriptWall = wall;
+                    scriptExit = Vec3.ZERO;
+                    runScript(player);
+                    return true;
                 }
-                for (int i = 0; i < 3; i++) {
-                    SCRIPT.add(new Step(n.scale(0.7 / 3.0), 0.0F));
-                }
-                scriptMode = WallClimbing.MODE_NONE;
-                scriptWall = wall;
-                scriptExit = n.scale(0.12);
-                runScript(player);
-                return true;
             }
         }
         return false;
     }
 
-    /** Round an outer corner: the box is past the wall's end, so step beside the wall's side face and cling to it. */
+    /**
+     * Round an outer corner: the body's middle reached the wall's end, so it wraps round: on past the edge until the
+     * box clears it, then beside the wall's side face, clinging to it (the camera turning along).
+     */
     private static boolean tryOuterCorner(LocalPlayer player, AABB next, Vec3 v, Direction sd) {
         Vec3 n = normal(wall);
-        AABB beside = next.move(n.scale(WRAP));
+        Vec3 t = normal(sd);
         Direction newWall = sd.getOpposite();
-        if (!player.level().noCollision(player, next) || !player.level().noCollision(player, beside)
-                || !touches(player, beside.move(normal(newWall).scale(0.2)), newWall)) {
+        if (!player.level().noCollision(player, next)) {
+            return false;
+        }
+        double m = clearance(player, next, t, n.scale(WRAP));
+        if (m < 0.0) {
+            return false;
+        }
+        AABB beside = next.move(t.scale(m)).move(n.scale(WRAP));
+        if (!touches(player, beside.move(normal(newWall).scale(0.2)), newWall)) {
             return false;
         }
         SCRIPT.clear();
         SCRIPT.add(new Step(v, 0.0F));
-        turnSteps(n.scale(WRAP), yawBetween(wall, newWall), 4);
+        float yaw = yawBetween(wall, newWall);
+        int sideTicks = Math.max(1, Mth.ceil(m / 0.13));
+        for (int i = 0; i < sideTicks; i++) {
+            SCRIPT.add(new Step(t.scale(m / sideTicks), yaw * 0.25F / sideTicks));
+        }
+        turnSteps(n.scale(WRAP), yaw * 0.75F, 4);
         scriptMode = WallClimbing.MODE_WALL;
         scriptWall = newWall;
         scriptExit = Vec3.ZERO;
@@ -355,24 +378,52 @@ public final class WallClimbClient {
         return true;
     }
 
+    /**
+     * How far the box has to go along {@code dir} (0..1) so that it can then make the move {@code then} without
+     * hitting anything, or -1.
+     */
+    private static double clearance(LocalPlayer player, AABB box, Vec3 dir, Vec3 then) {
+        for (double m = 0.0; m <= 1.0; m += 0.02) {
+            AABB a = box.move(dir.scale(m));
+            if (!player.level().noCollision(player, a)) {
+                return -1.0;
+            }
+            if (player.level().noCollision(player, a.move(then))) {
+                return m + 0.01;
+            }
+        }
+        return -1.0;
+    }
+
     /** From a wall's bottom edge onto its underside (a ceiling). */
     private static boolean tryUnderneath(LocalPlayer player, AABB next, Vec3 v) {
         Vec3 n = normal(wall);
-        AABB under = next.move(n.scale(WRAP));
         Vec3 look = player.getLookAngle();
         if (new Vec3(look.x, 0.0, look.z).dot(n) < -0.2 && player.getXRot() < 60.0F) {
             return false; // looking away from the wall: not heading underneath
         }
-        if (!player.level().noCollision(player, next) || !player.level().noCollision(player, under)
-                || !touches(player, under.move(0.0, 0.25, 0.0), Direction.UP)) {
+        if (!player.level().noCollision(player, next)) {
+            return false;
+        }
+        // down until the box clears the bottom edge, then in under the block
+        double m = clearance(player, next, new Vec3(0.0, -1.0, 0.0), n.scale(WRAP));
+        if (m < 0.0) {
+            return false;
+        }
+        AABB under = next.move(0.0, -m, 0.0).move(n.scale(WRAP));
+        if (!touches(player, under.move(0.0, 0.25 + m, 0.0), Direction.UP)) {
             return false;
         }
         SCRIPT.clear();
         SCRIPT.add(new Step(v, 0.0F));
+        int downTicks = Math.max(1, Mth.ceil(m / 0.15));
+        for (int i = 0; i < downTicks; i++) {
+            SCRIPT.add(new Step(new Vec3(0.0, -m / downTicks, 0.0), 0.0F));
+        }
         // keep the held keys going the same way: they now walk on under the block
         Vec3 wish = horizontalWish(player, currentMove(player));
         float yaw = wish.lengthSqr() > 0.09 ? signedYaw(wish, n) : 0.0F;
-        turnSteps(n.scale(WRAP).add(0.0, 0.12, 0.0), yaw, 5);
+        turnSteps(n.scale(WRAP).add(0.0, 0.12 + m, 0.0), yaw, 5);
         scriptMode = WallClimbing.MODE_CEILING;
         scriptWall = wall;
         scriptExit = new Vec3(0.0, 0.1, 0.0);
@@ -404,7 +455,7 @@ public final class WallClimbClient {
                 pushTicks = 0;
             }
             AABB next = box.move(v);
-            if (!touches(player, next, Direction.UP)) {
+            if (!grips(player, next, Direction.UP)) {
                 if (v.lengthSqr() > 1.0E-4 && tryCeilingEdge(player, next, v, horizontalDirection(v))) {
                     return;
                 }
@@ -417,13 +468,25 @@ public final class WallClimbClient {
     /** Over a ceiling's edge onto the outer face above it. */
     private static boolean tryCeilingEdge(LocalPlayer player, AABB next, Vec3 v, Direction sd) {
         Direction newWall = sd.getOpposite();
-        AABB up = next.move(0.0, 0.75, 0.0);
-        if (!player.level().noCollision(player, next) || !player.level().noCollision(player, up)
-                || !touches(player, up.move(normal(newWall).scale(0.2)), newWall)) {
+        Vec3 t = normal(sd);
+        if (!player.level().noCollision(player, next)) {
+            return false;
+        }
+        // on past the edge until the box clears it, then up beside the outer face
+        double m = clearance(player, next, t, new Vec3(0.0, 0.75, 0.0));
+        if (m < 0.0) {
+            return false;
+        }
+        AABB up = next.move(t.scale(m)).move(0.0, 0.75, 0.0);
+        if (!touches(player, up.move(normal(newWall).scale(0.2)), newWall)) {
             return false;
         }
         SCRIPT.clear();
         SCRIPT.add(new Step(v, 0.0F));
+        int sideTicks = Math.max(1, Mth.ceil(m / 0.13));
+        for (int i = 0; i < sideTicks; i++) {
+            SCRIPT.add(new Step(t.scale(m / sideTicks), 0.0F));
+        }
         // face the wall, so the held keys climb on up
         Vec3 wish = horizontalWish(player, currentMove(player));
         float yaw = wish.lengthSqr() > 0.09 ? signedYaw(wish, normal(newWall)) : 0.0F;
@@ -557,6 +620,18 @@ public final class WallClimbClient {
         return !player.level().noCollision(player, probe);
     }
 
+    /**
+     * Whether the middle of the body is over the surface on side {@code d} (not just an edge of the box): the box
+     * narrowed around its centre — along the surface to 0.24 wide, on a wall also to its middle 0.9 of height.
+     */
+    static boolean grips(LocalPlayer player, AABB box, Direction d) {
+        Vec3 c = box.getCenter();
+        double hx = d.getAxis() == Direction.Axis.X ? box.getXsize() / 2.0 : 0.12;
+        double hz = d.getAxis() == Direction.Axis.Z ? box.getZsize() / 2.0 : 0.12;
+        double hy = d.getAxis().isVertical() ? box.getYsize() / 2.0 : 0.45;
+        return touches(player, new AABB(c.x - hx, c.y - hy, c.z - hz, c.x + hx, c.y + hy, c.z + hz), d);
+    }
+
     private static AABB upperHalf(AABB box) {
         return new AABB(box.minX, box.minY + box.getYsize() * 0.5, box.minZ, box.maxX, box.maxY, box.maxZ);
     }
@@ -570,8 +645,11 @@ public final class WallClimbClient {
     private static Vec3 keepContact(LocalPlayer player, AABB box, Vec3 v, Direction surface) {
         Vec3[] tries = {new Vec3(v.x, 0.0, v.z), new Vec3(0.0, v.y, 0.0), new Vec3(v.x, 0.0, 0.0), new Vec3(0.0, 0.0, v.z)};
         Vec3 best = Vec3.ZERO;
+        // normally the body's middle stays over the surface; clinging off-centre (just attached), any contact will do
+        boolean centred = grips(player, box, surface);
         for (Vec3 t : tries) {
-            if (t.lengthSqr() > best.lengthSqr() && touches(player, box.move(t), surface)) {
+            AABB moved = box.move(t);
+            if (t.lengthSqr() > best.lengthSqr() && (centred ? grips(player, moved, surface) : touches(player, moved, surface))) {
                 best = t;
             }
         }

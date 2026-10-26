@@ -48,13 +48,6 @@ public final class WebShooterClient {
     }
 
     /** Sample abilities for the HUD settings preview when the player has none. */
-    public static AbilityHud.Entry[] previewEntries() {
-        return new AbilityHud.Entry[] {
-            new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_shot"), null, true),
-            new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_zip"), null, true)
-        };
-    }
-
     public static final net.minecraft.resources.Identifier WEB_FLUID_ICON =
             com.star_1mp.powersunchained.Constants.id("textures/gui/web_fluid.png");
 
@@ -66,16 +59,14 @@ public final class WebShooterClient {
                 ? new AbilityHud.Gauge(WEB_FLUID_ICON, WebCartridges.totalFluid(WebCartridges.wornShooters(player)),
                         WebCartridges.SLOTS * WebCartridges.MAX_FLUID, 0xFF8FE6F7)
                 : null);
-        AbilityHud.register((player, slot) -> {
-            if (slot == 1 && hadWebShooters) {
-                return new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_zip"), null, zipCooldown == 0);
-            }
-            if (slot != 0 || !hadWebShooters) {
-                return null;
-            }
-            Component extra = null;
-            return new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_shot"), extra, active);
-        });
+        com.star_1mp.powersunchained.client.ability.AbilitySlots.register(
+                com.star_1mp.powersunchained.client.ability.AbilitySlots.WEB_SHOT, player -> WebShooting.hasWebShooters(player) || debugMenu,
+                player -> new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_shot"), null, active),
+                Component.translatable("ability.powers_unchained.web_shot"));
+        com.star_1mp.powersunchained.client.ability.AbilitySlots.register(
+                com.star_1mp.powersunchained.client.ability.AbilitySlots.WEB_ZIP, player -> WebShooting.hasWebShooters(player) || debugMenu,
+                player -> new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_zip"), null, zipCooldown == 0),
+                Component.translatable("ability.powers_unchained.web_zip"));
     }
 
     /** Turns web shooting off (web swinging was turned on). */
@@ -128,12 +119,12 @@ public final class WebShooterClient {
         if (!has) {
             active = false;
         }
-        while (PUKeyMappings.ABILITY_2.consumeClick()) {
-            if (has) {
-                tryZip(player);
-            }
+        if (com.star_1mp.powersunchained.client.ability.AbilitySlots.clicks(com.star_1mp.powersunchained.client.ability.AbilitySlots.WEB_ZIP) > 0
+                && has) {
+            tryZip(player);
         }
-        boolean down = has && PUKeyMappings.ABILITY_1.isDown();
+        boolean down = has && com.star_1mp.powersunchained.client.ability.AbilitySlots.isDown(
+                com.star_1mp.powersunchained.client.ability.AbilitySlots.WEB_SHOT);
         if (down && !wasDown) {
             scrolledWhileHeld = false;
         }

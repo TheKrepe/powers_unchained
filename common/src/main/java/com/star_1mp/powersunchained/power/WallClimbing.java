@@ -24,7 +24,7 @@ public final class WallClimbing {
     }
 
     public static void update(ServerPlayer player, int mode, int direction) {
-        if (mode != MODE_NONE && !Superpowers.isActive(player, Superpower.WALL_CLIMBING)) {
+        if (mode != MODE_NONE && !Superpowers.isActive(player, com.star_1mp.powersunchained.power.PowerAbility.WALL_CLIMBING)) {
             mode = MODE_NONE;
         }
         int[] old = STATES.get(player.getUUID());

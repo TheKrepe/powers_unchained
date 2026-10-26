@@ -25,15 +25,8 @@ public final class PUKeyMappings {
     /** Opens the HUD settings. */
     public static final KeyMapping HUD_SETTINGS = new KeyMapping("key." + Constants.MOD_ID + ".hud_settings", InputConstants.KEY_H, CATEGORY);
 
-    /** Hold to show the ability wheel (switch superpowers on / off). */
-    public static final KeyMapping ABILITY_WHEEL = new KeyMapping("key." + Constants.MOD_ID + ".ability_wheel", InputConstants.KEY_R, CATEGORY);
-
-    /** Dodge roll on the ground, front flip in the air. */
-    public static final KeyMapping ROLL = new KeyMapping("key." + Constants.MOD_ID + ".roll", InputConstants.KEY_Z, CATEGORY);
-
     /** Every key of the mod, to register. */
-    public static final List<KeyMapping> REGISTER = List.of(ABILITY_1, ABILITY_2, ABILITY_3, ABILITY_4, ABILITY_5, ABILITY_WHEEL, ROLL,
-            HUD_SETTINGS);
+    public static final List<KeyMapping> REGISTER = List.of(ABILITY_1, ABILITY_2, ABILITY_3, ABILITY_4, ABILITY_5, HUD_SETTINGS);
 
     private PUKeyMappings() {
     }

@@ -22,7 +22,7 @@ import org.jspecify.annotations.Nullable;
  * ability (suit power, gadget...): each key in a small dark box with the ability on it next to it (bright when the
  * ability is on, grey when off); free keys only show their dimmed box.
  * <p>
- * Abilities come from {@link Provider}s, so new powers only register a provider.
+ * Abilities and their keys come from {@link AbilitySlots}.
  */
 public final class AbilityHud {
 
@@ -32,11 +32,6 @@ public final class AbilityHud {
      * @param extra short value after the name (e.g. ammo), or {@code null}
      */
     public record Entry(Component name, @Nullable Component extra, boolean enabled) {
-    }
-
-    /** Supplies the ability of a key slot (0-based) for the player, or {@code null} if it has none there. */
-    public interface Provider {
-        @Nullable Entry get(LocalPlayer player, int slot);
     }
 
     /**
@@ -51,7 +46,6 @@ public final class AbilityHud {
         @Nullable Gauge get(LocalPlayer player);
     }
 
-    private static final List<Provider> PROVIDERS = new ArrayList<>();
     private static final List<GaugeProvider> GAUGES = new ArrayList<>();
     /** Gauge shown in the HUD settings preview when the player has none. */
     public static @Nullable Gauge previewGauge;
@@ -61,10 +55,6 @@ public final class AbilityHud {
     private static final int ROW_HEIGHT = 12;
 
     private AbilityHud() {
-    }
-
-    public static void register(Provider provider) {
-        PROVIDERS.add(provider);
     }
 
     public static void registerGauge(GaugeProvider provider) {
@@ -111,20 +101,7 @@ public final class AbilityHud {
 
     /** The abilities on the keys, or {@code null} if the player has none at all. */
     public static Entry @Nullable [] collect(LocalPlayer player) {
-        List<KeyMapping> keys = PUKeyMappings.ALL;
-        Entry[] entries = new Entry[keys.size()];
-        boolean any = false;
-        for (int slot = 0; slot < keys.size(); slot++) {
-            for (Provider provider : PROVIDERS) {
-                Entry e = provider.get(player, slot);
-                if (e != null) {
-                    entries[slot] = e;
-                    any = true;
-                    break;
-                }
-            }
-        }
-        return any ? entries : null;
+        return AbilitySlots.entries(player);
     }
 
     /**

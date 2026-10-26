@@ -440,7 +440,7 @@ public final class CiClientDriver {
                 run("time set 6000");
                 run("gamemode creative @p");
                 run("clear @p");
-                run("superpower add all @p");
+                run("superpower add spiderman @p");
                 run("tp @p 800.5 -60 0.5 180 0");
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
             }
@@ -455,12 +455,12 @@ public final class CiClientDriver {
             }
             case 7080 -> {
                 Constants.LOG.info("[CI] powers: {}", com.star_1mp.powersunchained.power.Superpowers.data(mc.player));
-                com.star_1mp.powersunchained.client.power.AbilityWheelScreen wheel = new com.star_1mp.powersunchained.client.power.AbilityWheelScreen(false);
+                com.star_1mp.powersunchained.client.power.AbilityWheelScreen wheel = new com.star_1mp.powersunchained.client.power.AbilityWheelScreen(null);
                 mc.gui.setScreen(wheel);
                 wheel.debugHover(0);
             }
             case 7110 -> shot("44_ability_wheel");
-            case 7150 -> com.star_1mp.powersunchained.client.power.AbilityWheelScreen.toggle(com.star_1mp.powersunchained.power.Superpower.NIGHT_VISION);
+            case 7150 -> com.star_1mp.powersunchained.client.power.AbilityWheelScreen.toggle(com.star_1mp.powersunchained.power.PowerAbility.NIGHT_VISION);
             case 7155 -> {
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.power.AbilityWheelScreen wheel) {
                     wheel.debugHover(1);
@@ -545,7 +545,7 @@ public final class CiClientDriver {
                 mc.options.keyLeft.setDown(true);
                 run("tick rate 4");
             }
-            case 7452 -> net.minecraft.client.KeyMapping.click(com.star_1mp.powersunchained.client.input.PUKeyMappings.ROLL.getKey());
+            case 7452 -> rollKey();
             case 7454 -> {
                 rollLog();
                 com.star_1mp.powersunchained.client.power.RollAnimation.debugHold(0.3F);
@@ -564,7 +564,7 @@ public final class CiClientDriver {
                 mc.options.keyJump.setDown(false);
                 run("tick rate 4");
             }
-            case 7490 -> net.minecraft.client.KeyMapping.click(com.star_1mp.powersunchained.client.input.PUKeyMappings.ROLL.getKey());
+            case 7490 -> rollKey();
             case 7492 -> {
                 rollLog();
                 com.star_1mp.powersunchained.client.power.RollAnimation.debugHold(0.35F);
@@ -635,7 +635,32 @@ public final class CiClientDriver {
                 run("tp @p 860.5 -60 0.5 180 5");
             }
             case 7700 -> shot("53_night_vision");
+            // ability keys: Spider-Man alone (roll 1, wheel 2), then with web-shooters (1-3) + Spider-Man (4-5)
             case 7760 -> {
+                run("time set 6000");
+                run("tp @p 860.5 -60 0.5 180 5");
+            }
+            case 7790 -> shot("55_hud_spider_keys");
+            case 7800 -> run("curios replace bracelet 0 @p with powers_unchained:web_shooters[powers_unchained:web_cartridges=[32,20]]");
+            case 7840 -> {
+                Constants.LOG.info("[CI] ability keys: shot {} roll {} wheel {}",
+                        keyName(com.star_1mp.powersunchained.client.ability.AbilitySlots.WEB_SHOT),
+                        keyName(com.star_1mp.powersunchained.client.ability.AbilitySlots.ROLL),
+                        keyName(com.star_1mp.powersunchained.client.ability.AbilitySlots.ABILITY_WHEEL));
+                shot("56_hud_web_shooters_and_spider");
+            }
+            case 7880 -> mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.AbilityHudConfigScreen());
+            case 7900 -> {
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.ability.AbilityHudConfigScreen screen) {
+                    screen.debugMove(com.star_1mp.powersunchained.client.ability.AbilitySlots.ROLL, -1);  // roll up one place
+                }
+            }
+            case 7920 -> shot("57_hud_settings_order");
+            case 7960 -> {
+                com.star_1mp.powersunchained.client.ability.AbilityHudConfig.get().abilityOrder = null;
+                mc.gui.setScreen(null);
+            }
+            case 7980 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -757,6 +782,21 @@ public final class CiClientDriver {
         run("execute at @p run summon minecraft:item_display ~" + x + " ~" + y + " ~4 {item:{id:\"" + item + "\",count:1},"
                 + "billboard:\"center\",transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],"
                 + "translation:[0f,0f,0f],scale:[0.55f,0.55f,0.55f]}}");
+    }
+
+    private static String keyName(String ability) {
+        net.minecraft.client.KeyMapping key = com.star_1mp.powersunchained.client.ability.AbilitySlots.key(ability);
+        return key != null ? key.getName() : "-";
+    }
+
+    /** Presses the key the roll is on (ability key 1 without web-shooters). */
+    private static void rollKey() {
+        net.minecraft.client.KeyMapping key = com.star_1mp.powersunchained.client.ability.AbilitySlots.key(
+                com.star_1mp.powersunchained.client.ability.AbilitySlots.ROLL);
+        Constants.LOG.info("[CI] roll key: {}", key != null ? key.getName() : null);
+        if (key != null) {
+            net.minecraft.client.KeyMapping.click(key.getKey());
+        }
     }
 
     private static void rollLog() {

@@ -6,7 +6,7 @@ import com.star_1mp.powersunchained.client.input.PUKeyMappings;
 import com.star_1mp.powersunchained.network.PowerTogglePayload;
 import com.star_1mp.powersunchained.platform.Services;
 import com.star_1mp.powersunchained.power.PowerData;
-import com.star_1mp.powersunchained.power.Superpower;
+import com.star_1mp.powersunchained.power.PowerAbility;
 import com.star_1mp.powersunchained.power.Superpowers;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 
 /**
- * The ability wheel (hold the "Ability Wheel" key, default R; let go to close): a ring split into one segment per
+ * The ability wheel (hold its ability key; let go to close): a ring split into one segment per
  * switchable superpower, with its icon. A segment is lit blue while the power is on and grey while it is off; click
  * one to switch it. The hovered power's name and state show under the wheel.
  */
@@ -41,7 +41,8 @@ public class AbilityWheelScreen extends Screen {
     private static final int ON_BORDER = 0xFF8CD2FF;
     private static final int CENTER_FILL = 0xB0101418;
 
-    private final boolean heldKey;
+    /** The key held to keep the wheel open (null: stays open until closed). */
+    private final net.minecraft.client.@org.jspecify.annotations.Nullable KeyMapping heldKey;
     private int hovered = -1;
     /** Cached wheel rectangles (real pixels): x0, y0, x1, y1, colour. */
     private List<int[]> rects = List.of();
@@ -49,16 +50,16 @@ public class AbilityWheelScreen extends Screen {
     private int openTicks;
     private int debugHovered = -1;
 
-    public AbilityWheelScreen(boolean heldKey) {
+    public AbilityWheelScreen(net.minecraft.client.@org.jspecify.annotations.Nullable KeyMapping heldKey) {
         super(Component.translatable("screen.powers_unchained.ability_wheel"));
         this.heldKey = heldKey;
     }
 
     /** The switchable powers the local player owns, in wheel order. */
-    public static List<Superpower> powers(LocalPlayer player) {
+    public static List<PowerAbility> powers(LocalPlayer player) {
         PowerData data = Superpowers.data(player);
-        List<Superpower> list = new ArrayList<>();
-        for (Superpower p : Superpower.values()) {
+        List<PowerAbility> list = new ArrayList<>();
+        for (PowerAbility p : PowerAbility.values()) {
             if (p.toggleable() && data.has(p)) {
                 list.add(p);
             }
@@ -78,8 +79,8 @@ public class AbilityWheelScreen extends Screen {
             this.onClose();
             return;
         }
-        if (this.heldKey) {
-            InputConstants.Key key = InputConstants.getKey(PUKeyMappings.ABILITY_WHEEL.saveString());
+        if (this.heldKey != null) {
+            InputConstants.Key key = InputConstants.getKey(this.heldKey.saveString());
             if (key.getType() == InputConstants.Type.KEYBOARD && !InputConstants.isKeyDown(key.getValue())) {
                 this.onClose();
             }
@@ -98,7 +99,7 @@ public class AbilityWheelScreen extends Screen {
         if (player == null) {
             return;
         }
-        List<Superpower> powers = powers(player);
+        List<PowerAbility> powers = powers(player);
         int n = powers.size();
         if (n == 0) {
             return;
@@ -114,7 +115,7 @@ public class AbilityWheelScreen extends Screen {
         float guiScale = (float) this.minecraft.getWindow().getGuiScale();
         StringBuilder key = new StringBuilder().append(this.width).append('x').append(this.height).append('@').append(guiScale)
                 .append('h').append(this.hovered).append('g').append(Math.round(grow * 100));
-        for (Superpower p : powers) {
+        for (PowerAbility p : powers) {
             key.append(data.isActive(p) ? '1' : '0');
         }
         if (!key.toString().equals(this.rectsKey)) {
@@ -140,7 +141,7 @@ public class AbilityWheelScreen extends Screen {
 
         // centre: the hovered power's state as a dot
         if (this.hovered >= 0) {
-            Superpower p = powers.get(this.hovered);
+            PowerAbility p = powers.get(this.hovered);
             boolean on = data.isActive(p);
             Component state = Component.translatable(on ? "screen.powers_unchained.ability_wheel.on" : "screen.powers_unchained.ability_wheel.off");
             g.centeredText(this.font, p.title(), (int) cx, (int) (cy + OUTER * grow + 8), 0xFFFFFFFF);
@@ -152,7 +153,7 @@ public class AbilityWheelScreen extends Screen {
         super.extractRenderState(g, mouseX, mouseY, a);
     }
 
-    private static Identifier icon(Superpower p) {
+    private static Identifier icon(PowerAbility p) {
         return Constants.id("power/" + p.id());
     }
 
@@ -179,7 +180,7 @@ public class AbilityWheelScreen extends Screen {
     }
 
     /** The ring rasterised in real pixels, as runs of equal colour per row. */
-    private List<int[]> buildRects(List<Superpower> powers, PowerData data, float cx, float cy, float s, float grow) {
+    private List<int[]> buildRects(List<PowerAbility> powers, PowerData data, float cx, float cy, float s, float grow) {
         int n = powers.size();
         float step = 360.0F / n;
         float inner = INNER * grow * s;
@@ -246,7 +247,7 @@ public class AbilityWheelScreen extends Screen {
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
         if (event.button() == InputConstants.MOUSE_BUTTON_LEFT && this.minecraft.player != null) {
-            List<Superpower> powers = powers(this.minecraft.player);
+            List<PowerAbility> powers = powers(this.minecraft.player);
             int seg = this.segmentAt(event.x(), event.y(), powers.size());
             if (seg >= 0) {
                 toggle(powers.get(seg));
@@ -257,7 +258,7 @@ public class AbilityWheelScreen extends Screen {
     }
 
     /** Switches a power on / off (also used by the CI driver). */
-    public static void toggle(Superpower power) {
+    public static void toggle(PowerAbility power) {
         LocalPlayer player = net.minecraft.client.Minecraft.getInstance().player;
         if (player == null) {
             return;

@@ -35,6 +35,8 @@ public final class AbilityHudConfig {
     /** Top-left corner as a fraction of the screen size; negative = default place (left edge, middle). */
     public float x = -1.0F;
     public float y = -1.0F;
+    /** Order of the abilities on the keys (ability ids; missing ones in the default order), null = default. */
+    public java.util.List<String> abilityOrder = null;
 
     private static AbilityHudConfig instance;
 
@@ -43,6 +45,10 @@ public final class AbilityHudConfig {
             instance = load();
         }
         return instance;
+    }
+
+    public java.util.List<String> order() {
+        return this.abilityOrder != null ? this.abilityOrder : java.util.List.of();
     }
 
     public boolean hasCustomPosition() {
@@ -57,6 +63,7 @@ public final class AbilityHudConfig {
         this.scale = defaults.scale;
         this.x = defaults.x;
         this.y = defaults.y;
+        this.abilityOrder = null;
     }
 
     private void clamp() {

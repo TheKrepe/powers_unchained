@@ -79,8 +79,8 @@ public class PowersUnchainedNeoForge {
                 })
                 .playToServer(com.star_1mp.powersunchained.network.PowerTogglePayload.TYPE,
                         com.star_1mp.powersunchained.network.PowerTogglePayload.STREAM_CODEC, (payload, context) -> {
-                    com.star_1mp.powersunchained.power.Superpower power =
-                            com.star_1mp.powersunchained.power.Superpower.byId(payload.power());
+                    com.star_1mp.powersunchained.power.PowerAbility power =
+                            com.star_1mp.powersunchained.power.PowerAbility.byId(payload.power());
                     if (power != null && context.player() instanceof ServerPlayer player) {
                         com.star_1mp.powersunchained.power.Superpowers.toggle(player, power);
                     }

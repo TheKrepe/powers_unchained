@@ -48,9 +48,10 @@ public final class WebSwingClient {
 
     /** "Web Swing" on ability key 3 in the ability HUD while web-shooters are worn. */
     public static void registerHud() {
-        AbilityHud.register((player, slot) -> slot == 2 && hadWebShooters
-                ? new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_swing"), null, active)
-                : null);
+        com.star_1mp.powersunchained.client.ability.AbilitySlots.register(
+                com.star_1mp.powersunchained.client.ability.AbilitySlots.WEB_SWING, WebShooting::hasWebShooters,
+                player -> new AbilityHud.Entry(Component.translatable("ability.powers_unchained.web_swing"), null, active),
+                Component.translatable("ability.powers_unchained.web_swing"));
     }
 
     public static void setActive(boolean on) {
@@ -92,10 +93,9 @@ public final class WebSwingClient {
         if (!has && active) {
             setActive(false);
         }
-        while (PUKeyMappings.ABILITY_3.consumeClick()) {
-            if (has) {
-                setActive(!active);
-            }
+        if (com.star_1mp.powersunchained.client.ability.AbilitySlots.clicks(
+                com.star_1mp.powersunchained.client.ability.AbilitySlots.WEB_SWING) % 2 == 1 && has) {
+            setActive(!active);
         }
         boolean holding = active && mc.gui.screen() == null && mc.options.keyUse.isDown() && player.getMainHandItem().isEmpty()
                 && !player.isSpectator();

@@ -1,41 +1,30 @@
 package com.star_1mp.powersunchained.power;
 
+import java.util.List;
 import java.util.Locale;
 import net.minecraft.network.chat.Component;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Superpowers (Spider-Man's for now). Given / taken with {@code /superpower add|remove <power> [targets]}. Toggleable
- * powers show in the ability wheel and can be switched on / off there; the rest are always on while owned.
+ * Superpowers: a whole set of abilities given / taken at once with {@code /superpower add|remove <power> [targets]}
+ * (one system, like Palladium's powers).
  */
 public enum Superpower {
-    /** Crawl over walls and ceilings like Marvel's Spider-Man. */
-    WALL_CLIMBING(true, true),
-    /** Night vision (off until switched on in the wheel). */
-    NIGHT_VISION(true, false),
-    /** Warns about danger nearby. */
-    SPIDER_SENSE(true, true),
-    /** Dodge roll on the ground, front flip in the air. */
-    ROLL(false, true);
+    /** Spider-Man: wall climbing, night vision, Spider-Sense, roll (+ the ability wheel to switch them). */
+    SPIDERMAN(List.of(PowerAbility.WALL_CLIMBING, PowerAbility.NIGHT_VISION, PowerAbility.SPIDER_SENSE, PowerAbility.ROLL));
 
-    private final boolean toggleable;
-    private final boolean onByDefault;
+    private final List<PowerAbility> abilities;
 
-    Superpower(boolean toggleable, boolean onByDefault) {
-        this.toggleable = toggleable;
-        this.onByDefault = onByDefault;
+    Superpower(List<PowerAbility> abilities) {
+        this.abilities = abilities;
     }
 
     public String id() {
         return this.name().toLowerCase(Locale.ROOT);
     }
 
-    public boolean toggleable() {
-        return this.toggleable;
-    }
-
-    public boolean onByDefault() {
-        return this.onByDefault;
+    public List<PowerAbility> abilities() {
+        return this.abilities;
     }
 
     public Component title() {

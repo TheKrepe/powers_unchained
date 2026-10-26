@@ -179,6 +179,8 @@
   "screen.powers_unchained.ability_wheel": "Способности",
   "screen.powers_unchained.ability_wheel.on": "Включено",
   "screen.powers_unchained.ability_wheel.off": "Выключено",
-  "key.powers_unchained.ability_wheel": "Колесо способностей",
-  "key.powers_unchained.roll": "Кувырок"
+  "ability.powers_unchained.roll": "Кувырок",
+  "ability.powers_unchained.ability_wheel": "Колесо способностей",
+  "superpower.powers_unchained.spiderman": "Человек-Паук",
+  "screen.powers_unchained.hud_settings.order": "Порядок способностей (клавиши)"
 }
