@@ -27,15 +27,15 @@ import net.minecraft.util.Mth;
  */
 public final class AbilityWheel {
 
-    private static final float INNER = 30.0F;
-    private static final float OUTER = 84.0F;
+    private static final float INNER = 21.0F;
+    private static final float OUTER = 58.0F;
     /** Gap between two segments (GUI pixels). */
-    private static final float GAP = 3.0F;
+    private static final float GAP = 2.0F;
     private static final float BORDER = 1.0F;
     /** Ticks to open / close. */
     private static final float OPEN_TICKS = 5.0F;
     /** How far the pointer goes from the centre (GUI pixels). */
-    private static final float POINTER_RANGE = 70.0F;
+    private static final float POINTER_RANGE = 48.0F;
 
     private static final int OFF_FILL = 0xC8383D46;
     private static final int OFF_HOVER = 0xD8575E6A;
@@ -196,10 +196,10 @@ public final class AbilityWheel {
         for (int i = 0; i < n; i++) {
             float ang = segmentAngle(i, n) * Mth.DEG_TO_RAD;
             float rad = (INNER + OUTER) / 2.0F;
-            int ix = Math.round(cx + Mth.cos(ang) * rad) - 16;
-            int iy = Math.round(cy + Mth.sin(ang) * rad) - 16;
+            int ix = Math.round(cx + Mth.cos(ang) * rad) - 12;
+            int iy = Math.round(cy + Mth.sin(ang) * rad) - 12;
             int color = fade(data.isActive(powers.get(i)) ? 0xFFFFFFFF : 0xFFB4BAC4, a);
-            g.blitSprite(RenderPipelines.GUI_TEXTURED, icon(powers.get(i)), ix, iy, 32, 32, color);
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, icon(powers.get(i)), ix, iy, 24, 24, color);
         }
 
         // texts: the pointed ability's name and state
@@ -292,7 +292,7 @@ public final class AbilityWheel {
         float outer = OUTER * grow * s;
         float gap = GAP * 0.5F * s;
         float border = BORDER * s;
-        float centerR = (INNER - 5.0F) * grow * s;
+        float centerR = (INNER - 3.0F) * grow * s;
         float pcx = cx * s;
         float pcy = cy * s;
         int[] fill = new int[n];
