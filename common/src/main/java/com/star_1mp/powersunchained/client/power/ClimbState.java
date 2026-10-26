@@ -69,10 +69,10 @@ public final class ClimbState {
     }
 
     /** Dev/CI only: poses an entity (e.g. a mannequin) as climbing, its head towards {@code heading}, mid-crawl. */
-    public static void debugSet(int entityId, int mode, Direction wall, Vec3 heading) {
+    public static void debugSet(int entityId, int mode, Direction wall, @Nullable Vec3 heading) {
         set(entityId, mode, wall);
         Entry e = ENTRIES.get(entityId);
-        if (e != null) {
+        if (e != null && heading != null) {
             e.debugHeading = heading.normalize();
         }
     }

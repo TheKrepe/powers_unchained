@@ -591,13 +591,15 @@ public final class CiClientDriver {
             case 7560 -> {
                 run("kill @e[type=!player]");
                 run("gamemode creative @p");
-                run("tp @p 884.5 -59 2.5 150 12");
+                run("tp @p 881.5 -58.5 5.5 175 8");
             }
             case 7570 -> {
-                run("fill 877 -60 -3 884 -56 -3 minecraft:stone_bricks");
+                run("fill 873 -60 -3 884 -56 -3 minecraft:stone_bricks");
                 run("fill 886 -57 -5 889 -57 -1 minecraft:stone_bricks");
-                summonAt(879.5, -59.0, -1.69, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
-                summonAt(882.5, -59.0, -1.69, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
+                summonAt(876.5, -59.0, -1.69, "{NoGravity:1b,immovable:1b,Rotation:[0f,0f]," + WIDE + "," + fullSuit("spider_man") + "}");
+                summonAt(878.6, -59.0, -1.69, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
+                summonAt(880.5, -59.0, -1.69, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
+                summonAt(883.0, -59.0, -1.69, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
                 summonAt(887.5, -58.8, -3.0, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
             }
             case 7580 -> {
@@ -611,12 +613,16 @@ public final class CiClientDriver {
                 Constants.LOG.info("[CI] climbing mannequins: {}", mannequins.size());
                 net.minecraft.core.Direction north = net.minecraft.core.Direction.NORTH;
                 int wall = com.star_1mp.powersunchained.power.WallClimbing.MODE_WALL;
-                if (mannequins.size() >= 3) {
-                    com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(0).getId(), wall, north,
+                if (mannequins.size() >= 5) {
+                    // looking away from the wall (no fixed heading): back to it
+                    com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(0).getId(), wall, north, null);
+                    com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(1).getId(),
+                            com.star_1mp.powersunchained.power.WallClimbing.MODE_MANTLE, north, new net.minecraft.world.phys.Vec3(0, 1, 0));
+                    com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(2).getId(), wall, north,
                             new net.minecraft.world.phys.Vec3(0, 1, 0));
-                    com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(1).getId(), wall, north,
+                    com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(3).getId(), wall, north,
                             new net.minecraft.world.phys.Vec3(1, 0, 0));
-                    com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(2).getId(),
+                    com.star_1mp.powersunchained.client.power.ClimbState.debugSet(mannequins.get(4).getId(),
                             com.star_1mp.powersunchained.power.WallClimbing.MODE_CEILING, north, new net.minecraft.world.phys.Vec3(1, 0, 0));
                 }
             }
@@ -681,9 +687,15 @@ public final class CiClientDriver {
             case 8052 -> shot("58d_pillar_round");
             case 8064 -> {
                 mc.options.keyUp.setDown(false);
-                run("tick rate 20");
                 climbLog("pillar end");
             }
+            case 8066 -> rollKey();  // a flip off the pillar
+            case 8069 -> shot("59_wall_flip");
+            case 8072 -> {
+                rollLog();
+                climbLog("after the flip");
+            }
+            case 8080 -> run("tick rate 20");
             case 8100 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
