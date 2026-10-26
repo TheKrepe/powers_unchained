@@ -627,9 +627,9 @@ public final class CiClientDriver {
                 }
             }
             case 7600 -> shot("54_climb_poses");
-            case 7620 -> run("tp @p 880.5 -59 1.5 -150 12");
-            case 7640 -> shot("54b_climb_poses_other_side");
-            case 7660 -> {
+            case 7620 -> run("tp @p 892.5 -59 1.5 120 8");
+            case 7630 -> shot("54b_climb_ceiling_pose");
+            case 7670 -> {
                 run("kill @e[type=!player]");
                 run("time set 18000");
                 run("tp @p 860.5 -60 0.5 180 5");

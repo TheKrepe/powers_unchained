@@ -384,7 +384,7 @@ public final class WallClimbClient {
 
     private static void ceilingTick(LocalPlayer player, Vec2 move, Input keys) {
         AABB box = player.getBoundingBox();
-        if (player.onGround() || !touches(player, box.move(0.0, -0.2, 0.0), Direction.UP)) {
+        if (player.onGround() || !touches(player, box.move(0.0, 0.2, 0.0), Direction.UP)) {
             detach(player, player.getDeltaMovement(), 4);
             return;
         }
