@@ -51,7 +51,7 @@ public final class SuitCatalog {
                 new int[]{4, 7, 3, 5}, SuitTag.MARVEL, SuitTag.MOVIE);
         spider(Suits.SPIDER_MAN_MARVEL_MIDNIGHT,
                 "red 4, black 1, string 1 | red 4, black 2, purple 1, string 2 | black 3, purple 1, string 1 | red 2, black 1, string 1",
-                new int[]{4, 7, 6, 5}, SuitTag.MARVEL, SuitTag.GAMES, SuitTag.MARVEL_MIDNIGHT);
+                new int[]{4, 7, 6, 5}, SuitTag.MARVEL, SuitTag.COMICS, SuitTag.MARVEL_MIDNIGHT);
     }
 
     private SuitCatalog() {

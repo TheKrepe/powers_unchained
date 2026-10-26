@@ -333,6 +333,33 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         return w;
     }
 
+    /** Tag chips in a w-wide area starting at (x, y), at most 18 px high. */
+    private void drawTagRow(GuiGraphicsExtractor g, int x, int y, int w, List<SuitTag> tags) {
+        int full = -2;
+        for (SuitTag tag : tags) {
+            full += this.font.width(tag.title()) + 8;
+        }
+        float scale = full <= w ? 1.0F : 0.75F;
+        g.pose().pushMatrix();
+        g.pose().translate(x, y + (scale == 1.0F ? 2 : 0));
+        g.pose().scale(scale, scale);
+        float maxW = w / scale;
+        int cx = 0;
+        int cy = 0;
+        for (SuitTag tag : tags) {
+            int cw = this.font.width(tag.title()) + 6;
+            if (cx > 0 && cx + cw > maxW) {
+                cx = 0;
+                cy += 12;
+                if (scale == 1.0F || cy > 12) {
+                    break;
+                }
+            }
+            cx += this.chip(g, cx, cy, tag, true) + 2;
+        }
+        g.pose().popMatrix();
+    }
+
     private static boolean in(double mx, double my, int x, int y, int w, int h) {
         return mx >= x && my >= y && mx < x + w && my < y + h;
     }
@@ -692,17 +719,9 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 Component pcs = tr("pieces", 4);
                 g.text(this.font, pcs, rx + RIGHT_W - this.font.width(pcs), ay + 1, LABEL, false);
             }
-            // a few tags of the suit (known even while it is locked)
-            {
-                int chipX = rx;
-                for (SuitTag tag : SuitCatalog.info(suit).tags()) {
-                    int cw = this.font.width(tag.title()) + 6;
-                    if (chipX + cw > rx + RIGHT_W) {
-                        break;
-                    }
-                    chipX += this.chip(g, chipX, y + 136, tag, true) + 2;
-                }
-            }
+            // the suit's tags (known even while it is locked): full size if they fit in one row, otherwise
+            // 3/4-size chips in up to two rows, so every tag shows without crowding the menu
+            this.drawTagRow(g, rx, y + 134, RIGHT_W, SuitCatalog.info(suit).tags());
         }
 
         this.drawSewPanel(g, x + SEW_X, y + SEW_Y, mx, my, suit, locked);
