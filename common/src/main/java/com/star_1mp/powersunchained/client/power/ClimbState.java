@@ -31,12 +31,12 @@ public final class ClimbState {
     /** Body centre's height over the feet when upright. */
     private static final double CENTER = 0.9;
     /** Body centre's distance below the ceiling (the limbs reach up to it). */
-    private static final double CEILING_DROP = 0.42;
+    private static final double CEILING_DROP = 0.36;
     /**
      * Body centre's shift towards a wall: negative = away from it, so the limbs reaching onto the wall touch it
      * instead of sinking into the blocks (the centre then sits ~0.42 off the wall, like under a ceiling).
      */
-    private static final double WALL_SHIFT = -0.12;
+    private static final double WALL_SHIFT = -0.06;
     /** Lean over the top of a wall while climbing onto it (degrees). */
     private static final double MANTLE_LEAN = 42.0;
     private static final float TURN = 0.38F;
@@ -159,13 +159,14 @@ public final class ClimbState {
         float c = Mth.sin(phase) * amp;
         float lift = Math.max(0.0F, Mth.cos(phase)) * amp;
         float lift2 = Math.max(0.0F, -Mth.cos(phase)) * amp;
-        // wide frog stance: hands up and out, legs splayed to the sides; the limbs reach ~0.42 ahead (the surface)
-        rot(m.rightArm, -154.0F + 14.0F * c, 10.0F, 42.0F + 14.0F * lift, d);
-        rot(m.leftArm, -154.0F - 14.0F * c, -10.0F, -42.0F - 14.0F * lift2, d);
-        rot(m.rightLeg, -28.0F - 12.0F * c, 8.0F, 34.0F + 12.0F * lift2, d);
-        rot(m.leftLeg, -28.0F + 12.0F * c, -8.0F, -34.0F - 12.0F * lift, d);
-        rot(m.body, 4.0F, 3.0F * c, 0.0F, d);
-        rot(m.head, -38.0F, 0.0F, -4.0F * c, d);
+        // like Powerborne's wall crawl: arms up over the head, apart, legs nearly straight; arms and legs reach and
+        // pull in turn (a hand up while the other comes down, the opposite leg with it) as it moves
+        rot(m.rightArm, -162.0F - 14.0F * c, 0.0F, 14.0F + 4.0F * lift, d);
+        rot(m.leftArm, -162.0F + 14.0F * c, 0.0F, -14.0F - 4.0F * lift2, d);
+        rot(m.rightLeg, -12.0F + 14.0F * c, 0.0F, 6.0F, d);
+        rot(m.leftLeg, -12.0F - 14.0F * c, 0.0F, -6.0F, d);
+        rot(m.body, 0.0F, 3.0F * c, 0.0F, d);
+        rot(m.head, -30.0F, 0.0F, -3.0F * c, d);
 
         float out = smooth(Mth.lerp(partialTick, e.prevOut, e.out)) * d;
         if (out > 0.0F) {

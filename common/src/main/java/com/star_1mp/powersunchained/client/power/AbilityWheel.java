@@ -54,8 +54,14 @@ public final class AbilityWheel {
     private static float py;
     private static int hovered = -1;
     private static int debugHovered = -1;
-    private static List<int[]> rects = List.of();
-    private static String rectsKey = "";
+    /**
+     * The ring is rasterised once per state (hover / on-off / size) into a texture and drawn as one quad: thousands of
+     * fill quads every frame made the game lag.
+     */
+    private static final Identifier RING = Constants.id("dynamic/ability_wheel");
+    private static net.minecraft.client.renderer.texture.@org.jspecify.annotations.Nullable DynamicTexture ringTexture;
+    private static int ringSize;
+    private static String ringKey = "";
 
     private AbilityWheel() {
     }
@@ -170,26 +176,21 @@ public final class AbilityWheel {
         g.fill(0, 0, g.guiWidth(), g.guiHeight(), fade(0x38000000, a));
 
         float guiScale = (float) mc.getWindow().getGuiScale();
-        float alpha = Math.round(a * 12.0F) / 12.0F;
-        StringBuilder key = new StringBuilder().append(g.guiWidth()).append('x').append(g.guiHeight()).append('@').append(guiScale)
-                .append('h').append(hovered).append('a').append(alpha);
-        for (PowerAbility p : powers) {
-            key.append(data.isActive(p) ? '1' : '0');
-        }
-        if (!key.toString().equals(rectsKey)) {
-            rectsKey = key.toString();
-            rects = buildRects(powers, data, hovered, cx, cy, guiScale, 1.0F, alpha);
-        }
+        updateRing(powers, data, guiScale);
         g.pose().pushMatrix();
         g.pose().translate(cx, cy);
         g.pose().scale(grow);
         g.pose().translate(-cx, -cy);
-        g.pose().pushMatrix();
-        g.pose().scale(1.0F / guiScale);
-        for (int[] r : rects) {
-            g.fill(r[0], r[1], r[2], r[3], r[4]);
+        if (ringTexture != null) {
+            // one quad in real pixels, faded with the open animation
+            g.pose().pushMatrix();
+            g.pose().translate(cx, cy);
+            g.pose().scale(1.0F / guiScale);
+            int half = ringSize / 2;
+            g.blit(RenderPipelines.GUI_TEXTURED, RING, -half, -half, 0.0F, 0.0F, ringSize, ringSize, ringSize, ringSize, ringSize, ringSize,
+                    fade(0xFFFFFFFF, a));
+            g.pose().popMatrix();
         }
-        g.pose().popMatrix();
 
         // icons
         for (int i = 0; i < n; i++) {
@@ -223,6 +224,40 @@ public final class AbilityWheel {
             g.fill(x - 2, y - 2, x + 3, y + 3, fade(0xC0000000, a));
             g.fill(x - 1, y - 1, x + 2, y + 2, fade(0xFFFFFFFF, a));
         }
+    }
+
+    /** Re-rasterises the ring texture when the hovered segment, a state or the GUI scale changed. */
+    private static void updateRing(List<PowerAbility> powers, PowerData data, float guiScale) {
+        StringBuilder key = new StringBuilder().append(guiScale).append('h').append(hovered).append('n').append(powers.size());
+        for (PowerAbility p : powers) {
+            key.append(data.isActive(p) ? '1' : '0');
+        }
+        if (key.toString().equals(ringKey) && ringTexture != null) {
+            return;
+        }
+        ringKey = key.toString();
+        int size = Mth.ceil(OUTER * 2.0F * guiScale) + 4;
+        size += size & 1;
+        Minecraft mc = Minecraft.getInstance();
+        if (ringTexture == null || ringSize != size) {
+            if (ringTexture != null) {
+                mc.getTextureManager().release(RING);
+            }
+            ringTexture = new net.minecraft.client.renderer.texture.DynamicTexture(() -> "powers_unchained ability wheel", size, size, true);
+            mc.getTextureManager().register(RING, ringTexture);
+            ringSize = size;
+        }
+        com.mojang.blaze3d.platform.NativeImage image = ringTexture.getPixels();
+        image.fillRect(0, 0, size, size, 0);
+        float c = size / 2.0F / guiScale;
+        for (int[] r : buildRects(powers, data, hovered, c, c, guiScale, 1.0F, 1.0F)) {
+            int x0 = Math.max(0, r[0]);
+            int x1 = Math.min(size, r[2]);
+            if (r[1] >= 0 && r[1] < size && x1 > x0) {
+                image.fillRect(x0, r[1], x1 - x0, 1, r[4]);
+            }
+        }
+        ringTexture.upload();
     }
 
     private static Identifier icon(PowerAbility p) {
