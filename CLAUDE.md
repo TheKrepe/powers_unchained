@@ -221,7 +221,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   — arms up over the head and APART, legs nearly straight, diagonal gait with the knee drawn up), body centre ~0.45 off
   walls/ceilings so limbs touch the surface instead of sinking in; looking away from a wall = PERCH back to the wall (owner's
   WallPerching video: crouched, knees out, hands gripping behind) and NO crawling; looking along the wall while still =
-  side-on perch (wall-side hand on the wall, crouched, free leg crossed over the wall leg), moving = normal crawl. NOTE raised arms (xRot ~-164) roll
+  side-on perch (wall-side hand on the wall, crouched, free leg hanging straight down, a bit out from the wall), moving = normal crawl. NOTE raised arms (xRot ~-164) roll
   OUTWARDS with -z for the right arm / +z left (the opposite of hanging arms) — +z crossed them over the head; `MODE_MANTLE`
   = climbing-over pose during the mantle script; `CameraMixin` lowers the third person camera under ceilings), `RollClient` / `RollAnimation`
   (ground dodge roll 10 ticks at 0.85, air front flip 13 ticks once per jump; roll key while clinging = flip off
