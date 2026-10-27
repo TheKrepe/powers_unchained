@@ -210,9 +210,11 @@ public final class ClimbState {
             rot(wallArm, -172.0F, 0.0F, -16.0F * k, side);
             rot(freeArm, -24.0F, 0.0F, -10.0F * k, side);
             // legs as in the owner's picture: the wall-side leg stretched down and out to the wall, the other leg
-            // forward with the knee up in front
+            // laid over it (crossed in front of it, towards the wall)
             rot(wallLeg, 14.0F, 0.0F, 30.0F * k, side);
-            rot(freeLeg, -52.0F, -10.0F * k, -8.0F * k, side);
+            rot(freeLeg, -20.0F, 8.0F * k, 34.0F * k, side);
+            freeLeg.x = Mth.lerp(side, freeLeg.x, freeLeg.x - 2.0F * k);
+            freeLeg.z = Mth.lerp(side, freeLeg.z, freeLeg.z - 1.5F);
             m.rightLeg.y = Mth.lerp(side, m.rightLeg.y, 12.0F);
             m.leftLeg.y = Mth.lerp(side, m.leftLeg.y, 12.0F);
             rot(m.body, 6.0F, 0.0F, 0.0F, side);

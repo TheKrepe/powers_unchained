@@ -607,7 +607,7 @@ public final class CiClientDriver {
                 summonAt(883.0, -59.0, -1.69, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
                 summonAt(887.5, -58.8, -3.0, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
                 // upside down on the web (rappel pose)
-                summonAt(893.5, -58.0, -2.5, "{NoGravity:1b,immovable:1b,Rotation:[0f,0f]," + WIDE + "," + fullSuit("spider_man") + "}");
+                summonAt(893.5, -58.0, -2.5, "{NoGravity:1b,immovable:1b,pose:\"crouching\",Rotation:[0f,0f]," + WIDE + "," + fullSuit("spider_man") + "}");
             }
             case 7580 -> {
                 java.util.List<net.minecraft.world.entity.Entity> mannequins = new java.util.ArrayList<>();

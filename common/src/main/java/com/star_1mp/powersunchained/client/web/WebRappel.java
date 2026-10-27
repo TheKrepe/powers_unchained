@@ -115,10 +115,10 @@ public final class WebRappel {
         m.head.yRot = rotLerp(d, m.head.yRot, -m.head.yRot);
         m.body.xRot -= 0.5F * d;
 
-        m.rightArm.x -= 0.5F * d;
+        // (Fisk's file moves the LEFT arm -0.5 in the right arm's block and +0.5 in its own: they cancel, the right
+        // arm keeps its x — kept exactly so)
         m.rightArm.z -= 0.2F * d;
         to(m.rightArm, -0.5F, -1.2F, 0.0F, d);
-        m.leftArm.x += 0.5F * d;
         m.leftArm.z -= 0.2F * d;
         to(m.leftArm, -0.5F, 1.2F, 0.0F, d);
 
