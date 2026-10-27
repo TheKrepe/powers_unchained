@@ -643,8 +643,12 @@ public final class CiClientDriver {
             }
             case 7598 -> shot("54_climb_poses");
             case 7606 -> run("tick rate 20");
-            case 7608 -> run("tp @p 875.4 -58.6 1.4 196 4");  // close-up of the two perches
-            case 7616 -> shot("54c_perch_close");
+            case 7608 -> {
+                run("tp @p 872.0 -58.6 0.6 235 6");  // close-up of the side perch, from the front
+                run("tick rate 4");
+            }
+            case 7612 -> shot("54c_perch_close");
+            case 7618 -> run("tick rate 20");
             case 7620 -> run("tp @p 892.5 -59 1.5 120 8");
             case 7630 -> shot("54b_climb_ceiling_pose");
             case 7670 -> {
