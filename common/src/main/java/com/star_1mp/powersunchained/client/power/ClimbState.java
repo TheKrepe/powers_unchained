@@ -31,7 +31,7 @@ public final class ClimbState {
     /** Body centre's height over the feet when upright. */
     private static final double CENTER = 0.9;
     /** Body centre's distance below the ceiling (the limbs reach up to it). */
-    private static final double CEILING_DROP = 0.45;
+    private static final double CEILING_DROP = 0.17;
     /**
      * Body centre's shift towards a wall: negative = away from it, so the limbs reaching onto the wall touch it
      * instead of sinking into the blocks (the centre then sits ~0.42 off the wall, like under a ceiling).
@@ -167,10 +167,15 @@ public final class ClimbState {
         // arms in a wide V over the head (like Marvel Legacy's crawl: well apart, out to the sides), reaching in turn
         // NOTE: for an arm raised over the head the roll goes the other way: outwards is -z for the right arm
         // (with +z the raised arms crossed over the head — the "joined hands" the owner saw)
-        rot(m.rightArm, -164.0F - 10.0F * c, 0.0F, -40.0F - 12.0F * up, d);
-        rot(m.leftArm, -164.0F + 10.0F * c, 0.0F, 40.0F + 12.0F * down, d);
-        rot(m.rightLeg, -16.0F + 14.0F * c, 0.0F, 8.0F + 6.0F * down, d);
-        rot(m.leftLeg, -16.0F - 14.0F * c, 0.0F, -8.0F - 6.0F * up, d);
+        // owner: arms closer together, like Powerborne (both up over the head, about shoulder width, a little apart);
+        // on a ceiling the body lies right against the blocks, so the limbs stay flatter along it
+        float flat = smooth(Mth.lerp(partialTick, e.prevCeiling, e.ceiling));
+        float armX = Mth.lerp(flat, -160.0F, -172.0F);
+        float legX = Mth.lerp(flat, -16.0F, -4.0F);
+        rot(m.rightArm, armX - 10.0F * c, 0.0F, -12.0F - 8.0F * up, d);
+        rot(m.leftArm, armX + 10.0F * c, 0.0F, 12.0F + 8.0F * down, d);
+        rot(m.rightLeg, legX + 14.0F * c, 0.0F, 8.0F + 6.0F * down, d);
+        rot(m.leftLeg, legX - 14.0F * c, 0.0F, -8.0F - 6.0F * up, d);
         // the drawn-up knee: its hip lifts a little
         m.rightLeg.y = Mth.lerp(d, m.rightLeg.y, 12.0F - 2.5F * down);
         m.leftLeg.y = Mth.lerp(d, m.leftLeg.y, 12.0F - 2.5F * up);
@@ -197,14 +202,16 @@ public final class ClimbState {
             ModelPart freeArm = k > 0 ? m.leftArm : m.rightArm;
             ModelPart wallLeg = k > 0 ? m.rightLeg : m.leftLeg;
             ModelPart freeLeg = k > 0 ? m.leftLeg : m.rightLeg;
-            rot(wallArm, -28.0F, 0.0F, 84.0F * k, side);
-            rot(freeArm, -52.0F, 8.0F * k, -12.0F * k, side);
-            rot(wallLeg, -48.0F, 0.0F, 16.0F * k, side);
-            rot(freeLeg, -74.0F, 0.0F, -14.0F * k, side);
+            // (like the WallPerching video: squatting side-on, the wall-side hand up on the wall above the shoulder,
+            // the other hand resting forward, thighs up like sitting)
+            rot(wallArm, -148.0F, 0.0F, -30.0F * k, side);
+            rot(freeArm, -42.0F, -6.0F * k, -8.0F * k, side);
+            rot(m.rightLeg, -78.0F, 14.0F, 4.0F, side);
+            rot(m.leftLeg, -78.0F, -14.0F, -4.0F, side);
             m.rightLeg.y = Mth.lerp(side, m.rightLeg.y, 12.0F);
             m.leftLeg.y = Mth.lerp(side, m.leftLeg.y, 12.0F);
-            rot(m.body, 18.0F, 0.0F, 6.0F * k, side);
-            rot(m.head, -6.0F, 0.0F, 0.0F, side);
+            rot(m.body, 10.0F, 0.0F, 0.0F, side);
+            rot(m.head, 0.0F, 0.0F, 0.0F, side);
         }
         float mantle = smooth(Mth.lerp(partialTick, e.prevMantle, e.mantle)) * d;
         if (mantle > 0.0F) {
@@ -330,7 +337,8 @@ public final class ClimbState {
             } else if (this.sidePerch && this.sideFacing != null) {
                 // side-on to the wall, facing along it
                 target = basis(this.sideFacing, new Vec3(0.0, 1.0, 0.0));
-                targetOffset = new Vec3(0.0, CENTER, 0.0).add(n.scale(0.02));
+                // side-on the body is wider towards the wall (shoulder + arm): keep it out of the blocks
+                targetOffset = new Vec3(0.0, CENTER, 0.0).add(n.scale(-0.16));
             } else if (this.mode == WallClimbing.MODE_CEILING) {
                 target = basis(new Vec3(0.0, 1.0, 0.0), this.heading);
                 targetOffset = new Vec3(0.0, entity.getBbHeight() - CEILING_DROP, 0.0);
