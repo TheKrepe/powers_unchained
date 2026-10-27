@@ -185,11 +185,11 @@ public final class ClimbState {
         float out = smooth(Mth.lerp(partialTick, e.prevOut, e.out)) * d;
         if (out > 0.0F) {
             // perched, back to the wall (the WallPerching video): upright against it, arms down and out at the sides
-            // with the hands on the wall behind, the right leg straight down, the left knee drawn up
+            // with the hands on the wall behind, both legs straight down against it (owner)
             rot(m.rightArm, 16.0F, 0.0F, 34.0F, out);
             rot(m.leftArm, 16.0F, 0.0F, -34.0F, out);
             rot(m.rightLeg, 6.0F, 0.0F, 5.0F, out);
-            rot(m.leftLeg, -72.0F, 8.0F, -4.0F, out);
+            rot(m.leftLeg, 6.0F, 0.0F, -5.0F, out);
             m.rightLeg.y = Mth.lerp(out, m.rightLeg.y, 12.0F);
             m.leftLeg.y = Mth.lerp(out, m.leftLeg.y, 12.0F);
             rot(m.body, 0.0F, 0.0F, 0.0F, out);

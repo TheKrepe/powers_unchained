@@ -29,7 +29,15 @@ public abstract class CameraMixin {
 
     @Inject(method = "alignWithEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setPosition(DDD)V", shift = At.Shift.AFTER))
     private void powers_unchained$ceilingCamera(float partialTicks, CallbackInfo ci) {
-        if (this.entity == null || Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
+        if (this.entity == null) {
+            return;
+        }
+        // upside down on the web: the eyes are near the bottom of the turned-over body
+        float r = com.star_1mp.powersunchained.client.web.WebRappel.weight(this.entity.getId(), partialTicks);
+        if (r > 0.0F) {
+            this.setPosition(this.position.add(0.0, -(this.entity.getEyeHeight() - 0.22) * r, 0.0));
+        }
+        if (Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
             return;
         }
         float w = ClimbState.ceilingWeight(this.entity.getId(), partialTicks);

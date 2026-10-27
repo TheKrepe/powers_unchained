@@ -183,6 +183,11 @@ public class WebSwingLine extends WebZipLine {
         return false;
     }
 
+    /** Shooter's client: a new rope length (rappelling with the mouse wheel). */
+    public void setLocalLength(float length) {
+        this.localLength = length;
+    }
+
     /** Rope length: measured when it caught. */
     public float length() {
         return this.localLength > 0.0F ? this.localLength : this.getLength();

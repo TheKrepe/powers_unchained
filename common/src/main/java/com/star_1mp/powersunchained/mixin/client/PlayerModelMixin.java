@@ -23,6 +23,7 @@ public abstract class PlayerModelMixin {
         WebArmAnimation.apply((PlayerModel) (Object) this, state.id, partialTick);
         // after the web shot arm poses: the zip poses take over the arms while zipping
         WebZipAnimation.applyParts((PlayerModel) (Object) this, state.id, partialTick);
+        com.star_1mp.powersunchained.client.web.WebRappel.applyParts((PlayerModel) (Object) this, state.id, partialTick);
         com.star_1mp.powersunchained.client.power.ClimbState.applyParts((PlayerModel) (Object) this, state.id, partialTick);
         com.star_1mp.powersunchained.client.power.RollAnimation.applyParts((PlayerModel) (Object) this, state.id, partialTick);
         com.star_1mp.powersunchained.client.suitcreator.SuitHologram.applyPose((PlayerModel) (Object) this, state);

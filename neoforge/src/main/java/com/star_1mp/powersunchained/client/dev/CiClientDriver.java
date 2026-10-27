@@ -606,6 +606,8 @@ public final class CiClientDriver {
                 summonAt(880.5, -59.0, -1.69, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
                 summonAt(883.0, -59.0, -1.69, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
                 summonAt(887.5, -58.8, -3.0, "{NoGravity:1b,immovable:1b," + WIDE + "," + fullSuit("spider_man") + "}");
+                // upside down on the web (rappel pose)
+                summonAt(893.5, -58.0, -2.5, "{NoGravity:1b,immovable:1b,Rotation:[0f,0f]," + WIDE + "," + fullSuit("spider_man") + "}");
             }
             case 7580 -> {
                 java.util.List<net.minecraft.world.entity.Entity> mannequins = new java.util.ArrayList<>();
@@ -615,6 +617,9 @@ public final class CiClientDriver {
                     }
                 }
                 mannequins.sort(java.util.Comparator.comparingDouble(net.minecraft.world.entity.Entity::getX));
+                if (!mannequins.isEmpty() && mannequins.getLast().getX() > 892.0) {
+                    com.star_1mp.powersunchained.client.web.WebRappel.set(mannequins.removeLast().getId(), true);
+                }
                 Constants.LOG.info("[CI] climbing mannequins: {}", mannequins.size());
                 net.minecraft.core.Direction north = net.minecraft.core.Direction.NORTH;
                 int wall = com.star_1mp.powersunchained.power.WallClimbing.MODE_WALL;
@@ -651,6 +656,12 @@ public final class CiClientDriver {
             case 7618 -> run("tick rate 20");
             case 7620 -> run("tp @p 892.5 -59 1.5 120 8");
             case 7630 -> shot("54b_climb_ceiling_pose");
+            case 7640 -> {
+                run("tp @p 893.5 -58.3 2.2 180 0");
+                run("tick rate 4");
+            }
+            case 7644 -> shot("54d_web_rappel_pose");
+            case 7652 -> run("tick rate 20");
             case 7670 -> {
                 run("kill @e[type=!player]");
                 run("time set 18000");

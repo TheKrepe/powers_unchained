@@ -135,10 +135,18 @@ public class PowersUnchainedNeoForgeClient {
             com.star_1mp.powersunchained.client.ability.AbilitySlots.tick();  // which ability is on which key, before they read them
             WebShooterClient.tick();
             WebSwingClient.tick();
+            com.star_1mp.powersunchained.client.web.WebRappel.tick();
             WebShotTracker.tick();
             WebZipAnimation.tick();
             com.star_1mp.powersunchained.client.suitcreator.SuitCreatorClient.tick();
             com.star_1mp.powersunchained.client.power.PowerClient.tick();
+        });
+        // upside down on the web: the camera turns over too (Fisk's camera roll)
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.ViewportEvent.ComputeCameraAngles event) -> {
+            float roll = com.star_1mp.powersunchained.client.web.WebRappel.cameraRoll((float) event.getPartialTick());
+            if (roll != 0.0F) {
+                event.setRoll(event.getRoll() + roll);
+            }
         });
         // the ability wheel: while open the mouse moves its pointer, not the camera
         NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.CalculatePlayerTurnEvent event) -> {
@@ -162,7 +170,7 @@ public class PowersUnchainedNeoForgeClient {
         NeoForge.EVENT_BUS.addListener(EventPriority.HIGHEST, (RenderArmEvent event) ->
                 WebArmAnimation.applyFirstPerson(event.getPoseStack(), event.getArm(), event.getArmPart()));
         NeoForge.EVENT_BUS.addListener((InputEvent.MouseScrollingEvent event) -> {
-            if (WebShooterClient.onScroll(event.getScrollDeltaY())) {
+            if (WebShooterClient.onScroll(event.getScrollDeltaY()) || WebSwingClient.onScroll(event.getScrollDeltaY())) {
                 event.setCanceled(true);
             }
         });

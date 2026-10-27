@@ -172,6 +172,11 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
             // Fisk's rope: from the anchor to the wrist (or, after letting go, to the falling loose end), sagging
             // when slack
             Vec3 dst = line.isDetached() ? line.prevEnd.lerp(line.end, partialTick) : handPosition(line, living, end, partialTick);
+            float upsideDown = line.isDetached() ? 0.0F : WebRappel.weight(living.getId(), partialTick);
+            if (upsideDown > 0.0F) {
+                // upside down on the rope (web rappel): it holds the feet, now at the top
+                dst = dst.lerp(living.getPosition(partialTick).add(0.0, living.getBbHeight() + 0.05, 0.0), upsideDown);
+            }
             float slack = 1.0F - Mth.lerp(partialTick, line.prevTension, line.tension);
             Vec3 mid;
             if (end.y > dst.y) {

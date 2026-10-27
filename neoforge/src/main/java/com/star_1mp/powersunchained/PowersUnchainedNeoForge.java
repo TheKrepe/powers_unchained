@@ -115,6 +115,16 @@ public class PowersUnchainedNeoForge {
                 .playToClient(com.star_1mp.powersunchained.network.SenseAlertSyncPayload.TYPE,
                         com.star_1mp.powersunchained.network.SenseAlertSyncPayload.STREAM_CODEC, (payload, context) ->
                                 com.star_1mp.powersunchained.client.power.SpiderSenseLayer.onAlert(payload.entityId()))
+                .playToServer(com.star_1mp.powersunchained.network.WebRappelPayload.TYPE,
+                        com.star_1mp.powersunchained.network.WebRappelPayload.STREAM_CODEC, (payload, context) -> {
+                    if (context.player() instanceof ServerPlayer player) {
+                        com.star_1mp.powersunchained.platform.Services.GAMEPLAY.sendToTrackingAndSelf(player,
+                                new com.star_1mp.powersunchained.network.WebRappelSyncPayload(player.getId(), payload.on()));
+                    }
+                })
+                .playToClient(com.star_1mp.powersunchained.network.WebRappelSyncPayload.TYPE,
+                        com.star_1mp.powersunchained.network.WebRappelSyncPayload.STREAM_CODEC, (payload, context) ->
+                                com.star_1mp.powersunchained.client.web.WebRappel.onSync(payload.entityId(), payload.on()))
                 .playToClient(WebShotAnimPayload.TYPE, WebShotAnimPayload.STREAM_CODEC,
                         (payload, context) -> WebShotTracker.onShot(payload.entityId(), payload.side())));
         CiServerHook.register();

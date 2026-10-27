@@ -11,6 +11,7 @@ import com.star_1mp.powersunchained.web.WebShooting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 
 /**
@@ -33,6 +34,10 @@ public final class WebSwingClient {
     private static int momentumTicks;
     private static final int MOMENTUM_TICKS = 40;
     private static final double MOMENTUM = 1.05;
+    /** Upside down on the rope (Fisk's web rappel), the wheel's rope direction (+1 up / -1 down) and target length. */
+    private static boolean rappelling;
+    private static int rappelDir;
+    private static float rappelTarget = -1.0F;
 
     private WebSwingClient() {
     }
@@ -150,9 +155,13 @@ public final class WebSwingClient {
         WebSwingLine line = WebSwingLine.of(player);
         if (line == null) {
             groundTicks = 0;
+            setRappel(player, false);
+            rappelDir = 0;
+            rappelTarget = -1.0F;
             return;
         }
         Minecraft mc = Minecraft.getInstance();
+        rappelTick(player, line, mc);
         if (!line.applySwing(player, mc.options.keyJump.isDown())) {
             line.letGo();  // the rope snapped
             Services.GAMEPLAY.sendToServer(new WebSwingPayload(WebSwingPayload.DROP));
@@ -167,6 +176,58 @@ public final class WebSwingClient {
         } else {
             groundTicks = 0;
         }
+    }
+
+    /**
+     * Fisk's web rappel: hanging on a caught rope (not on the ground), sneak flips you upside down once you hang
+     * (nearly) still, and keeps you there while held; the mouse wheel then lets the rope out / pulls it in 0.1 a tick
+     * (another notch the other way stops); a changed rope is dropped on landing.
+     */
+    private static void rappelTick(Player player, WebSwingLine line, Minecraft mc) {
+        boolean caught = line.isCaught() && line.getHooked() == null && line.holdsShooter();
+        double moved = player.position().distanceTo(new net.minecraft.world.phys.Vec3(player.xo, player.yo, player.zo));
+        boolean want = caught && !player.onGround() && mc.options.keyShift.isDown() && (rappelling || moved < 0.05);
+        setRappel(player, want);
+        if (rappelDir != 0) {
+            if (WebRappel.timer(player.getId()) < 1.0F) {
+                rappelDir = 0;
+            } else {
+                if (rappelTarget < 0.0F) {
+                    rappelTarget = line.length();
+                }
+                float f = Math.max(rappelTarget - 0.1F * rappelDir, 0.5F);
+                if (f != rappelTarget) {
+                    rappelTarget = f;
+                    line.setLocalLength(f);
+                } else {
+                    rappelDir = 0;
+                }
+            }
+        }
+        if (rappelTarget >= 0.0F && player.onGround()) {
+            rappelTarget = -1.0F;
+            line.letGo();
+            Services.GAMEPLAY.sendToServer(new WebSwingPayload(WebSwingPayload.DROP));
+        }
+    }
+
+    private static void setRappel(Player player, boolean on) {
+        if (rappelling != on) {
+            rappelling = on;
+            WebRappel.set(player.getId(), on);
+            Services.GAMEPLAY.sendToServer(new com.star_1mp.powersunchained.network.WebRappelPayload(player.getId(), on));
+        }
+    }
+
+    /** Mouse wheel while upside down: rope out / in. @return whether the wheel was used */
+    public static boolean onScroll(double deltaY) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null || deltaY == 0 || !rappelling || WebRappel.timer(player.getId()) < 1.0F) {
+            return false;
+        }
+        // wheel up = climb (shorter rope), down = lower
+        rappelDir = Mth.clamp(rappelDir + (deltaY > 0 ? 1 : -1), -1, 1);
+        return true;
     }
 
     /** @return {@code true} if the use key belongs to web swinging now (then normal item use must be cancelled) */

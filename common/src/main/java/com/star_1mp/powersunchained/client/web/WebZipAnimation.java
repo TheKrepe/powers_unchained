@@ -263,7 +263,7 @@ public final class WebZipAnimation {
         if (land > 0.0F) {
             applyLanding(model, s.landKind, smooth(land));
         }
-        float hang = smooth(s.swing(partialTick));
+        float hang = smooth(s.swing(partialTick)) * (1.0F - WebRappel.weight(entityId, partialTick));
         if (hang > 0.0F) {
             applyHang(model, s.swingKind, hang, mot, s.swingTime(partialTick));
         }
@@ -576,7 +576,7 @@ public final class WebZipAnimation {
         if (s == null) {
             return;
         }
-        float hang = smooth(s.swing(partialTick));
+        float hang = smooth(s.swing(partialTick)) * (1.0F - WebRappel.weight(entityId, partialTick));
         if (hang > 0.0F) {
             hangAlongRope(poseStack, s, partialTick, scale, bodyYaw, hang);
         }
@@ -728,7 +728,7 @@ public final class WebZipAnimation {
     public static float firstPersonHangWeight(float pt) {
         Minecraft mc = Minecraft.getInstance();
         State s = mc.player != null ? STATES.get(mc.player.getId()) : null;
-        return s == null ? 0.0F : smooth(s.swing(pt));
+        return s == null ? 0.0F : smooth(s.swing(pt)) * (1.0F - WebRappel.weight(mc.player.getId(), pt));
     }
 
     /** First person: unit direction from the eye to the local player's rope anchor in view space (x right, y up, -z ahead). */
