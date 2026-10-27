@@ -184,14 +184,15 @@ public final class ClimbState {
 
         float out = smooth(Mth.lerp(partialTick, e.prevOut, e.out)) * d;
         if (out > 0.0F) {
-            // perched, back to the wall: crouched, knees out, hands down at the sides gripping the wall behind
-            rot(m.rightArm, 24.0F, 0.0F, 58.0F, out);
-            rot(m.leftArm, 24.0F, 0.0F, -58.0F, out);
-            rot(m.rightLeg, -64.0F, 10.0F, 26.0F, out);
-            rot(m.leftLeg, -64.0F, -10.0F, -26.0F, out);
+            // perched, back to the wall (the WallPerching video): upright against it, arms down and out at the sides
+            // with the hands on the wall behind, the right leg straight down, the left knee drawn up
+            rot(m.rightArm, 16.0F, 0.0F, 34.0F, out);
+            rot(m.leftArm, 16.0F, 0.0F, -34.0F, out);
+            rot(m.rightLeg, 6.0F, 0.0F, 5.0F, out);
+            rot(m.leftLeg, -72.0F, 8.0F, -4.0F, out);
             m.rightLeg.y = Mth.lerp(out, m.rightLeg.y, 12.0F);
             m.leftLeg.y = Mth.lerp(out, m.leftLeg.y, 12.0F);
-            rot(m.body, 14.0F, 0.0F, 0.0F, out);
+            rot(m.body, 0.0F, 0.0F, 0.0F, out);
             rot(m.head, 4.0F, 0.0F, 0.0F, out);
         }
         float side = smooth(Mth.lerp(partialTick, e.prevSide, e.side)) * d;
@@ -204,13 +205,15 @@ public final class ClimbState {
             ModelPart freeLeg = k > 0 ? m.leftLeg : m.rightLeg;
             // (like the WallPerching video: squatting side-on, the wall-side hand up on the wall above the shoulder,
             // the other hand resting forward, thighs up like sitting)
-            rot(wallArm, -148.0F, 0.0F, -30.0F * k, side);
-            rot(freeArm, -42.0F, -6.0F * k, -8.0F * k, side);
-            rot(m.rightLeg, -78.0F, 14.0F, 4.0F, side);
-            rot(m.leftLeg, -78.0F, -14.0F, -4.0F, side);
+            // (the body leans its top against the wall — see the orientation; raised arms roll outwards with -z for
+            // the right arm, hanging ones with +z)
+            rot(wallArm, -172.0F, 0.0F, -16.0F * k, side);
+            rot(freeArm, -24.0F, 0.0F, -10.0F * k, side);
+            rot(wallLeg, -70.0F, 6.0F * k, 10.0F * k, side);
+            rot(freeLeg, -84.0F, -10.0F * k, -6.0F * k, side);
             m.rightLeg.y = Mth.lerp(side, m.rightLeg.y, 12.0F);
             m.leftLeg.y = Mth.lerp(side, m.leftLeg.y, 12.0F);
-            rot(m.body, 10.0F, 0.0F, 0.0F, side);
+            rot(m.body, 6.0F, 0.0F, 0.0F, side);
             rot(m.head, 0.0F, 0.0F, 0.0F, side);
         }
         float mantle = smooth(Mth.lerp(partialTick, e.prevMantle, e.mantle)) * d;
@@ -335,10 +338,13 @@ public final class ClimbState {
                 target = basis(n.scale(-1.0), new Vec3(0.0, 1.0, 0.0));
                 targetOffset = new Vec3(0.0, CENTER, 0.0).add(n.scale(0.06));
             } else if (this.sidePerch && this.sideFacing != null) {
-                // side-on to the wall, facing along it
-                target = basis(this.sideFacing, new Vec3(0.0, 1.0, 0.0));
-                // side-on the body is wider towards the wall (shoulder + arm): keep it out of the blocks
-                targetOffset = new Vec3(0.0, CENTER, 0.0).add(n.scale(-0.16));
+                // side-on to the wall, facing along it, its top leaning against the wall (like the video)
+                double lean = Math.toRadians(12.0);
+                Vec3 up = new Vec3(0.0, 1.0, 0.0).scale(Math.cos(lean)).add(n.scale(Math.sin(lean)));
+                target = basis(this.sideFacing, up);
+                // side-on the body is wider towards the wall (shoulder + arm): keep it out of the blocks; a bit lower
+                // (crouched)
+                targetOffset = new Vec3(0.0, CENTER - 0.12, 0.0).add(n.scale(-0.18));
             } else if (this.mode == WallClimbing.MODE_CEILING) {
                 target = basis(new Vec3(0.0, 1.0, 0.0), this.heading);
                 targetOffset = new Vec3(0.0, entity.getBbHeight() - CEILING_DROP, 0.0);
