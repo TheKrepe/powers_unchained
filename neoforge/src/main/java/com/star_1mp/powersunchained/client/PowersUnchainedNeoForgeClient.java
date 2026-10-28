@@ -78,9 +78,9 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 @Mod(value = Constants.MOD_ID, dist = Dist.CLIENT)
 public class PowersUnchainedNeoForgeClient {
 
-    public PowersUnchainedNeoForgeClient(IEventBus modEventBus, net.neoforged.fml.ModContainer container) {
+    public PowersUnchainedNeoForgeClient(IEventBus modEventBus, net.neoforged.fml.ModContainer modContainer) {
         // "Config" in the mod list = the Powers Unchained settings
-        container.registerExtensionPoint(net.neoforged.neoforge.client.gui.IConfigScreenFactory.class,
+        modContainer.registerExtensionPoint(net.neoforged.neoforge.client.gui.IConfigScreenFactory.class,
                 (mod, parent) -> new com.star_1mp.powersunchained.client.ability.ModSettingsScreen(parent));
         modEventBus.addListener(PowersUnchainedNeoForgeClient::registerLayerDefinitions);
         modEventBus.addListener(PowersUnchainedNeoForgeClient::addLayers);
