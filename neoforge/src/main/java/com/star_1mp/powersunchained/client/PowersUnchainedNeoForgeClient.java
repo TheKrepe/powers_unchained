@@ -23,7 +23,6 @@ import com.star_1mp.powersunchained.Constants;
 import com.star_1mp.powersunchained.client.input.PUKeyMappings;
 import com.star_1mp.powersunchained.client.web.WebShooterClient;
 import com.star_1mp.powersunchained.client.ability.AbilityHud;
-import com.star_1mp.powersunchained.client.ability.AbilityHudConfigScreen;
 import com.star_1mp.powersunchained.client.web.ClientWebShootersTooltip;
 import com.star_1mp.powersunchained.client.web.WebCocoonRenderer;
 import com.star_1mp.powersunchained.client.web.WebOverlay;
@@ -79,7 +78,10 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 @Mod(value = Constants.MOD_ID, dist = Dist.CLIENT)
 public class PowersUnchainedNeoForgeClient {
 
-    public PowersUnchainedNeoForgeClient(IEventBus modEventBus) {
+    public PowersUnchainedNeoForgeClient(IEventBus modEventBus, net.neoforged.fml.ModContainer container) {
+        // "Config" in the mod list = the Powers Unchained settings
+        container.registerExtensionPoint(net.neoforged.neoforge.client.gui.IConfigScreenFactory.class,
+                (mod, parent) -> new com.star_1mp.powersunchained.client.ability.ModSettingsScreen(parent));
         modEventBus.addListener(PowersUnchainedNeoForgeClient::registerLayerDefinitions);
         modEventBus.addListener(PowersUnchainedNeoForgeClient::addLayers);
         modEventBus.addListener(PowersUnchainedNeoForgeClient::registerRenderStateModifiers);
@@ -129,7 +131,7 @@ public class PowersUnchainedNeoForgeClient {
         NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post event) -> {
             while (PUKeyMappings.HUD_SETTINGS.consumeClick()) {
                 if (Minecraft.getInstance().gui.screen() == null) {
-                    Minecraft.getInstance().gui.setScreen(new AbilityHudConfigScreen());
+                    Minecraft.getInstance().gui.setScreen(new com.star_1mp.powersunchained.client.ability.ModSettingsScreen(null));
                 }
             }
             com.star_1mp.powersunchained.client.ability.AbilitySlots.tick();  // which ability is on which key, before they read them

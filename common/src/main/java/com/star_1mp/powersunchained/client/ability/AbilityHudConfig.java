@@ -37,6 +37,11 @@ public final class AbilityHudConfig {
     public float y = -1.0F;
     /** Order of the abilities on the keys (ability ids; missing ones in the default order), null = default. */
     public java.util.List<String> abilityOrder = null;
+    /**
+     * The player's own ability set (Ability Settings): one ability id per key, {@link AbilitySlots#NONE} = no ability;
+     * null = automatic (every ability the player has, in the default order).
+     */
+    public java.util.List<String> abilitySlots = null;
 
     private static AbilityHudConfig instance;
 
@@ -63,7 +68,6 @@ public final class AbilityHudConfig {
         this.scale = defaults.scale;
         this.x = defaults.x;
         this.y = defaults.y;
-        this.abilityOrder = null;
     }
 
     private void clamp() {

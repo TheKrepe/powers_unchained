@@ -76,8 +76,8 @@
   "ability.powers_unchained.web_zip": "Web Zip",
   "entity.powers_unchained.web_zip_line": "Web Zip Line",
   "entity.powers_unchained.web_cocoon": "Web Cocoon",
-  "key.powers_unchained.hud_settings": "HUD Settings",
-  "screen.powers_unchained.hud_settings": "Powers Unchained HUD Settings",
+  "key.powers_unchained.hud_settings": "Powers Unchained Settings",
+  "screen.powers_unchained.hud_settings": "Interface Settings",
   "screen.powers_unchained.hud_settings.drag": "Drag the ability HUD with the mouse to move it",
   "screen.powers_unchained.hud_settings.enabled": "Ability HUD",
   "screen.powers_unchained.hud_settings.names": "Ability Names",
@@ -182,5 +182,16 @@
   "ability.powers_unchained.roll": "Roll",
   "ability.powers_unchained.ability_wheel": "Ability Wheel",
   "superpower.powers_unchained.spiderman": "Spider-Man",
-  "screen.powers_unchained.hud_settings.order": "Ability order (keys)"
+  "screen.powers_unchained.settings": "Powers Unchained Settings",
+  "screen.powers_unchained.settings.interface": "Interface Settings",
+  "screen.powers_unchained.settings.abilities": "Ability Settings",
+  "screen.powers_unchained.ability_settings": "Ability Settings",
+  "screen.powers_unchained.ability_settings.none": "None",
+  "screen.powers_unchained.ability_settings.slot": "%s [%s]: %s",
+  "screen.powers_unchained.ability_settings.auto": "Automatic",
+  "screen.powers_unchained.ability_settings.custom": "Your own ability set",
+  "screen.powers_unchained.ability_settings.automatic": "Automatic: every ability you have, in order",
+  "screen.powers_unchained.ability_settings.keys": "Ability keys",
+  "screen.powers_unchained.ability_settings.pick": "Ability %s:",
+  "screen.powers_unchained.ability_settings.hint": "Click a key to choose"
 }

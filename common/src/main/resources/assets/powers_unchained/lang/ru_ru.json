@@ -76,8 +76,8 @@
   "ability.powers_unchained.web_zip": "Рывок на паутине",
   "entity.powers_unchained.web_zip_line": "Паутина для рывка",
   "entity.powers_unchained.web_cocoon": "Паутинный кокон",
-  "key.powers_unchained.hud_settings": "Настройки худа",
-  "screen.powers_unchained.hud_settings": "Настройки худа Powers Unchained",
+  "key.powers_unchained.hud_settings": "Настройки Powers Unchained",
+  "screen.powers_unchained.hud_settings": "Настройки интерфейса",
   "screen.powers_unchained.hud_settings.drag": "Перетащите худ способностей мышкой, чтобы переместить",
   "screen.powers_unchained.hud_settings.enabled": "Худ способностей",
   "screen.powers_unchained.hud_settings.names": "Названия способностей",
@@ -182,5 +182,16 @@
   "ability.powers_unchained.roll": "Кувырок",
   "ability.powers_unchained.ability_wheel": "Колесо способностей",
   "superpower.powers_unchained.spiderman": "Человек-Паук",
-  "screen.powers_unchained.hud_settings.order": "Порядок способностей (клавиши)"
+  "screen.powers_unchained.settings": "Настройки Powers Unchained",
+  "screen.powers_unchained.settings.interface": "Настройки интерфейса",
+  "screen.powers_unchained.settings.abilities": "Настройки способностей",
+  "screen.powers_unchained.ability_settings": "Настройки способностей",
+  "screen.powers_unchained.ability_settings.none": "Нет",
+  "screen.powers_unchained.ability_settings.slot": "%s [%s]: %s",
+  "screen.powers_unchained.ability_settings.auto": "Автоматически",
+  "screen.powers_unchained.ability_settings.custom": "Свой набор способностей",
+  "screen.powers_unchained.ability_settings.automatic": "Автоматически: все ваши способности по порядку",
+  "screen.powers_unchained.ability_settings.keys": "Клавиши способностей",
+  "screen.powers_unchained.ability_settings.pick": "Способность %s:",
+  "screen.powers_unchained.ability_settings.hint": "Нажмите на клавишу слева"
 }

@@ -163,10 +163,15 @@ public final class AbilityHud {
     public static int[] size(Font font, Entry[] entries, AbilityHudConfig config) {
         List<KeyMapping> keys = PUKeyMappings.ALL;
         int width = 0;
+        int rows = 0;
         for (int slot = 0; slot < keys.size(); slot++) {
-            int w = boxWidth(font, keyLabel(keys.get(slot)));
             Entry e = slot < entries.length ? entries[slot] : null;
-            if (e != null && config.showNames) {
+            if (e == null) {
+                continue;  // keys without an ability are not shown
+            }
+            rows++;
+            int w = boxWidth(font, keyLabel(keys.get(slot)));
+            if (config.showNames) {
                 w += 4 + font.width(e.name());
                 if (e.extra() != null) {
                     w += 4 + font.width(e.extra());
@@ -174,11 +179,11 @@ public final class AbilityHud {
             }
             width = Math.max(width, w);
         }
-        int height = keys.size() * ROW_HEIGHT - 1;
+        int height = Math.max(rows * ROW_HEIGHT - 1, 0);
         Gauge g = gauge();
         if (g != null) {
             width = Math.max(width, gaugeWidth(font, g));
-            height += GAUGE_GAP + GAUGE_HEIGHT;
+            height += (rows > 0 ? GAUGE_GAP : 0) + GAUGE_HEIGHT;
         }
         return new int[] {width, height};
     }
@@ -208,14 +213,18 @@ public final class AbilityHud {
         graphics.pose().pushMatrix();
         graphics.pose().translate(x, y);
         graphics.pose().scale(config.scale);
+        int row = 0;
         for (int slot = 0; slot < keys.size(); slot++) {
             Entry e = slot < entries.length ? entries[slot] : null;
-            int ry = slot * ROW_HEIGHT;
+            if (e == null) {
+                continue;  // keys without an ability are not shown
+            }
+            int ry = row++ * ROW_HEIGHT;
             Component key = keyLabel(keys.get(slot));
             int box = boxWidth(font, key);
-            graphics.fill(0, ry, box, ry + 11, e != null ? 0x90000000 : 0x40000000);
-            graphics.centeredText(font, key, box / 2, ry + 2, alpha(e != null ? 0xFFFFFFFF : 0x60FFFFFF, opacity));
-            if (e != null && config.showNames) {
+            graphics.fill(0, ry, box, ry + 11, 0x90000000);
+            graphics.centeredText(font, key, box / 2, ry + 2, alpha(0xFFFFFFFF, opacity));
+            if (config.showNames) {
                 int tx = box + 4;
                 graphics.text(font, e.name(), tx, ry + 2, alpha(e.enabled() ? 0xFFFFFFFF : 0xFFA0A0A0, opacity), true);
                 if (e.extra() != null) {
@@ -225,7 +234,7 @@ public final class AbilityHud {
         }
         Gauge g = gauge();
         if (g != null) {
-            drawGauge(graphics, font, g, keys.size() * ROW_HEIGHT - 1 + GAUGE_GAP, opacity);
+            drawGauge(graphics, font, g, row > 0 ? row * ROW_HEIGHT - 1 + GAUGE_GAP : 0, opacity);
         }
         graphics.pose().popMatrix();
     }

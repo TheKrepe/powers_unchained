@@ -682,15 +682,23 @@ public final class CiClientDriver {
                         keyName(com.star_1mp.powersunchained.client.ability.AbilitySlots.ABILITY_WHEEL));
                 shot("56_hud_web_shooters_and_spider");
             }
-            case 7880 -> mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.AbilityHudConfigScreen());
+            case 7870 -> mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.ModSettingsScreen(null));
+            case 7875 -> shot("57a_mod_settings");
+            case 7880 -> mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.AbilitySettingsScreen(null));
             case 7900 -> {
-                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.ability.AbilityHudConfigScreen screen) {
-                    screen.debugMove(com.star_1mp.powersunchained.client.ability.AbilitySlots.ROLL, -1);  // roll up one place
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.ability.AbilitySettingsScreen screen) {
+                    // own set: roll on key 1, web shot on key 3, nothing on key 5; then pick key 2
+                    screen.debugChoose(0, com.star_1mp.powersunchained.client.ability.AbilitySlots.ROLL);
+                    screen.debugChoose(2, com.star_1mp.powersunchained.client.ability.AbilitySlots.WEB_SHOT);
+                    screen.debugChoose(4, com.star_1mp.powersunchained.client.ability.AbilitySlots.NONE);
+                    screen.debugSelect(1);
                 }
             }
-            case 7920 -> shot("57_hud_settings_order");
+            case 7920 -> shot("57_ability_settings");
+            case 7930 -> mc.gui.setScreen(null);
+            case 7945 -> shot("57b_hud_own_set");
             case 7960 -> {
-                com.star_1mp.powersunchained.client.ability.AbilityHudConfig.get().abilityOrder = null;
+                com.star_1mp.powersunchained.client.ability.AbilitySlots.resetChoices();
                 mc.gui.setScreen(null);
             }
             // a 1x1 pillar: crawling round it, the body wraps round every edge

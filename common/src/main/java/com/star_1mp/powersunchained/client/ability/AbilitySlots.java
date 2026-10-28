@@ -14,10 +14,11 @@ import net.minecraft.network.chat.Component;
 import org.jspecify.annotations.Nullable;
 
 /**
- * One key system for every ability (like Palladium's): each ability the player has right now (web-shooter gadgets,
- * superpowers...) gets the next free ability key, in the player's order ({@link AbilityHudConfig#order}, changed in
- * the HUD settings). The default order puts the web-shooters first (keys 1-3) and Spider-Man's powers after them, so
- * without web-shooters the powers move up to keys 1-2.
+ * One key system for every ability (like Palladium's). By default every ability the player has right now (web-shooter
+ * gadgets, superpowers...) gets the next free ability key: the web-shooters first (keys 1-3) and Spider-Man's powers
+ * after them, so without web-shooters the powers move up to keys 1-2. In the Ability Settings the player can pick their
+ * own set instead ({@link AbilityHudConfig#abilitySlots}): one ability (or none) per key; a key whose ability the player
+ * doesn't have right now stays empty, and empty keys are not shown in the HUD.
  */
 public final class AbilitySlots {
 
@@ -27,6 +28,8 @@ public final class AbilitySlots {
     public static final String ROLL = "roll";
     public static final String ABILITY_WHEEL = "ability_wheel";
     /** Default order of all abilities. */
+    /** No ability on the key. */
+    public static final String NONE = "none";
     public static final List<String> DEFAULT_ORDER = List.of(WEB_SHOT, WEB_ZIP, WEB_SWING, ROLL, ABILITY_WHEEL);
 
     /**
@@ -72,23 +75,93 @@ public final class AbilitySlots {
         return order;
     }
 
-    /** The abilities the player has right now, in key order (at most one per key). */
-    public static List<String> available(LocalPlayer player) {
+    /** The abilities the player has right now, in the default order (all of them, the choices of the Ability Settings). */
+    public static List<String> owned(LocalPlayer player) {
         List<String> list = new ArrayList<>();
         for (String id : ordered()) {
-            if (list.size() < ASSIGNED.length && ABILITIES.get(id).available().test(player)) {
+            if (ABILITIES.get(id).available().test(player)) {
                 list.add(id);
             }
         }
         return list;
     }
 
+    /** Whether the player picked their own ability set. */
+    public static boolean custom() {
+        return AbilityHudConfig.get().abilitySlots != null;
+    }
+
+    /** The ability chosen for a key in the player's own set ({@link #NONE} if none), or the automatic one. */
+    public static String chosen(@Nullable LocalPlayer player, int slot) {
+        List<String> slots = AbilityHudConfig.get().abilitySlots;
+        if (slots != null) {
+            return slot < slots.size() && slots.get(slot) != null ? slots.get(slot) : NONE;
+        }
+        String[] auto = player != null ? assignment(player) : autoAll();
+        return auto[slot] != null ? auto[slot] : NONE;
+    }
+
+    /** Puts an ability (or {@link #NONE}) on a key of the player's own set; it leaves any other key it was on. */
+    public static void choose(@Nullable LocalPlayer player, int slot, String id) {
+        AbilityHudConfig config = AbilityHudConfig.get();
+        List<String> slots = new ArrayList<>();
+        for (int i = 0; i < ASSIGNED.length; i++) {
+            slots.add(chosen(player, i));
+        }
+        if (!NONE.equals(id)) {
+            for (int i = 0; i < slots.size(); i++) {
+                if (id.equals(slots.get(i))) {
+                    slots.set(i, NONE);
+                }
+            }
+        }
+        slots.set(slot, id);
+        config.abilitySlots = slots;
+        config.save();
+    }
+
+    /** Back to the automatic set. */
+    public static void resetChoices() {
+        AbilityHudConfig config = AbilityHudConfig.get();
+        config.abilitySlots = null;
+        config.abilityOrder = null;
+        config.save();
+    }
+
+    /** Every ability in the default order on the keys (no player to ask). */
+    private static String[] autoAll() {
+        String[] out = new String[ASSIGNED.length];
+        List<String> all = ordered();
+        for (int i = 0; i < out.length && i < all.size(); i++) {
+            out[i] = all.get(i);
+        }
+        return out;
+    }
+
+    /** Which ability is on which key for the player right now (null = none). */
+    public static String[] assignment(LocalPlayer player) {
+        String[] out = new String[ASSIGNED.length];
+        List<String> slots = AbilityHudConfig.get().abilitySlots;
+        if (slots != null) {
+            for (int i = 0; i < out.length && i < slots.size(); i++) {
+                Ability ability = slots.get(i) != null ? ABILITIES.get(slots.get(i)) : null;
+                out[i] = ability != null && ability.available().test(player) ? ability.id() : null;
+            }
+            return out;
+        }
+        List<String> owned = owned(player);
+        for (int i = 0; i < out.length && i < owned.size(); i++) {
+            out[i] = owned.get(i);
+        }
+        return out;
+    }
+
     /** Client tick (before the abilities read their keys): which ability is on which key now. */
     public static void tick() {
         LocalPlayer player = Minecraft.getInstance().player;
-        List<String> list = player != null ? available(player) : List.of();
+        String[] now = player != null ? assignment(player) : new String[ASSIGNED.length];
         for (int i = 0; i < ASSIGNED.length; i++) {
-            ASSIGNED[i] = i < list.size() ? list.get(i) : null;
+            ASSIGNED[i] = now[i];
             if (ASSIGNED[i] == null) {
                 // a key without an ability: drop its presses, so they don't fire once something lands on it
                 KeyMapping key = PUKeyMappings.ALL.get(i);
@@ -127,31 +200,17 @@ public final class AbilitySlots {
         return n;
     }
 
-    /** The HUD lines per key for the player (null = free key), or {@code null} if it has no ability at all. */
+    /** The HUD lines per key for the player (null = no ability on that key), or {@code null} if it has none at all. */
     public static AbilityHud.Entry @Nullable [] entries(LocalPlayer player) {
-        List<String> list = available(player);
-        if (list.isEmpty()) {
-            return null;
-        }
+        String[] now = assignment(player);
         AbilityHud.Entry[] entries = new AbilityHud.Entry[ASSIGNED.length];
-        for (int i = 0; i < list.size(); i++) {
-            entries[i] = ABILITIES.get(list.get(i)).entry().apply(player);
+        boolean any = false;
+        for (int i = 0; i < now.length; i++) {
+            if (now[i] != null) {
+                entries[i] = ABILITIES.get(now[i]).entry().apply(player);
+                any = true;
+            }
         }
-        return entries;
-    }
-
-    /** Moves an ability one place up ({@code -1}) or down ({@code +1}) among {@code shown}, swapping it with the neighbour. */
-    public static void move(List<String> shown, String id, int dir) {
-        int i = shown.indexOf(id);
-        int j = i + dir;
-        if (i < 0 || j < 0 || j >= shown.size()) {
-            return;
-        }
-        List<String> order = ordered();
-        int a = order.indexOf(id);
-        int b = order.indexOf(shown.get(j));
-        order.set(a, shown.get(j));
-        order.set(b, id);
-        AbilityHudConfig.get().abilityOrder = new ArrayList<>(order);
+        return any ? entries : null;
     }
 }

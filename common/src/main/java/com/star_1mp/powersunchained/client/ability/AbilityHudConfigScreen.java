@@ -2,7 +2,6 @@ package com.star_1mp.powersunchained.client.ability;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.star_1mp.powersunchained.client.input.PUKeyMappings;
-import java.util.List;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
@@ -14,7 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
 /**
- * HUD settings (key "HUD Settings" in the Powers Unchained controls): drag the ability HUD around with the mouse,
+ * Interface settings (a tab of {@link ModSettingsScreen}): drag the ability HUD around with the mouse,
  * turn it and the ability names on / off, set the text opacity and the size, reset everything to the defaults.
  * The game stays visible behind it, the HUD is previewed at its place (with sample abilities if you have none).
  */
@@ -23,12 +22,23 @@ public class AbilityHudConfigScreen extends Screen {
     private static final int OUTLINE = 0xC0FFD24A;
 
     private final AbilityHudConfig config = AbilityHudConfig.get();
+    private final @org.jspecify.annotations.Nullable Screen parent;
     private boolean dragging;
     private double dragOffsetX;
     private double dragOffsetY;
 
     public AbilityHudConfigScreen() {
+        this(null);
+    }
+
+    public AbilityHudConfigScreen(@org.jspecify.annotations.Nullable Screen parent) {
         super(Component.translatable("screen.powers_unchained.hud_settings"));
+        this.parent = parent;
+    }
+
+    @Override
+    public void onClose() {
+        this.minecraft.gui.setScreen(this.parent);
     }
 
     @Override
@@ -77,81 +87,6 @@ public class AbilityHudConfigScreen extends Screen {
             this.rebuildWidgets();
         }).bounds(left, y, w, 20).build());
         this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> this.onClose()).bounds(right, y, w, 20).build());
-
-        // order of the abilities on the keys: move one up / down (swaps it with its neighbour)
-        List<String> shown = this.shownAbilities();
-        int ox = this.orderX();
-        int row = this.orderRow(shown.size());
-        int bh = Math.min(20, row - 1);
-        for (int i = 0; i < shown.size(); i++) {
-            String id = shown.get(i);
-            int ry = ORDER_Y + 14 + i * row;
-            Button up = Button.builder(Component.literal("\u25B2"), button -> {
-                AbilitySlots.move(this.shownAbilities(), id, -1);
-                this.rebuildWidgets();
-            }).bounds(ox + ORDER_W - 40, ry, 20, bh).build();
-            up.active = i > 0;
-            Button down = Button.builder(Component.literal("\u25BC"), button -> {
-                AbilitySlots.move(this.shownAbilities(), id, 1);
-                this.rebuildWidgets();
-            }).bounds(ox + ORDER_W - 20, ry, 20, bh).build();
-            down.active = i < shown.size() - 1;
-            this.addRenderableWidget(up);
-            this.addRenderableWidget(down);
-        }
-    }
-
-    /** Dev/CI only: like pressing an ability's arrow. */
-    public void debugMove(String id, int dir) {
-        AbilitySlots.move(this.shownAbilities(), id, dir);
-        this.rebuildWidgets();
-    }
-
-    private static final int ORDER_W = 170;
-    private static final int ORDER_Y = 42;
-
-    /** Row height of the order list: up to 22, less on small screens so it stays above the buttons. */
-    private int orderRow(int rows) {
-        int bottom = this.height - 4 * 24 - 8 - 6;
-        return Math.max(12, Math.min(22, (bottom - ORDER_Y - 14) / Math.max(1, rows)));
-    }
-
-    private int orderX() {
-        return this.width - ORDER_W - 8;
-    }
-
-    /** The abilities in the order list: the player's current ones, or all of them if it has none. */
-    private List<String> shownAbilities() {
-        if (this.minecraft.player != null) {
-            List<String> list = AbilitySlots.available(this.minecraft.player);
-            if (!list.isEmpty()) {
-                return list;
-            }
-        }
-        List<String> all = AbilitySlots.ordered();
-        return all.subList(0, Math.min(all.size(), PUKeyMappings.ALL.size()));
-    }
-
-    /** The ability order panel: key, ability name, arrows (the arrows are buttons). */
-    private void drawOrder(GuiGraphicsExtractor graphics) {
-        List<String> shown = this.shownAbilities();
-        int ox = this.orderX();
-        int row = this.orderRow(shown.size());
-        int h = 14 + shown.size() * row + 2;
-        graphics.fill(ox - 4, ORDER_Y - 4, ox + ORDER_W + 4, ORDER_Y + h, 0x90000000);
-        graphics.text(this.font, Component.translatable("screen.powers_unchained.hud_settings.order"), ox, ORDER_Y, 0xFFFFD24A, true);
-        for (int i = 0; i < shown.size(); i++) {
-            AbilitySlots.Ability ability = AbilitySlots.get(shown.get(i));
-            int ry = ORDER_Y + 14 + i * row;
-            int mid = ry + Math.min(20, row - 1) / 2;
-            Component key = AbilityHud.keyLabel(PUKeyMappings.ALL.get(i));
-            int box = Math.max(this.font.width(key) + 6, 14);
-            graphics.fill(ox, mid - 6, ox + box, mid + 6, 0xC0000000);
-            graphics.centeredText(this.font, key, ox + box / 2, mid - 4, 0xFFFFFFFF);
-            if (ability != null) {
-                graphics.text(this.font, ability.previewName(), ox + box + 5, mid - 4, 0xFFFFFFFF, true);
-            }
-        }
     }
 
     private AbilityHud.Entry[] entries() {
@@ -159,14 +94,19 @@ public class AbilityHudConfigScreen extends Screen {
         if (entries != null) {
             return entries;
         }
-        // nothing yet: preview every ability in the current order
-        List<String> shown = this.shownAbilities();
+        // nothing yet: preview the chosen set (or every ability)
         AbilityHud.Entry[] preview = new AbilityHud.Entry[PUKeyMappings.ALL.size()];
-        for (int i = 0; i < shown.size(); i++) {
-            AbilitySlots.Ability ability = AbilitySlots.get(shown.get(i));
+        boolean any = false;
+        for (int i = 0; i < preview.length; i++) {
+            AbilitySlots.Ability ability = AbilitySlots.get(AbilitySlots.chosen(null, i));
             if (ability != null) {
                 preview[i] = new AbilityHud.Entry(ability.previewName(), null, true);
+                any = true;
             }
+        }
+        if (!any) {
+            AbilitySlots.Ability first = AbilitySlots.get(AbilitySlots.ROLL);
+            preview[0] = new AbilityHud.Entry(first != null ? first.previewName() : Component.literal("?"), null, true);
         }
         return preview;
     }
@@ -180,6 +120,10 @@ public class AbilityHudConfigScreen extends Screen {
 
     @Override
     public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+        if (this.minecraft.level == null) {
+            super.extractBackground(graphics, mouseX, mouseY, a);
+            return;
+        }
         // keep the game visible: just darken it a little
         graphics.fill(0, 0, this.width, this.height, 0x50000000);
     }
@@ -210,7 +154,6 @@ public class AbilityHudConfigScreen extends Screen {
             graphics.centeredText(this.font, Component.translatable("screen.powers_unchained.hud_settings.hidden"),
                     r[0] + r[2] / 2, r[1] + r[3] + pad + 3, 0xFFFF7777);
         }
-        this.drawOrder(graphics);
         graphics.centeredText(this.font, this.title, this.width / 2, 12, 0xFFFFFFFF);
         graphics.centeredText(this.font, Component.translatable("screen.powers_unchained.hud_settings.drag"), this.width / 2, 26, 0xFFB0B0B0);
         super.extractRenderState(graphics, mouseX, mouseY, a);
