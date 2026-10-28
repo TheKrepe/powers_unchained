@@ -227,6 +227,12 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   (ground dodge roll 10 ticks at 0.85, air front flip 13 ticks once per jump; roll key while clinging = flip off
   (`WallClimbClient.flipOff`: back flip `KIND_BACKFLIP` facing the wall, front flip facing away / off a ceiling);
   `RollPayload` c->s, `RollAnimPayload` s->c).
+  Settings: the settings key (H, "Powers Unchained Settings") / mod list "Config" (`IConfigScreenFactory`) open
+  `client/ability/ModSettingsScreen` with 2 tabs: Interface Settings (`AbilityHudConfigScreen`: HUD on/off, names,
+  opacity, size, drag) and Ability Settings (`AbilitySettingsScreen`: the player's OWN set — one ability or None per
+  key, picked from the abilities they have; "Automatic" = default order). Saved as `abilitySlots` in
+  `powers_unchained-hud.json` (null = automatic); a key whose ability the player lacks is empty, and empty keys are
+  NOT drawn in the HUD (rows stack).
   CI scenes from tick 7040 (wheel, wall, ceiling, roll, sense, mannequin climb poses, ability keys, HUD order, 1x1 pillar).
 - Chest pieces are `<suit>_chestplate` (renamed from `_suit`).
 - Creative tabs (`PUCreativeTabs`): Suits, Weapons, Items, Blocks;

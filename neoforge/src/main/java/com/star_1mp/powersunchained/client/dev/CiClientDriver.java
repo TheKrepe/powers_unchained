@@ -682,10 +682,10 @@ public final class CiClientDriver {
                         keyName(com.star_1mp.powersunchained.client.ability.AbilitySlots.ABILITY_WHEEL));
                 shot("56_hud_web_shooters_and_spider");
             }
-            case 7870 -> mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.ModSettingsScreen(null));
-            case 7875 -> shot("57a_mod_settings");
-            case 7880 -> mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.AbilitySettingsScreen(null));
+            case 7868 -> mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.ModSettingsScreen(null));
+            case 7870 -> shot("57a_mod_settings");
             case 7900 -> {
+                mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.AbilitySettingsScreen(null));
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.ability.AbilitySettingsScreen screen) {
                     // own set: roll on key 1, web shot on key 3, nothing on key 5; then pick key 2
                     screen.debugChoose(0, com.star_1mp.powersunchained.client.ability.AbilitySlots.ROLL);
@@ -694,10 +694,10 @@ public final class CiClientDriver {
                     screen.debugSelect(1);
                 }
             }
-            case 7920 -> shot("57_ability_settings");
-            case 7930 -> mc.gui.setScreen(null);
+            case 7902 -> shot("57_ability_settings");
+            case 7935 -> mc.gui.setScreen(null);
             case 7945 -> shot("57b_hud_own_set");
-            case 7960 -> {
+            case 7975 -> {
                 com.star_1mp.powersunchained.client.ability.AbilitySlots.resetChoices();
                 mc.gui.setScreen(null);
             }
