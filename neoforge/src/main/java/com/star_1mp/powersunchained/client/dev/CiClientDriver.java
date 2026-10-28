@@ -694,7 +694,9 @@ public final class CiClientDriver {
                     screen.debugSelect(1);
                 }
             }
+            case 7901 -> run("tick rate 2");
             case 7902 -> shot("57_ability_settings");
+            case 7905 -> run("tick rate 20");
             case 7935 -> mc.gui.setScreen(null);
             case 7945 -> shot("57b_hud_own_set");
             case 7975 -> {
