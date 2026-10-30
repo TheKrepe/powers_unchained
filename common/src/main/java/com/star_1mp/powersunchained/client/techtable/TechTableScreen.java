@@ -770,7 +770,9 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         g.blitSprite(RenderPipelines.GUI_TEXTURED, m.sprite(), rx + 4, ty, 16, 16, unlocked ? 0xFFFFFFFF : 0xFF707880);
         this.wrapped(g, m.displayName(), rx + 23, ty + (this.font.width(m.displayName()) > RIGHT_W - 28 ? 0 : 4), RIGHT_W - 27, COPPER, 2);
         ty += 20;
-        ty += this.wrapped(g, m.description(), rx + 5, ty, RIGHT_W - 10, GREY, 5) + 4;
+        // a locked module with a condition needs the room for it + the unlock cost: shorter description
+        int descLines = !unlocked && !isInstalled && m.requirement() != null ? 3 : 5;
+        ty += this.wrapped(g, m.description(), rx + 5, ty, RIGHT_W - 10, GREY, descLines) + 4;
         // before -> after (only once it can be installed: a locked module shows its unlock condition + cost instead)
         if (hasGadget && (unlocked || isInstalled)) {
             g.text(this.font, tr(isInstalled ? "stats.installed" : "stats.title"), rx + 5, ty, CYAN_DIM, false);
