@@ -21,7 +21,7 @@ public final class WebModules {
 
     public static List<WebModule> installed(ItemStack shooters) {
         List<WebModule> list = new ArrayList<>();
-        for (String id : shooters.getOrDefault(PUDataComponents.WEB_MODULES.get(), List.of())) {
+        for (String id : shooters.getOrDefault(PUDataComponents.WEB_MODULES.get(), List.<String>of())) {
             WebModule m = WebModule.byId(id);
             if (m != null && !list.contains(m)) {
                 list.add(m);
@@ -31,7 +31,7 @@ public final class WebModules {
     }
 
     public static boolean has(ItemStack shooters, WebModule module) {
-        return shooters.getOrDefault(PUDataComponents.WEB_MODULES.get(), List.of()).contains(module.id());
+        return shooters.getOrDefault(PUDataComponents.WEB_MODULES.get(), List.<String>of()).contains(module.id());
     }
 
     public static void set(ItemStack shooters, List<WebModule> modules) {

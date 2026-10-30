@@ -25,7 +25,7 @@ public record TechProgress(Set<String> modules, Set<String> skins) {
             SET.optionalFieldOf("skins", Set.of()).forGetter(TechProgress::skins)
     ).apply(i, TechProgress::new));
 
-    private static final StreamCodec<RegistryFriendlyByteBuf, Set<String>> SET_STREAM =
+    private static final StreamCodec<io.netty.buffer.ByteBuf, Set<String>> SET_STREAM =
             ByteBufCodecs.STRING_UTF8.apply(ByteBufCodecs.list()).map(Set::copyOf, List::copyOf);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, TechProgress> STREAM_CODEC = StreamCodec.composite(

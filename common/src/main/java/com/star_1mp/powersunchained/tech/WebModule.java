@@ -29,7 +29,7 @@ public enum WebModule {
             TechCost.of(sup(Items.IRON_INGOT), 2, sup(Items.GLASS), 1)),
     /** A new web type: Electro-Web (see {@code ElectroWeb}). */
     ELECTRO_WEB("electro_web",
-            TechCost.of(sup(Items.COPPER_INGOT), 12, sup(Items.REDSTONE), 8, sup(Items.GLOWSTONE_DUST), 6, sup(Items.LIGHTNING_ROD), 1),
+            TechCost.of(sup(Items.COPPER_INGOT), 12, sup(Items.REDSTONE), 8, sup(Items.GLOWSTONE_DUST), 6, sup(Items.AMETHYST_SHARD), 2),
             TechCost.of(sup(Items.COPPER_INGOT), 2, sup(Items.GLOWSTONE_DUST), 2));
 
     private final String id;
