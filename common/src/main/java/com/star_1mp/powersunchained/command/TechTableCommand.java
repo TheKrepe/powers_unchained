@@ -7,7 +7,8 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.star_1mp.powersunchained.item.WebShootersItem;
-import com.star_1mp.powersunchained.web.WebCartridges;
+import com.star_1mp.powersunchained.platform.Services;
+import com.star_1mp.powersunchained.registry.PUItems;
 import com.star_1mp.powersunchained.tech.WebModules;
 import java.util.ArrayList;
 import net.minecraft.world.item.ItemStack;
@@ -70,19 +71,24 @@ public final class TechTableCommand {
         }
         int done = 0;
         for (ServerPlayer player : players) {
-            ItemStack shooters = shooters(player);
-            if (shooters.isEmpty()) {
-                continue;
-            }
-            List<WebModule> installed = new ArrayList<>(WebModules.installed(shooters));
-            for (WebModule module : modules) {
-                WebModules.setUnlocked(shooters, module, unlock);
-                if (!unlock) {
-                    installed.remove(module);  // locked = it can't stay installed either
+            java.util.function.Consumer<ItemStack> change = shooters -> {
+                List<WebModule> installed = new ArrayList<>(WebModules.installed(shooters));
+                for (WebModule module : modules) {
+                    WebModules.setUnlocked(shooters, module, unlock);
+                    if (!unlock) {
+                        installed.remove(module);  // locked = it can't stay installed either
+                    }
                 }
-            }
-            if (!unlock) {
-                WebModules.set(shooters, installed);
+                if (!unlock) {
+                    WebModules.set(shooters, installed);
+                }
+            };
+            // owner: modules are unlocked per pair of web-shooters -> the ones in the main hand, else the worn ones
+            ItemStack hand = player.getMainHandItem();
+            if (hand.getItem() instanceof WebShootersItem) {
+                change.accept(hand);
+            } else if (!Services.GAMEPLAY.modifyAccessory(player, PUItems.WEB_SHOOTERS.get(), change)) {
+                continue;
             }
             player.containerMenu.broadcastChanges();
             done++;
@@ -97,14 +103,5 @@ public final class TechTableCommand {
         context.getSource().sendSuccess(() -> Component.translatable(
                 "commands.powers_unchained.techtable." + (unlock ? "unlocked" : "locked"), what, count), true);
         return count;
-    }
-
-    /** Owner: modules are unlocked per pair of web-shooters -> the ones in the main hand, else the worn ones. */
-    private static ItemStack shooters(ServerPlayer player) {
-        ItemStack hand = player.getMainHandItem();
-        if (hand.getItem() instanceof WebShootersItem) {
-            return hand;
-        }
-        return WebCartridges.wornShooters(player);
     }
 }
