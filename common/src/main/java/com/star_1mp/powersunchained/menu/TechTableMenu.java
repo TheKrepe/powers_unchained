@@ -451,7 +451,11 @@ public class TechTableMenu extends AbstractContainerMenu {
 
         DeviceSlot(Container container, int x, int y, BooleanSupplier visible) {
             super(container, 0, x, y, visible);
-            this.setBackground(ICON);
+        }
+
+        @Override
+        public net.minecraft.resources.Identifier getNoItemIcon() {
+            return ICON;
         }
 
         @Override
