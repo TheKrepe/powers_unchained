@@ -275,5 +275,6 @@
   "screen.powers_unchained.tech_table.search.none": "Ничего не найдено",
   "screen.powers_unchained.tech_table.requirement": "Условие:",
   "feat.powers_unchained.lightning_in_web_shooters": "Попасть под молнию в веб-шутерах",
-  "feat.powers_unchained.done": "Условие выполнено: %s"
+  "feat.powers_unchained.done": "Условие выполнено: %s",
+  "screen.powers_unchained.tech_table.do_task": "Выполните задание"
 }

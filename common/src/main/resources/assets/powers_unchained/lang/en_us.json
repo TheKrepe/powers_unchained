@@ -275,5 +275,6 @@
   "screen.powers_unchained.tech_table.search.none": "Nothing found",
   "screen.powers_unchained.tech_table.requirement": "Condition:",
   "feat.powers_unchained.lightning_in_web_shooters": "Get struck by lightning wearing web-shooters",
-  "feat.powers_unchained.done": "Condition met: %s"
+  "feat.powers_unchained.done": "Condition met: %s",
+  "screen.powers_unchained.tech_table.do_task": "Complete the task"
 }

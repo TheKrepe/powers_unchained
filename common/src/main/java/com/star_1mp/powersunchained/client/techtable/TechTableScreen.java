@@ -98,6 +98,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     private @Nullable WebModule dragging;
     private boolean dragFromInstalled;
     private int failFlash;
+    private String failKey = "not_enough";
     private @Nullable EditBox search;
     /** Customization hologram: model (null = the player's own skin model) and running pose. */
     private @Nullable Boolean holoSlim;
@@ -753,7 +754,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         }
         g.text(this.font, tr("modules.slots", installed.size(), this.installSlots()), bx + 7, by + BP_H - 13, INK_D, false);
         if (this.failFlash > 0) {
-            g.centeredText(this.font, tr("not_enough"), bx + CENTER_W / 2, by + BP_H - 24, 0xFFFF9B8F);
+            g.centeredText(this.font, tr(this.failKey), bx + CENTER_W / 2, by + BP_H - 24, 0xFFFF9B8F);
         }
 
         // right: the picked module
@@ -1100,7 +1101,9 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 WebModule m = this.shownModule();
                 int bty = y + H - 8 - 20;
                 if (!this.progress().hasModule(m) && !WebModules.has(gadget, m) && in(mx, my, x + RIGHT_X + 3, bty, RIGHT_W - 6, 16)) {
-                    if (m.requirementMet(this.progress()) && m.unlockCost().canPay(this.minecraft.player)) {
+                    if (!m.requirementMet(this.progress())) {
+                        this.fail("do_task");  // owner: the condition comes first, even with the materials in hand
+                    } else if (m.unlockCost().canPay(this.minecraft.player)) {
                         this.button(TechTableMenu.UNLOCK_MODULE + m.ordinal());
                         this.click();
                     } else {
@@ -1168,6 +1171,11 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     }
 
     private void fail() {
+        this.fail("not_enough");
+    }
+
+    private void fail(String key) {
+        this.failKey = key;
         this.failFlash = 40;
         this.playSound(SoundEvents.VILLAGER_NO, 1.2F);
     }
