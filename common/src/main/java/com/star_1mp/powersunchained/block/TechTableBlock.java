@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 
 /**
  * Tech Table: a vanilla-style workbench (dark oak, riveted steel rim and work plate, a circuit board, tools). Where
- * gadgets, weapons and other tech (web-shooters, ...) will be built. For now only the block (placement direction).
+ * gadgets, weapons and other tech are built ({@link com.star_1mp.powersunchained.menu.TechTableMenu}).
  */
 public class TechTableBlock extends Block {
 
@@ -21,6 +21,23 @@ public class TechTableBlock extends Block {
     public TechTableBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
+    private static final net.minecraft.network.chat.Component TITLE = net.minecraft.network.chat.Component.translatable("container.powers_unchained.tech_table");
+
+    @Override
+    protected net.minecraft.world.InteractionResult useWithoutItem(BlockState state, net.minecraft.world.level.Level level,
+            net.minecraft.core.BlockPos pos, net.minecraft.world.entity.player.Player player, net.minecraft.world.phys.BlockHitResult hit) {
+        if (!level.isClientSide()) {
+            player.openMenu(state.getMenuProvider(level, pos));
+        }
+        return net.minecraft.world.InteractionResult.SUCCESS;
+    }
+
+    @Override
+    protected net.minecraft.world.MenuProvider getMenuProvider(BlockState state, net.minecraft.world.level.Level level, net.minecraft.core.BlockPos pos) {
+        return new net.minecraft.world.SimpleMenuProvider((id, inventory, player) -> new com.star_1mp.powersunchained.menu.TechTableMenu(
+                id, inventory, net.minecraft.world.inventory.ContainerLevelAccess.create(level, pos)), TITLE);
     }
 
     @Override

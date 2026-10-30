@@ -57,7 +57,7 @@ public final class WebShooterClient {
         AbilityHud.previewGauge = new AbilityHud.Gauge(WEB_FLUID_ICON, 187, WebCartridges.SLOTS * WebCartridges.MAX_FLUID, 0xFF8FE6F7);
         AbilityHud.registerGauge(player -> hadWebShooters && !WebCartridges.freeShots(player)
                 ? new AbilityHud.Gauge(WEB_FLUID_ICON, WebCartridges.totalFluid(WebCartridges.wornShooters(player)),
-                        WebCartridges.SLOTS * WebCartridges.MAX_FLUID, 0xFF8FE6F7)
+                        com.star_1mp.powersunchained.tech.WebModules.cartridgeSlots(WebCartridges.wornShooters(player)) * WebCartridges.MAX_FLUID, 0xFF8FE6F7)
                 : null);
         com.star_1mp.powersunchained.client.ability.AbilitySlots.register(
                 com.star_1mp.powersunchained.client.ability.AbilitySlots.WEB_SHOT, player -> WebShooting.hasWebShooters(player) || debugMenu,
@@ -155,7 +155,7 @@ public final class WebShooterClient {
             noFluid(player);
             return;
         }
-        zipCooldown = WebShooting.ZIP_COOLDOWN;
+        zipCooldown = WebShooting.zipCooldown(player);
         Services.GAMEPLAY.sendToServer(WebZipPayload.INSTANCE);
     }
 
@@ -170,7 +170,7 @@ public final class WebShooterClient {
             return false;
         }
         scrollDirection = deltaY > 0 ? 1 : -1;
-        selected = WebType.byId(selected.ordinal() + scrollDirection);
+        selected = WebType.next(Minecraft.getInstance().player, selected, scrollDirection);
         scrolledWhileHeld = true;
         active = true;
         WebSwingClient.setActive(false);
@@ -192,6 +192,10 @@ public final class WebShooterClient {
                 noFluid(player);
             }
             return true;
+        }
+        AMMO.setFactor(com.star_1mp.powersunchained.tech.WebModules.recharge(player));
+        if (!selected.isAvailable(player)) {
+            selected = WebType.IMPACT;
         }
         if (mainHand && AMMO.canUse(selected)) {
             AMMO.use(selected);

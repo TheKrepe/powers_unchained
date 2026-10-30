@@ -40,6 +40,12 @@ public interface IGameplayHelper {
     /** Server side: stores the player's Suit Creator progress and syncs it to them. */
     void setSuitProgress(Player player, com.star_1mp.powersunchained.suit.SuitProgress progress);
 
+    /** The player's Tech Table progress (both sides; the client only knows its own). */
+    com.star_1mp.powersunchained.tech.TechProgress techProgress(Player player);
+
+    /** Server side: stores the player's Tech Table progress and syncs it to them. */
+    void setTechProgress(Player player, com.star_1mp.powersunchained.tech.TechProgress progress);
+
     /** The player's superpowers (both sides; the client only knows its own). */
     com.star_1mp.powersunchained.power.PowerData powerData(Player player);
 

@@ -17,9 +17,11 @@ public class ClientWebShootersTooltip implements ClientTooltipComponent {
     private static final int SLOT_SIZE = 24;
 
     private final List<Integer> cartridges;
+    private final int slots;
 
     public ClientWebShootersTooltip(WebShootersItem.WebShootersTooltip tooltip) {
         this.cartridges = tooltip.cartridges();
+        this.slots = tooltip.slots();
     }
 
     @Override
@@ -29,12 +31,12 @@ public class ClientWebShootersTooltip implements ClientTooltipComponent {
 
     @Override
     public int getWidth(Font font) {
-        return SLOT_SIZE * WebCartridges.SLOTS;
+        return SLOT_SIZE * this.slots;
     }
 
     @Override
     public void extractImage(Font font, int x, int y, int w, int h, GuiGraphicsExtractor graphics) {
-        for (int i = 0; i < WebCartridges.SLOTS; i++) {
+        for (int i = 0; i < this.slots; i++) {
             int sx = x + i * SLOT_SIZE;
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT, sx, y, SLOT_SIZE, SLOT_SIZE);
             if (i < this.cartridges.size()) {

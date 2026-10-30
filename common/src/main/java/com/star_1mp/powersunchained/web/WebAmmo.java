@@ -12,6 +12,17 @@ public final class WebAmmo {
     private final int[] cooldown = new int[WebType.values().length];
     private final int[] prevCooldown = new int[WebType.values().length];
 
+    /** Recharge time multiplier of the web-shooters in use (Fast Feed module). */
+    private float factor = 1.0F;
+
+    public void setFactor(float factor) {
+        this.factor = factor;
+    }
+
+    private int rechargeTicks(WebType type) {
+        return Math.max(1, Math.round(type.recharge() * this.factor));
+    }
+
     public WebAmmo() {
         for (WebType type : WebType.values()) {
             this.uses[type.ordinal()] = type.maxUses();
@@ -24,7 +35,7 @@ public final class WebAmmo {
             this.prevCooldown[i] = this.cooldown[i];
             if (this.cooldown[i] > 0 && this.uses[i] < type.maxUses() && --this.cooldown[i] == 0
                     && ++this.uses[i] < type.maxUses()) {
-                this.cooldown[i] = type.recharge();
+                this.cooldown[i] = this.rechargeTicks(type);
             }
         }
     }
@@ -37,7 +48,7 @@ public final class WebAmmo {
         int i = type.ordinal();
         this.uses[i]--;
         if (this.cooldown[i] == 0) {
-            this.cooldown[i] = type.recharge();
+            this.cooldown[i] = this.rechargeTicks(type);
         }
     }
 
@@ -48,6 +59,6 @@ public final class WebAmmo {
     /** 0..1 progress of the shot that is recharging right now (1 = just started). */
     public float recharge(WebType type, float partialTick) {
         int i = type.ordinal();
-        return Mth.lerp(partialTick, (float) this.prevCooldown[i], (float) this.cooldown[i]) / type.recharge();
+        return Mth.lerp(partialTick, (float) this.prevCooldown[i], (float) this.cooldown[i]) / this.rechargeTicks(type);
     }
 }

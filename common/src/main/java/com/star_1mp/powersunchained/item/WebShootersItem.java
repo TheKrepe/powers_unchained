@@ -127,7 +127,7 @@ public class WebShootersItem extends Item {
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        return Mth.clamp(Math.round(13.0F * WebCartridges.totalFluid(stack) / (WebCartridges.MAX_FLUID * WebCartridges.SLOTS)), 0, 13);
+        return Mth.clamp(Math.round(13.0F * WebCartridges.totalFluid(stack) / (WebCartridges.MAX_FLUID * com.star_1mp.powersunchained.tech.WebModules.cartridgeSlots(stack))), 0, 13);
     }
 
     @Override
@@ -145,21 +145,24 @@ public class WebShootersItem extends Item {
             return;
         }
         List<Integer> contents = WebCartridges.contents(stack);
-        builder.accept(Component.translatable("tooltip.powers_unchained.web_shooters.cartridges", contents.size(), WebCartridges.SLOTS)
+        builder.accept(Component.translatable("tooltip.powers_unchained.web_shooters.cartridges", contents.size(), com.star_1mp.powersunchained.tech.WebModules.cartridgeSlots(stack))
                 .withStyle(ChatFormatting.GRAY));
         builder.accept(Component.translatable("tooltip.powers_unchained.web_fluid", WebCartridges.totalFluid(stack),
                 WebCartridges.MAX_FLUID * contents.size()).withStyle(ChatFormatting.GRAY));
         if (contents.isEmpty()) {
             builder.accept(Component.translatable("tooltip.powers_unchained.web_shooters.load").withStyle(ChatFormatting.DARK_GRAY));
         }
+        for (com.star_1mp.powersunchained.tech.WebModule module : com.star_1mp.powersunchained.tech.WebModules.installed(stack)) {
+            builder.accept(Component.literal(" + ").append(module.displayName()).withStyle(ChatFormatting.AQUA));
+        }
     }
 
     @Override
     public Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
-        return isCreative(stack) ? Optional.empty() : Optional.of(new WebShootersTooltip(WebCartridges.contents(stack)));
+        return isCreative(stack) ? Optional.empty() : Optional.of(new WebShootersTooltip(WebCartridges.contents(stack), com.star_1mp.powersunchained.tech.WebModules.cartridgeSlots(stack)));
     }
 
     /** Tooltip image: the cartridge slots with the loaded cartridges. */
-    public record WebShootersTooltip(List<Integer> cartridges) implements TooltipComponent {
+    public record WebShootersTooltip(List<Integer> cartridges, int slots) implements TooltipComponent {
     }
 }

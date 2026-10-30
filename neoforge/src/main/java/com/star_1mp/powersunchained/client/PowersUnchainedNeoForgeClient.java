@@ -124,6 +124,7 @@ public class PowersUnchainedNeoForgeClient {
         modEventBus.addListener((EntityRenderersEvent.RegisterRenderers event) -> {
             event.registerEntityRenderer(PUEntities.IMPACT_WEB.get(), WebProjectileRenderer::impact);
             event.registerEntityRenderer(PUEntities.STICKY_WEB.get(), WebProjectileRenderer::sticky);
+            event.registerEntityRenderer(PUEntities.ELECTRO_WEB.get(), WebProjectileRenderer::electro);
             event.registerEntityRenderer(PUEntities.WEB_ZIP_LINE.get(), WebProjectileRenderer::impact);
             event.registerEntityRenderer(PUEntities.WEB_SWING_LINE.get(), WebProjectileRenderer::impact);
             event.registerEntityRenderer(PUEntities.WEB_COCOON.get(), WebCocoonRenderer::new);
@@ -166,6 +167,9 @@ public class PowersUnchainedNeoForgeClient {
         modEventBus.addListener((net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) -> event.register(
                 com.star_1mp.powersunchained.registry.PUMenus.SUIT_CREATOR.get(),
                 com.star_1mp.powersunchained.client.suitcreator.SuitCreatorScreen::new));
+        modEventBus.addListener((net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) -> event.register(
+                com.star_1mp.powersunchained.registry.PUMenus.TECH_TABLE.get(),
+                com.star_1mp.powersunchained.client.techtable.TechTableScreen::new));
         // first person: the empty off hand arm shows up while it shoots webs (rapid fire alternates wrists)
         NeoForge.EVENT_BUS.addListener(PowersUnchainedNeoForgeClient::renderWebShootingOffArm);
         // web-shooter first person arm pose: before anything draws the arm
@@ -214,6 +218,7 @@ public class PowersUnchainedNeoForgeClient {
                 player.addLayer(new SuitLayer(player, event.getEntityModels(), slim));
                 player.addLayer(new com.star_1mp.powersunchained.client.web.WebHandLayer(player));
                 player.addLayer(new com.star_1mp.powersunchained.client.power.SpiderSenseLayer(player));
+                player.addLayer(new com.star_1mp.powersunchained.client.techtable.GadgetHologram.Layer(player));
             }
             AvatarRenderer<?> mannequin = event.getMannequinRenderer(skin);
             if (mannequin != null) {

@@ -32,9 +32,10 @@ public final class WebShooterHud {
     static void tick() {
         prevScroll = scroll;
         System.arraycopy(HIGHLIGHT, 0, PREV_HIGHLIGHT, 0, HIGHLIGHT.length);
-        int size = WebType.values().length;
+        java.util.List<WebType> list = WebType.available(Minecraft.getInstance().player);
+        int size = list.size();
         float angleIncr = 360.0F / size;
-        int slot = WebShooterClient.selected().ordinal();
+        int slot = Math.max(0, list.indexOf(WebShooterClient.selected()));
         float target = slot * angleIncr;
         int dir = WebShooterClient.scrollDirection();
         if (size > 1) {
@@ -48,8 +49,9 @@ public final class WebShooterHud {
             }
         }
         scroll -= (scroll - target) / 4.0F;
-        for (int i = 0; i < size; i++) {
-            float goal = WebShooterClient.isActive() && i == slot ? 1.0F : 0.0F;
+        for (WebType type : WebType.values()) {
+            int i = type.ordinal();
+            float goal = WebShooterClient.isActive() && type == WebShooterClient.selected() ? 1.0F : 0.0F;
             HIGHLIGHT[i] -= (HIGHLIGHT[i] - goal) / 4.0F;
         }
     }
@@ -83,7 +85,7 @@ public final class WebShooterHud {
         }
         int width = graphics.guiWidth();
         int height = graphics.guiHeight();
-        WebType[] types = WebType.values();
+        WebType[] types = WebType.available(mc.player).toArray(new WebType[0]);
 
         if (timer > 0.0F) {
             float angleIncr = 360.0F / types.length;
@@ -91,12 +93,13 @@ public final class WebShooterHud {
             float radius = 80.0F * timer;
             int cx = width / 2;
             int cy = height / 2 + 30;
-            for (WebType type : types) {
+            for (int n = 0; n < types.length; n++) {
+                WebType type = types[n];
                 int i = type.ordinal();
                 float hl = Mth.lerp(pt, PREV_HIGHLIGHT[i], HIGHLIGHT[i]);
                 float scale = (0.75F + hl * 0.25F) * timer;
                 int opacity = Math.round(255.0F * hl * timer);
-                float angle = (float) Math.toRadians(offset + (int) (angleIncr / 2.0F) + i * angleIncr);
+                float angle = (float) Math.toRadians(offset + (int) (angleIncr / 2.0F) + n * angleIncr);
                 float x = cx + Mth.cos(angle) * radius * 0.75F;
                 float y = cy + Mth.sin(angle) * radius * 0.75F * 0.35F;
 

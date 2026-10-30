@@ -92,7 +92,7 @@ public class WebSwingLine extends WebZipLine {
 
     @Override
     protected float range() {
-        return SWING_RANGE;
+        return SWING_RANGE * this.speedMultiplier();
     }
 
     @Override
@@ -152,7 +152,7 @@ public class WebSwingLine extends WebZipLine {
                     hooked.resetFallDistance();
                 }
             }
-            if (!hooked.isAlive() || hooked.distanceTo(player) > SWING_RANGE) {
+            if (!hooked.isAlive() || hooked.distanceTo(player) > SWING_RANGE * com.star_1mp.powersunchained.tech.WebModules.range(player)) {
                 this.detach();
             }
             return;
@@ -169,7 +169,7 @@ public class WebSwingLine extends WebZipLine {
      */
     public static boolean canReachAnything(Player player) {
         Vec3 eye = player.getEyePosition();
-        Vec3 end = eye.add(player.getLookAngle().scale(SWING_RANGE));
+        Vec3 end = eye.add(player.getLookAngle().scale(SWING_RANGE * com.star_1mp.powersunchained.tech.WebModules.range(player)));
         HitResult hit = player.level().clip(new ClipContext(eye, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
         if (hit.getType() != HitResult.Type.MISS && eye.distanceTo(hit.getLocation()) >= 1.5) {
             return true;

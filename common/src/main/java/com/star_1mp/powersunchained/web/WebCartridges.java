@@ -18,6 +18,7 @@ import org.jspecify.annotations.Nullable;
  */
 public final class WebCartridges {
 
+    /** Cartridges without the Second Drum module ({@link com.star_1mp.powersunchained.tech.WebModules#cartridgeSlots}). */
     public static final int SLOTS = 2;
     /** Shots in one full cartridge. */
     public static final int MAX_FLUID = 128;
@@ -70,7 +71,7 @@ public final class WebCartridges {
     /** Loads one cartridge into a free slot. @return whether it was loaded (the caller removes it) */
     public static boolean insert(ItemStack shooters, ItemStack cartridge) {
         List<Integer> contents = contents(shooters);
-        if (!isLoadable(cartridge) || contents.size() >= SLOTS) {
+        if (!isLoadable(cartridge) || contents.size() >= com.star_1mp.powersunchained.tech.WebModules.cartridgeSlots(shooters)) {
             return false;
         }
         List<Integer> next = new ArrayList<>(contents);
@@ -133,8 +134,20 @@ public final class WebCartridges {
 
     /** Uses one shot of web fluid from the worn web-shooters. @return {@code false} if there is none */
     public static boolean consumeWorn(Player player) {
-        boolean[] used = {false};
-        Services.GAMEPLAY.modifyAccessory(player, PUItems.WEB_SHOOTERS.get(), shooters -> used[0] = consume(shooters));
+        return consumeWorn(player, 1);
+    }
+
+    /** Uses {@code shots} portions (all or none). @return {@code false} if there is not enough */
+    public static boolean consumeWorn(Player player, int shots) {
+        if (totalFluid(wornShooters(player)) < shots) {
+            return false;
+        }
+        boolean[] used = {true};
+        Services.GAMEPLAY.modifyAccessory(player, PUItems.WEB_SHOOTERS.get(), shooters -> {
+            for (int i = 0; i < shots; i++) {
+                used[0] &= consume(shooters);
+            }
+        });
         return used[0];
     }
 

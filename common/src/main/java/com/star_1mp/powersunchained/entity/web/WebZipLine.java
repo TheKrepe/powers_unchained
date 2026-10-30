@@ -65,7 +65,7 @@ public class WebZipLine extends AbstractWebProjectile {
 
     /** How far the line flies before it gives up. */
     protected float range() {
-        return RANGE;
+        return RANGE * this.speedMultiplier();
     }
 
     @Override

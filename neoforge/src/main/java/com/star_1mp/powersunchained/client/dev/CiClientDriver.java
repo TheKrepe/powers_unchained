@@ -768,7 +768,87 @@ public final class CiClientDriver {
                     Constants.LOG.warn("[CI] could not read JEI's order", e);
                 }
             }
+            // Tech Table: craft web-shooters, unlock + install modules, the look hologram; then the Electro-Web
             case 8200 -> {
+                run("gamemode survival @p");
+                run("clear @p");
+                run("tp @p 770.5 -60 0.5 180 30");
+                for (String item : new String[]{"iron_ingot 64", "dispenser 2", "sticky_piston 2", "lever 2", "glass 16",
+                        "copper_ingot 64", "redstone 64", "gold_ingot 16", "glowstone_dust 32", "lightning_rod 2", "slime_ball 16",
+                        "powers_unchained:empty_web_cartridge 4"}) {
+                    run("give @p minecraft:" + item.replace("minecraft:powers_unchained:", "powers_unchained:"));
+                }
+                run("give @p powers_unchained:empty_web_cartridge 4");
+            }
+            case 8210 -> openTechTable();
+            case 8220 -> {
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
+                    screen.debugTab(com.star_1mp.powersunchained.menu.TechTableMenu.TAB_CREATE);
+                    screen.debugSelectRecipe("web_shooters");
+                }
+            }
+            case 8225 -> run("tick rate 2");
+            case 8226 -> shot("62_tech_table_create");
+            case 8229 -> run("tick rate 20");
+            case 8235 -> mc.gameMode.handleInventoryMouseClick(mc.player.containerMenu.containerId, com.star_1mp.powersunchained.menu.TechTableMenu.RESULT_SLOT, 0,
+                    net.minecraft.world.inventory.ClickType.QUICK_MOVE, mc.player);
+            case 8240 -> {
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
+                    screen.debugTab(com.star_1mp.powersunchained.menu.TechTableMenu.TAB_UPGRADE);
+                    for (int i = 0; i < 36; i++) {
+                        if (mc.player.containerMenu.slots.get(i).getItem().is(com.star_1mp.powersunchained.registry.PUItems.WEB_SHOOTERS.get())) {
+                            mc.gameMode.handleInventoryMouseClick(mc.player.containerMenu.containerId, i, 0,
+                                    net.minecraft.world.inventory.ClickType.QUICK_MOVE, mc.player);
+                            break;
+                        }
+                    }
+                }
+            }
+            case 8245 -> {
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
+                    screen.debugButton(com.star_1mp.powersunchained.menu.TechTableMenu.UNLOCK_MODULE + com.star_1mp.powersunchained.tech.WebModule.TIGHT_SPRING.ordinal());
+                    screen.debugButton(com.star_1mp.powersunchained.menu.TechTableMenu.UNLOCK_MODULE + com.star_1mp.powersunchained.tech.WebModule.ELECTRO_WEB.ordinal());
+                    screen.debugButton(com.star_1mp.powersunchained.menu.TechTableMenu.UNLOCK_MODULE + com.star_1mp.powersunchained.tech.WebModule.SECOND_DRUM.ordinal());
+                }
+            }
+            case 8250 -> {
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
+                    screen.debugButton(com.star_1mp.powersunchained.menu.TechTableMenu.INSTALL_MODULE + com.star_1mp.powersunchained.tech.WebModule.TIGHT_SPRING.ordinal());
+                    screen.debugSelectModule(com.star_1mp.powersunchained.tech.WebModule.ELECTRO_WEB);
+                }
+            }
+            case 8255 -> run("tick rate 2");
+            case 8256 -> shot("63_tech_table_upgrade");
+            case 8259 -> run("tick rate 20");
+            case 8265 -> {
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
+                    screen.debugButton(com.star_1mp.powersunchained.menu.TechTableMenu.INSTALL_MODULE + com.star_1mp.powersunchained.tech.WebModule.ELECTRO_WEB.ordinal());
+                    screen.debugTab(com.star_1mp.powersunchained.menu.TechTableMenu.TAB_CUSTOMIZE);
+                }
+            }
+            case 8270 -> run("tick rate 2");
+            case 8271 -> shot("64_tech_table_customize");
+            case 8274 -> run("tick rate 20");
+            case 8280 -> {
+                Constants.LOG.info("[CI] tech table device: {}", mc.player.containerMenu instanceof com.star_1mp.powersunchained.menu.TechTableMenu menu ? menu.device().getComponents() : "-");
+                mc.gui.setScreen(null);
+            }
+            // Electro-Web at two zombies
+            case 8290 -> {
+                run("gamemode creative @p");
+                run("tp @p 790.5 -60 0.5 0 0");
+                run("curios replace bracelet 0 @p with powers_unchained:web_shooters[powers_unchained:web_modules=[\"electro_web\",\"tight_spring\"],powers_unchained:web_cartridges=[128,128]]");
+                run("difficulty easy");
+                run("execute at @p run summon minecraft:zombie ~ ~ ~7 {NoAI:1b,Rotation:[180f,0f]}");
+                run("execute at @p run summon minecraft:zombie ~2 ~ ~8 {NoAI:1b,Rotation:[180f,0f]}");
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+            }
+            case 8300 -> com.star_1mp.powersunchained.client.web.WebShooterClient.debugState(true, false, com.star_1mp.powersunchained.web.WebType.ELECTRO);
+            case 8305 -> run("tick rate 4");
+            case 8306 -> shootWeb(com.star_1mp.powersunchained.web.WebType.ELECTRO);
+            case 8309 -> shot("65_electro_web");
+            case 8313 -> run("tick rate 20");
+            case 8330 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -790,6 +870,18 @@ public final class CiClientDriver {
         } catch (RuntimeException e) {
             Constants.LOG.error("[CI] recipe viewer failed", e);
         }
+    }
+
+    /** Opens the Tech Table next to the player (server side, like right-clicking the block). */
+    private static void openTechTable() {
+        net.minecraft.server.level.ServerPlayer player = serverPlayer();
+        Minecraft.getInstance().getSingleplayerServer().execute(() -> {
+            net.minecraft.core.BlockPos pos = new net.minecraft.core.BlockPos(770, -60, -2);
+            if (!player.level().getBlockState(pos).is(com.star_1mp.powersunchained.registry.PUBlocks.TECH_TABLE.get())) {
+                player.level().setBlockAndUpdate(pos, com.star_1mp.powersunchained.registry.PUBlocks.TECH_TABLE.get().defaultBlockState());
+            }
+            player.openMenu(player.level().getBlockState(pos).getMenuProvider(player.level(), pos));
+        });
     }
 
     /** Opens the Suit Creator next to the player (server side, like right-clicking the block). */

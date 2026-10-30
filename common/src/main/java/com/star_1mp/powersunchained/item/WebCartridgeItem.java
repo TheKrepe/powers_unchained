@@ -36,7 +36,7 @@ public class WebCartridgeItem extends Item {
         }
         if (level.isClientSide()) {
             // the server decides; keep the client from using the item in the meantime
-            return WebCartridges.contents(shooters).size() < WebCartridges.SLOTS || WebCartridges.contents(shooters).contains(0)
+            return WebCartridges.contents(shooters).size() < com.star_1mp.powersunchained.tech.WebModules.cartridgeSlots(shooters) || WebCartridges.contents(shooters).contains(0)
                     ? InteractionResult.SUCCESS : InteractionResult.PASS;
         }
         ItemStack[] result = {null};

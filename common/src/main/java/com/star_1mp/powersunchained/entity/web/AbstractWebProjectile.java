@@ -48,6 +48,8 @@ public abstract class AbstractWebProjectile extends Entity {
     private static final EntityDataAccessor<Float> SHOOT_YAW = SynchedEntityData.defineId(AbstractWebProjectile.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> SHOOT_PITCH = SynchedEntityData.defineId(AbstractWebProjectile.class, EntityDataSerializers.FLOAT);
     /** Server -> client: the block side the web is stuck to, -1 while not stuck to a block. */
+    /** Speed multiplier from the shooter's web-shooter modules (Tight Spring), so the clients fly it the same way. */
+    private static final EntityDataAccessor<Float> SPEED = SynchedEntityData.defineId(AbstractWebProjectile.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Byte> STUCK_SIDE = SynchedEntityData.defineId(AbstractWebProjectile.class, EntityDataSerializers.BYTE);
 
     /** Side of the wrist the web was shot from. */
@@ -76,6 +78,7 @@ public abstract class AbstractWebProjectile extends Entity {
         this.shooter = shooter;
         this.entityData.set(SHOOTER, shooter.getId() + 1);
         this.entityData.set(SHOOT_SIDE, (byte) side);
+        this.entityData.set(SPEED, com.star_1mp.powersunchained.tech.WebModules.range(shooter));
         float yaw = shooter.getYRot();
         float pitch = shooter.getXRot();
         // start at the wrist the web is shot from
@@ -121,6 +124,7 @@ public abstract class AbstractWebProjectile extends Entity {
         builder.define(SHOOT_YAW, 0.0F);
         builder.define(SHOOT_PITCH, 0.0F);
         builder.define(STUCK_SIDE, (byte) -1);
+        builder.define(SPEED, 1.0F);
     }
 
     public @Nullable Entity getShooter() {
@@ -144,6 +148,11 @@ public abstract class AbstractWebProjectile extends Entity {
 
     public float getVelocityFactor() {
         return 7.5F;
+    }
+
+    /** Range bonus of the shooter's web-shooters (1 = none). */
+    public float speedMultiplier() {
+        return this.entityData.get(SPEED);
     }
 
     public float getStrayFactor() {
@@ -188,7 +197,7 @@ public abstract class AbstractWebProjectile extends Entity {
         double mx = -Mth.sin(yaw * Mth.DEG_TO_RAD) * Mth.cos(pitch * Mth.DEG_TO_RAD);
         double mz = Mth.cos(yaw * Mth.DEG_TO_RAD) * Mth.cos(pitch * Mth.DEG_TO_RAD);
         double my = -Mth.sin(pitch * Mth.DEG_TO_RAD);
-        Vec3 m = new Vec3(mx, my, mz).normalize().scale(this.getVelocityFactor());
+        Vec3 m = new Vec3(mx, my, mz).normalize().scale(this.getVelocityFactor() * this.speedMultiplier());
         this.setDeltaMovement(m);
         this.setYRot((float) (Math.atan2(m.x, m.z) * 180.0 / Math.PI));
         this.setXRot((float) (Math.atan2(m.y, m.horizontalDistance()) * 180.0 / Math.PI));

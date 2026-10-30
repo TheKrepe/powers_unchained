@@ -38,11 +38,15 @@ public final class WebShooting {
             return;
         }
         State state = STATES.computeIfAbsent(player.getUUID(), id -> new State());
+        if (!type.isAvailable(player)) {
+            return;
+        }
+        state.ammo.setFactor(com.star_1mp.powersunchained.tech.WebModules.recharge(player));
         if (!state.ammo.canUse(type)) {
             return;
         }
         if (!WebCartridges.freeShots(player)) {
-            if (!WebCartridges.consumeWorn(player)) {
+            if (!WebCartridges.consumeWorn(player, type.fluidCost())) {
                 // out of web fluid: dry click
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.DISPENSER_FAIL,
                         SoundSource.PLAYERS, 0.5F, 1.6F);
@@ -76,6 +80,11 @@ public final class WebShooting {
     /** Ticks between two web zips. */
     public static final int ZIP_COOLDOWN = 20;
 
+    /** Ticks between two web zips for this player (Fast Feed module: shorter). */
+    public static int zipCooldown(Player player) {
+        return Math.round(ZIP_COOLDOWN * com.star_1mp.powersunchained.tech.WebModules.recharge(player));
+    }
+
     /** Web Zip: shoots a web line that pulls the player to where it hits. */
     public static void zip(ServerPlayer player) {
         if (player.isSpectator() || !hasWebShooters(player) || !player.getMainHandItem().isEmpty()) {
@@ -83,7 +92,7 @@ public final class WebShooting {
         }
         State state = STATES.computeIfAbsent(player.getUUID(), id -> new State());
         long now = player.level().getGameTime();
-        if (now - state.lastZip < ZIP_COOLDOWN - 2) {  // a little slack for lag
+        if (now - state.lastZip < zipCooldown(player) - 2) {  // a little slack for lag
             return;
         }
         if (!WebCartridges.freeShots(player) && !WebCartridges.consumeWorn(player)) {

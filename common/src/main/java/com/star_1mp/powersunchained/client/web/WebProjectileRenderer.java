@@ -31,6 +31,7 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
 
     public static final Identifier TEXTURE = Constants.id("textures/entity/web/web.png");
     public static final Identifier TEXTURE_LARGE = Constants.id("textures/entity/web/web_large.png");
+    public static final Identifier TEXTURE_ELECTRO = Constants.id("textures/entity/web/web_electro.png");
     public static final Identifier TEXTURE_ROPE = Constants.id("textures/entity/web/web_rope.png");
     private static final int[] ROT_MATRIX = {0, 0, 2, 0, 3, 1};
 
@@ -49,6 +50,10 @@ public class WebProjectileRenderer<T extends AbstractWebProjectile> extends Enti
 
     public static <T extends AbstractWebProjectile> WebProjectileRenderer<T> sticky(EntityRendererProvider.Context context) {
         return new WebProjectileRenderer<>(context, 12.0F, TEXTURE_LARGE);
+    }
+
+    public static <T extends AbstractWebProjectile> WebProjectileRenderer<T> electro(EntityRendererProvider.Context context) {
+        return new WebProjectileRenderer<>(context, 12.0F, TEXTURE_ELECTRO);
     }
 
     @Override

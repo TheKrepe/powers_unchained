@@ -22,6 +22,14 @@ public final class PUDataComponents {
     public static final Supplier<DataComponentType<Boolean>> CREATIVE_WEB_SHOOTERS = Services.REGISTRY.registerDataComponent("creative_web_shooters",
             builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL));
 
+    /** Upgrade modules installed in web-shooters (Tech Table), in order of the module slots. */
+    public static final Supplier<DataComponentType<List<String>>> WEB_MODULES = Services.REGISTRY.registerDataComponent("web_modules",
+            builder -> builder.persistent(Codec.STRING.listOf()).networkSynchronized(ByteBufCodecs.STRING_UTF8.apply(ByteBufCodecs.list())));
+
+    /** Look (design) of a gadget (Tech Table, Customization tab); missing = default. */
+    public static final Supplier<DataComponentType<String>> GADGET_SKIN = Services.REGISTRY.registerDataComponent("gadget_skin",
+            builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
+
     private PUDataComponents() {
     }
 

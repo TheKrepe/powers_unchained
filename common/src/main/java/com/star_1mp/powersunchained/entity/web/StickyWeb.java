@@ -44,6 +44,10 @@ public class StickyWeb extends AbstractWebProjectile {
         super(PUEntities.STICKY_WEB.get(), level, shooter, side);
     }
 
+    protected StickyWeb(EntityType<? extends StickyWeb> type, Level level, LivingEntity shooter, int side) {
+        super(type, level, shooter, side);
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);

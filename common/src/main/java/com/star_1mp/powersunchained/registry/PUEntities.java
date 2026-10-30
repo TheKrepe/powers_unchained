@@ -19,6 +19,10 @@ public final class PUEntities {
             () -> EntityType.Builder.<StickyWeb>of(StickyWeb::new, MobCategory.MISC)
                     .noLootTable().noSummon().sized(0.3F, 0.3F).clientTrackingRange(8).updateInterval(1));
 
+    public static final Supplier<EntityType<com.star_1mp.powersunchained.entity.web.ElectroWeb>> ELECTRO_WEB = Services.REGISTRY.registerEntityType("electro_web",
+            () -> EntityType.Builder.<com.star_1mp.powersunchained.entity.web.ElectroWeb>of(com.star_1mp.powersunchained.entity.web.ElectroWeb::new, MobCategory.MISC)
+                    .noLootTable().noSummon().sized(0.3F, 0.3F).clientTrackingRange(8).updateInterval(1));
+
     public static final Supplier<EntityType<WebCocoon>> WEB_COCOON = Services.REGISTRY.registerEntityType("web_cocoon",
             () -> EntityType.Builder.<WebCocoon>of(WebCocoon::new, MobCategory.MISC)
                     .noLootTable().noSummon().sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1));

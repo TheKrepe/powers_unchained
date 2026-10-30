@@ -53,10 +53,16 @@ public final class SuitHologram {
      */
     public static void draw(GuiGraphicsExtractor graphics, int x0, int y0, int x1, int y1, float scale, Suit suit,
             boolean[] parts, boolean slim, Pose pose, float yaw, float ageInTicks) {
+        draw(graphics, x0, y0, x1, y1, scale, suit, parts, slim, pose, yaw, ageInTicks, ID_BASE + pose.ordinal());
+    }
+
+    /** Same with an own render state id (other previews, e.g. the Tech Table's gadget hologram). */
+    public static void draw(GuiGraphicsExtractor graphics, int x0, int y0, int x1, int y1, float scale, @org.jspecify.annotations.Nullable Suit suit,
+            boolean[] parts, boolean slim, Pose pose, float yaw, float ageInTicks, int id) {
         AvatarRenderState state = new AvatarRenderState();
         state.entityType = net.minecraft.world.entity.EntityTypes.PLAYER;
         state.skin = slim ? ALEX : STEVE;
-        state.id = ID_BASE + pose.ordinal();
+        state.id = id;
         state.ageInTicks = ageInTicks;
         state.bodyRot = 180.0F + yaw;
         state.yRot = 0.0F;
