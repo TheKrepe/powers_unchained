@@ -13,6 +13,8 @@ neoForge {
     runs {
         configureEach {
             systemProperty('neoforge.enabledGameTestNamespaces', mod_id)
+            // dev only: REI uses @OnlyIn, and NeoForge's warning screen for it would stop the CI client's quick play
+            systemProperty('neoforge.warnings.onlyin.hide', 'true')
             ideName = "NeoForge ${it.name.capitalize()} (${project.path})" // Unify the run config names with fabric
         }
         client {
