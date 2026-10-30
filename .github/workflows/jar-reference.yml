@@ -11,6 +11,10 @@ on:
       patterns:
         description: "Space-separated case-insensitive path regexes of classes to decompile"
         required: true
+      files:
+        description: "Optional space-separated path regexes of extra (binary) files to copy, e.g. textures"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -27,6 +31,7 @@ jobs:
         env:
           URL: ${{ inputs.url }}
           PATTERNS: ${{ inputs.patterns }}
+          FILES: ${{ inputs.files }}
         run: |
           mkdir -p /tmp/ref/out /tmp/ref/classes /tmp/ref/jar
           if [[ "$URL" == modrinth:* ]]; then
@@ -42,6 +47,9 @@ jobs:
           find . -type f | sort > /tmp/ref/out/_files.txt
           find . -type f \( -name '*.json' -o -name '*.toml' -o -name '*.txt' -o -name '*.mcmeta' -o -name '*.lang' -o -name '*.properties' -o -name '*.js' \) \
             -exec cp --parents {} /tmp/ref/out/ \;
+          for p in $FILES; do
+            find . -type f | grep -iE "$p" | while read -r f; do cp --parents "$f" /tmp/ref/out/; done
+          done
           for p in $PATTERNS; do
             find . -name '*.class' | grep -iE "$p" | while read -r f; do cp --parents "$f" /tmp/ref/classes/; done
           done
