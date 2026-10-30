@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -57,6 +59,9 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     private static final int RIGHT_X = 306;
     private static final int RIGHT_W = 102;
     private static final int CARD_H = 22;
+    /** The list's search box sits on top; cards start under it (owner: no categories, a search instead). */
+    private static final int SEARCH_H = 14;
+    private static final int LIST_TOP = LIST_Y + 3 + SEARCH_H + 3;
     private static final int HOLO_CONTROLS_Y = 131;
 
     private static final int LABEL = 0xFF404040;
@@ -92,6 +97,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     private @Nullable WebModule dragging;
     private boolean dragFromInstalled;
     private int failFlash;
+    private @Nullable EditBox search;
     /** Customization hologram: model (null = the player's own skin model) and running pose. */
     private @Nullable Boolean holoSlim;
     private SuitHologram.Pose holoPose = SuitHologram.Pose.STAND;
@@ -107,10 +113,45 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     @Override
     protected void init() {
         super.init();
+        String old = this.search != null ? this.search.getValue() : "";
+        this.search = new EditBox(this.font, this.leftPos + LIST_X + 3, this.topPos + LIST_Y + 3, LIST_W - 6, SEARCH_H,
+                tr("search"));
+        this.search.setHint(tr("search").copy().withColor(0xFF6F7780));
+        this.search.setMaxLength(32);
+        this.search.setValue(old);
+        this.search.setResponder(value -> this.listScroll = 0);
+        this.addRenderableWidget(this.search);
         this.setTab(lastTab);
+        this.search.visible = this.listShown();
+    }
+
+    private String query() {
+        return this.search == null ? "" : this.search.getValue().trim().toLowerCase(Locale.ROOT);
+    }
+
+    private boolean matches(Component name, @Nullable Component sub) {
+        String q = this.query();
+        return q.isEmpty() || name.getString().toLowerCase(Locale.ROOT).contains(q)
+                || (sub != null && sub.getString().toLowerCase(Locale.ROOT).contains(q));
+    }
+
+    /** The search box only shows while the list has something to search (no device = empty list). */
+    private boolean listShown() {
+        return switch (this.menu.tab) {
+            case TechTableMenu.TAB_UPGRADE -> TechTableMenu.isGadget(this.menu.device());
+            case TechTableMenu.TAB_CUSTOMIZE -> this.menu.isLinked() && TechTableMenu.isGadget(this.menu.device());
+            default -> true;
+        };
+    }
+
+    private void listScissor(GuiGraphicsExtractor g, int x, int y) {
+        g.enableScissor(x + LIST_X + 1, y + LIST_TOP - 2, x + LIST_X + LIST_W - 1, y + LIST_Y + LIST_H - 1);
     }
 
     private void setTab(int tab) {
+        if (this.search != null && tab != this.menu.tab) {
+            this.search.setValue("");  // each tab searches its own list
+        }
         lastTab = tab;
         this.menu.tab = tab;
         this.listScroll = 0;
@@ -123,6 +164,14 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     @Override
     protected void containerTick() {
         super.containerTick();
+        if (this.search != null) {
+            boolean shown = this.listShown();
+            this.search.visible = shown;
+            if (!shown && this.search.isFocused()) {
+                this.search.setFocused(false);
+                this.setFocused(null);
+            }
+        }
         if (this.failFlash > 0) {
             this.failFlash--;
         }
@@ -397,18 +446,13 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
 
     // ---- Creation ----
 
-    private record ListRow(@Nullable String group, @Nullable TechRecipe recipe) {
-    }
-
-    private List<ListRow> createRows() {
-        List<ListRow> rows = new ArrayList<>();
-        String group = null;
+    /** Recipes in list order, filtered by the search (owner: no categories). */
+    private List<TechRecipe> createRows() {
+        List<TechRecipe> rows = new ArrayList<>();
         for (TechRecipe r : TechRecipes.all()) {
-            if (!r.group().equals(group)) {
-                group = r.group();
-                rows.add(new ListRow(group, null));
+            if (this.matches(recipeName(r), recipeSub(r))) {
+                rows.add(r);
             }
-            rows.add(new ListRow(null, r));
         }
         return rows;
     }
@@ -425,21 +469,18 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     private void drawCreate(GuiGraphicsExtractor g, int x, int y, int mx, int my) {
         // list
         int lx = x + LIST_X + 2;
-        int ly = y + LIST_Y + 3 - this.listScroll;
-        g.enableScissor(x + LIST_X + 1, y + LIST_Y + 1, x + LIST_X + LIST_W - 1, y + LIST_Y + LIST_H - 1);
-        for (ListRow row : this.createRows()) {
-            if (row.group() != null) {
-                long n = TechRecipes.all().stream().filter(r -> r.group().equals(row.group())).count();
-                this.groupHeader(g, lx, ly, LIST_W - 4, Component.translatable("tech_group.powers_unchained." + row.group()), (int) n);
-                ly += 13;
-            } else {
-                TechRecipe r = row.recipe();
-                boolean hover = in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2) && in(mx, my, x + LIST_X, y + LIST_Y, LIST_W, LIST_H);
-                this.card(g, lx, ly, LIST_W - 4, r.resultStack(), null, recipeName(r), recipeSub(r), r == this.selectedRecipe, hover, false);
-                ly += CARD_H;
-            }
+        int ly = y + LIST_TOP - this.listScroll;
+        this.listScissor(g, x, y);
+        List<TechRecipe> rows = this.createRows();
+        for (TechRecipe r : rows) {
+            boolean hover = in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2) && in(mx, my, x + LIST_X, y + LIST_TOP, LIST_W, LIST_H);
+            this.card(g, lx, ly, LIST_W - 4, r.resultStack(), null, recipeName(r), recipeSub(r), r == this.selectedRecipe, hover, false);
+            ly += CARD_H;
         }
         g.disableScissor();
+        if (rows.isEmpty()) {
+            g.centeredText(this.font, tr("search.none"), x + LIST_X + LIST_W / 2, y + LIST_TOP + 6, DIM);
+        }
 
         // blueprint with the grid
         int bx = x + CENTER_X;
@@ -604,6 +645,19 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         return new int[]{cx - (this.installSlots() * 22 - 4) / 2 + i * 22, this.topPos + 118};
     }
 
+    /** The Upgrade list: installed first, then unlocked, then locked (no category headers), filtered by the search. */
+    private List<WebModule> moduleList() {
+        List<WebModule> list = new ArrayList<>();
+        for (int s = 0; s < 3; s++) {
+            for (WebModule m : this.moduleRows(s)) {
+                if (this.matches(m.displayName(), Component.translatable("module.powers_unchained." + m.id() + ".short"))) {
+                    list.add(m);
+                }
+            }
+        }
+        return list;
+    }
+
     private List<WebModule> moduleRows(int section) {
         ItemStack gadget = this.menu.device();
         List<WebModule> list = new ArrayList<>();
@@ -624,26 +678,27 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     private void drawUpgrade(GuiGraphicsExtractor g, int x, int y, int mx, int my) {
         ItemStack gadget = this.menu.device();
         boolean hasGadget = TechTableMenu.isGadget(gadget);
-        // list: installed / unlocked / locked
+        // list: installed / unlocked / locked, one flat list (owner: no categories); installed ones get a green edge
         int lx = x + LIST_X + 2;
-        int ly = y + LIST_Y + 3 - this.listScroll;
-        g.enableScissor(x + LIST_X + 1, y + LIST_Y + 1, x + LIST_X + LIST_W - 1, y + LIST_Y + LIST_H - 1);
-        String[] sections = {"installed", "unlocked", "locked"};
-        for (int s = 0; s < (hasGadget ? 3 : 0); s++) {  // owner: no device = empty list and right panel
-            List<WebModule> rows = this.moduleRows(s);
-            if (rows.isEmpty()) {
-                continue;
-            }
-            this.groupHeader(g, lx, ly, LIST_W - 4, tr("modules." + sections[s]), rows.size());
-            ly += 13;
+        int ly = y + LIST_TOP - this.listScroll;
+        if (hasGadget) {  // owner: no device = empty list and right panel
+            this.listScissor(g, x, y);
+            List<WebModule> rows = this.moduleList();
             for (WebModule m : rows) {
                 boolean hover = in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2);
+                boolean locked = !this.progress().hasModule(m) && !WebModules.has(gadget, m);
                 this.card(g, lx, ly, LIST_W - 4, null, m.sprite(), m.displayName(),
-                        Component.translatable("module.powers_unchained." + m.id() + ".short"), m == this.shownModule(), hover, s == 2);
+                        Component.translatable("module.powers_unchained." + m.id() + ".short"), m == this.shownModule(), hover, locked);
+                if (WebModules.has(gadget, m)) {
+                    g.fill(lx + LIST_W - 7, ly + 2, lx + LIST_W - 5, ly + CARD_H - 4, GREEN);
+                }
                 ly += CARD_H;
             }
+            g.disableScissor();
+            if (rows.isEmpty()) {
+                g.centeredText(this.font, tr("search.none"), x + LIST_X + LIST_W / 2, y + LIST_TOP + 6, DIM);
+            }
         }
-        g.disableScissor();
 
         // blueprint: modules on top, the gadget in the middle, 5 module slots below
         int bx = x + CENTER_X;
@@ -798,13 +853,14 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         boolean linked = this.menu.isLinked();
         boolean hasGadget = linked && TechTableMenu.isGadget(gadget);
         int lx = x + LIST_X + 2;
-        int ly = y + LIST_Y + 3;
+        int ly = y + LIST_TOP;
         if (hasGadget) {
-            this.groupHeader(g, lx, ly, LIST_W - 4, tr("looks"), GadgetSkins.WEB_SHOOTERS.size());
-            ly += 13;
             String current = GadgetSkins.of(gadget);
             for (int i = 0; i < GadgetSkins.WEB_SHOOTERS.size(); i++) {
                 GadgetSkins skin = GadgetSkins.WEB_SHOOTERS.get(i);
+                if (!this.matches(skin.displayName(), null)) {
+                    continue;
+                }
                 boolean unlocked = this.progress().hasSkin(skin.id());
                 boolean hover = in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2);
                 this.card(g, lx, ly, LIST_W - 4, gadget, null, skin.displayName(),
@@ -941,6 +997,12 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
         double mx = event.x();
         double my = event.y();
+        if (this.search != null && !(this.search.visible && in(mx, my, this.search.getX(), this.search.getY(), this.search.getWidth(), this.search.getHeight()))) {
+            this.search.setFocused(false);
+            if (this.getFocused() == this.search) {
+                this.setFocused(null);
+            }
+        }
         if (event.button() == InputConstants.MOUSE_BUTTON_LEFT && this.clickUi(mx, my)) {
             return true;
         }
@@ -960,20 +1022,16 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 return true;
             }
         }
-        boolean inList = in(mx, my, x + LIST_X, y + LIST_Y, LIST_W, LIST_H);
+        boolean inList = in(mx, my, x + LIST_X, y + LIST_TOP - 2, LIST_W, LIST_H - (LIST_TOP - 2 - LIST_Y));
         int lx = x + LIST_X + 2;
         switch (this.menu.tab) {
             case TechTableMenu.TAB_CREATE -> {
                 if (inList) {
-                    int ly = y + LIST_Y + 3 - this.listScroll;
-                    for (ListRow row : this.createRows()) {
-                        if (row.group() != null) {
-                            ly += 13;
-                            continue;
-                        }
+                    int ly = y + LIST_TOP - this.listScroll;
+                    for (TechRecipe r : this.createRows()) {
                         if (in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2)) {
-                            this.selectedRecipe = row.recipe();
-                            this.button(TechTableMenu.PLACE_RECIPE + TechRecipes.all().indexOf(row.recipe()));
+                            this.selectedRecipe = r;
+                            this.button(TechTableMenu.PLACE_RECIPE + TechRecipes.all().indexOf(r));
                             this.click();
                             return true;
                         }
@@ -987,21 +1045,14 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                     break;  // no device: nothing to click
                 }
                 if (inList) {
-                    int ly = y + LIST_Y + 3 - this.listScroll;
-                    for (int s = 0; s < 3; s++) {
-                        List<WebModule> rows = this.moduleRows(s);
-                        if (rows.isEmpty()) {
-                            continue;
+                    int ly = y + LIST_TOP - this.listScroll;
+                    for (WebModule m : this.moduleList()) {
+                        if (in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2)) {
+                            this.selectedModule = m;
+                            this.click();
+                            return true;
                         }
-                        ly += 13;
-                        for (WebModule m : rows) {
-                            if (in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2)) {
-                                this.selectedModule = m;
-                                this.click();
-                                return true;
-                            }
-                            ly += CARD_H;
-                        }
+                        ly += CARD_H;
                     }
                 }
                 // start dragging a module
@@ -1063,8 +1114,11 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                     }
                 }
                 if (inList) {
-                    int ly = y + LIST_Y + 3 + 13;
+                    int ly = y + LIST_TOP;
                     for (int i = 0; i < GadgetSkins.WEB_SHOOTERS.size(); i++) {
+                        if (!this.matches(GadgetSkins.WEB_SHOOTERS.get(i).displayName(), null)) {
+                            continue;
+                        }
                         if (in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2)) {
                             this.selectedSkin = i;
                             this.click();
@@ -1146,6 +1200,16 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             return true;
         }
         return super.mouseReleased(event);
+    }
+
+    @Override
+    public boolean keyPressed(KeyEvent event) {
+        if (this.search != null && this.search.isFocused() && !event.isEscape()) {
+            // typing in the search box: don't let E / number keys close the screen or move items
+            this.search.keyPressed(event);
+            return true;
+        }
+        return super.keyPressed(event);
     }
 
     @Override

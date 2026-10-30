@@ -204,6 +204,9 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `/techtable module unlock|lock <module|all> [targets]` (`command/TechTableCommand`). JEI + REI category
   `powers_unchained:tech_table` drawn by `client/techtable/TechRecipeArt` (steel title bar + drawing number, blueprint
   paper, 3x3 sockets, filling dashed arrow, copper result frame, "shapeless").
+  Owner: NO categories in the Tech Table lists (no recipe groups, no installed / unlocked / locked headers — the Upgrade
+  list is one flat list in that order, installed modules get a green edge, locked a lock), a search box on top of the
+  list instead (each tab clears it; hidden while the list is empty because there is no device).
   CI scenes 8200-8470 (shots 62-66). Concepts kept in `docs/concepts/tech_table_gui` (v1 + v2).
 - Web cocoon: 5 sticky hits within 120 ticks -> `entity/web/WebCocoon` (60 ticks, `WebSlowness.hold` = speed/jump/fly
   -100%, `WebSlowness.lockLook`: wrapped mobs keep their head/body rotation, reset at the end of each server tick), `client/web/WebCocoonRenderer` (tiled box), first-person `client/web/WebOverlay` (head webs / cocoon).

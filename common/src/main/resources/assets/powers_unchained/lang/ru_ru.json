@@ -271,5 +271,7 @@
   "commands.powers_unchained.techtable.unknown": "Неизвестный модуль: %s",
   "commands.powers_unchained.techtable.all": "все модули",
   "commands.powers_unchained.techtable.unlocked": "Открыто: %s (игроков: %s)",
-  "commands.powers_unchained.techtable.locked": "Закрыто: %s (игроков: %s)"
+  "commands.powers_unchained.techtable.locked": "Закрыто: %s (игроков: %s)",
+  "screen.powers_unchained.tech_table.search": "Поиск...",
+  "screen.powers_unchained.tech_table.search.none": "Ничего не найдено"
 }

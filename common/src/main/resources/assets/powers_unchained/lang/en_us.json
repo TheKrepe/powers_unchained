@@ -271,5 +271,7 @@
   "commands.powers_unchained.techtable.unknown": "Unknown module: %s",
   "commands.powers_unchained.techtable.all": "all modules",
   "commands.powers_unchained.techtable.unlocked": "Unlocked %s for %s player(s)",
-  "commands.powers_unchained.techtable.locked": "Locked %s for %s player(s)"
+  "commands.powers_unchained.techtable.locked": "Locked %s for %s player(s)",
+  "screen.powers_unchained.tech_table.search": "Search...",
+  "screen.powers_unchained.tech_table.search.none": "Nothing found"
 }
