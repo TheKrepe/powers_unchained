@@ -226,7 +226,7 @@
   "screen.powers_unchained.tech_table.unlock": "Unlock module",
   "screen.powers_unchained.tech_table.install_cost": "Installing costs:",
   "screen.powers_unchained.tech_table.drag_hint": "Drag the module from the top down into a slot to install it.",
-  "screen.powers_unchained.tech_table.put_gadget_hint": "Put web-shooters into the slot on the blueprint.",
+  "screen.powers_unchained.tech_table.put_gadget_hint": "Put a device into the slot on the blueprint.",
   "screen.powers_unchained.tech_table.remove_hint": "Drag the module back up to remove it (the materials don't come back).",
   "screen.powers_unchained.tech_table.looks": "Look",
   "screen.powers_unchained.tech_table.look.current": "Selected",
