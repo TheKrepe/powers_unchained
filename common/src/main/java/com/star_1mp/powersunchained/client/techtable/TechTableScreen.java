@@ -645,7 +645,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         List<WebModule> available = this.available(gadget);
         List<WebModule> installed = WebModules.installed(gadget);
         int n = Math.max(1, available.size());
-        for (int i = 0; i < available.size(); i++) {
+        for (int i = 0; i < (hasGadget ? available.size() : 0); i++) {
             int[] p = this.topSocket(i, n);
             dashed(g, p[0] + 8, p[1] + 17, dx + 8, dy - 5, INK_D);
         }
@@ -653,7 +653,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             int[] p = this.installSocket(i);
             dashed(g, dx + 8, dy + 21, p[0] + 8, p[1] - 1, i < installed.size() ? INK : INK_D);
         }
-        for (int i = 0; i < available.size(); i++) {
+        for (int i = 0; i < (hasGadget ? available.size() : 0); i++) {
             int[] p = this.topSocket(i, n);
             WebModule m = available.get(i);
             socket(g, p[0] - 1, p[1] - 1, 18, hasGadget);

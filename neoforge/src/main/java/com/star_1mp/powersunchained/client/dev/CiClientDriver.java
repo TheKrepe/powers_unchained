@@ -803,7 +803,14 @@ public final class CiClientDriver {
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
                     for (int i = 0; i < 36; i++) {
                         if (mc.player.containerMenu.slots.get(i).getItem().is(com.star_1mp.powersunchained.registry.PUItems.WEB_SHOOTERS.get())) {
-                            serverQuickMove(i);
+                            int slot = i;
+                            net.minecraft.server.level.ServerPlayer sp = serverPlayer();
+                            mc.getSingleplayerServer().execute(() -> {
+                                if (sp.containerMenu instanceof com.star_1mp.powersunchained.menu.TechTableMenu menu) {
+                                    menu.tab = com.star_1mp.powersunchained.menu.TechTableMenu.TAB_UPGRADE;
+                                }
+                            });
+                            serverQuickMove(slot);
                             break;
                         }
                     }
