@@ -978,7 +978,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         int bty = y + H - 8 - 20;
         if (!unlocked) {
             boolean can = skin.cost() != null && skin.cost().canPay(this.minecraft.player);
-            this.vanillaButton(g, rx + 3, bty, RIGHT_W - 6, 16, tr("unlock"), can, in(mx, my, rx + 3, bty, RIGHT_W - 6, 16), false);
+            this.vanillaButton(g, rx + 3, bty, RIGHT_W - 6, 16, tr("look.unlock"), can, in(mx, my, rx + 3, bty, RIGHT_W - 6, 16), false);
         } else {
             this.vanillaButton(g, rx + 3, bty, RIGHT_W - 6, 16, tr(current ? "look.selected" : "look.select"), !current,
                     in(mx, my, rx + 3, bty, RIGHT_W - 6, 16), false);

@@ -775,10 +775,12 @@ public final class CiClientDriver {
                 run("tp @p 770.5 -60 0.5 180 30");
                 for (String item : new String[]{"iron_ingot 64", "dispenser 2", "sticky_piston 2", "lever 2", "glass 16",
                         "copper_ingot 64", "redstone 64", "gold_ingot 16", "glowstone_dust 32", "amethyst_shard 8", "slime_ball 16",
-                        "powers_unchained:empty_web_cartridge 4", "powers_unchained:white_fabric 4", "powers_unchained:red_fabric 4"}) {
+                        "powers_unchained:empty_web_cartridge 4"}) {
                     run("give @p minecraft:" + item.replace("minecraft:powers_unchained:", "powers_unchained:"));
                 }
                 run("give @p powers_unchained:empty_web_cartridge 4");
+                run("give @p powers_unchained:white_fabric 4");
+                run("give @p powers_unchained:red_fabric 4");
             }
             case 8210 -> openTechTable();
             case 8220 -> {
@@ -923,8 +925,11 @@ public final class CiClientDriver {
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
             }
             case 8404 -> run("techtable module unlock fast_feed @p");
-            case 8406 -> Constants.LOG.info("[CI] worn shooters after the command: {}",
-                    com.star_1mp.powersunchained.web.WebCartridges.wornShooters(mc.player).get(com.star_1mp.powersunchained.registry.PUDataComponents.UNLOCKED_MODULES.get()));
+            case 8406 -> {
+                net.minecraft.server.level.ServerPlayer sp = serverPlayer();
+                mc.getSingleplayerServer().execute(() -> Constants.LOG.info("[CI] worn shooters after the command (server): {}",
+                        com.star_1mp.powersunchained.web.WebCartridges.wornShooters(sp).get(com.star_1mp.powersunchained.registry.PUDataComponents.UNLOCKED_MODULES.get())));
+            }
             case 8410 -> {
                 run("item replace entity @p weapon.mainhand with minecraft:air");  // web shots need an empty main hand
                 com.star_1mp.powersunchained.client.web.WebShooterClient.debugState(true, false, com.star_1mp.powersunchained.web.WebType.ELECTRO);
