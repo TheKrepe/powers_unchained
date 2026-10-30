@@ -859,6 +859,8 @@ public final class CiClientDriver {
                     screen.debugTab(com.star_1mp.powersunchained.menu.TechTableMenu.TAB_UPGRADE);
                 }
             }
+            case 8338 -> Constants.LOG.info("[CI] linked after taking the device out: {}",
+                    mc.player.containerMenu instanceof com.star_1mp.powersunchained.menu.TechTableMenu menu && menu.isLinked());
             case 8340 -> run("tick rate 2");
             case 8341 -> shot("63b_tech_table_upgrade_empty");
             case 8353 -> run("tick rate 20");

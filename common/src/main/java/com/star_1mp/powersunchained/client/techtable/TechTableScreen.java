@@ -883,10 +883,12 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         int feet = hy + hh - 6;
         if (!linked) {
             // owner: Customization only works when the table touches a Suit Creator or is wired to one with redstone
-            g.blitSprite(RenderPipelines.GUI_TEXTURED, Constants.id("suit_creator/lock"), cx - 8, hy + 16, 16, 18);
-            int ty = hy + 38;
-            ty += this.wrapped(g, tr("link.title"), hx + 8, ty, hw - 16, 0xFFFF9B8F, 2) + 3;
-            this.wrapped(g, tr("link.how"), hx + 8, ty, hw - 16, GREY, 5);
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, Constants.id("suit_creator/lock"), cx - 8, hy + 30, 16, 18);
+            int ly2 = hy + 56;
+            for (FormattedCharSequence line : this.font.split(tr("link.title"), hw - 16)) {
+                g.text(this.font, line, cx - this.font.width(line) / 2, ly2, 0xFFFF9B8F, false);
+                ly2 += 10;
+            }
             int bx = x + RIGHT_X;
             monitor(g, bx, y + BP_Y, RIGHT_W, H - BP_Y - 8);
             return;

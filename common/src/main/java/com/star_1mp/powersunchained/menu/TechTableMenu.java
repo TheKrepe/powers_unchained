@@ -134,8 +134,14 @@ public class TechTableMenu extends AbstractContainerMenu {
         return this.linked.get() == 1;
     }
 
+    /**
+     * Server only: the client's menu has no level access, so it would set the slot to 0 — and the server, whose value
+     * never changed, would not send it again (owner's bug: "no link" after taking the device out of the slot).
+     */
     private void updateLink() {
-        this.linked.set(this.access.evaluate(TechLink::isLinked, false) ? 1 : 0);
+        if (this.player instanceof ServerPlayer) {
+            this.linked.set(this.access.evaluate(TechLink::isLinked, false) ? 1 : 0);
+        }
     }
 
     @Override
