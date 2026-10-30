@@ -63,6 +63,8 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `upload-unpacked-tmp`.
 - Python tools for previews/asset generation are in `tools/` (block model renderer, texture generators).
 - 26.3 block model elements support `"light_emission": 0-15` (glowing parts) and NeoForge `"render_type"`.
+- `http-probe.yml` (manual dispatch, input `urls`) fetches URLs the sandbox can't reach (Modrinth API, mod mavens'
+  maven-metadata.xml) to branch `http-probe-tmp` (01.txt, 02.txt, ... URL on the first line).
 - `gh` works only through the REST API (`gh api ...`); GraphQL-based commands (`gh run list`, `gh workflow run`) fail.
 
 ## Content so far
@@ -164,6 +166,17 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `LivingFallEvent` is cancelled while `isFallSafe`.
 - Recipes: empty cartridge = iron ingot / glass / iron ingot (column); web cartridge = shapeless empty cartridge + cobweb
   + potion of oozing (NeoForge `neoforge:components` ingredient — Fabric will need its own ingredient).
+  Alternative web cartridge (owner): empty cartridge + cobweb + honey bottle + slime ball (`web_cartridge_from_honey`,
+  same recipe group).
+- JEI + REI (optional, `compileOnly` APIs; `jei_version` / `rei_version`): Suit Creator blueprints as a recipe category
+  — `suit/SuitRecipe` (per suit: whole suit + 4 pieces, from `SuitCatalog`), shared look `client/suitcreator/SuitRecipeArt`
+  (Suit Creator monitors: title, materials, sewing needle, hologram with the result, unlock box with tooltip);
+  `neoforge/.../compat/jei/PUJeiPlugin` (@JeiPlugin), `compat/rei/PUReiPlugin` (@REIPluginClient, client-only display, no
+  serializer). CI client runs one viewer: `client-test.yml` input `recipe_viewer` = jei (default) | rei | none
+  (`-Pci_recipe_viewer`); REI needs Architectury 22.0.5 at runtime and `neoforge.warnings.onlyin.hide` (dev runs) or
+  NeoForge's @OnlyIn warning screen stops the quick play. Scenes from tick 8100 (shots 60/61).
+- Tech Table GUI: concept only (`docs/concepts/tech_table_gui`: Blueprints / Modules / Research tabs, blueprint-paper
+  centre, copper accents) — not implemented yet.
 - Web cocoon: 5 sticky hits within 120 ticks -> `entity/web/WebCocoon` (60 ticks, `WebSlowness.hold` = speed/jump/fly
   -100%, `WebSlowness.lockLook`: wrapped mobs keep their head/body rotation, reset at the end of each server tick), `client/web/WebCocoonRenderer` (tiled box), first-person `client/web/WebOverlay` (head webs / cocoon).
 - Webs aim from the wrist at the crosshair's target point (`AbstractWebProjectile.aimPoint`). Head webs lie on the
