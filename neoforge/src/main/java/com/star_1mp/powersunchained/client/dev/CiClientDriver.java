@@ -746,17 +746,17 @@ public final class CiClientDriver {
             }
             case 8110 -> recipeViewer(null);
             case 8111 -> run("tick rate 2");
-            case 8112 -> shot("60_recipe_viewer_suit_creator");
-            case 8115 -> run("tick rate 20");
+            case 8130 -> shot("60_recipe_viewer_suit_creator");
+            case 8135 -> run("tick rate 20");
             case 8140 -> {
                 mc.gui.setScreen(null);
                 recipeViewer(com.star_1mp.powersunchained.registry.PUItems.piece(com.star_1mp.powersunchained.suit.Suits.SPIDER_MAN_RAIMI,
                         net.minecraft.world.item.equipment.ArmorType.HELMET).get().getDefaultInstance());
             }
             case 8141 -> run("tick rate 2");
-            case 8142 -> shot("61_recipe_viewer_raimi_mask");
-            case 8145 -> run("tick rate 20");
-            case 8170 -> mc.gui.setScreen(null);
+            case 8160 -> shot("61_recipe_viewer_raimi_mask");
+            case 8165 -> run("tick rate 20");
+            case 8180 -> mc.gui.setScreen(null);
             case 8200 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();

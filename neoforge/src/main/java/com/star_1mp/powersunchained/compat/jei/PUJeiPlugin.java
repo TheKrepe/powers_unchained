@@ -51,15 +51,20 @@ public class PUJeiPlugin implements IModPlugin {
         }
         if (output == null) {
             runtime.getRecipesGui().showTypes(java.util.List.of(SUIT_CREATOR));
-        } else {
-            runtime.getRecipesGui().show(runtime.getJeiHelpers().getFocusFactory().createFocus(
-                    mezz.jei.api.recipe.RecipeIngredientRole.OUTPUT, mezz.jei.api.constants.VanillaTypes.ITEM_STACK, output));
+        } else if (category != null) {
+            // only our blueprints that make the item (show(focus) would open the first category, e.g. the anvil)
+            java.util.List<SuitRecipe> recipes = SuitRecipe.all().stream()
+                    .filter(r -> r.outputs().stream().anyMatch(o -> o.is(output.getItem()))).toList();
+            runtime.getRecipesGui().showRecipes(category, recipes, java.util.List.of());
         }
     }
 
+    private static SuitCreatorCategory category;
+
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
-        registration.addRecipeCategories(new SuitCreatorCategory(registration.getJeiHelpers().getGuiHelper()));
+        category = new SuitCreatorCategory(registration.getJeiHelpers().getGuiHelper());
+        registration.addRecipeCategories(category);
     }
 
     @Override
