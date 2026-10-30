@@ -33,6 +33,11 @@ public class PUJeiPlugin implements IModPlugin {
 
     private static mezz.jei.api.runtime.IJeiRuntime runtime;
 
+    static {
+        // loaded by JEI before it reads its config: Suit Creator right after crafting in JEI's category order
+        JeiCategoryOrder.suitCreatorFirst(SUIT_CREATOR.getUid().toString());
+    }
+
     @Override
     public void onRuntimeAvailable(mezz.jei.api.runtime.IJeiRuntime jeiRuntime) {
         runtime = jeiRuntime;
@@ -51,11 +56,10 @@ public class PUJeiPlugin implements IModPlugin {
         }
         if (output == null) {
             runtime.getRecipesGui().showTypes(java.util.List.of(SUIT_CREATOR));
-        } else if (category != null) {
-            // only our blueprints that make the item (show(focus) would open the first category, e.g. the anvil)
-            java.util.List<SuitRecipe> recipes = SuitRecipe.all().stream()
-                    .filter(r -> r.outputs().stream().anyMatch(o -> o.is(output.getItem()))).toList();
-            runtime.getRecipesGui().showRecipes(category, recipes, java.util.List.of());
+        } else {
+            // like pressing R on the item: JEI picks the category order itself
+            runtime.getRecipesGui().show(runtime.getJeiHelpers().getFocusFactory().createFocus(
+                    mezz.jei.api.recipe.RecipeIngredientRole.OUTPUT, mezz.jei.api.constants.VanillaTypes.ITEM_STACK, output));
         }
     }
 

@@ -757,6 +757,17 @@ public final class CiClientDriver {
             case 8160 -> shot("61_recipe_viewer_raimi_mask");
             case 8165 -> run("tick rate 20");
             case 8180 -> mc.gui.setScreen(null);
+            case 8185 -> {
+                try {
+                    java.nio.file.Path f = net.neoforged.fml.loading.FMLPaths.CONFIGDIR.get().resolve("jei/recipe-category-sort-order.ini");
+                    if (java.nio.file.Files.exists(f)) {
+                        Constants.LOG.info("[CI] JEI category order: {}", java.nio.file.Files.readAllLines(f).subList(0, Math.min(6,
+                                java.nio.file.Files.readAllLines(f).size())));
+                    }
+                } catch (java.io.IOException e) {
+                    Constants.LOG.warn("[CI] could not read JEI's order", e);
+                }
+            }
             case 8200 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
