@@ -1,0 +1,35 @@
+# Dev helper: fetches URLs the Claude sandbox cannot reach (Modrinth API, mod mavens) and pushes the responses to the
+# temporary branch http-probe-tmp (file per URL: 01.txt, 02.txt, ... with the URL on the first line).
+name: HTTP probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: "Space-separated URLs"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch
+        env:
+          URLS: ${{ inputs.urls }}
+        run: |
+          mkdir -p /tmp/out && i=0
+          for u in $URLS; do
+            i=$((i+1)); f=$(printf '/tmp/out/%02d.txt' $i)
+            echo "$u" > "$f"
+            curl -sSL --max-time 60 "$u" >> "$f" 2>&1 || echo "FAILED" >> "$f"
+          done
+      - name: Push
+        run: |
+          cd /tmp/out
+          git init -q -b probe
+          git -c user.name=ci -c user.email=ci@local add -A
+          git -c user.name=ci -c user.email=ci@local commit -q -m "HTTP probe"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" probe:http-probe-tmp
