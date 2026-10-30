@@ -790,15 +790,13 @@ public final class CiClientDriver {
             case 8225 -> run("tick rate 2");
             case 8226 -> shot("62_tech_table_create");
             case 8229 -> run("tick rate 20");
-            case 8235 -> mc.gameMode.handleInventoryMouseClick(mc.player.containerMenu.containerId, com.star_1mp.powersunchained.menu.TechTableMenu.RESULT_SLOT, 0,
-                    net.minecraft.world.inventory.ClickType.QUICK_MOVE, mc.player);
+            case 8235 -> serverQuickMove(com.star_1mp.powersunchained.menu.TechTableMenu.RESULT_SLOT);
             case 8240 -> {
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
                     screen.debugTab(com.star_1mp.powersunchained.menu.TechTableMenu.TAB_UPGRADE);
                     for (int i = 0; i < 36; i++) {
                         if (mc.player.containerMenu.slots.get(i).getItem().is(com.star_1mp.powersunchained.registry.PUItems.WEB_SHOOTERS.get())) {
-                            mc.gameMode.handleInventoryMouseClick(mc.player.containerMenu.containerId, i, 0,
-                                    net.minecraft.world.inventory.ClickType.QUICK_MOVE, mc.player);
+                            serverQuickMove(i);
                             break;
                         }
                     }
@@ -870,6 +868,15 @@ public final class CiClientDriver {
         } catch (RuntimeException e) {
             Constants.LOG.error("[CI] recipe viewer failed", e);
         }
+    }
+
+    /** Shift-click on a slot of the open menu, done by the server (synced back). */
+    private static void serverQuickMove(int slot) {
+        net.minecraft.server.level.ServerPlayer player = serverPlayer();
+        Minecraft.getInstance().getSingleplayerServer().execute(() -> {
+            player.containerMenu.quickMoveStack(player, slot);
+            player.containerMenu.broadcastChanges();
+        });
     }
 
     /** Opens the Tech Table next to the player (server side, like right-clicking the block). */
