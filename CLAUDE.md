@@ -175,8 +175,11 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   serializer). CI client runs one viewer: `client-test.yml` input `recipe_viewer` = jei (default) | rei | none
   (`-Pci_recipe_viewer`); REI needs Architectury 22.0.5 at runtime and `neoforge.warnings.onlyin.hide` (dev runs) or
   NeoForge's @OnlyIn warning screen stops the quick play. Scenes from tick 8100 (shots 60/61).
-- Tech Table GUI: concept only (`docs/concepts/tech_table_gui`: Blueprints / Modules / Research tabs, blueprint-paper
-  centre, copper accents) — not implemented yet.
+- Tech Table GUI: concepts only, not implemented. v2 (current proposal, owner wanted it closer to Fisk's Suit
+  Database): `docs/concepts/tech_table_gui/v2` — full-screen teal hologram research tree, hexagon nodes (unlocked /
+  ready / locked), sidebar with objectives + price + ИЗУЧИТЬ, flips to assembly (hologram, parts, СОБРАТЬ). v1 (tabs,
+  blueprint paper) KEPT on purpose (owner may come back to it). Fisk's Suit Database code: jar-reference
+  `modrinth:fiskheroes`, `com/fiskmods/heroes/client/gui/nodes/` (GuiHeroTree, NodeTree, Node, Sidebar, FabricatorColors).
 - Web cocoon: 5 sticky hits within 120 ticks -> `entity/web/WebCocoon` (60 ticks, `WebSlowness.hold` = speed/jump/fly
   -100%, `WebSlowness.lockLook`: wrapped mobs keep their head/body rotation, reset at the end of each server tick), `client/web/WebCocoonRenderer` (tiled box), first-person `client/web/WebOverlay` (head webs / cocoon).
 - Webs aim from the wrist at the crosshair's target point (`AbstractWebProjectile.aimPoint`). Head webs lie on the
