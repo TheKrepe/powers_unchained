@@ -794,9 +794,13 @@ public final class CiClientDriver {
             case 8245 -> serverQuickMove(com.star_1mp.powersunchained.menu.TechTableMenu.RESULT_SLOT);
             case 8248 -> logTechTable("after craft");
             case 8253 -> logTechTable("after moving the web-shooters");
-            case 8250 -> {
+            case 8249 -> {
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
                     screen.debugTab(com.star_1mp.powersunchained.menu.TechTableMenu.TAB_UPGRADE);
+                }
+            }
+            case 8251 -> {
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
                     for (int i = 0; i < 36; i++) {
                         if (mc.player.containerMenu.slots.get(i).getItem().is(com.star_1mp.powersunchained.registry.PUItems.WEB_SHOOTERS.get())) {
                             serverQuickMove(i);
