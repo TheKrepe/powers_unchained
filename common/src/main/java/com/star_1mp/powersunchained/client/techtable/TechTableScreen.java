@@ -437,7 +437,8 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             this.vanillaButton(g, b[0], b[1], b[2], b[3], tr(TAB_KEYS[i]), true, in(mx, my, b[0], b[1], b[2], b[3]), this.menu.tab == TABS[i]);
         }
         // unlocked modules
-        int n = (int) WebModule.all().stream().filter(this.progress()::hasModule).count();
+        ItemStack topGadget = this.menu.device();
+        int n = TechTableMenu.isGadget(topGadget) ? (int) WebModule.all().stream().filter(m -> WebModules.isUnlocked(topGadget, m)).count() : 0;
         String count = n + "/" + WebModule.values().length;
         int bw = this.font.width(count) + 18;
         int bx = x + W - 8 - bw;
@@ -625,7 +626,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     private List<WebModule> available(ItemStack gadget) {
         List<WebModule> list = new ArrayList<>();
         for (WebModule m : WebModule.values()) {
-            if (this.progress().hasModule(m) && !WebModules.has(gadget, m)) {
+            if (WebModules.isUnlocked(gadget, m) && !WebModules.has(gadget, m)) {
                 list.add(m);
             }
         }
@@ -664,7 +665,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         ItemStack gadget = this.menu.device();
         List<WebModule> list = new ArrayList<>();
         for (WebModule m : WebModule.values()) {
-            boolean unlocked = this.progress().hasModule(m);
+            boolean unlocked = WebModules.isUnlocked(gadget, m);
             boolean installed = WebModules.has(gadget, m);
             if ((section == 0 && installed) || (section == 1 && unlocked && !installed) || (section == 2 && !unlocked && !installed)) {
                 list.add(m);
@@ -688,7 +689,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             List<WebModule> rows = this.moduleList();
             for (WebModule m : rows) {
                 boolean hover = in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2);
-                boolean locked = !this.progress().hasModule(m) && !WebModules.has(gadget, m);
+                boolean locked = !WebModules.isUnlocked(gadget, m);
                 this.card(g, lx, ly, LIST_W - 4, null, m.sprite(), m.displayName(),
                         Component.translatable("module.powers_unchained." + m.id() + ".short"), m == this.shownModule(), hover, locked);
                 if (WebModules.has(gadget, m)) {
@@ -765,7 +766,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             return;
         }
         WebModule m = this.shownModule();
-        boolean unlocked = this.progress().hasModule(m);
+        boolean unlocked = WebModules.isUnlocked(gadget, m);
         boolean isInstalled = WebModules.has(gadget, m);
         int ty = ry + 4;
         g.blitSprite(RenderPipelines.GUI_TEXTURED, m.sprite(), rx + 4, ty, 16, 16, unlocked ? 0xFFFFFFFF : 0xFF707880);
@@ -812,9 +813,8 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             boolean can = met && m.unlockCost().canPay(this.minecraft.player);
             this.vanillaButton(g, rx + 3, bty, RIGHT_W - 6, 16, tr("unlock"), can, in(mx, my, rx + 3, bty, RIGHT_W - 6, 16), false);
         } else {
-            g.text(this.font, tr("install_cost"), rx + 5, ty, COPPER_DARK, false);
+            g.text(this.font, tr("install_free"), rx + 5, ty, GREEN, false);
             ty += 11;
-            ty += this.costRows(g, rx + 4, ty, RIGHT_W - 8, m.installCost());
             this.wrapped(g, tr(hasGadget ? "drag_hint" : "put_gadget_hint"), rx + 5, ty + 2, RIGHT_W - 10, DIM, Math.max(0, (this.topPos + H - 10 - ty - 2) / 10));
         }
     }
@@ -1100,7 +1100,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 // unlock button
                 WebModule m = this.shownModule();
                 int bty = y + H - 8 - 20;
-                if (!this.progress().hasModule(m) && !WebModules.has(gadget, m) && in(mx, my, x + RIGHT_X + 3, bty, RIGHT_W - 6, 16)) {
+                if (!WebModules.isUnlocked(gadget, m) && in(mx, my, x + RIGHT_X + 3, bty, RIGHT_W - 6, 16)) {
                     if (!m.requirementMet(this.progress())) {
                         this.fail("do_task");  // owner: the condition comes first, even with the materials in hand
                     } else if (m.unlockCost().canPay(this.minecraft.player)) {
@@ -1207,7 +1207,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             boolean overBlueprint = in(mx, my, this.leftPos + CENTER_X, y + BP_Y, CENTER_W, BP_H);
             if (!this.dragFromInstalled && overBlueprint && my >= y + TechTableMenu.DEVICE_Y + 22) {
                 // dropped on the module slots: install
-                if (WebModules.installed(this.menu.device()).size() >= WebModules.MAX_INSTALLED || !m.installCost().canPay(this.minecraft.player)) {
+                if (WebModules.installed(this.menu.device()).size() >= WebModules.MAX_INSTALLED) {
                     this.fail();
                 } else {
                     this.button(TechTableMenu.INSTALL_MODULE + m.ordinal());

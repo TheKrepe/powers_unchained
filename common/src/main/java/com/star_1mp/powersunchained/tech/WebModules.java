@@ -40,6 +40,25 @@ public final class WebModules {
                 shooters.getOrDefault(PUDataComponents.WEB_MODULES.get(), List.<String>of()).contains(module.id());
     }
 
+    /** Whether the module is unlocked on THIS pair of web-shooters (creative ones have everything). */
+    public static boolean isUnlocked(ItemStack shooters, WebModule module) {
+        return WebShootersItem.isCreative(shooters) || has(shooters, module)
+                || shooters.getOrDefault(PUDataComponents.UNLOCKED_MODULES.get(), List.<String>of()).contains(module.id());
+    }
+
+    public static void setUnlocked(ItemStack shooters, WebModule module, boolean unlocked) {
+        List<String> list = new ArrayList<>(shooters.getOrDefault(PUDataComponents.UNLOCKED_MODULES.get(), List.<String>of()));
+        list.remove(module.id());
+        if (unlocked) {
+            list.add(module.id());
+        }
+        if (list.isEmpty()) {
+            shooters.remove(PUDataComponents.UNLOCKED_MODULES.get());
+        } else {
+            shooters.set(PUDataComponents.UNLOCKED_MODULES.get(), List.copyOf(list));
+        }
+    }
+
     public static void set(ItemStack shooters, List<WebModule> modules) {
         if (modules.isEmpty()) {
             shooters.remove(PUDataComponents.WEB_MODULES.get());

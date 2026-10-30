@@ -185,9 +185,10 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   items; 3x3 grid drawn as blueprint sockets, result on the right (remainders: bottles). Owner's web-shooters recipe
   (Tech Table ONLY): iron dispenser iron / empty cartridge sticky piston empty cartridge / iron lever iron; cartridges
   craftable in BOTH the Tech Table and the crafting table (owner). Upgrade: `tech/WebModule` (Tight Spring range x1.25,
-  Fast Feed recharge x0.7, Second Drum +2 cartridges, Electro-Web new web type), unlocked once per player with
-  MATERIALS ONLY (`unlockCost`, button 200+i) into `tech/TechProgress` (attachment `PUAttachments.TECH_PROGRESS`), EVERY
-  install costs `installCost` (owner; 300+i), removal free and loses it (400+i); max 5 per web-shooters, component
+  Fast Feed recharge x0.7, Second Drum +2 cartridges, Electro-Web new web type), unlocked PER PAIR of web-shooters
+  (owner: component `powers_unchained:unlocked_web_modules`, `WebModules.isUnlocked/setUnlocked`; another pair needs its own
+  unlock) for `unlockCost` (button 200+i), installing is FREE (300+i), removal free and the module stays unlocked on that
+  pair (400+i); `tech/TechProgress` (attachment `PUAttachments.TECH_PROGRESS`) keeps only skins + feats now; max 5 per web-shooters, component
   `powers_unchained:web_modules`; drag from the top row into the 5 slots / back up (client-side drag, GUI only, not
   slots); "before -> after" stats. Effects in `tech/WebModules` (projectile SPEED synced data, zip/swing range,
   `WebAmmo.setFactor`, `WebShooting.zipCooldown`, `WebModules.cartridgeSlots` everywhere SLOTS was). Customization:
@@ -202,7 +203,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `isLinked` refreshed every 10 ticks; hologram buttons Steve/Alex + Stand/Run (`GadgetHologram` id = `ID + pose`,
   `SuitHologram.applyPose` handles `rel % 1000`; controls under the hologram = the Suit Creator's Steve | Alex | pose buttons, device slot to their right). Without a device Upgrade / Customization show NO list, NO right panel
   and no ghost item; device slots show the cog sprite `tech_table/device_slot` (`tools/gen_device_slot_icon.py`).
-  `/techtable module unlock|lock <module|all> [targets]` (`command/TechTableCommand`). JEI + REI category
+  `/techtable module unlock|lock <module|all> [targets]` (`command/TechTableCommand`, acts on the held / worn web-shooters; lock also uninstalls). JEI + REI category
   `powers_unchained:tech_table` drawn by `client/techtable/TechRecipeArt` (steel title bar + drawing number, blueprint
   paper, 3x3 sockets, filling dashed arrow, copper result frame, "shapeless").
   Owner: NO categories in the Tech Table lists (no recipe groups, no installed / unlocked / locked headers — the Upgrade

@@ -273,21 +273,25 @@ public class TechTableMenu extends AbstractContainerMenu {
 
     private boolean unlockModule(ServerPlayer player, @Nullable WebModule module) {
         TechProgress progress = this.progress();
-        if (module == null || progress.hasModule(module) || !module.requirementMet(progress) || !module.unlockCost().pay(player)) {
+        ItemStack gadget = this.device();
+        // owner: unlocked on THIS pair of web-shooters only
+        if (module == null || !isGadget(gadget) || WebModules.isUnlocked(gadget, module) || !module.requirementMet(progress)
+                || !module.unlockCost().pay(player)) {
             return false;
         }
-        Services.GAMEPLAY.setTechProgress(player, progress.withModule(module));
+        WebModules.setUnlocked(gadget, module, true);
+        this.device.setChanged();
         this.sound(player, SoundEvents.PLAYER_LEVELUP, 0.7F, 1.6F);
         return true;
     }
 
     private boolean installModule(ServerPlayer player, @Nullable WebModule module) {
         ItemStack gadget = this.device();
-        if (module == null || !isGadget(gadget) || !this.progress().hasModule(module) || WebModules.has(gadget, module)) {
+        if (module == null || !isGadget(gadget) || !WebModules.isUnlocked(gadget, module) || WebModules.has(gadget, module)) {
             return false;
         }
         List<WebModule> installed = new ArrayList<>(WebModules.installed(gadget));
-        if (installed.size() >= WebModules.MAX_INSTALLED || !module.installCost().pay(player)) {
+        if (installed.size() >= WebModules.MAX_INSTALLED) {  // installing is free (owner)
             return false;
         }
         installed.add(module);
@@ -305,6 +309,7 @@ public class TechTableMenu extends AbstractContainerMenu {
         List<WebModule> installed = new ArrayList<>(WebModules.installed(gadget));
         installed.remove(module);
         WebModules.set(gadget, installed);
+        WebModules.setUnlocked(gadget, module, true);  // stays unlocked on this pair: put it back for free
         // fewer cartridge slots now: the extra cartridges come out
         while (WebCartridges.contents(gadget).size() > WebModules.cartridgeSlots(gadget)) {
             player.getInventory().placeItemBackInInventory(WebCartridges.removeLast(gadget), net.minecraft.util.Prediction.SERVER_ONLY);

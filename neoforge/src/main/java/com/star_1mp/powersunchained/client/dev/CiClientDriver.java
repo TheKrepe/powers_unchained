@@ -919,6 +919,9 @@ public final class CiClientDriver {
                 run("execute at @p run summon minecraft:zombie ~2 ~ ~8 {NoAI:1b,Rotation:[180f,0f]}");
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
             }
+            case 8404 -> run("techtable module unlock fast_feed @p");
+            case 8406 -> Constants.LOG.info("[CI] worn shooters after the command: {}",
+                    com.star_1mp.powersunchained.web.WebCartridges.wornShooters(mc.player).get(com.star_1mp.powersunchained.registry.PUDataComponents.UNLOCKED_MODULES.get()));
             case 8410 -> {
                 run("item replace entity @p weapon.mainhand with minecraft:air");  // web shots need an empty main hand
                 com.star_1mp.powersunchained.client.web.WebShooterClient.debugState(true, false, com.star_1mp.powersunchained.web.WebType.ELECTRO);
