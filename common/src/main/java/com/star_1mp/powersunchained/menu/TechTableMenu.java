@@ -65,7 +65,7 @@ public class TechTableMenu extends AbstractContainerMenu {
     public static final int RESULT_Y = 50;
     public static final int DEVICE_X = 213;
     public static final int DEVICE_Y = 80;
-    public static final int SKIN_DEVICE_X = 213;
+    public static final int SKIN_DEVICE_X = 284;  // right of the hologram controls (Steve | Alex | pose)
     public static final int SKIN_DEVICE_Y = 129;
 
     /** Slot indexes. */

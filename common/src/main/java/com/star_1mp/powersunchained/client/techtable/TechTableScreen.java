@@ -2,6 +2,8 @@ package com.star_1mp.powersunchained.client.techtable;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.star_1mp.powersunchained.Constants;
+import com.star_1mp.powersunchained.client.suitcreator.SuitCreatorPrefs;
+import com.star_1mp.powersunchained.client.suitcreator.SuitHologram;
 import com.star_1mp.powersunchained.entity.web.WebZipLine;
 import com.star_1mp.powersunchained.item.WebShootersItem;
 import com.star_1mp.powersunchained.menu.TechTableMenu;
@@ -30,7 +32,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.PlayerModelType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
@@ -56,6 +57,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     private static final int RIGHT_X = 306;
     private static final int RIGHT_W = 102;
     private static final int CARD_H = 22;
+    private static final int HOLO_CONTROLS_Y = 131;
 
     private static final int LABEL = 0xFF404040;
     private static final int COPPER = 0xFFFF9A52;
@@ -92,7 +94,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     private int failFlash;
     /** Customization hologram: model (null = the player's own skin model) and running pose. */
     private @Nullable Boolean holoSlim;
-    private boolean holoRun;
+    private SuitHologram.Pose holoPose = SuitHologram.Pose.STAND;
 
     public TechTableScreen(TechTableMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, W, H);
@@ -766,13 +768,29 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
 
     // ---- Customization ----
 
+    /** Hologram controls under it, laid out like the Suit Creator's: Steve | Alex | pose. */
     private int[] holoButton(int i) {
-        int w = 42;
-        return new int[]{this.leftPos + CENTER_X + CENTER_W - 4 - (2 - i) * (w + 2), this.topPos + BP_Y + 3, w, 12};
+        int hx = this.leftPos + CENTER_X;
+        int cy = this.topPos + HOLO_CONTROLS_Y;
+        return switch (i) {
+            case 0 -> new int[]{hx, cy, 30, 14};
+            case 1 -> new int[]{hx + 31, cy, 32, 14};
+            default -> new int[]{hx + 65, cy, 16, 14};
+        };
     }
 
     private boolean holoSlim() {
-        return this.holoSlim != null ? this.holoSlim : this.minecraft.player.getSkin().model() == PlayerModelType.SLIM;
+        return this.holoSlim != null ? this.holoSlim : SuitCreatorPrefs.slim;
+    }
+
+    /** The Suit Creator's button (amber text + underline when selected). */
+    private void creatorButton(GuiGraphicsExtractor g, int x, int y, int w, int h, Component text, boolean hovered, boolean selected) {
+        Identifier id = Identifier.withDefaultNamespace(hovered || selected ? "widget/button_highlighted" : "widget/button");
+        g.blitSprite(RenderPipelines.GUI_TEXTURED, id, x, y, w, h);
+        g.centeredText(this.font, text, x + w / 2, y + (h - 8) / 2 + 1, selected ? 0xFFFFE2A8 : WHITE);
+        if (selected) {
+            g.fill(x + 3, y + h - 3, x + w - 3, y + h - 2, 0xFFFFB13B);
+        }
     }
 
     private void drawCustomize(GuiGraphicsExtractor g, int x, int y, int mx, int my) {
@@ -822,15 +840,18 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         g.fill(cx - 22, feet + 1, cx + 22, feet + 2, 0x8859E4FF);
         if (hasGadget) {
             float spin = this.rotating ? 0.0F : this.time * 0.6F;
-            GadgetHologram.draw(g, hx + 2, hy + 14, hx + hw - 2, feet, 40.0F, this.holoSlim(), this.yaw + spin, this.time,
-                    this.holoRun ? com.star_1mp.powersunchained.client.suitcreator.SuitHologram.Pose.RUN
-                            : com.star_1mp.powersunchained.client.suitcreator.SuitHologram.Pose.STAND);
-            // model + pose buttons (like the Suit Creator's hologram)
-            Component[] labels = {tr(this.holoSlim() ? "holo.alex" : "holo.steve"), tr(this.holoRun ? "holo.run" : "holo.stand")};
-            for (int i = 0; i < 2; i++) {
-                int[] b = this.holoButton(i);
-                this.vanillaButton(g, b[0], b[1], b[2], b[3], labels[i], true, in(mx, my, b[0], b[1], b[2], b[3]), false);
-            }
+            GadgetHologram.draw(g, hx + 2, hy + 14, hx + hw - 2, feet, 40.0F, this.holoSlim(), this.yaw + spin, this.time, this.holoPose);
+            // Steve / Alex + pose, exactly like the Suit Creator's controls
+            int[] b0 = this.holoButton(0);
+            int[] b1 = this.holoButton(1);
+            int[] b2 = this.holoButton(2);
+            this.creatorButton(g, b0[0], b0[1], b0[2], b0[3], Component.translatable("screen.powers_unchained.suit_creator.steve"),
+                    in(mx, my, b0[0], b0[1], b0[2], b0[3]), !this.holoSlim());
+            this.creatorButton(g, b1[0], b1[1], b1[2], b1[3], Component.translatable("screen.powers_unchained.suit_creator.alex"),
+                    in(mx, my, b1[0], b1[1], b1[2], b1[3]), this.holoSlim());
+            this.creatorButton(g, b2[0], b2[1], b2[2], b2[3], Component.empty(), in(mx, my, b2[0], b2[1], b2[2], b2[3]), false);
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, Constants.id("suit_creator/pose_" + this.holoPose.name().toLowerCase(Locale.ROOT)),
+                    b2[0] + 3, b2[1] + 2, 10, 10);
         } else {
             g.centeredText(this.font, tr("looks.put_short"), cx, hy + hh / 2 - 4, CYAN);
         }
@@ -1030,13 +1051,13 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 if (!this.menu.isLinked() || !TechTableMenu.isGadget(gadget)) {
                     break;
                 }
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < 3; i++) {
                     int[] b = this.holoButton(i);
                     if (in(mx, my, b[0], b[1], b[2], b[3])) {
-                        if (i == 0) {
-                            this.holoSlim = !this.holoSlim();
+                        if (i == 2) {
+                            this.holoPose = this.holoPose.next();
                         } else {
-                            this.holoRun = !this.holoRun;
+                            this.holoSlim = i == 1;
                         }
                         this.click();
                         return true;
@@ -1163,7 +1184,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
 
     public void debugHologram(boolean slim, boolean run) {
         this.holoSlim = slim;
-        this.holoRun = run;
+        this.holoPose = run ? SuitHologram.Pose.RUN : SuitHologram.Pose.STAND;
     }
 
     public void debugDrag(@Nullable WebModule module, boolean fromInstalled) {

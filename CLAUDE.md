@@ -199,7 +199,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   Customization works only when the table touches a Suit Creator or a redstone line (dust incl. up/down a block,
   repeaters, comparators, torches, redstone blocks; unpowered is fine) runs to one: `tech/TechLink` BFS, menu DataSlot
   `isLinked` refreshed every 10 ticks; hologram buttons Steve/Alex + Stand/Run (`GadgetHologram` id = `ID + pose`,
-  `SuitHologram.applyPose` handles `rel % 1000`). Without a device Upgrade / Customization show NO list, NO right panel
+  `SuitHologram.applyPose` handles `rel % 1000`; controls under the hologram = the Suit Creator's Steve | Alex | pose buttons, device slot to their right). Without a device Upgrade / Customization show NO list, NO right panel
   and no ghost item; device slots show the cog sprite `tech_table/device_slot` (`tools/gen_device_slot_icon.py`).
   `/techtable module unlock|lock <module|all> [targets]` (`command/TechTableCommand`). JEI + REI category
   `powers_unchained:tech_table` drawn by `client/techtable/TechRecipeArt` (steel title bar + drawing number, blueprint

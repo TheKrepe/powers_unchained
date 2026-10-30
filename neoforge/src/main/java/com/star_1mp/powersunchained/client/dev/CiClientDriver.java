@@ -917,7 +917,10 @@ public final class CiClientDriver {
                 run("execute at @p run summon minecraft:zombie ~2 ~ ~8 {NoAI:1b,Rotation:[180f,0f]}");
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
             }
-            case 8410 -> com.star_1mp.powersunchained.client.web.WebShooterClient.debugState(true, false, com.star_1mp.powersunchained.web.WebType.ELECTRO);
+            case 8410 -> {
+                run("item replace entity @p weapon.mainhand with minecraft:air");  // web shots need an empty main hand
+                com.star_1mp.powersunchained.client.web.WebShooterClient.debugState(true, false, com.star_1mp.powersunchained.web.WebType.ELECTRO);
+            }
             case 8415 -> run("tick rate 2");
             case 8416 -> shootWeb(com.star_1mp.powersunchained.web.WebType.ELECTRO);
             case 8418 -> shot("65_electro_web");
