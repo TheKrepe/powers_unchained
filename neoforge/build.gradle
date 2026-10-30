@@ -103,6 +103,7 @@ dependencies {
         localRuntime "mezz.jei:jei-26.3-neoforge:${jei_version}"
     } else if (viewer == 'rei') {
         localRuntime "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
+        localRuntime "dev.architectury:architectury-neoforge:22.0.5"  // REI pulls 22.0.3, which fails on this NeoForge
     }
 }
 
