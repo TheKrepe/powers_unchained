@@ -924,8 +924,8 @@ public final class CiClientDriver {
                 run("execute at @p run summon minecraft:zombie ~2 ~ ~8 {NoAI:1b,Rotation:[180f,0f]}");
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
             }
-            case 8404 -> run("techtable module unlock fast_feed @p");
-            case 8408 -> {
+            case 8411 -> run("techtable module unlock fast_feed @p");  // main hand is empty from 8410 on -> the worn pair
+            case 8413 -> {
                 net.minecraft.server.level.ServerPlayer sp = serverPlayer();
                 mc.getSingleplayerServer().execute(() -> Constants.LOG.info("[CI] worn shooters after the command (server): {}",
                         com.star_1mp.powersunchained.web.WebCartridges.wornShooters(sp).getComponentsPatch()));
