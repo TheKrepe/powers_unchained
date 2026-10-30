@@ -736,7 +736,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         }
         // installed: how to remove it; else unlock / install cost
         if (isInstalled) {
-            this.wrapped(g, tr(creative ? "creative_hint" : "remove_hint"), rx + 5, ty, RIGHT_W - 10, DIM, 3);
+            this.wrapped(g, tr(creative ? "creative_hint" : "remove_hint"), rx + 5, ty, RIGHT_W - 10, DIM, 6);
         } else if (!unlocked) {
             g.text(this.font, tr("unlock_cost"), rx + 5, ty, COPPER_DARK, false);
             ty += 11;
@@ -859,7 +859,6 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         int sx = x + TechTableMenu.SKIN_DEVICE_X - 1;
         int sy = y + TechTableMenu.SKIN_DEVICE_Y - 1;
         g.blitSprite(RenderPipelines.GUI_TEXTURED, Identifier.withDefaultNamespace("container/slot"), sx, sy, 18, 18);
-        g.text(this.font, tr("gadget"), sx - 4 - this.font.width(tr("gadget")), sy + 5, LABEL, false);
 
         // right: the picked look
         int rx = x + RIGHT_X;
