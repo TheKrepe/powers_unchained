@@ -179,11 +179,25 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `powers_unchained:suit_creator` right after `minecraft:crafting` in `config/jei/recipe-category-sort-order.ini` ONCE
   (marker `config/powers_unchained-jei-order.done`; a hidden category is left alone). REI: registration order = plugin
   priority (ours 0 > REI's default plugin -100), so it is already first.
-- Tech Table GUI: concepts only, NOT to be implemented yet. Owner went back to v1 (to be refined together); v2 (owner
-  first wanted it closer to Fisk's Suit Database): `docs/concepts/tech_table_gui/v2` — full-screen teal hologram research tree, hexagon nodes (unlocked /
-  ready / locked), sidebar with objectives + price + ИЗУЧИТЬ, flips to assembly (hologram, parts, СОБРАТЬ). v1 (tabs,
-  blueprint paper) KEPT on purpose (owner may come back to it). Fisk's Suit Database code: jar-reference
-  `modrinth:fiskheroes`, `com/fiskmods/heroes/client/gui/nodes/` (GuiHeroTree, NodeTree, Node, Sidebar, FabricatorColors).
+- Tech Table (`block/TechTableBlock` opens `menu/TechTableMenu` + `client/techtable/TechTableScreen`, 416x236 like the
+  Suit Creator; built from concept v1, owner's spec). Tabs: Создание / Улучшение / Кастомизация (tab synced to the server
+  with buttons 0-2 for shift-clicks). Creation: list of `tech/TechRecipes` (code-defined `TechRecipe` shaped / shapeless,
+  `TechIngredient` predicates, e.g. the oozing potion) -> clicking one = recipe-book placement (button 100+i) + ghost
+  items; 3x3 grid drawn as blueprint sockets, result on the right (remainders: bottles). Owner's web-shooters recipe
+  (Tech Table ONLY): iron dispenser iron / empty cartridge sticky piston empty cartridge / iron lever iron; cartridges
+  craftable in BOTH the Tech Table and the crafting table (owner). Upgrade: `tech/WebModule` (Tight Spring range x1.25,
+  Fast Feed recharge x0.7, Second Drum +2 cartridges, Electro-Web new web type), unlocked once per player with
+  MATERIALS ONLY (`unlockCost`, button 200+i) into `tech/TechProgress` (attachment `PUAttachments.TECH_PROGRESS`), EVERY
+  install costs `installCost` (owner; 300+i), removal free and loses it (400+i); max 5 per web-shooters, component
+  `powers_unchained:web_modules`; drag from the top row into the 5 slots / back up (client-side drag, GUI only, not
+  slots); "before -> after" stats. Effects in `tech/WebModules` (projectile SPEED synced data, zip/swing range,
+  `WebAmmo.setFactor`, `WebShooting.zipCooldown`, `WebModules.cartridgeSlots` everywhere SLOTS was). Customization:
+  `client/techtable/GadgetHologram` (SuitHologram with id `ID_BASE + 1000`; `GadgetHologram.Layer` on player renderers
+  draws the shooters only on that id), looks `tech/GadgetSkins` (component `gadget_skin`; only Default for now; 500+i
+  unlock, 600+i select). Electro-Web: `entity/web/ElectroWeb` (sticky + 3 dmg, 1 dmg x4 pulses, slowness IV + weakness
+  2 s, arcs to 2 mobs within 4 blocks / 8 when wet, sparks; `WebType.ELECTRO` 6 shots, 60 ticks, 2 fluid, only with the
+  module: `WebType.available/next`, HUD wheel lists available types). Module sprites `tools/gen_tech_table_icons.py`.
+  CI scenes 8200-8370 (shots 62-65). Concepts kept in `docs/concepts/tech_table_gui` (v1 + v2).
 - Web cocoon: 5 sticky hits within 120 ticks -> `entity/web/WebCocoon` (60 ticks, `WebSlowness.hold` = speed/jump/fly
   -100%, `WebSlowness.lockLook`: wrapped mobs keep their head/body rotation, reset at the end of each server tick), `client/web/WebCocoonRenderer` (tiled box), first-person `client/web/WebOverlay` (head webs / cocoon).
 - Webs aim from the wrist at the crosshair's target point (`AbstractWebProjectile.aimPoint`). Head webs lie on the

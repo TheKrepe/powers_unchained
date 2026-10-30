@@ -219,7 +219,7 @@
   "screen.powers_unchained.tech_table.stats.installed": "Installed",
   "screen.powers_unchained.tech_table.stats.title": "Before → after",
   "screen.powers_unchained.tech_table.stats.range": "Range",
-  "screen.powers_unchained.tech_table.stats.recharge": "Recharge, s",
+  "screen.powers_unchained.tech_table.stats.recharge": "Recharge",
   "screen.powers_unchained.tech_table.stats.cartridges": "Cartridges",
   "screen.powers_unchained.tech_table.stats.web_types": "Web types",
   "screen.powers_unchained.tech_table.unlock_cost": "Unlock the module:",

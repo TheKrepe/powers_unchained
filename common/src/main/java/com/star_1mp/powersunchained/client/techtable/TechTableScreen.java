@@ -465,7 +465,9 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         for (int i = 0; i < 4; i++) {
             g.fill(bx + CENTER_W - 8 - i, ay - i, bx + CENTER_W - 7 - i, ay + i + 1, INK);
         }
-        g.text(this.font, tr("grid_hint"), bx + 8, by + BP_H - 14, INK_D, false);
+        if (shown == null) {
+            g.text(this.font, tr("grid_hint"), bx + 8, by + BP_H - 14, INK_D, false);
+        }
 
         // result
         int rx = x + RIGHT_X;
@@ -651,7 +653,6 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             int[] p = this.installSocket(i);
             dashed(g, dx + 8, dy + 21, p[0] + 8, p[1] - 1, i < installed.size() ? INK : INK_D);
         }
-        g.text(this.font, tr("modules.open"), bx + 7, by + 18, INK_D, false);
         for (int i = 0; i < available.size(); i++) {
             int[] p = this.topSocket(i, n);
             WebModule m = available.get(i);
@@ -702,7 +703,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         g.blitSprite(RenderPipelines.GUI_TEXTURED, m.sprite(), rx + 4, ty, 16, 16, unlocked ? 0xFFFFFFFF : 0xFF707880);
         this.wrapped(g, m.displayName(), rx + 23, ty + (this.font.width(m.displayName()) > RIGHT_W - 28 ? 0 : 4), RIGHT_W - 27, COPPER, 2);
         ty += 20;
-        ty += this.wrapped(g, m.description(), rx + 5, ty, RIGHT_W - 10, GREY, 4) + 4;
+        ty += this.wrapped(g, m.description(), rx + 5, ty, RIGHT_W - 10, GREY, 5) + 4;
         // before -> after
         if (hasGadget) {
             g.text(this.font, tr(isInstalled ? "stats.installed" : "stats.title"), rx + 5, ty, CYAN_DIM, false);
@@ -734,17 +735,17 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             g.text(this.font, tr("install_cost"), rx + 5, ty, COPPER_DARK, false);
             ty += 11;
             ty += this.costRows(g, rx + 4, ty, RIGHT_W - 8, m.installCost());
-            this.wrapped(g, tr(hasGadget ? "drag_hint" : "put_gadget_hint"), rx + 5, ty + 2, RIGHT_W - 10, DIM, 3);
+            this.wrapped(g, tr(hasGadget ? "drag_hint" : "put_gadget_hint"), rx + 5, ty + 2, RIGHT_W - 10, DIM, Math.max(0, (this.topPos + H - 10 - ty - 2) / 10));
         } else {
             this.wrapped(g, tr("remove_hint"), rx + 5, ty, RIGHT_W - 10, DIM, 3);
         }
     }
 
     private int statRow(GuiGraphicsExtractor g, int rx, int ty, String key, float before, float after, boolean higherBetter) {
-        g.text(this.font, this.trim(tr(key).getString(), 52), rx + 5, ty, 0xFFDFE6EC, false);
         String b = fmt(before);
         String a = fmt(after);
         String t = before == after ? b : b + "→" + a;
+        g.text(this.font, this.trim(tr(key).getString(), RIGHT_W - 13 - this.font.width(t)), rx + 5, ty, 0xFFDFE6EC, false);
         boolean better = higherBetter ? after > before : after < before;
         g.text(this.font, t, rx + RIGHT_W - 5 - this.font.width(t), ty, before == after ? GREY : better ? GREEN : RED, false);
         return ty + 10;
@@ -795,7 +796,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         if (hasGadget) {
             boolean slim = this.minecraft.player.getSkin().model() == PlayerModelType.SLIM;
             float spin = this.rotating ? 0.0F : this.time * 0.6F;
-            GadgetHologram.draw(g, hx + 2, hy + 2, hx + hw - 2, feet, 44.0F, slim, this.yaw + spin, this.time);
+            GadgetHologram.draw(g, hx + 2, hy + 14, hx + hw - 2, feet, 40.0F, slim, this.yaw + spin, this.time);
         } else {
             g.centeredText(this.font, Component.literal("?"), cx, hy + hh / 2 - 4, CYAN);
         }
