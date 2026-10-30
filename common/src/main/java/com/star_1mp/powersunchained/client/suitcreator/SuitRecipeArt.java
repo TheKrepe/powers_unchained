@@ -60,7 +60,7 @@ public final class SuitRecipeArt {
     }
 
     public static Component pieceName(SuitRecipe recipe) {
-        return Component.translatable(recipe.wholeSuit() ? "screen.powers_unchained.suit_creator.part.all"
+        return Component.translatable(recipe.wholeSuit() ? "screen.powers_unchained.suit_creator.all"
                 : "screen.powers_unchained.suit_creator.part." + recipe.piece());
     }
 
