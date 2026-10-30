@@ -8,9 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DiodeBlock;
-import net.minecraft.world.level.block.RedStoneWireBlock;
-import net.minecraft.world.level.block.RedstoneTorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -77,7 +74,7 @@ public final class TechLink {
     }
 
     public static boolean isRedstone(BlockState state) {
-        return state.getBlock() instanceof RedStoneWireBlock || state.getBlock() instanceof DiodeBlock
-                || state.getBlock() instanceof RedstoneTorchBlock || state.is(Blocks.REDSTONE_BLOCK);
+        return state.is(Blocks.REDSTONE_WIRE) || state.is(Blocks.REPEATER) || state.is(Blocks.COMPARATOR)
+                || state.is(Blocks.REDSTONE_TORCH) || state.is(Blocks.REDSTONE_WALL_TORCH) || state.is(Blocks.REDSTONE_BLOCK);
     }
 }
