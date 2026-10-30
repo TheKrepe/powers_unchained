@@ -1,6 +1,7 @@
 package com.star_1mp.powersunchained.suit;
 
 import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 
@@ -15,7 +16,7 @@ import net.minecraft.world.item.equipment.ArmorMaterial;
  * @param pantsTexture        legs (+ pants layer)
  * @param bootsTexture        legs, drawn slightly above the pants so both can be worn
  * @param material            armor stats (defense, durability, enchantability, equip sound)
- * @param repairItem          item used to repair suit pieces in an anvil
+ * @param repairItems         item tag that repairs suit pieces in an anvil (Spider-Man suits: red fabric)
  */
 public record Suit(
         Identifier id,
@@ -25,5 +26,5 @@ public record Suit(
         Identifier pantsTexture,
         Identifier bootsTexture,
         ArmorMaterial material,
-        Item repairItem) {
+        TagKey<Item> repairItems) {
 }

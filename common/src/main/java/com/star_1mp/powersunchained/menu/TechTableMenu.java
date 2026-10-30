@@ -273,7 +273,7 @@ public class TechTableMenu extends AbstractContainerMenu {
 
     private boolean unlockModule(ServerPlayer player, @Nullable WebModule module) {
         TechProgress progress = this.progress();
-        if (module == null || progress.hasModule(module) || !module.unlockCost().pay(player)) {
+        if (module == null || progress.hasModule(module) || !module.requirementMet(progress) || !module.unlockCost().pay(player)) {
             return false;
         }
         Services.GAMEPLAY.setTechProgress(player, progress.withModule(module));

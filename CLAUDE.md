@@ -68,7 +68,8 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
 - `gh` works only through the REST API (`gh api ...`); GraphQL-based commands (`gh run list`, `gh workflow run`) fail.
 
 ## Content so far
-- Suits: `suit/Suit` + `suit/Suits` (definitions), `item/SuitPieceItem` (armor-like item without a vanilla
+- Suits: `suit/Suit` + `suit/Suits` (definitions; Spider-Man suits repair with red fabric = item tag
+  `powers_unchained:repairs_spider_man_suits`), `item/SuitPieceItem` (armor-like item without a vanilla
   equipment asset, so vanilla does not draw it). Rendering in `client/suit/`: `SuitLayer` (added to player and
   mannequin renderers), `SuitModel` (player-skin-shaped model, one instance per piece), `SuitModelLayers`
   (inflate 0.05 chestplate + pants / 0.1 boots, wide + slim; pants also draw the torso — the owner's pants texture
@@ -207,6 +208,11 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   Owner: NO categories in the Tech Table lists (no recipe groups, no installed / unlocked / locked headers — the Upgrade
   list is one flat list in that order, installed modules get a green edge, locked a lock), a search box on top of the
   list instead (each tab clears it; hidden while the list is empty because there is no device).
+  Module conditions (owner, like Fisk's suit requirements): `WebModule.requirement` = a feat in `TechProgress.feats`
+  (`tech/TechFeats`); Electro-Web needs `lightning_in_web_shooters` (NeoForge `EntityStruckByLightningEvent` while wearing
+  web-shooters, action-bar message) besides the materials; the Upgrade panel shows "Условие: ✔/✘ ..." for locked modules
+  (no before/after stats until unlocked). Link state (`isLinked`) is computed ONLY on the server (the client menu has no
+  level access and used to reset it to 0 -> "no link" after taking the device out).
   CI scenes 8200-8470 (shots 62-66). Concepts kept in `docs/concepts/tech_table_gui` (v1 + v2).
 - Web cocoon: 5 sticky hits within 120 ticks -> `entity/web/WebCocoon` (60 ticks, `WebSlowness.hold` = speed/jump/fly
   -100%, `WebSlowness.lockLook`: wrapped mobs keep their head/body rotation, reset at the end of each server tick), `client/web/WebCocoonRenderer` (tiled box), first-person `client/web/WebOverlay` (head webs / cocoon).

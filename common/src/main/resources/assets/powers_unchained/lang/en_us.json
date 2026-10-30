@@ -272,5 +272,8 @@
   "commands.powers_unchained.techtable.unlocked": "Unlocked %s for %s player(s)",
   "commands.powers_unchained.techtable.locked": "Locked %s for %s player(s)",
   "screen.powers_unchained.tech_table.search": "Search...",
-  "screen.powers_unchained.tech_table.search.none": "Nothing found"
+  "screen.powers_unchained.tech_table.search.none": "Nothing found",
+  "screen.powers_unchained.tech_table.requirement": "Condition:",
+  "feat.powers_unchained.lightning_in_web_shooters": "Get struck by lightning wearing web-shooters",
+  "feat.powers_unchained.done": "Condition met: %s"
 }

@@ -1,13 +1,14 @@
 package com.star_1mp.powersunchained.suit;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
 import com.star_1mp.powersunchained.Constants;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAssets;
@@ -17,7 +18,8 @@ public final class Suits {
 
     /*
      * All suits share the same stats: a full set gives a full armor bar (20 points: mask 3, suit 8, pants 6,
-     * boots 3), no toughness, durability multiplier 18, leather equip sound, repaired with string.
+     * boots 3), no toughness, durability multiplier 18, leather equip sound.
+     * Spider-Man suits are repaired with red fabric (owner): item tag powers_unchained:repairs_spider_man_suits.
      */
 
     /** Spider-Man (classic). */
@@ -49,6 +51,9 @@ public final class Suits {
     /** Every suit, in creative-tab order. */
     public static final List<Suit> ALL = VARIANT_GROUPS.stream().flatMap(List::stream).toList();
 
+    /** Repairs every Spider-Man suit in an anvil (data: red fabric). */
+    public static final TagKey<Item> REPAIRS_SPIDER_MAN_SUITS = TagKey.create(Registries.ITEM, Constants.id("repairs_spider_man_suits"));
+
     private Suits() {
     }
 
@@ -68,9 +73,9 @@ public final class Suits {
                         SoundEvents.ARMOR_EQUIP_LEATHER,
                         0.0F,
                         0.0F,
-                        ItemTags.REPAIRS_LEATHER_ARMOR,
+                        REPAIRS_SPIDER_MAN_SUITS,
                         ResourceKey.create(EquipmentAssets.ROOT_ID, Constants.id(name))),
-                Items.STRING);
+                REPAIRS_SPIDER_MAN_SUITS);
     }
 
     /** Returns the variant {@code offset} steps away from {@code suit} in its group (wrapping), or itself. */

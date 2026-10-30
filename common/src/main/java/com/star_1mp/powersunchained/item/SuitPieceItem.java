@@ -49,7 +49,7 @@ public class SuitPieceItem extends Item {
                 .component(DataComponents.EQUIPPABLE, Equippable.builder(type.getSlot())
                         .setEquipSound(material.equipSound())
                         .build())
-                .repairable(suit.repairItem());
+                .repairable(suit.repairItems());
     }
 
     /** Returns the suit piece if {@code stack} is a suit piece meant for {@code slot}. */

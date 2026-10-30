@@ -9,6 +9,7 @@ import com.star_1mp.powersunchained.item.WebShootersItem;
 import com.star_1mp.powersunchained.menu.TechTableMenu;
 import com.star_1mp.powersunchained.tech.GadgetSkins;
 import com.star_1mp.powersunchained.tech.TechCost;
+import com.star_1mp.powersunchained.tech.TechFeats;
 import com.star_1mp.powersunchained.tech.TechIngredient;
 import com.star_1mp.powersunchained.tech.TechProgress;
 import com.star_1mp.powersunchained.tech.TechRecipe;
@@ -770,8 +771,8 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         this.wrapped(g, m.displayName(), rx + 23, ty + (this.font.width(m.displayName()) > RIGHT_W - 28 ? 0 : 4), RIGHT_W - 27, COPPER, 2);
         ty += 20;
         ty += this.wrapped(g, m.description(), rx + 5, ty, RIGHT_W - 10, GREY, 5) + 4;
-        // before -> after
-        if (hasGadget) {
+        // before -> after (only once it can be installed: a locked module shows its unlock condition + cost instead)
+        if (hasGadget && (unlocked || isInstalled)) {
             g.text(this.font, tr(isInstalled ? "stats.installed" : "stats.title"), rx + 5, ty, CYAN_DIM, false);
             ty += 11;
             ItemStack after = gadget.copy();
@@ -793,11 +794,19 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         if (isInstalled) {
             this.wrapped(g, tr(creative ? "creative_hint" : "remove_hint"), rx + 5, ty, RIGHT_W - 10, DIM, 6);
         } else if (!unlocked) {
+            // extra condition, shown done / not done like Fisk's suit requirements
+            boolean met = m.requirementMet(this.progress());
+            if (m.requirement() != null) {
+                g.text(this.font, tr("requirement"), rx + 5, ty, COPPER_DARK, false);
+                ty += 11;
+                Component line = Component.literal(met ? "✔ " : "✘ ").append(TechFeats.title(m.requirement()));
+                ty += this.wrapped(g, line, rx + 5, ty, RIGHT_W - 10, met ? GREEN : RED, 3) + 4;
+            }
             g.text(this.font, tr("unlock_cost"), rx + 5, ty, COPPER_DARK, false);
             ty += 11;
             ty += this.costRows(g, rx + 4, ty, RIGHT_W - 8, m.unlockCost());
             int bty = y + H - 8 - 20;
-            boolean can = m.unlockCost().canPay(this.minecraft.player);
+            boolean can = met && m.unlockCost().canPay(this.minecraft.player);
             this.vanillaButton(g, rx + 3, bty, RIGHT_W - 6, 16, tr("unlock"), can, in(mx, my, rx + 3, bty, RIGHT_W - 6, 16), false);
         } else {
             g.text(this.font, tr("install_cost"), rx + 5, ty, COPPER_DARK, false);
@@ -1089,7 +1098,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 WebModule m = this.shownModule();
                 int bty = y + H - 8 - 20;
                 if (!this.progress().hasModule(m) && !WebModules.has(gadget, m) && in(mx, my, x + RIGHT_X + 3, bty, RIGHT_W - 6, 16)) {
-                    if (m.unlockCost().canPay(this.minecraft.player)) {
+                    if (m.requirementMet(this.progress()) && m.unlockCost().canPay(this.minecraft.player)) {
                         this.button(TechTableMenu.UNLOCK_MODULE + m.ordinal());
                         this.click();
                     } else {

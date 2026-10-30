@@ -30,16 +30,32 @@ public enum WebModule {
     /** A new web type: Electro-Web (see {@code ElectroWeb}). */
     ELECTRO_WEB("electro_web",
             TechCost.of(sup(Items.COPPER_INGOT), 12, sup(Items.REDSTONE), 8, sup(Items.GLOWSTONE_DUST), 6, sup(Items.AMETHYST_SHARD), 2),
-            TechCost.of(sup(Items.COPPER_INGOT), 2, sup(Items.GLOWSTONE_DUST), 2));
+            TechCost.of(sup(Items.COPPER_INGOT), 2, sup(Items.GLOWSTONE_DUST), 2), TechFeats.LIGHTNING);
 
     private final String id;
     private final TechCost unlockCost;
     private final TechCost installCost;
+    /** A feat the player must have done besides paying (like Fisk's suit requirements), or null. */
+    private final @Nullable String requirement;
 
     WebModule(String id, TechCost unlockCost, TechCost installCost) {
+        this(id, unlockCost, installCost, null);
+    }
+
+    WebModule(String id, TechCost unlockCost, TechCost installCost, @Nullable String requirement) {
         this.id = id;
         this.unlockCost = unlockCost;
         this.installCost = installCost;
+        this.requirement = requirement;
+    }
+
+    public @Nullable String requirement() {
+        return this.requirement;
+    }
+
+    /** Whether the player met this module's extra condition (always true without one). */
+    public boolean requirementMet(TechProgress progress) {
+        return this.requirement == null || progress.hasFeat(this.requirement);
     }
 
     private static Supplier<Item> sup(Item item) {

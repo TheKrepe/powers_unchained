@@ -936,6 +936,12 @@ public final class CiClientDriver {
                 });
             }
             case 8430 -> run("tick rate 20");
+            // Electro-Web condition: lightning while wearing web-shooters
+            case 8432 -> {
+                Constants.LOG.info("[CI] feats before lightning: {}", com.star_1mp.powersunchained.platform.Services.GAMEPLAY.techProgress(mc.player));
+                run("execute at @p run summon minecraft:lightning_bolt ~ ~ ~");
+            }
+            case 8437 -> Constants.LOG.info("[CI] feats after lightning: {}", com.star_1mp.powersunchained.platform.Services.GAMEPLAY.techProgress(mc.player));
             // recipe viewers: the Tech Table category
             case 8440 -> {
                 mc.options.setCameraType(CameraType.FIRST_PERSON);

@@ -272,5 +272,8 @@
   "commands.powers_unchained.techtable.unlocked": "Открыто: %s (игроков: %s)",
   "commands.powers_unchained.techtable.locked": "Закрыто: %s (игроков: %s)",
   "screen.powers_unchained.tech_table.search": "Поиск...",
-  "screen.powers_unchained.tech_table.search.none": "Ничего не найдено"
+  "screen.powers_unchained.tech_table.search.none": "Ничего не найдено",
+  "screen.powers_unchained.tech_table.requirement": "Условие:",
+  "feat.powers_unchained.lightning_in_web_shooters": "Попасть под молнию в веб-шутерах",
+  "feat.powers_unchained.done": "Условие выполнено: %s"
 }

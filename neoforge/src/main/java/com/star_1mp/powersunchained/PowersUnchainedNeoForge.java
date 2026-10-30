@@ -46,6 +46,12 @@ public class PowersUnchainedNeoForge {
                 event.setCanceled(true);
             }
         });
+        // Electro-Web module condition: struck by lightning while wearing web-shooters
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent event) -> {
+            if (event.getEntity() instanceof ServerPlayer player) {
+                com.star_1mp.powersunchained.tech.TechFeats.onStruckByLightning(player);
+            }
+        });
         NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedOutEvent event) -> {
             WebShooting.forget(event.getEntity());
             if (event.getEntity() instanceof ServerPlayer player) {
