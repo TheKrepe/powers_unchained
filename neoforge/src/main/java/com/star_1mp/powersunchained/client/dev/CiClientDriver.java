@@ -925,10 +925,10 @@ public final class CiClientDriver {
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
             }
             case 8404 -> run("techtable module unlock fast_feed @p");
-            case 8406 -> {
+            case 8408 -> {
                 net.minecraft.server.level.ServerPlayer sp = serverPlayer();
                 mc.getSingleplayerServer().execute(() -> Constants.LOG.info("[CI] worn shooters after the command (server): {}",
-                        com.star_1mp.powersunchained.web.WebCartridges.wornShooters(sp).get(com.star_1mp.powersunchained.registry.PUDataComponents.UNLOCKED_MODULES.get())));
+                        com.star_1mp.powersunchained.web.WebCartridges.wornShooters(sp).getComponentsPatch()));
             }
             case 8410 -> {
                 run("item replace entity @p weapon.mainhand with minecraft:air");  // web shots need an empty main hand
