@@ -775,7 +775,7 @@ public final class CiClientDriver {
                 run("tp @p 770.5 -60 0.5 180 30");
                 for (String item : new String[]{"iron_ingot 64", "dispenser 2", "sticky_piston 2", "lever 2", "glass 16",
                         "copper_ingot 64", "redstone 64", "gold_ingot 16", "glowstone_dust 32", "amethyst_shard 8", "slime_ball 16",
-                        "powers_unchained:empty_web_cartridge 4", "white_dye 4", "red_dye 4"}) {
+                        "powers_unchained:empty_web_cartridge 4", "powers_unchained:white_fabric 4", "powers_unchained:red_fabric 4"}) {
                     run("give @p minecraft:" + item.replace("minecraft:powers_unchained:", "powers_unchained:"));
                 }
                 run("give @p powers_unchained:empty_web_cartridge 4");

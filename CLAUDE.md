@@ -194,7 +194,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `WebAmmo.setFactor`, `WebShooting.zipCooldown`, `WebModules.cartridgeSlots` everywhere SLOTS was). Customization:
   `client/techtable/GadgetHologram` (SuitHologram with id `ID_BASE + 1000`; `GadgetHologram.Layer` on player renderers
   draws the shooters only on that id), looks `tech/GadgetSkins` (component `gadget_skin`; Default + owner's Advanced (Marvel's Spider-Man
-  game) and Brand New Day (film) web-shooters, unlocked per player for materials; 500+i unlock, 600+i select; each look changes
+  game) and Brand New Day (film) web-shooters, unlocked per player for iron + fabrics (white+red / blue+red); 500+i unlock, 600+i select; each look changes
   the wrists `textures/gadget/web_shooters_<look>(_slim).png` AND the item icon (`items/web_shooters.json` selects on the
   component); recolours of the owner's textures by `tools/gen_web_shooter_skins.py`, new files only; the hologram previews the
   look picked in the list). Electro-Web: `entity/web/ElectroWeb` (owner: an IMPACT web under current, does NOT stick: 3 dmg = 1.5 hearts, stun

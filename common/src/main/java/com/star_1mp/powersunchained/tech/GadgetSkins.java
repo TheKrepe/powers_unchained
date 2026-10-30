@@ -4,6 +4,7 @@ import com.star_1mp.powersunchained.Constants;
 import com.star_1mp.powersunchained.registry.PUDataComponents;
 import java.util.List;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jspecify.annotations.Nullable;
@@ -30,8 +31,12 @@ public record GadgetSkins(String id, @Nullable TechCost cost, @Nullable String h
      */
     public static final List<GadgetSkins> WEB_SHOOTERS = List.of(
             new GadgetSkins(DEFAULT, null, null),
-            new GadgetSkins(ADVANCED, TechCost.of(sup(Items.IRON_INGOT), 4, sup(Items.WHITE_DYE), 2, sup(Items.RED_DYE), 2), null),
-            new GadgetSkins(BRAND_NEW_DAY, TechCost.of(sup(Items.IRON_INGOT), 4, sup(Items.BLUE_DYE), 2, sup(Items.RED_DYE), 2), null));
+            new GadgetSkins(ADVANCED, TechCost.of(sup(Items.IRON_INGOT), 4, fabric(DyeColor.WHITE), 2, fabric(DyeColor.RED), 2), null),
+            new GadgetSkins(BRAND_NEW_DAY, TechCost.of(sup(Items.IRON_INGOT), 4, fabric(DyeColor.BLUE), 2, fabric(DyeColor.RED), 2), null));
+
+    private static java.util.function.Supplier<net.minecraft.world.item.Item> fabric(DyeColor color) {
+        return () -> com.star_1mp.powersunchained.registry.PUItems.FABRICS.get(color).get();
+    }
 
     private static java.util.function.Supplier<net.minecraft.world.item.Item> sup(net.minecraft.world.item.Item item) {
         return () -> item;
