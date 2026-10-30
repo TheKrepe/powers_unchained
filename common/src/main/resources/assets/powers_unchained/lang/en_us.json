@@ -264,7 +264,7 @@
   "screen.powers_unchained.tech_table.modules.creative": "All modules (creative)",
   "screen.powers_unchained.tech_table.creative_hint": "Creative web-shooters already have every module; they cannot be removed.",
   "screen.powers_unchained.tech_table.link.title": "Not linked to a Suit Creator",
-  "screen.powers_unchained.tech_table.link.how": "Place the table right next to a Suit Creator or run redstone to it (dust, repeaters, comparators).",
+  "screen.powers_unchained.tech_table.link.how": "Place the table next to a Suit Creator or connect them with redstone.",
   "screen.powers_unchained.tech_table.looks.put_short": "Put a device in",
   "screen.powers_unchained.tech_table.holo.steve": "Steve",
   "screen.powers_unchained.tech_table.holo.alex": "Alex",

@@ -608,7 +608,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         for (WebModule m : WebModule.values()) {
             boolean unlocked = this.progress().hasModule(m);
             boolean installed = WebModules.has(gadget, m);
-            if ((section == 0 && installed) || (section == 1 && unlocked && !installed) || (section == 2 && !unlocked)) {
+            if ((section == 0 && installed) || (section == 1 && unlocked && !installed) || (section == 2 && !unlocked && !installed)) {
                 list.add(m);
             }
         }
@@ -732,21 +732,21 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                     WebModules.has(after, WebModule.ELECTRO_WEB) ? 3 : 2, true);
             ty += 4;
         }
-        // unlock / install cost
-        if (!unlocked) {
+        // installed: how to remove it; else unlock / install cost
+        if (isInstalled) {
+            this.wrapped(g, tr(creative ? "creative_hint" : "remove_hint"), rx + 5, ty, RIGHT_W - 10, DIM, 3);
+        } else if (!unlocked) {
             g.text(this.font, tr("unlock_cost"), rx + 5, ty, COPPER_DARK, false);
             ty += 11;
             ty += this.costRows(g, rx + 4, ty, RIGHT_W - 8, m.unlockCost());
             int bty = y + H - 8 - 20;
             boolean can = m.unlockCost().canPay(this.minecraft.player);
             this.vanillaButton(g, rx + 3, bty, RIGHT_W - 6, 16, tr("unlock"), can, in(mx, my, rx + 3, bty, RIGHT_W - 6, 16), false);
-        } else if (!isInstalled) {
+        } else {
             g.text(this.font, tr("install_cost"), rx + 5, ty, COPPER_DARK, false);
             ty += 11;
             ty += this.costRows(g, rx + 4, ty, RIGHT_W - 8, m.installCost());
             this.wrapped(g, tr(hasGadget ? "drag_hint" : "put_gadget_hint"), rx + 5, ty + 2, RIGHT_W - 10, DIM, Math.max(0, (this.topPos + H - 10 - ty - 2) / 10));
-        } else {
-            this.wrapped(g, tr(creative ? "creative_hint" : "remove_hint"), rx + 5, ty, RIGHT_W - 10, DIM, 3);
         }
     }
 
@@ -809,8 +809,8 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         int feet = hy + hh - 6;
         if (!linked) {
             // owner: Customization only works when the table touches a Suit Creator or is wired to one with redstone
-            g.blitSprite(RenderPipelines.GUI_TEXTURED, Constants.id("suit_creator/lock"), cx - 8, hy + 20, 16, 18);
-            int ty = hy + 40;
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, Constants.id("suit_creator/lock"), cx - 8, hy + 16, 16, 18);
+            int ty = hy + 38;
             ty += this.wrapped(g, tr("link.title"), hx + 8, ty, hw - 16, 0xFFFF9B8F, 2) + 3;
             this.wrapped(g, tr("link.how"), hx + 8, ty, hw - 16, GREY, 5);
             int bx = x + RIGHT_X;
@@ -1015,7 +1015,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 // unlock button
                 WebModule m = this.shownModule();
                 int bty = y + H - 8 - 20;
-                if (!this.progress().hasModule(m) && in(mx, my, x + RIGHT_X + 3, bty, RIGHT_W - 6, 16)) {
+                if (!this.progress().hasModule(m) && !WebModules.has(gadget, m) && in(mx, my, x + RIGHT_X + 3, bty, RIGHT_W - 6, 16)) {
                     if (m.unlockCost().canPay(this.minecraft.player)) {
                         this.button(TechTableMenu.UNLOCK_MODULE + m.ordinal());
                         this.click();

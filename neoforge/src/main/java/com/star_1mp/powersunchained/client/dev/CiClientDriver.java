@@ -908,6 +908,7 @@ public final class CiClientDriver {
             // Electro-Web at two zombies
             case 8400 -> {
                 run("gamemode creative @p");
+                run("clear @p");  // web shots need an empty main hand
                 run("tp @p 790.5 -60 0.5 0 0");
                 run("curios replace bracelet 0 @p with powers_unchained:web_shooters[powers_unchained:web_modules=[\"electro_web\",\"tight_spring\"],powers_unchained:web_cartridges=[128,128]]");
                 run("difficulty easy");
