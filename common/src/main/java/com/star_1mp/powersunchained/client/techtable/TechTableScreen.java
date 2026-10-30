@@ -491,17 +491,19 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         } else {
             this.wrapped(g, tr("pick_recipe"), rx + 5, fy + 32, RIGHT_W - 10, GREY, 6);
         }
-        // what the picked recipe needs (have / need in the inventory + grid)
+        // what the picked recipe needs (have / need in the inventory + grid), two columns
         if (this.selectedRecipe != null) {
             int ny = y + 153;
             g.text(this.font, tr("needs"), rx, ny, LABEL, false);
-            ny += 10;
-            for (ItemStack need : this.needs(this.selectedRecipe)) {
-                g.item(need, rx, ny);
+            List<ItemStack> needs = this.needs(this.selectedRecipe);
+            for (int i = 0; i < Math.min(6, needs.size()); i++) {
+                ItemStack need = needs.get(i);
+                int nx = rx + (i % 2) * 52;
+                int nyy = ny + 10 + (i / 2) * 18;
+                g.item(need, nx, nyy);
                 int have = this.countEverywhere(need);
                 String t = Math.min(have, 99) + "/" + need.getCount();
-                g.text(this.font, t, rx + RIGHT_W - this.font.width(t), ny + 4, have >= need.getCount() ? 0xFF2E8B2E : 0xFFB03A2E, false);
-                ny += 17;
+                g.text(this.font, t, nx + 18, nyy + 4, have >= need.getCount() ? 0xFF2E8B2E : 0xFFB03A2E, false);
             }
         }
     }
@@ -872,12 +874,11 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                     g.setTooltipForNextFrame(this.font, this.cycle(layout.get(i)), mx, my);
                 }
             }
-            int ny = y + 163;
-            for (ItemStack need : this.needs(this.selectedRecipe)) {
-                if (in(mx, my, x + RIGHT_X, ny, RIGHT_W, 16)) {
-                    g.setTooltipForNextFrame(this.font, need, mx, my);
+            List<ItemStack> needs = this.needs(this.selectedRecipe);
+            for (int i = 0; i < Math.min(6, needs.size()); i++) {
+                if (in(mx, my, x + RIGHT_X + (i % 2) * 52, y + 163 + (i / 2) * 18, 48, 16)) {
+                    g.setTooltipForNextFrame(this.font, needs.get(i), mx, my);
                 }
-                ny += 17;
             }
         }
     }

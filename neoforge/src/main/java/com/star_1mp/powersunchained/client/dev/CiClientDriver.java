@@ -790,7 +790,10 @@ public final class CiClientDriver {
             case 8225 -> run("tick rate 2");
             case 8226 -> shot("62_tech_table_create");
             case 8238 -> run("tick rate 20");
+            case 8243 -> logTechTable("before craft");
             case 8245 -> serverQuickMove(com.star_1mp.powersunchained.menu.TechTableMenu.RESULT_SLOT);
+            case 8248 -> logTechTable("after craft");
+            case 8253 -> logTechTable("after moving the web-shooters");
             case 8250 -> {
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
                     screen.debugTab(com.star_1mp.powersunchained.menu.TechTableMenu.TAB_UPGRADE);
@@ -837,6 +840,7 @@ public final class CiClientDriver {
                 run("tp @p 790.5 -60 0.5 0 0");
                 run("curios replace bracelet 0 @p with powers_unchained:web_shooters[powers_unchained:web_modules=[\"electro_web\",\"tight_spring\"],powers_unchained:web_cartridges=[128,128]]");
                 run("difficulty easy");
+                run("time set night");
                 run("execute at @p run summon minecraft:zombie ~ ~ ~7 {NoAI:1b,Rotation:[180f,0f]}");
                 run("execute at @p run summon minecraft:zombie ~2 ~ ~8 {NoAI:1b,Rotation:[180f,0f]}");
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
@@ -868,6 +872,18 @@ public final class CiClientDriver {
         } catch (RuntimeException e) {
             Constants.LOG.error("[CI] recipe viewer failed", e);
         }
+    }
+
+    private static void logTechTable(String when) {
+        net.minecraft.server.level.ServerPlayer player = serverPlayer();
+        Minecraft.getInstance().getSingleplayerServer().execute(() -> {
+            if (player.containerMenu instanceof com.star_1mp.powersunchained.menu.TechTableMenu menu) {
+                Constants.LOG.info("[CI] tech table {}: grid {} result {} device {} client tab {}", when, menu.gridItems(),
+                        menu.slots.get(com.star_1mp.powersunchained.menu.TechTableMenu.RESULT_SLOT).getItem(), menu.device(), menu.tab);
+            } else {
+                Constants.LOG.info("[CI] tech table {}: menu {}", when, player.containerMenu);
+            }
+        });
     }
 
     /** Shift-click on a slot of the open menu, done by the server (synced back). */
