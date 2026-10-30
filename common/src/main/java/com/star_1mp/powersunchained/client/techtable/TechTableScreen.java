@@ -661,7 +661,9 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 outline(g, p[0] - 2, p[1] - 2, 20, 20, COPPER);
             }
         }
-        if (available.isEmpty()) {
+        if (!hasGadget) {
+            g.centeredText(this.font, tr("put_gadget"), dx + 8, y + 46, INK);
+        } else if (available.isEmpty()) {
             g.centeredText(this.font, tr("modules.none_open"), dx + 8, y + 46, INK_D);
         }
         // the gadget socket (the real slot is drawn by the menu on top of this)
@@ -670,7 +672,6 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         if (!hasGadget) {
             g.item(new ItemStack(PUItems.WEB_SHOOTERS.get()), dx, dy);
             g.fill(dx, dy, dx + 16, dy + 16, 0xB00A1932);
-            g.centeredText(this.font, tr("put_gadget"), dx + 8, dy + 24, INK);
         }
         for (int i = 0; i < WebModules.MAX_INSTALLED; i++) {
             int[] p = this.installSocket(i);

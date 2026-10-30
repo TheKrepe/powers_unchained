@@ -789,9 +789,9 @@ public final class CiClientDriver {
             }
             case 8225 -> run("tick rate 2");
             case 8226 -> shot("62_tech_table_create");
-            case 8229 -> run("tick rate 20");
-            case 8235 -> serverQuickMove(com.star_1mp.powersunchained.menu.TechTableMenu.RESULT_SLOT);
-            case 8240 -> {
+            case 8238 -> run("tick rate 20");
+            case 8245 -> serverQuickMove(com.star_1mp.powersunchained.menu.TechTableMenu.RESULT_SLOT);
+            case 8250 -> {
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
                     screen.debugTab(com.star_1mp.powersunchained.menu.TechTableMenu.TAB_UPGRADE);
                     for (int i = 0; i < 36; i++) {
@@ -802,37 +802,37 @@ public final class CiClientDriver {
                     }
                 }
             }
-            case 8245 -> {
+            case 8255 -> {
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
                     screen.debugButton(com.star_1mp.powersunchained.menu.TechTableMenu.UNLOCK_MODULE + com.star_1mp.powersunchained.tech.WebModule.TIGHT_SPRING.ordinal());
                     screen.debugButton(com.star_1mp.powersunchained.menu.TechTableMenu.UNLOCK_MODULE + com.star_1mp.powersunchained.tech.WebModule.ELECTRO_WEB.ordinal());
                     screen.debugButton(com.star_1mp.powersunchained.menu.TechTableMenu.UNLOCK_MODULE + com.star_1mp.powersunchained.tech.WebModule.SECOND_DRUM.ordinal());
                 }
             }
-            case 8250 -> {
+            case 8260 -> {
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
                     screen.debugButton(com.star_1mp.powersunchained.menu.TechTableMenu.INSTALL_MODULE + com.star_1mp.powersunchained.tech.WebModule.TIGHT_SPRING.ordinal());
                     screen.debugSelectModule(com.star_1mp.powersunchained.tech.WebModule.ELECTRO_WEB);
                 }
             }
-            case 8255 -> run("tick rate 2");
-            case 8256 -> shot("63_tech_table_upgrade");
-            case 8259 -> run("tick rate 20");
-            case 8265 -> {
+            case 8265 -> run("tick rate 2");
+            case 8266 -> shot("63_tech_table_upgrade");
+            case 8278 -> run("tick rate 20");
+            case 8285 -> {
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
                     screen.debugButton(com.star_1mp.powersunchained.menu.TechTableMenu.INSTALL_MODULE + com.star_1mp.powersunchained.tech.WebModule.ELECTRO_WEB.ordinal());
                     screen.debugTab(com.star_1mp.powersunchained.menu.TechTableMenu.TAB_CUSTOMIZE);
                 }
             }
-            case 8270 -> run("tick rate 2");
-            case 8271 -> shot("64_tech_table_customize");
-            case 8274 -> run("tick rate 20");
-            case 8280 -> {
+            case 8290 -> run("tick rate 2");
+            case 8291 -> shot("64_tech_table_customize");
+            case 8303 -> run("tick rate 20");
+            case 8310 -> {
                 Constants.LOG.info("[CI] tech table device: {}", mc.player.containerMenu instanceof com.star_1mp.powersunchained.menu.TechTableMenu menu ? menu.device().getComponents() : "-");
                 mc.gui.setScreen(null);
             }
             // Electro-Web at two zombies
-            case 8290 -> {
+            case 8320 -> {
                 run("gamemode creative @p");
                 run("tp @p 790.5 -60 0.5 0 0");
                 run("curios replace bracelet 0 @p with powers_unchained:web_shooters[powers_unchained:web_modules=[\"electro_web\",\"tight_spring\"],powers_unchained:web_cartridges=[128,128]]");
@@ -841,12 +841,12 @@ public final class CiClientDriver {
                 run("execute at @p run summon minecraft:zombie ~2 ~ ~8 {NoAI:1b,Rotation:[180f,0f]}");
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
             }
-            case 8300 -> com.star_1mp.powersunchained.client.web.WebShooterClient.debugState(true, false, com.star_1mp.powersunchained.web.WebType.ELECTRO);
-            case 8305 -> run("tick rate 4");
-            case 8306 -> shootWeb(com.star_1mp.powersunchained.web.WebType.ELECTRO);
-            case 8309 -> shot("65_electro_web");
-            case 8313 -> run("tick rate 20");
-            case 8330 -> {
+            case 8330 -> com.star_1mp.powersunchained.client.web.WebShooterClient.debugState(true, false, com.star_1mp.powersunchained.web.WebType.ELECTRO);
+            case 8335 -> run("tick rate 2");
+            case 8336 -> shootWeb(com.star_1mp.powersunchained.web.WebType.ELECTRO);
+            case 8338 -> shot("65_electro_web");
+            case 8350 -> run("tick rate 20");
+            case 8370 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }

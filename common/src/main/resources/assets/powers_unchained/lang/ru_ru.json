@@ -210,7 +210,7 @@
   "screen.powers_unchained.tech_table.upgrade_blueprint": "Модернизация",
   "screen.powers_unchained.tech_table.modules.open": "Открытые модули",
   "screen.powers_unchained.tech_table.modules.none_open": "Открой модуль справа",
-  "screen.powers_unchained.tech_table.put_gadget": "Положи устройство",
+  "screen.powers_unchained.tech_table.put_gadget": "Положи веб-шутеры",
   "screen.powers_unchained.tech_table.modules.slots": "Модули: %s/%s",
   "screen.powers_unchained.tech_table.not_enough": "Не хватает материалов!",
   "screen.powers_unchained.tech_table.modules.installed": "Установлено",
