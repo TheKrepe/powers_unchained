@@ -9,7 +9,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Looks (designs) of gadgets for the Tech Table's Customization tab: data component {@code powers_unchained:gadget_skin}
- * (missing = {@link #DEFAULT}). For now every gadget only has the default look; new looks are added to {@link #ALL}
+ * (missing = {@link #DEFAULT}). For now every gadget only has the default look; new looks are added to {@link #WEB_SHOOTERS}
  * with how they are unlocked.
  *
  * @param id      skin id, unique per gadget
