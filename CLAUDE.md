@@ -175,8 +175,12 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   serializer). CI client runs one viewer: `client-test.yml` input `recipe_viewer` = jei (default) | rei | none
   (`-Pci_recipe_viewer`); REI needs Architectury 22.0.5 at runtime and `neoforge.warnings.onlyin.hide` (dev runs) or
   NeoForge's @OnlyIn warning screen stops the quick play. Scenes from tick 8100 (shots 60/61).
-- Tech Table GUI: concepts only, not implemented. v2 (current proposal, owner wanted it closer to Fisk's Suit
-  Database): `docs/concepts/tech_table_gui/v2` — full-screen teal hologram research tree, hexagon nodes (unlocked /
+  Category order (owner: Suit Creator before the anvil): JEI has no API, so `compat/jei/JeiCategoryOrder` puts
+  `powers_unchained:suit_creator` right after `minecraft:crafting` in `config/jei/recipe-category-sort-order.ini` ONCE
+  (marker `config/powers_unchained-jei-order.done`; a hidden category is left alone). REI: registration order = plugin
+  priority (ours 0 > REI's default plugin -100), so it is already first.
+- Tech Table GUI: concepts only, NOT to be implemented yet. Owner went back to v1 (to be refined together); v2 (owner
+  first wanted it closer to Fisk's Suit Database): `docs/concepts/tech_table_gui/v2` — full-screen teal hologram research tree, hexagon nodes (unlocked /
   ready / locked), sidebar with objectives + price + ИЗУЧИТЬ, flips to assembly (hologram, parts, СОБРАТЬ). v1 (tabs,
   blueprint paper) KEPT on purpose (owner may come back to it). Fisk's Suit Database code: jar-reference
   `modrinth:fiskheroes`, `com/fiskmods/heroes/client/gui/nodes/` (GuiHeroTree, NodeTree, Node, Sidebar, FabricatorColors).
