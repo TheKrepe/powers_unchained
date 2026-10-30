@@ -165,9 +165,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
 - No fall damage after web travel: `WebShooting.markFallSafe` (zip, hanging, release) until landing; NeoForge
   `LivingFallEvent` is cancelled while `isFallSafe`.
 - Recipes: empty cartridge = iron ingot / glass / iron ingot (column); web cartridge = shapeless empty cartridge + cobweb
-  + potion of oozing (NeoForge `neoforge:components` ingredient — Fabric will need its own ingredient).
-  Alternative web cartridge (owner): empty cartridge + cobweb + honey bottle + slime ball (`web_cartridge_from_honey`,
-  same recipe group).
+  + slime ball (owner simplified it; the oozing potion and honey recipes were removed), in the crafting table AND the Tech Table.
 - JEI + REI (optional, `compileOnly` APIs; `jei_version` / `rei_version`): Suit Creator blueprints as a recipe category
   — `suit/SuitRecipe` (per suit: whole suit + 4 pieces, from `SuitCatalog`), shared look `client/suitcreator/SuitRecipeArt`
   (Suit Creator monitors: title, materials, sewing needle, hologram with the result, unlock box with tooltip);
@@ -182,7 +180,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
 - Tech Table (`block/TechTableBlock` opens `menu/TechTableMenu` + `client/techtable/TechTableScreen`, 416x236 like the
   Suit Creator; built from concept v1, owner's spec). Tabs: Создание / Улучшение / Кастомизация (tab synced to the server
   with buttons 0-2 for shift-clicks). Creation: list of `tech/TechRecipes` (code-defined `TechRecipe` shaped / shapeless,
-  `TechIngredient` predicates, e.g. the oozing potion) -> clicking one = recipe-book placement (button 100+i) + ghost
+  `TechIngredient` predicates) -> clicking one = recipe-book placement (button 100+i) + ghost
   items; 3x3 grid drawn as blueprint sockets, result on the right (remainders: bottles). Owner's web-shooters recipe
   (Tech Table ONLY): iron dispenser iron / empty cartridge sticky piston empty cartridge / iron lever iron; cartridges
   craftable in BOTH the Tech Table and the crafting table (owner). Upgrade: `tech/WebModule` (Tight Spring range x1.25,
@@ -194,10 +192,19 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `WebAmmo.setFactor`, `WebShooting.zipCooldown`, `WebModules.cartridgeSlots` everywhere SLOTS was). Customization:
   `client/techtable/GadgetHologram` (SuitHologram with id `ID_BASE + 1000`; `GadgetHologram.Layer` on player renderers
   draws the shooters only on that id), looks `tech/GadgetSkins` (component `gadget_skin`; only Default for now; 500+i
-  unlock, 600+i select). Electro-Web: `entity/web/ElectroWeb` (sticky + 3 dmg, 1 dmg x4 pulses, slowness IV + weakness
-  2 s, arcs to 2 mobs within 4 blocks / 8 when wet, sparks; `WebType.ELECTRO` 6 shots, 60 ticks, 2 fluid, only with the
+  unlock, 600+i select). Electro-Web: `entity/web/ElectroWeb` (owner: an IMPACT web under current, does NOT stick: 3 dmg = 1.5 hearts, stun
+  = slowness V + weakness 3 s, arcs to 2 mobs within 4 blocks / 8 when wet, sparks; `WebType.ELECTRO` 5 shots, 60 ticks, 2 fluid, only with the
   module: `WebType.available/next`, HUD wheel lists available types). Module sprites `tools/gen_tech_table_icons.py`.
-  CI scenes 8200-8370 (shots 62-65). Concepts kept in `docs/concepts/tech_table_gui` (v1 + v2).
+  Creative web-shooters have EVERY module (`WebModules.installed/has` for `isCreative`, even past 5; removal refused).
+  Customization works only when the table touches a Suit Creator or a redstone line (dust incl. up/down a block,
+  repeaters, comparators, torches, redstone blocks; unpowered is fine) runs to one: `tech/TechLink` BFS, menu DataSlot
+  `isLinked` refreshed every 10 ticks; hologram buttons Steve/Alex + Stand/Run (`GadgetHologram` id = `ID + pose`,
+  `SuitHologram.applyPose` handles `rel % 1000`). Without a device Upgrade / Customization show NO list, NO right panel
+  and no ghost item; device slots show the cog sprite `tech_table/device_slot` (`tools/gen_device_slot_icon.py`).
+  `/techtable module unlock|lock <module|all> [targets]` (`command/TechTableCommand`). JEI + REI category
+  `powers_unchained:tech_table` drawn by `client/techtable/TechRecipeArt` (steel title bar + drawing number, blueprint
+  paper, 3x3 sockets, filling dashed arrow, copper result frame, "shapeless").
+  CI scenes 8200-8470 (shots 62-66). Concepts kept in `docs/concepts/tech_table_gui` (v1 + v2).
 - Web cocoon: 5 sticky hits within 120 ticks -> `entity/web/WebCocoon` (60 ticks, `WebSlowness.hold` = speed/jump/fly
   -100%, `WebSlowness.lockLook`: wrapped mobs keep their head/body rotation, reset at the end of each server tick), `client/web/WebCocoonRenderer` (tiled box), first-person `client/web/WebOverlay` (head webs / cocoon).
 - Webs aim from the wrist at the crosshair's target point (`AbstractWebProjectile.aimPoint`). Head webs lie on the

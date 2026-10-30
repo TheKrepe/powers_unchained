@@ -41,6 +41,12 @@ public record TechProgress(Set<String> modules, Set<String> skins) {
         return new TechProgress(Set.copyOf(set), this.skins);
     }
 
+    public TechProgress withoutModule(WebModule module) {
+        Set<String> set = new HashSet<>(this.modules);
+        set.remove(module.id());
+        return new TechProgress(Set.copyOf(set), this.skins);
+    }
+
     public boolean hasSkin(String skin) {
         return GadgetSkins.DEFAULT.equals(skin) || this.skins.contains(skin);
     }

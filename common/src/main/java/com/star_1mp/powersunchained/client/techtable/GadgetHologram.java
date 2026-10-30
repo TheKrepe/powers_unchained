@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 /**
  * Tech Table, Customization tab: a player-shaped hologram (Steve / Alex, no entity behind it) wearing the gadget, like
  * the Suit Creator's hologram. The gadget is drawn by {@link Layer} (added to the player renderers), which only draws on
- * render states with the id {@link #ID} — real players get their web-shooters drawn by Curios.
+ * render states with the id {@link #ID} + pose — real players get their web-shooters drawn by Curios.
  */
 public final class GadgetHologram {
 
@@ -26,8 +26,15 @@ public final class GadgetHologram {
     }
 
     /** Draws the hologram in the rectangle, feet at {@code y1 - 2}. */
-    public static void draw(GuiGraphicsExtractor graphics, int x0, int y0, int x1, int y1, float scale, boolean slim, float yaw, float age) {
-        SuitHologram.draw(graphics, x0, y0, x1, y1, scale, null, NO_SUIT, slim, SuitHologram.Pose.STAND, yaw, age, ID);
+    public static void draw(GuiGraphicsExtractor graphics, int x0, int y0, int x1, int y1, float scale, boolean slim, float yaw, float age,
+            SuitHologram.Pose pose) {
+        SuitHologram.draw(graphics, x0, y0, x1, y1, scale, null, NO_SUIT, slim, pose, yaw, age, ID + pose.ordinal());
+    }
+
+    /** Whether a render state is this hologram (id {@code ID + pose}). */
+    public static boolean is(AvatarRenderState state) {
+        int rel = state.id - ID;
+        return rel >= 0 && rel < SuitHologram.Pose.values().length;
     }
 
     /** Draws the web-shooters on the hologram (player and mannequin renderers). */
@@ -39,7 +46,7 @@ public final class GadgetHologram {
 
         @Override
         public void submit(PoseStack poseStack, SubmitNodeCollector collector, int lightCoords, AvatarRenderState state, float yRot, float xRot) {
-            if (state.id == ID) {
+            if (is(state)) {
                 WebShootersModel.render(poseStack, collector, lightCoords, state);
             }
         }

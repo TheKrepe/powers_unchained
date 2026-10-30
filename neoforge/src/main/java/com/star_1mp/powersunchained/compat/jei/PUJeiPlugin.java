@@ -2,6 +2,9 @@ package com.star_1mp.powersunchained.compat.jei;
 
 import com.star_1mp.powersunchained.Constants;
 import com.star_1mp.powersunchained.client.suitcreator.SuitRecipeArt;
+import com.star_1mp.powersunchained.client.techtable.TechRecipeArt;
+import com.star_1mp.powersunchained.tech.TechRecipe;
+import com.star_1mp.powersunchained.tech.TechRecipes;
 import com.star_1mp.powersunchained.registry.PUItems;
 import com.star_1mp.powersunchained.suit.SuitRecipe;
 import mezz.jei.api.IModPlugin;
@@ -25,6 +28,7 @@ import net.minecraft.resources.Identifier;
 public class PUJeiPlugin implements IModPlugin {
 
     public static final IRecipeType<SuitRecipe> SUIT_CREATOR = IRecipeType.create(Constants.MOD_ID, "suit_creator", SuitRecipe.class);
+    public static final IRecipeType<TechRecipe> TECH_TABLE = IRecipeType.create(Constants.MOD_ID, "tech_table", TechRecipe.class);
 
     @Override
     public Identifier getPluginUid() {
@@ -68,17 +72,52 @@ public class PUJeiPlugin implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         category = new SuitCreatorCategory(registration.getJeiHelpers().getGuiHelper());
-        registration.addRecipeCategories(category);
+        registration.addRecipeCategories(category, new TechTableCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addRecipes(SUIT_CREATOR, SuitRecipe.all());
+        registration.addRecipes(TECH_TABLE, TechRecipes.all());
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addCraftingStation(SUIT_CREATOR, PUItems.SUIT_CREATOR.get());
+        registration.addCraftingStation(TECH_TABLE, PUItems.TECH_TABLE.get());
+    }
+
+    /** Dev/CI only: opens the Tech Table category. */
+    public static void debugShowTechTable() {
+        if (runtime != null) {
+            runtime.getRecipesGui().showTypes(java.util.List.of(TECH_TABLE));
+        }
+    }
+
+    /** Tech Table recipes on blueprint paper ({@link TechRecipeArt}). */
+    static final class TechTableCategory extends AbstractRecipeCategory<TechRecipe> {
+
+        TechTableCategory(IGuiHelper gui) {
+            super(TECH_TABLE, Component.translatable("block.powers_unchained.tech_table"),
+                    gui.createDrawableItemLike(PUItems.TECH_TABLE.get()), TechRecipeArt.WIDTH, TechRecipeArt.HEIGHT);
+        }
+
+        @Override
+        public void setRecipe(IRecipeLayoutBuilder builder, TechRecipe recipe, IFocusGroup focuses) {
+            var layout = recipe.layout();
+            for (int i = 0; i < 9; i++) {
+                if (layout.get(i) != null) {
+                    int[] s = TechRecipeArt.cellSlot(i);
+                    builder.addInputSlot(s[0], s[1]).addItemStacks(layout.get(i).display().get());
+                }
+            }
+            builder.addOutputSlot(TechRecipeArt.RESULT[0], TechRecipeArt.RESULT[1]).add(recipe.resultStack());
+        }
+
+        @Override
+        public void draw(TechRecipe recipe, IRecipeSlotsView slots, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
+            TechRecipeArt.draw(graphics, recipe, 0, 0);
+        }
     }
 
     static final class SuitCreatorCategory extends AbstractRecipeCategory<SuitRecipe> {

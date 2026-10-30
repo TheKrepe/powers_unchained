@@ -102,10 +102,11 @@ public final class SuitHologram {
 
     /** {@code PlayerModelMixin}: poses for the hologram (after vanilla's pose). */
     public static void applyPose(PlayerModel model, AvatarRenderState state) {
-        int pose = state.id - ID_BASE;
-        if (pose < 0 || pose >= Pose.values().length) {
+        int rel = state.id - ID_BASE;  // ID_BASE + pose, or ID_BASE + 1000 + pose (Tech Table gadget hologram)
+        if (rel < 0 || rel >= 2000 || rel % 1000 >= Pose.values().length) {
             return;
         }
+        int pose = rel % 1000;
         float t = state.ageInTicks;
         switch (Pose.values()[pose]) {
             case RUN -> {

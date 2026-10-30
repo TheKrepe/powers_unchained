@@ -2,6 +2,9 @@ package com.star_1mp.powersunchained.compat.rei;
 
 import com.star_1mp.powersunchained.Constants;
 import com.star_1mp.powersunchained.client.suitcreator.SuitRecipeArt;
+import com.star_1mp.powersunchained.client.techtable.TechRecipeArt;
+import com.star_1mp.powersunchained.tech.TechRecipe;
+import com.star_1mp.powersunchained.tech.TechRecipes;
 import com.star_1mp.powersunchained.registry.PUItems;
 import com.star_1mp.powersunchained.suit.SuitRecipe;
 import java.util.ArrayList;
@@ -32,6 +35,12 @@ import net.minecraft.world.item.ItemStack;
 public class PUReiPlugin implements REIClientPlugin {
 
     public static final CategoryIdentifier<SuitCreatorDisplay> SUIT_CREATOR = CategoryIdentifier.of(Constants.MOD_ID, "suit_creator");
+    public static final CategoryIdentifier<TechTableDisplay> TECH_TABLE = CategoryIdentifier.of(Constants.MOD_ID, "tech_table");
+
+    /** Dev/CI only: opens the Tech Table category. */
+    public static void debugShowTechTable() {
+        me.shedaniel.rei.api.client.view.ViewSearchBuilder.builder().addCategory(TECH_TABLE).open();
+    }
 
     /** Dev/CI only: opens the Suit Creator category. */
     public static void debugShow() {
@@ -42,12 +51,99 @@ public class PUReiPlugin implements REIClientPlugin {
     public void registerCategories(CategoryRegistry registry) {
         registry.add(new SuitCreatorCategory());
         registry.addWorkstations(SUIT_CREATOR, EntryStacks.of(PUItems.SUIT_CREATOR.get()));
+        registry.add(new TechTableCategory());
+        registry.addWorkstations(TECH_TABLE, EntryStacks.of(PUItems.TECH_TABLE.get()));
     }
 
     @Override
     public void registerDisplays(DisplayRegistry registry) {
         for (SuitRecipe recipe : SuitRecipe.all()) {
             registry.add(new SuitCreatorDisplay(recipe));
+        }
+        for (TechRecipe recipe : TechRecipes.all()) {
+            registry.add(new TechTableDisplay(recipe));
+        }
+    }
+
+    /** Inputs = the used grid cells in order (see {@link TechTableCategory#setupDisplay}). */
+    private static List<EntryIngredient> cells(TechRecipe recipe) {
+        List<EntryIngredient> list = new ArrayList<>();
+        for (var cell : recipe.layout()) {
+            if (cell != null) {
+                list.add(EntryIngredients.ofItemStacks(cell.display().get()));
+            }
+        }
+        return list;
+    }
+
+    public static final class TechTableDisplay extends BasicDisplay {
+
+        final TechRecipe recipe;
+
+        TechTableDisplay(TechRecipe recipe) {
+            super(cells(recipe), List.of(EntryIngredients.of(recipe.resultStack())),
+                    Optional.of(Constants.id("tech_table/" + recipe.id())));
+            this.recipe = recipe;
+        }
+
+        @Override
+        public CategoryIdentifier<?> getCategoryIdentifier() {
+            return TECH_TABLE;
+        }
+
+        @Override
+        public DisplaySerializer<? extends Display> getSerializer() {
+            return null;  // client-only, built from TechRecipes
+        }
+    }
+
+    static final class TechTableCategory implements DisplayCategory<TechTableDisplay> {
+
+        @Override
+        public CategoryIdentifier<? extends TechTableDisplay> getCategoryIdentifier() {
+            return TECH_TABLE;
+        }
+
+        @Override
+        public Component getTitle() {
+            return Component.translatable("block.powers_unchained.tech_table");
+        }
+
+        @Override
+        public Renderer getIcon() {
+            return EntryStacks.of(PUItems.TECH_TABLE.get());
+        }
+
+        @Override
+        public int getDisplayWidth(TechTableDisplay display) {
+            return TechRecipeArt.WIDTH + 8;
+        }
+
+        @Override
+        public int getDisplayHeight() {
+            return TechRecipeArt.HEIGHT + 8;
+        }
+
+        @Override
+        public List<Widget> setupDisplay(TechTableDisplay display, Rectangle bounds) {
+            TechRecipe recipe = display.recipe;
+            int x = bounds.x + 4;
+            int y = bounds.y + 4;
+            List<Widget> widgets = new ArrayList<>();
+            widgets.add(Widgets.createRecipeBase(bounds));
+            widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> TechRecipeArt.draw(graphics, recipe, x, y)));
+            var layout = recipe.layout();
+            int n = 0;
+            for (int i = 0; i < 9; i++) {
+                if (layout.get(i) != null) {
+                    int[] s = TechRecipeArt.cellSlot(i);
+                    widgets.add(Widgets.createSlot(new Point(x + s[0], y + s[1])).entries(display.getInputEntries().get(n++))
+                            .disableBackground().markInput());
+                }
+            }
+            widgets.add(Widgets.createSlot(new Point(x + TechRecipeArt.RESULT[0], y + TechRecipeArt.RESULT[1]))
+                    .entries(display.getOutputEntries().get(0)).disableBackground().markOutput());
+            return widgets;
         }
     }
 

@@ -27,6 +27,10 @@ public class ImpactWeb extends AbstractWebProjectile {
         super(PUEntities.IMPACT_WEB.get(), level, shooter, side);
     }
 
+    protected ImpactWeb(EntityType<? extends ImpactWeb> type, Level level, LivingEntity shooter, int side) {
+        super(type, level, shooter, side);
+    }
+
     /** 0..1: how fast the web still is compared to its launch speed. */
     protected float speedFactor() {
         return Math.min((float) this.getDeltaMovement().length() / this.getVelocityFactor() / 0.96F, 1.0F);

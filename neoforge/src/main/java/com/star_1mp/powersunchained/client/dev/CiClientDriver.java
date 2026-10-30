@@ -841,12 +841,72 @@ public final class CiClientDriver {
             case 8290 -> run("tick rate 2");
             case 8291 -> shot("64_tech_table_customize");
             case 8303 -> run("tick rate 20");
-            case 8310 -> {
+            // owner: Customization only works next to / wired to a Suit Creator -> put one right next to the table
+            case 8305 -> run("setblock 771 -60 -2 powers_unchained:suit_creator");
+            case 8315 -> {
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
+                    screen.debugHologram(true, true);
+                }
+                Constants.LOG.info("[CI] tech table linked: {}", mc.player.containerMenu instanceof com.star_1mp.powersunchained.menu.TechTableMenu menu && menu.isLinked());
+            }
+            case 8318 -> run("tick rate 2");
+            case 8319 -> shot("64b_tech_table_customize_linked");
+            case 8331 -> run("tick rate 20");
+            // no device: empty list / right panel, cog icon in the slot
+            case 8335 -> {
+                setTechDevice(net.minecraft.world.item.ItemStack.EMPTY);
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
+                    screen.debugTab(com.star_1mp.powersunchained.menu.TechTableMenu.TAB_UPGRADE);
+                }
+            }
+            case 8340 -> run("tick rate 2");
+            case 8341 -> shot("63b_tech_table_upgrade_empty");
+            case 8353 -> run("tick rate 20");
+            // creative web-shooters: every module
+            case 8356 -> {
+                setTechDevice(com.star_1mp.powersunchained.item.WebShootersItem.creative());
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.techtable.TechTableScreen screen) {
+                    screen.debugSelectModule(com.star_1mp.powersunchained.tech.WebModule.FAST_FEED);
+                }
+            }
+            case 8360 -> run("tick rate 2");
+            case 8361 -> shot("63c_tech_table_upgrade_creative");
+            case 8373 -> run("tick rate 20");
+            case 8376 -> {
+                Constants.LOG.info("[CI] creative modules: {}", com.star_1mp.powersunchained.tech.WebModules.installed(
+                        com.star_1mp.powersunchained.item.WebShootersItem.creative()));
+                run("techtable module lock all @p");
+            }
+            case 8378 -> {
+                Constants.LOG.info("[CI] modules after lock all: {}", com.star_1mp.powersunchained.platform.Services.GAMEPLAY.techProgress(mc.player));
+                run("techtable module unlock fast_feed @p");
+            }
+            case 8380 -> Constants.LOG.info("[CI] modules after unlock fast_feed: {}", com.star_1mp.powersunchained.platform.Services.GAMEPLAY.techProgress(mc.player));
+            case 8382 -> {
                 Constants.LOG.info("[CI] tech table device: {}", mc.player.containerMenu instanceof com.star_1mp.powersunchained.menu.TechTableMenu menu ? menu.device().getComponents() : "-");
                 mc.gui.setScreen(null);
             }
+            // a redstone line links a table to a Suit Creator (dust on the ground, a repeater), a gap breaks it
+            case 8385 -> {
+                net.minecraft.server.level.ServerPlayer sp = serverPlayer();
+                mc.getSingleplayerServer().execute(() -> {
+                    net.minecraft.world.level.Level level = sp.level();
+                    net.minecraft.core.BlockPos table = new net.minecraft.core.BlockPos(800, -60, 10);
+                    level.setBlockAndUpdate(table, com.star_1mp.powersunchained.registry.PUBlocks.TECH_TABLE.get().defaultBlockState());
+                    for (int x = 801; x <= 806; x++) {
+                        level.setBlockAndUpdate(new net.minecraft.core.BlockPos(x, -60, 10), x == 803
+                                ? net.minecraft.world.level.block.Blocks.REPEATER.defaultBlockState()
+                                : net.minecraft.world.level.block.Blocks.REDSTONE_WIRE.defaultBlockState());
+                    }
+                    level.setBlockAndUpdate(new net.minecraft.core.BlockPos(807, -60, 10), com.star_1mp.powersunchained.registry.PUBlocks.SUIT_CREATOR.get().defaultBlockState());
+                    boolean wired = com.star_1mp.powersunchained.tech.TechLink.isLinked(level, table);
+                    level.setBlockAndUpdate(new net.minecraft.core.BlockPos(805, -60, 10), net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
+                    boolean broken = com.star_1mp.powersunchained.tech.TechLink.isLinked(level, table);
+                    Constants.LOG.info("[CI] redstone link: wired {} broken {}", wired, broken);
+                });
+            }
             // Electro-Web at two zombies
-            case 8320 -> {
+            case 8400 -> {
                 run("gamemode creative @p");
                 run("tp @p 790.5 -60 0.5 0 0");
                 run("curios replace bracelet 0 @p with powers_unchained:web_shooters[powers_unchained:web_modules=[\"electro_web\",\"tight_spring\"],powers_unchained:web_cartridges=[128,128]]");
@@ -856,12 +916,39 @@ public final class CiClientDriver {
                 run("execute at @p run summon minecraft:zombie ~2 ~ ~8 {NoAI:1b,Rotation:[180f,0f]}");
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
             }
-            case 8330 -> com.star_1mp.powersunchained.client.web.WebShooterClient.debugState(true, false, com.star_1mp.powersunchained.web.WebType.ELECTRO);
-            case 8335 -> run("tick rate 2");
-            case 8336 -> shootWeb(com.star_1mp.powersunchained.web.WebType.ELECTRO);
-            case 8338 -> shot("65_electro_web");
-            case 8350 -> run("tick rate 20");
-            case 8370 -> {
+            case 8410 -> com.star_1mp.powersunchained.client.web.WebShooterClient.debugState(true, false, com.star_1mp.powersunchained.web.WebType.ELECTRO);
+            case 8415 -> run("tick rate 2");
+            case 8416 -> shootWeb(com.star_1mp.powersunchained.web.WebType.ELECTRO);
+            case 8418 -> shot("65_electro_web");
+            case 8426 -> {
+                net.minecraft.server.level.ServerPlayer sp = serverPlayer();
+                mc.getSingleplayerServer().execute(() -> {
+                    for (net.minecraft.world.entity.Mob z : sp.level().getEntitiesOfClass(net.minecraft.world.entity.Mob.class,
+                            sp.getBoundingBox().inflate(12))) {
+                        Constants.LOG.info("[CI] electro zombie hp {} effects {}", z.getHealth(), z.getActiveEffects());
+                    }
+                });
+            }
+            case 8430 -> run("tick rate 20");
+            // recipe viewers: the Tech Table category
+            case 8440 -> {
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+                net.neoforged.fml.ModList mods = net.neoforged.fml.ModList.get();
+                try {
+                    if (mods.isLoaded("jei")) {
+                        com.star_1mp.powersunchained.compat.jei.PUJeiPlugin.debugShowTechTable();
+                    } else if (mods.isLoaded("roughlyenoughitems")) {
+                        com.star_1mp.powersunchained.compat.rei.PUReiPlugin.debugShowTechTable();
+                    }
+                } catch (RuntimeException e) {
+                    Constants.LOG.error("[CI] recipe viewer failed", e);
+                }
+            }
+            case 8441 -> run("tick rate 2");
+            case 8460 -> shot("66_recipe_viewer_tech_table");
+            case 8465 -> run("tick rate 20");
+            case 8470 -> {
+                mc.gui.setScreen(null);
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
@@ -903,6 +990,17 @@ public final class CiClientDriver {
         Minecraft.getInstance().getSingleplayerServer().execute(() -> {
             player.containerMenu.quickMoveStack(player, slot);
             player.containerMenu.broadcastChanges();
+        });
+    }
+
+    /** Puts a stack into the open Tech Table's device slot (server side). */
+    private static void setTechDevice(net.minecraft.world.item.ItemStack stack) {
+        net.minecraft.server.level.ServerPlayer player = serverPlayer();
+        Minecraft.getInstance().getSingleplayerServer().execute(() -> {
+            if (player.containerMenu instanceof com.star_1mp.powersunchained.menu.TechTableMenu menu) {
+                menu.getSlot(com.star_1mp.powersunchained.menu.TechTableMenu.DEVICE_SLOT).set(stack);
+                menu.broadcastChanges();
+            }
         });
     }
 

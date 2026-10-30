@@ -37,8 +37,7 @@
   ],
   "rewards": {
     "recipes": [
-      "powers_unchained:web_cartridge",
-      "powers_unchained:web_cartridge_from_honey"
+      "powers_unchained:web_cartridge"
     ]
   }
 }

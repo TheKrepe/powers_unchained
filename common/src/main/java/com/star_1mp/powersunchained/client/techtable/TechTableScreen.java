@@ -3,8 +3,8 @@ package com.star_1mp.powersunchained.client.techtable;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.star_1mp.powersunchained.Constants;
 import com.star_1mp.powersunchained.entity.web.WebZipLine;
+import com.star_1mp.powersunchained.item.WebShootersItem;
 import com.star_1mp.powersunchained.menu.TechTableMenu;
-import com.star_1mp.powersunchained.registry.PUItems;
 import com.star_1mp.powersunchained.tech.GadgetSkins;
 import com.star_1mp.powersunchained.tech.TechCost;
 import com.star_1mp.powersunchained.tech.TechIngredient;
@@ -90,6 +90,9 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     private @Nullable WebModule dragging;
     private boolean dragFromInstalled;
     private int failFlash;
+    /** Customization hologram: model (null = the player's own skin model) and running pose. */
+    private @Nullable Boolean holoSlim;
+    private boolean holoRun;
 
     public TechTableScreen(TechTableMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, W, H);
@@ -590,9 +593,13 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         return new int[]{cx - (n * 24 - 6) / 2 + i * 24, this.topPos + 42};
     }
 
+    private int installSlots() {
+        return Math.max(WebModules.MAX_INSTALLED, WebModules.installed(this.menu.device()).size());
+    }
+
     private int[] installSocket(int i) {
         int cx = this.leftPos + TechTableMenu.DEVICE_X + 8;
-        return new int[]{cx - (WebModules.MAX_INSTALLED * 22 - 4) / 2 + i * 22, this.topPos + 118};
+        return new int[]{cx - (this.installSlots() * 22 - 4) / 2 + i * 22, this.topPos + 118};
     }
 
     private List<WebModule> moduleRows(int section) {
@@ -620,9 +627,9 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         int ly = y + LIST_Y + 3 - this.listScroll;
         g.enableScissor(x + LIST_X + 1, y + LIST_Y + 1, x + LIST_X + LIST_W - 1, y + LIST_Y + LIST_H - 1);
         String[] sections = {"installed", "unlocked", "locked"};
-        for (int s = 0; s < 3; s++) {
+        for (int s = 0; s < (hasGadget ? 3 : 0); s++) {  // owner: no device = empty list and right panel
             List<WebModule> rows = this.moduleRows(s);
-            if (rows.isEmpty() || (s == 0 && !hasGadget)) {
+            if (rows.isEmpty()) {
                 continue;
             }
             this.groupHeader(g, lx, ly, LIST_W - 4, tr("modules." + sections[s]), rows.size());
@@ -649,7 +656,8 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             int[] p = this.topSocket(i, n);
             dashed(g, p[0] + 8, p[1] + 17, dx + 8, dy - 5, INK_D);
         }
-        for (int i = 0; i < WebModules.MAX_INSTALLED; i++) {
+        boolean creative = WebShootersItem.isCreative(gadget);
+        for (int i = 0; i < this.installSlots(); i++) {
             int[] p = this.installSocket(i);
             dashed(g, dx + 8, dy + 21, p[0] + 8, p[1] - 1, i < installed.size() ? INK : INK_D);
         }
@@ -666,17 +674,15 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         }
         if (!hasGadget) {
             g.centeredText(this.font, tr("put_gadget"), dx + 8, y + 46, INK);
+        } else if (creative) {
+            g.centeredText(this.font, tr("modules.creative"), dx + 8, y + 46, INK);
         } else if (available.isEmpty()) {
             g.centeredText(this.font, tr("modules.none_open"), dx + 8, y + 46, INK_D);
         }
         // the gadget socket (the real slot is drawn by the menu on top of this)
         g.fill(dx - 5, dy - 5, dx + 21, dy + 21, 0xC80A1932);
         outline(g, dx - 5, dy - 5, 26, 26, INK);
-        if (!hasGadget) {
-            g.item(new ItemStack(PUItems.WEB_SHOOTERS.get()), dx, dy);
-            g.fill(dx, dy, dx + 16, dy + 16, 0xB00A1932);
-        }
-        for (int i = 0; i < WebModules.MAX_INSTALLED; i++) {
+        for (int i = 0; i < this.installSlots(); i++) {
             int[] p = this.installSocket(i);
             boolean target = this.dragging != null && !this.dragFromInstalled;
             socket(g, p[0] - 1, p[1] - 1, 18, target);
@@ -687,18 +693,21 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 g.blitSprite(RenderPipelines.GUI_TEXTURED, installed.get(i).sprite(), p[0], p[1], 16, 16);
             }
         }
-        g.text(this.font, tr("modules.slots", installed.size(), WebModules.MAX_INSTALLED), bx + 7, by + BP_H - 13, INK_D, false);
+        g.text(this.font, tr("modules.slots", installed.size(), this.installSlots()), bx + 7, by + BP_H - 13, INK_D, false);
         if (this.failFlash > 0) {
             g.centeredText(this.font, tr("not_enough"), bx + CENTER_W / 2, by + BP_H - 24, 0xFFFF9B8F);
         }
 
         // right: the picked module
-        WebModule m = this.shownModule();
-        boolean unlocked = this.progress().hasModule(m);
-        boolean isInstalled = WebModules.has(gadget, m);
         int rx = x + RIGHT_X;
         int ry = y + BP_Y;
         monitor(g, rx, ry, RIGHT_W, H - BP_Y - 8);
+        if (!hasGadget) {
+            return;
+        }
+        WebModule m = this.shownModule();
+        boolean unlocked = this.progress().hasModule(m);
+        boolean isInstalled = WebModules.has(gadget, m);
         int ty = ry + 4;
         g.blitSprite(RenderPipelines.GUI_TEXTURED, m.sprite(), rx + 4, ty, 16, 16, unlocked ? 0xFFFFFFFF : 0xFF707880);
         this.wrapped(g, m.displayName(), rx + 23, ty + (this.font.width(m.displayName()) > RIGHT_W - 28 ? 0 : 4), RIGHT_W - 27, COPPER, 2);
@@ -737,7 +746,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             ty += this.costRows(g, rx + 4, ty, RIGHT_W - 8, m.installCost());
             this.wrapped(g, tr(hasGadget ? "drag_hint" : "put_gadget_hint"), rx + 5, ty + 2, RIGHT_W - 10, DIM, Math.max(0, (this.topPos + H - 10 - ty - 2) / 10));
         } else {
-            this.wrapped(g, tr("remove_hint"), rx + 5, ty, RIGHT_W - 10, DIM, 3);
+            this.wrapped(g, tr(creative ? "creative_hint" : "remove_hint"), rx + 5, ty, RIGHT_W - 10, DIM, 3);
         }
     }
 
@@ -757,9 +766,19 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
 
     // ---- Customization ----
 
+    private int[] holoButton(int i) {
+        int w = 42;
+        return new int[]{this.leftPos + CENTER_X + CENTER_W - 4 - (2 - i) * (w + 2), this.topPos + BP_Y + 3, w, 12};
+    }
+
+    private boolean holoSlim() {
+        return this.holoSlim != null ? this.holoSlim : this.minecraft.player.getSkin().model() == PlayerModelType.SLIM;
+    }
+
     private void drawCustomize(GuiGraphicsExtractor g, int x, int y, int mx, int my) {
         ItemStack gadget = this.menu.device();
-        boolean hasGadget = TechTableMenu.isGadget(gadget);
+        boolean linked = this.menu.isLinked();
+        boolean hasGadget = linked && TechTableMenu.isGadget(gadget);
         int lx = x + LIST_X + 2;
         int ly = y + LIST_Y + 3;
         if (hasGadget) {
@@ -776,8 +795,6 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 ly += CARD_H;
             }
             g.centeredText(this.font, tr("looks.more"), x + LIST_X + LIST_W / 2, ly + 6, DIM);
-        } else {
-            this.wrapped(g, tr("looks.put"), lx + 4, ly + 4, LIST_W - 12, GREY, 6);
         }
 
         // hologram of the gadget on a player
@@ -786,28 +803,41 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         int hw = CENTER_W;
         int hh = 106;
         monitor(g, hx, hy, hw, hh);
-        brackets(g, hx + 2, hy + 2, hw - 4, hh - 4, CYAN_DIM);
-        g.text(this.font, tr("hologram"), hx + 6, hy + 5, CYAN_DIM, false);
+        brackets(g, hx + 2, hy + 2, hw - 4, hh - 4, linked ? CYAN_DIM : 0xFF8A3A30);
+        g.text(this.font, tr("hologram"), hx + 6, hy + 5, linked ? CYAN_DIM : 0xFF8A3A30, false);
         int cx = hx + hw / 2;
         int feet = hy + hh - 6;
+        if (!linked) {
+            // owner: Customization only works when the table touches a Suit Creator or is wired to one with redstone
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, Constants.id("suit_creator/lock"), cx - 8, hy + 20, 16, 18);
+            int ty = hy + 40;
+            ty += this.wrapped(g, tr("link.title"), hx + 8, ty, hw - 16, 0xFFFF9B8F, 2) + 3;
+            this.wrapped(g, tr("link.how"), hx + 8, ty, hw - 16, GREY, 5);
+            int bx = x + RIGHT_X;
+            monitor(g, bx, y + BP_Y, RIGHT_W, H - BP_Y - 8);
+            return;
+        }
         g.fillGradient(cx - 26, hy + 8, cx + 26, feet, 0x0059E4FF, 0x2259E4FF);
         g.fill(cx - 30, feet, cx + 30, feet + 1, 0xFF59E4FF);
         g.fill(cx - 22, feet + 1, cx + 22, feet + 2, 0x8859E4FF);
         if (hasGadget) {
-            boolean slim = this.minecraft.player.getSkin().model() == PlayerModelType.SLIM;
             float spin = this.rotating ? 0.0F : this.time * 0.6F;
-            GadgetHologram.draw(g, hx + 2, hy + 14, hx + hw - 2, feet, 40.0F, slim, this.yaw + spin, this.time);
+            GadgetHologram.draw(g, hx + 2, hy + 14, hx + hw - 2, feet, 40.0F, this.holoSlim(), this.yaw + spin, this.time,
+                    this.holoRun ? com.star_1mp.powersunchained.client.suitcreator.SuitHologram.Pose.RUN
+                            : com.star_1mp.powersunchained.client.suitcreator.SuitHologram.Pose.STAND);
+            // model + pose buttons (like the Suit Creator's hologram)
+            Component[] labels = {tr(this.holoSlim() ? "holo.alex" : "holo.steve"), tr(this.holoRun ? "holo.run" : "holo.stand")};
+            for (int i = 0; i < 2; i++) {
+                int[] b = this.holoButton(i);
+                this.vanillaButton(g, b[0], b[1], b[2], b[3], labels[i], true, in(mx, my, b[0], b[1], b[2], b[3]), false);
+            }
         } else {
-            g.centeredText(this.font, Component.literal("?"), cx, hy + hh / 2 - 4, CYAN);
+            g.centeredText(this.font, tr("looks.put_short"), cx, hy + hh / 2 - 4, CYAN);
         }
-        // the gadget slot under it
+        // the gadget slot under it (the empty-slot icon is the slot's own background)
         int sx = x + TechTableMenu.SKIN_DEVICE_X - 1;
         int sy = y + TechTableMenu.SKIN_DEVICE_Y - 1;
         g.blitSprite(RenderPipelines.GUI_TEXTURED, Identifier.withDefaultNamespace("container/slot"), sx, sy, 18, 18);
-        if (!hasGadget) {
-            g.item(new ItemStack(PUItems.WEB_SHOOTERS.get()), sx + 1, sy + 1);
-            g.fill(sx + 1, sy + 1, sx + 17, sy + 17, 0xB08B8B8B);
-        }
         g.text(this.font, tr("gadget"), sx - 4 - this.font.width(tr("gadget")), sy + 5, LABEL, false);
 
         // right: the picked look
@@ -815,7 +845,6 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         int ry = y + BP_Y;
         monitor(g, rx, ry, RIGHT_W, H - BP_Y - 8);
         if (!hasGadget) {
-            this.wrapped(g, tr("looks.put"), rx + 5, ry + 5, RIGHT_W - 10, GREY, 6);
             return;
         }
         GadgetSkins skin = GadgetSkins.WEB_SHOOTERS.get(Mth.clamp(this.selectedSkin, 0, GadgetSkins.WEB_SHOOTERS.size() - 1));
@@ -851,7 +880,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         int y = this.topPos;
         if (this.menu.tab == TechTableMenu.TAB_UPGRADE) {
             ItemStack gadget = this.menu.device();
-            List<WebModule> available = this.available(gadget);
+            List<WebModule> available = TechTableMenu.isGadget(gadget) ? this.available(gadget) : List.of();
             for (int i = 0; i < available.size(); i++) {
                 int[] p = this.topSocket(i, Math.max(1, available.size()));
                 if (in(mx, my, p[0], p[1], 16, 16)) {
@@ -934,11 +963,14 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             }
             case TechTableMenu.TAB_UPGRADE -> {
                 ItemStack gadget = this.menu.device();
+                if (!TechTableMenu.isGadget(gadget)) {
+                    break;  // no device: nothing to click
+                }
                 if (inList) {
                     int ly = y + LIST_Y + 3 - this.listScroll;
                     for (int s = 0; s < 3; s++) {
                         List<WebModule> rows = this.moduleRows(s);
-                        if (rows.isEmpty() || (s == 0 && !TechTableMenu.isGadget(gadget))) {
+                        if (rows.isEmpty()) {
                             continue;
                         }
                         ly += 13;
@@ -970,6 +1002,9 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                         int[] p = this.installSocket(i);
                         if (in(mx, my, p[0] - 1, p[1] - 1, 18, 18)) {
                             this.selectedModule = installed.get(i);
+                            if (WebShootersItem.isCreative(gadget)) {
+                                return true;  // creative web-shooters keep every module
+                            }
                             this.dragging = installed.get(i);
                             this.dragFromInstalled = true;
                             this.playSound(SoundEvents.ITEM_PICKUP, 1.6F);
@@ -992,8 +1027,20 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             }
             case TechTableMenu.TAB_CUSTOMIZE -> {
                 ItemStack gadget = this.menu.device();
-                if (!TechTableMenu.isGadget(gadget)) {
+                if (!this.menu.isLinked() || !TechTableMenu.isGadget(gadget)) {
                     break;
+                }
+                for (int i = 0; i < 2; i++) {
+                    int[] b = this.holoButton(i);
+                    if (in(mx, my, b[0], b[1], b[2], b[3])) {
+                        if (i == 0) {
+                            this.holoSlim = !this.holoSlim();
+                        } else {
+                            this.holoRun = !this.holoRun;
+                        }
+                        this.click();
+                        return true;
+                    }
                 }
                 if (inList) {
                     int ly = y + LIST_Y + 3 + 13;
@@ -1112,6 +1159,11 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
 
     public void debugButton(int id) {
         this.button(id);
+    }
+
+    public void debugHologram(boolean slim, boolean run) {
+        this.holoSlim = slim;
+        this.holoRun = run;
     }
 
     public void debugDrag(@Nullable WebModule module, boolean fromInstalled) {

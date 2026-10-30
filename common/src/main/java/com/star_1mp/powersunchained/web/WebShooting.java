@@ -196,6 +196,7 @@ public final class WebShooting {
     /** Server tick: recharges the shots of every player who used the web-shooters. */
     public static void tick() {
         STATES.values().forEach(state -> state.ammo.tick());
+        com.star_1mp.powersunchained.entity.web.ElectroWeb.tickStuns();
     }
 
     public static void forget(Player player) {

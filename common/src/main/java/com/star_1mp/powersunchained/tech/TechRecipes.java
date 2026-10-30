@@ -4,12 +4,9 @@ import com.star_1mp.powersunchained.registry.PUItems;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionContents;
-import net.minecraft.world.item.alchemy.Potions;
 import org.jspecify.annotations.Nullable;
 
 /** Every Tech Table recipe (Creation tab), in list order. */
@@ -30,13 +27,6 @@ public final class TechRecipes {
         return TechIngredient.of(v(item));
     }
 
-    private static final TechIngredient OOZING = new TechIngredient(
-            stack -> {
-                PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
-                return stack.is(Items.POTION) && contents != null && contents.is(Potions.OOZING);
-            },
-            () -> List.of(PotionContents.createItemStack(Items.POTION, Potions.OOZING)));
-
     public static List<TechRecipe> all() {
         if (all == null) {
             TechIngredient empty = TechIngredient.of(PUItems.EMPTY_WEB_CARTRIDGE);
@@ -49,10 +39,8 @@ public final class TechRecipes {
                     TechRecipe.shaped("empty_web_cartridge", SPIDER_MAN, new String[]{"I", "G", "I"},
                             Map.of('I', i(Items.IRON_INGOT), 'G', i(Items.GLASS)),
                             PUItems.EMPTY_WEB_CARTRIDGE, 1),
-                    TechRecipe.shapeless("web_cartridge", SPIDER_MAN, List.of(empty, i(Items.COBWEB), OOZING),
-                            PUItems.WEB_CARTRIDGE, 1),
-                    TechRecipe.shapeless("web_cartridge_from_honey", SPIDER_MAN,
-                            List.of(empty, i(Items.COBWEB), i(Items.HONEY_BOTTLE), i(Items.SLIME_BALL)),
+                    // owner: slime ball + cobweb + empty cartridge (the oozing potion / honey recipes are gone)
+                    TechRecipe.shapeless("web_cartridge", SPIDER_MAN, List.of(empty, i(Items.COBWEB), i(Items.SLIME_BALL)),
                             PUItems.WEB_CARTRIDGE, 1));
         }
         return all;

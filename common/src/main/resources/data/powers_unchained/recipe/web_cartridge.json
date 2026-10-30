@@ -1,19 +1,10 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "equipment",
-  "group": "powers_unchained:web_cartridge",
   "ingredients": [
     "powers_unchained:empty_web_cartridge",
     "minecraft:cobweb",
-    {
-      "neoforge:ingredient_type": "neoforge:components",
-      "items": "minecraft:potion",
-      "components": {
-        "minecraft:potion_contents": {
-          "potion": "minecraft:oozing"
-        }
-      }
-    }
+    "minecraft:slime_ball"
   ],
   "result": {
     "id": "powers_unchained:web_cartridge"

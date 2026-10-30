@@ -130,6 +130,7 @@ public class PowersUnchainedNeoForge {
         CiServerHook.register();
         NeoForge.EVENT_BUS.addListener((RegisterCommandsEvent event) -> {
             SuitCommand.register(event.getDispatcher());
+            com.star_1mp.powersunchained.command.TechTableCommand.register(event.getDispatcher());
             com.star_1mp.powersunchained.command.SuperpowerCommand.register(event.getDispatcher());
         });
     }

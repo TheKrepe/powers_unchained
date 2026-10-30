@@ -1,5 +1,6 @@
 package com.star_1mp.powersunchained.tech;
 
+import com.star_1mp.powersunchained.item.WebShootersItem;
 import com.star_1mp.powersunchained.registry.PUDataComponents;
 import com.star_1mp.powersunchained.web.WebCartridges;
 import java.util.ArrayList;
@@ -19,7 +20,11 @@ public final class WebModules {
     private WebModules() {
     }
 
+    /** Creative web-shooters come with EVERY module (owner), even past {@link #MAX_INSTALLED}; they cannot be changed. */
     public static List<WebModule> installed(ItemStack shooters) {
+        if (WebShootersItem.isCreative(shooters)) {
+            return List.of(WebModule.values());
+        }
         List<WebModule> list = new ArrayList<>();
         for (String id : shooters.getOrDefault(PUDataComponents.WEB_MODULES.get(), List.<String>of())) {
             WebModule m = WebModule.byId(id);
@@ -31,7 +36,8 @@ public final class WebModules {
     }
 
     public static boolean has(ItemStack shooters, WebModule module) {
-        return shooters.getOrDefault(PUDataComponents.WEB_MODULES.get(), List.<String>of()).contains(module.id());
+        return WebShootersItem.isCreative(shooters) ||
+                shooters.getOrDefault(PUDataComponents.WEB_MODULES.get(), List.<String>of()).contains(module.id());
     }
 
     public static void set(ItemStack shooters, List<WebModule> modules) {

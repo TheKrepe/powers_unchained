@@ -28,8 +28,8 @@ public enum WebType {
             return new StickyWeb(level, shooter, side);
         }
     },
-    /** Electro-Web (Tech Table module): a charged sticky web that shocks, stuns and arcs to mobs nearby (see ElectroWeb). */
-    ELECTRO("electro_web", 6, 60) {
+    /** Electro-Web (Tech Table module): a charged impact web that shocks, stuns and arcs to mobs nearby (see ElectroWeb). */
+    ELECTRO("electro_web", 5, 60) {
         @Override
         public AbstractWebProjectile create(Level level, LivingEntity shooter, int side) {
             return new com.star_1mp.powersunchained.entity.web.ElectroWeb(level, shooter, side);

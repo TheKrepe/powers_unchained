@@ -6,6 +6,7 @@ import com.star_1mp.powersunchained.registry.PUBlocks;
 import com.star_1mp.powersunchained.registry.PUItems;
 import com.star_1mp.powersunchained.registry.PUMenus;
 import com.star_1mp.powersunchained.tech.GadgetSkins;
+import com.star_1mp.powersunchained.tech.TechLink;
 import com.star_1mp.powersunchained.tech.TechIngredient;
 import com.star_1mp.powersunchained.tech.TechProgress;
 import com.star_1mp.powersunchained.tech.TechRecipe;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
@@ -90,6 +92,10 @@ public class TechTableMenu extends AbstractContainerMenu {
         }
     };
 
+    /** 1 = the table is linked to a Suit Creator (touching / redstone line, see {@link TechLink}): Customization works. */
+    private final DataSlot linked = DataSlot.standalone();
+    private int linkCheck;
+
     /** Client view: the open tab (inactive slots are neither drawn nor clickable). */
     public int tab = TAB_CREATE;
 
@@ -118,7 +124,27 @@ public class TechTableMenu extends AbstractContainerMenu {
         }
         this.addSlot(new ResultSlot(this.result, 0, RESULT_X, RESULT_Y, create));
         this.addSlot(new DeviceSlot(this.device, DEVICE_X, DEVICE_Y, () -> this.tab == TAB_UPGRADE));
-        this.addSlot(new DeviceSlot(this.device, SKIN_DEVICE_X, SKIN_DEVICE_Y, () -> this.tab == TAB_CUSTOMIZE));
+        this.addSlot(new DeviceSlot(this.device, SKIN_DEVICE_X, SKIN_DEVICE_Y, () -> this.tab == TAB_CUSTOMIZE && this.isLinked()));
+        this.addDataSlot(this.linked);
+        this.updateLink();
+    }
+
+    /** Whether the Customization tab works (the table is linked to a Suit Creator). */
+    public boolean isLinked() {
+        return this.linked.get() == 1;
+    }
+
+    private void updateLink() {
+        this.linked.set(this.access.evaluate(TechLink::isLinked, false) ? 1 : 0);
+    }
+
+    @Override
+    public void broadcastChanges() {
+        if (++this.linkCheck >= 10) {  // twice a second
+            this.linkCheck = 0;
+            this.updateLink();
+        }
+        super.broadcastChanges();
     }
 
     // ---- state ----
@@ -267,7 +293,7 @@ public class TechTableMenu extends AbstractContainerMenu {
 
     private boolean removeModule(ServerPlayer player, @Nullable WebModule module) {
         ItemStack gadget = this.device();
-        if (module == null || !WebModules.has(gadget, module)) {
+        if (module == null || !WebModules.has(gadget, module) || WebShootersItem.isCreative(gadget)) {
             return false;
         }
         List<WebModule> installed = new ArrayList<>(WebModules.installed(gadget));
@@ -283,7 +309,7 @@ public class TechTableMenu extends AbstractContainerMenu {
     }
 
     private boolean unlockSkin(ServerPlayer player, int index) {
-        if (index < 0 || index >= GadgetSkins.WEB_SHOOTERS.size()) {
+        if (!this.isLinked() || index < 0 || index >= GadgetSkins.WEB_SHOOTERS.size()) {
             return false;
         }
         GadgetSkins skin = GadgetSkins.WEB_SHOOTERS.get(index);
@@ -298,7 +324,7 @@ public class TechTableMenu extends AbstractContainerMenu {
 
     private boolean selectSkin(ServerPlayer player, int index) {
         ItemStack gadget = this.device();
-        if (index < 0 || index >= GadgetSkins.WEB_SHOOTERS.size() || !isGadget(gadget)) {
+        if (!this.isLinked() || index < 0 || index >= GadgetSkins.WEB_SHOOTERS.size() || !isGadget(gadget)) {
             return false;
         }
         GadgetSkins skin = GadgetSkins.WEB_SHOOTERS.get(index);
@@ -365,7 +391,7 @@ public class TechTableMenu extends AbstractContainerMenu {
             if (!this.moveItemStackTo(stack, 0, 36, true)) {
                 return ItemStack.EMPTY;
             }
-        } else if (this.tab != TAB_CREATE && isGadget(stack) && this.device().isEmpty()) {
+        } else if ((this.tab == TAB_UPGRADE || this.tab == TAB_CUSTOMIZE && this.isLinked()) && isGadget(stack) && this.device().isEmpty()) {
             if (!this.moveItemStackTo(stack, DEVICE_SLOT, DEVICE_SLOT + 1, false)) {
                 return ItemStack.EMPTY;
             }
@@ -420,8 +446,12 @@ public class TechTableMenu extends AbstractContainerMenu {
     }
 
     private static final class DeviceSlot extends ViewSlot {
+        /** Empty device slot icon (a cog: any device goes here, for now only web-shooters). */
+        static final net.minecraft.resources.Identifier ICON = com.star_1mp.powersunchained.Constants.id("tech_table/device_slot");
+
         DeviceSlot(Container container, int x, int y, BooleanSupplier visible) {
             super(container, 0, x, y, visible);
+            this.setBackground(ICON);
         }
 
         @Override
