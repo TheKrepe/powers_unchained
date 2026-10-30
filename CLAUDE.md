@@ -193,8 +193,11 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   slots); "before -> after" stats. Effects in `tech/WebModules` (projectile SPEED synced data, zip/swing range,
   `WebAmmo.setFactor`, `WebShooting.zipCooldown`, `WebModules.cartridgeSlots` everywhere SLOTS was). Customization:
   `client/techtable/GadgetHologram` (SuitHologram with id `ID_BASE + 1000`; `GadgetHologram.Layer` on player renderers
-  draws the shooters only on that id), looks `tech/GadgetSkins` (component `gadget_skin`; only Default for now; 500+i
-  unlock, 600+i select). Electro-Web: `entity/web/ElectroWeb` (owner: an IMPACT web under current, does NOT stick: 3 dmg = 1.5 hearts, stun
+  draws the shooters only on that id), looks `tech/GadgetSkins` (component `gadget_skin`; Default + owner's Advanced (Marvel's Spider-Man
+  game) and Brand New Day (film) web-shooters, unlocked per player for materials; 500+i unlock, 600+i select; each look changes
+  the wrists `textures/gadget/web_shooters_<look>(_slim).png` AND the item icon (`items/web_shooters.json` selects on the
+  component); recolours of the owner's textures by `tools/gen_web_shooter_skins.py`, new files only; the hologram previews the
+  look picked in the list). Electro-Web: `entity/web/ElectroWeb` (owner: an IMPACT web under current, does NOT stick: 3 dmg = 1.5 hearts, stun
   = slowness V + weakness 3 s, arcs to 2 mobs within 4 blocks / 8 when wet, sparks; `WebType.ELECTRO` 5 shots, 60 ticks, 2 fluid, only with the
   module: `WebType.available/next`, HUD wheel lists available types). Module sprites `tools/gen_tech_table_icons.py`.
   Creative web-shooters have EVERY module (`WebModules.installed/has` for `isCreative`, even past 5; removal refused).

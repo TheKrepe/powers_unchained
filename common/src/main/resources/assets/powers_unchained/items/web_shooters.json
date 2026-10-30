@@ -1,6 +1,27 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "powers_unchained:item/web_shooters"
+    "type": "minecraft:select",
+    "property": "minecraft:component",
+    "component": "powers_unchained:gadget_skin",
+    "cases": [
+      {
+        "when": "advanced",
+        "model": {
+          "type": "minecraft:model",
+          "model": "powers_unchained:item/web_shooters_advanced"
+        }
+      },
+      {
+        "when": "brand_new_day",
+        "model": {
+          "type": "minecraft:model",
+          "model": "powers_unchained:item/web_shooters_brand_new_day"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "powers_unchained:item/web_shooters"
+    }
   }
 }

@@ -277,5 +277,9 @@
   "feat.powers_unchained.done": "Условие выполнено: %s",
   "screen.powers_unchained.tech_table.do_task": "Выполните задание",
   "screen.powers_unchained.tech_table.install_free": "Установка бесплатна",
-  "commands.powers_unchained.techtable.no_shooters": "Нет веб-шутеров: возьмите их в руку или наденьте"
+  "commands.powers_unchained.techtable.no_shooters": "Нет веб-шутеров: возьмите их в руку или наденьте",
+  "skin.powers_unchained.web_shooters.advanced": "Advanced Web-Shooters",
+  "skin.powers_unchained.web_shooters.advanced.desc": "Веб-шутеры из игры Marvel's Spider-Man.",
+  "skin.powers_unchained.web_shooters.brand_new_day": "Brand New Web-Shooters",
+  "skin.powers_unchained.web_shooters.brand_new_day.desc": "Веб-шутеры из фильма Spider-Man: Brand New Day."
 }

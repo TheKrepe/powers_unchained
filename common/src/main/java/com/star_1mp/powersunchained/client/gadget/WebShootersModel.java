@@ -67,21 +67,27 @@ public class WebShootersModel extends PlayerModel {
         this.leftSleeve.visible = true;
     }
 
-    private static RenderType renderType(boolean slimArms) {
-        return RenderTypes.armorCutoutNoCull(slimArms ? TEXTURE_SLIM : TEXTURE);
+    private static final java.util.Map<String, RenderType> TYPES = new java.util.HashMap<>();
+
+    /** Texture per look (Tech Table customization): default = the owner's textures, else web_shooters_<look>(_slim). */
+    private static RenderType renderType(boolean slimArms, String look) {
+        String key = look + (slimArms ? "_slim" : "");
+        return TYPES.computeIfAbsent(key, k -> RenderTypes.armorCutoutNoCull(com.star_1mp.powersunchained.tech.GadgetSkins.DEFAULT.equals(look)
+                ? (slimArms ? TEXTURE_SLIM : TEXTURE)
+                : Constants.id("textures/gadget/web_shooters_" + look + (slimArms ? "_slim" : "") + ".png")));
     }
 
     /** Third person, on a player or mannequin. */
-    public static void render(PoseStack poseStack, SubmitNodeCollector collector, int light, AvatarRenderState state) {
+    public static void render(PoseStack poseStack, SubmitNodeCollector collector, int light, AvatarRenderState state, String look) {
         boolean slimArms = state.skin.model() == PlayerModelType.SLIM;
         WebShootersModel model = slimArms ? slim : wide;
         if (model != null) {
-            collector.submitModel(model, state, poseStack, renderType(slimArms), light, OverlayTexture.NO_OVERLAY, state.outlineColor);
+            collector.submitModel(model, state, poseStack, renderType(slimArms, look), light, OverlayTexture.NO_OVERLAY, state.outlineColor);
         }
     }
 
     /** First person: the arm currently being drawn (pose stack already set up for the arm). */
-    public static void renderArm(PoseStack poseStack, SubmitNodeCollector collector, int light, HumanoidArm side, boolean slimArms) {
+    public static void renderArm(PoseStack poseStack, SubmitNodeCollector collector, int light, HumanoidArm side, boolean slimArms, String look) {
         WebShootersModel model = slimArms ? firstPersonSlim : firstPersonWide;
         if (model == null) {
             return;
@@ -92,6 +98,6 @@ public class WebShootersModel extends PlayerModel {
         arm.visible = true;
         (right ? model.rightSleeve : model.leftSleeve).visible = true;
         arm.zRot = right ? 0.1F : -0.1F;
-        collector.submitModelPart(arm, poseStack, renderType(slimArms), light, OverlayTexture.NO_OVERLAY, null);
+        collector.submitModelPart(arm, poseStack, renderType(slimArms, look), light, OverlayTexture.NO_OVERLAY, null);
     }
 }

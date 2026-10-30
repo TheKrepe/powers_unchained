@@ -37,7 +37,7 @@ public final class CuriosClientCompat {
                 SlotContext slotContext, PoseStack poseStack, SubmitNodeCollector collector, int light, S state,
                 RenderLayerParent<S, M> parent, EntityRendererProvider.Context context, float yRot, float xRot) {
             if (state instanceof AvatarRenderState avatar) {
-                WebShootersModel.render(poseStack, collector, light, avatar);
+                WebShootersModel.render(poseStack, collector, light, avatar, com.star_1mp.powersunchained.tech.GadgetSkins.of(stack));
             }
         }
 
@@ -46,7 +46,8 @@ public final class CuriosClientCompat {
                 SubmitNodeCollector collector, AvatarRenderState state, AbstractClientPlayer player, int light) {
             // the render state Curios passes for the first person hand isn't filled from the player (its skin model
             // is the default), so ask the player's own skin whether the arms are slim
-            WebShootersModel.renderArm(poseStack, collector, light, arm, player.getSkin().model() == PlayerModelType.SLIM);
+            WebShootersModel.renderArm(poseStack, collector, light, arm, player.getSkin().model() == PlayerModelType.SLIM,
+                    com.star_1mp.powersunchained.tech.GadgetSkins.of(stack));
         }
     }
 }

@@ -163,9 +163,24 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         }
     }
 
+    private ItemStack lastDevice = ItemStack.EMPTY;
+
     @Override
     protected void containerTick() {
         super.containerTick();
+        // a new device in the slot: the Customization list starts on its current look
+        ItemStack device = this.menu.device();
+        if (device != this.lastDevice && !ItemStack.isSameItemSameComponents(device, this.lastDevice)) {
+            if (!ItemStack.isSameItem(device, this.lastDevice) || this.lastDevice.isEmpty()) {
+                String look = GadgetSkins.of(device);
+                for (int i = 0; i < GadgetSkins.WEB_SHOOTERS.size(); i++) {
+                    if (GadgetSkins.WEB_SHOOTERS.get(i).id().equals(look)) {
+                        this.selectedSkin = i;
+                    }
+                }
+            }
+            this.lastDevice = device.copy();
+        }
         if (this.search != null) {
             boolean shown = this.listShown();
             this.search.visible = shown;
@@ -875,7 +890,9 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 }
                 boolean unlocked = this.progress().hasSkin(skin.id());
                 boolean hover = in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2);
-                this.card(g, lx, ly, LIST_W - 4, gadget, null, skin.displayName(),
+                ItemStack icon = gadget.copy();  // the item icon changes with the look too
+                GadgetSkins.set(icon, skin.id());
+                this.card(g, lx, ly, LIST_W - 4, icon, null, skin.displayName(),
                         skin.id().equals(current) ? tr("look.current") : unlocked ? tr("look.unlocked") : tr("look.locked"),
                         i == this.selectedSkin, hover, !unlocked);
                 ly += CARD_H;
@@ -910,7 +927,8 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         g.fill(cx - 22, feet + 1, cx + 22, feet + 2, 0x8859E4FF);
         if (hasGadget) {
             float spin = this.rotating ? 0.0F : this.time * 0.6F;
-            GadgetHologram.draw(g, hx + 2, hy + 14, hx + hw - 2, feet, 40.0F, this.holoSlim(), this.yaw + spin, this.time, this.holoPose);
+            GadgetHologram.draw(g, hx + 2, hy + 14, hx + hw - 2, feet, 40.0F, this.holoSlim(), this.yaw + spin, this.time, this.holoPose,
+                    GadgetSkins.WEB_SHOOTERS.get(Mth.clamp(this.selectedSkin, 0, GadgetSkins.WEB_SHOOTERS.size() - 1)).id());
             // Steve / Alex + pose, exactly like the Suit Creator's controls
             int[] b0 = this.holoButton(0);
             int[] b1 = this.holoButton(1);
@@ -942,9 +960,13 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         boolean current = skin.id().equals(GadgetSkins.of(gadget));
         int ty = ry + 5;
         ty += this.wrapped(g, skin.displayName(), rx + 5, ty, RIGHT_W - 10, COPPER, 2) + 4;
+        String descKey = "skin.powers_unchained.web_shooters." + skin.id() + ".desc";
         if (GadgetSkins.DEFAULT.equals(skin.id())) {
             ty += this.wrapped(g, tr("look.default_desc"), rx + 5, ty, RIGHT_W - 10, GREY, 4) + 4;
-        } else if (!unlocked) {
+        } else if (Language.getInstance().has(descKey)) {
+            ty += this.wrapped(g, Component.translatable(descKey), rx + 5, ty, RIGHT_W - 10, GREY, 5) + 4;
+        }
+        if (!GadgetSkins.DEFAULT.equals(skin.id()) && !unlocked) {
             g.text(this.font, tr("look.how"), rx + 5, ty, COPPER_DARK, false);
             ty += 11;
             if (skin.cost() != null) {
@@ -1264,6 +1286,10 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
 
     public void debugButton(int id) {
         this.button(id);
+    }
+
+    public void debugSelectSkin(int index) {
+        this.selectedSkin = index;
     }
 
     public void debugHologram(boolean slim, boolean run) {

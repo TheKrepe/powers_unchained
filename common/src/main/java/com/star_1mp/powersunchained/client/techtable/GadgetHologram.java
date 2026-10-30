@@ -26,8 +26,12 @@ public final class GadgetHologram {
     }
 
     /** Draws the hologram in the rectangle, feet at {@code y1 - 2}. */
+    /** Look the hologram shows (the one picked in the Customization list, so it can be previewed before choosing it). */
+    private static String look = com.star_1mp.powersunchained.tech.GadgetSkins.DEFAULT;
+
     public static void draw(GuiGraphicsExtractor graphics, int x0, int y0, int x1, int y1, float scale, boolean slim, float yaw, float age,
-            SuitHologram.Pose pose) {
+            SuitHologram.Pose pose, String shownLook) {
+        look = shownLook;
         SuitHologram.draw(graphics, x0, y0, x1, y1, scale, null, NO_SUIT, slim, pose, yaw, age, ID + pose.ordinal());
     }
 
@@ -47,7 +51,7 @@ public final class GadgetHologram {
         @Override
         public void submit(PoseStack poseStack, SubmitNodeCollector collector, int lightCoords, AvatarRenderState state, float yRot, float xRot) {
             if (is(state)) {
-                WebShootersModel.render(poseStack, collector, lightCoords, state);
+                WebShootersModel.render(poseStack, collector, lightCoords, state, look);
             }
         }
     }

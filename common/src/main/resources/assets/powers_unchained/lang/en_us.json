@@ -277,5 +277,9 @@
   "feat.powers_unchained.done": "Condition met: %s",
   "screen.powers_unchained.tech_table.do_task": "Complete the task",
   "screen.powers_unchained.tech_table.install_free": "Installing is free",
-  "commands.powers_unchained.techtable.no_shooters": "No web-shooters: hold or wear them"
+  "commands.powers_unchained.techtable.no_shooters": "No web-shooters: hold or wear them",
+  "skin.powers_unchained.web_shooters.advanced": "Advanced Web-Shooters",
+  "skin.powers_unchained.web_shooters.advanced.desc": "Web-shooters from the game Marvel's Spider-Man.",
+  "skin.powers_unchained.web_shooters.brand_new_day": "Brand New Web-Shooters",
+  "skin.powers_unchained.web_shooters.brand_new_day.desc": "Web-shooters from the film Spider-Man: Brand New Day."
 }
