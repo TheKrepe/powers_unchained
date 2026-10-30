@@ -59,6 +59,25 @@ repositories {
         url = 'https://maven.theillusivec4.top/'
         content { includeGroup 'top.theillusivec4.curios' }
     }
+    maven {
+        name = 'JEI'
+        url = 'https://maven.blamejared.com/'
+        content { includeGroup 'mezz.jei' }
+    }
+    maven {
+        name = 'REI'
+        url = 'https://maven.shedaniel.me/'
+        content {
+            includeGroup 'me.shedaniel'
+            includeGroup 'me.shedaniel.cloth'
+            includeGroup 'dev.architectury'
+        }
+    }
+    maven {
+        name = 'Architectury'
+        url = 'https://maven.architectury.dev/'
+        content { includeGroup 'dev.architectury' }
+    }
 }
 
 // Runtime-only mods for dev/CI runs, not exposed as dependencies of the published jar.
@@ -71,6 +90,17 @@ dependencies {
     // Curios is optional: compile against its API, and only run it in dev/CI (not a dependency of the jar).
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+
+    // JEI / REI are optional too: Suit Creator recipes in their recipe screens (compat/jei, compat/rei).
+    compileOnly "mezz.jei:jei-26.3-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-26.3-neoforge-api:${jei_version}"
+    compileOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}"
+    def viewer = project.findProperty('ci_recipe_viewer') ?: 'jei'
+    if (viewer == 'jei') {
+        localRuntime "mezz.jei:jei-26.3-neoforge:${jei_version}"
+    } else if (viewer == 'rei') {
+        localRuntime "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
+    }
 }
 
 // Implement mcgradleconventions loader attribute

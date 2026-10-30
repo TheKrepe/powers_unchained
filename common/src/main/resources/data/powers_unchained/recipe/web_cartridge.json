@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "equipment",
+  "group": "powers_unchained:web_cartridge",
   "ingredients": [
     "powers_unchained:empty_web_cartridge",
     "minecraft:cobweb",

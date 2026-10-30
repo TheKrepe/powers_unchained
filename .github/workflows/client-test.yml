@@ -10,6 +10,10 @@ on:
         description: "Skip the driver's scenes before this tick (0 = all)"
         required: false
         default: "0"
+      recipe_viewer:
+        description: "Recipe viewer mod in the test client: jei, rei or none"
+        required: false
+        default: "jei"
 
 permissions:
   contents: write
@@ -47,7 +51,7 @@ jobs:
           generate-structures=false
           EOF
           sed -i 's/^ *//' neoforge/runs/ciserver/server.properties
-          timeout 900 ./gradlew :neoforge:runCiServer --stacktrace 2>&1 | tee /tmp/server.log || true
+          timeout 900 ./gradlew :neoforge:runCiServer -Pci_recipe_viewer=${{ inputs.recipe_viewer || 'jei' }} --stacktrace 2>&1 | tee /tmp/server.log || true
           mkdir -p neoforge/runs/ciclient/saves
           cp -r neoforge/runs/ciserver/world neoforge/runs/ciclient/saves/ci
           ls neoforge/runs/ciclient/saves/ci
@@ -78,7 +82,7 @@ jobs:
           { glxinfo -B; glxinfo -t | head -60; eglinfo -B 2>/dev/null | head -60; vulkaninfo --summary; } > /tmp/out/gfxinfo.txt 2>&1 || true
           # the forked game JVM inherits this; the driver skips scenes before the given tick
           export JAVA_TOOL_OPTIONS="-Dpowers_unchained.ci.start=${{ inputs.start_tick || '0' }}"
-          (./gradlew :neoforge:runCiClient --stacktrace > /tmp/client.log 2>&1; echo "[CI] gradle exited $?" >> /tmp/client.log) &
+          (./gradlew :neoforge:runCiClient -Pci_recipe_viewer=${{ inputs.recipe_viewer || 'jei' }} --stacktrace > /tmp/client.log 2>&1; echo "[CI] gradle exited $?" >> /tmp/client.log) &
           end=$((SECONDS + 1500))
           taken=""
           while [ $SECONDS -lt $end ]; do

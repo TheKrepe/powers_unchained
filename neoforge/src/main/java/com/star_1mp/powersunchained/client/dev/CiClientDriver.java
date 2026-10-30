@@ -739,12 +739,45 @@ public final class CiClientDriver {
                 climbLog("after the flip");
             }
             case 8080 -> run("tick rate 20");
+            // recipe viewers: the Suit Creator's blueprints in JEI / REI (whichever the CI client runs)
             case 8100 -> {
+                run("gamemode creative @p");
+                run("suit unlock spider_man @p");
+            }
+            case 8110 -> recipeViewer(null);
+            case 8111 -> run("tick rate 2");
+            case 8112 -> shot("60_recipe_viewer_suit_creator");
+            case 8115 -> run("tick rate 20");
+            case 8140 -> {
+                mc.gui.setScreen(null);
+                recipeViewer(com.star_1mp.powersunchained.registry.PUItems.piece(com.star_1mp.powersunchained.suit.Suits.SPIDER_MAN_RAIMI,
+                        net.minecraft.world.item.equipment.ArmorType.HELMET).get().getDefaultInstance());
+            }
+            case 8141 -> run("tick rate 2");
+            case 8142 -> shot("61_recipe_viewer_raimi_mask");
+            case 8145 -> run("tick rate 20");
+            case 8170 -> mc.gui.setScreen(null);
+            case 8200 -> {
                 Constants.LOG.info("[CI] done");
                 mc.stop();
             }
             default -> {
             }
+        }
+    }
+
+    /** Opens the recipe viewer the CI client runs (JEI or REI) on the Suit Creator, or on an item's recipes. */
+    private static void recipeViewer(net.minecraft.world.item.@org.jspecify.annotations.Nullable ItemStack output) {
+        net.neoforged.fml.ModList mods = net.neoforged.fml.ModList.get();
+        Constants.LOG.info("[CI] recipe viewer: jei {} rei {}", mods.isLoaded("jei"), mods.isLoaded("roughlyenoughitems"));
+        try {
+            if (mods.isLoaded("jei")) {
+                com.star_1mp.powersunchained.compat.jei.PUJeiPlugin.debugShow(output);
+            } else if (mods.isLoaded("roughlyenoughitems")) {
+                com.star_1mp.powersunchained.compat.rei.PUReiPlugin.debugShow();
+            }
+        } catch (RuntimeException e) {
+            Constants.LOG.error("[CI] recipe viewer failed", e);
         }
     }
 

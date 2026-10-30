@@ -193,5 +193,8 @@
   "screen.powers_unchained.ability_settings.automatic": "Автоматически: все ваши способности по порядку",
   "screen.powers_unchained.ability_settings.keys": "Клавиши способностей",
   "screen.powers_unchained.ability_settings.pick": "Способность %s:",
-  "screen.powers_unchained.ability_settings.hint": "Нажмите на клавишу слева"
+  "screen.powers_unchained.ability_settings.hint": "Нажмите на клавишу слева",
+  "recipe.powers_unchained.suit_creator.unlocked": "Этот костюм у тебя открыт",
+  "recipe.powers_unchained.suit_creator.locked": "Костюм закрыт",
+  "recipe.powers_unchained.suit_creator.unlock_hint": "Открой его в Создателе костюмов: скан любой его части или %s ур. опыта"
 }

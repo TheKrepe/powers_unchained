@@ -193,5 +193,8 @@
   "screen.powers_unchained.ability_settings.automatic": "Automatic: every ability you have, in order",
   "screen.powers_unchained.ability_settings.keys": "Ability keys",
   "screen.powers_unchained.ability_settings.pick": "Ability %s:",
-  "screen.powers_unchained.ability_settings.hint": "Click a key to choose"
+  "screen.powers_unchained.ability_settings.hint": "Click a key to choose",
+  "recipe.powers_unchained.suit_creator.unlocked": "You have unlocked this suit",
+  "recipe.powers_unchained.suit_creator.locked": "The suit is locked",
+  "recipe.powers_unchained.suit_creator.unlock_hint": "Unlock it in the Suit Creator: scan any piece of it, or pay %s levels"
 }
