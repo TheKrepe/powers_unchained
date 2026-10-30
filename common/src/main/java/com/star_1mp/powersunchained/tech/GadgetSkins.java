@@ -26,7 +26,7 @@ public record GadgetSkins(String id, @Nullable TechCost cost, @Nullable String h
     public static final String BRAND_NEW_DAY = "brand_new_day";
 
     /**
-     * Looks of the web-shooters (the first is the default). Each changes the wrists (textures/gadget/web_shooters_<id>)
+     * Looks of the web-shooters (the first is the default). Each changes the wrists (textures/gadget/web_shooters_ID)
      * AND the item icon (items/web_shooters.json selects on the component).
      */
     public static final List<GadgetSkins> WEB_SHOOTERS = List.of(
