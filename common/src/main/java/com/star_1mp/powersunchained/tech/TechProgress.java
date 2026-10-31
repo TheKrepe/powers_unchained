@@ -68,4 +68,10 @@ public record TechProgress(Set<String> modules, Set<String> skins, Set<String> f
         set.add(feat);
         return new TechProgress(this.modules, this.skins, Set.copyOf(set));
     }
+
+    public TechProgress withoutFeat(String feat) {
+        Set<String> set = new HashSet<>(this.feats);
+        set.remove(feat);
+        return new TechProgress(this.modules, this.skins, Set.copyOf(set));
+    }
 }

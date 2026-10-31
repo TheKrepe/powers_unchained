@@ -272,9 +272,8 @@
   "commands.powers_unchained.techtable.locked": "Закрыто: %s (веб-шутеров: %s)",
   "screen.powers_unchained.tech_table.search": "Поиск...",
   "screen.powers_unchained.tech_table.search.none": "Ничего не найдено",
-  "screen.powers_unchained.tech_table.requirement": "Условие:",
+  "screen.powers_unchained.tech_table.requirement": "Задание:",
   "feat.powers_unchained.lightning_in_web_shooters": "Попасть под молнию в веб-шутерах",
-  "feat.powers_unchained.done": "Условие выполнено: %s",
   "screen.powers_unchained.tech_table.do_task": "Выполните задание",
   "screen.powers_unchained.tech_table.install_free": "Установка бесплатна",
   "commands.powers_unchained.techtable.no_shooters": "Нет веб-шутеров: возьмите их в руку или наденьте",
@@ -282,5 +281,11 @@
   "skin.powers_unchained.web_shooters.advanced.desc": "Веб-шутеры из игры Marvel's Spider-Man.",
   "skin.powers_unchained.web_shooters.brand_new_day": "Brand New Web-Shooters",
   "skin.powers_unchained.web_shooters.brand_new_day.desc": "Веб-шутеры из фильма Spider-Man: Brand New Day.",
-  "screen.powers_unchained.tech_table.look.unlock": "Открыть вид"
+  "screen.powers_unchained.tech_table.look.unlock": "Открыть вид",
+  "toast.powers_unchained.task_done": "Задание выполнено!",
+  "feat.powers_unchained.suit": "Открыть костюм «%s»",
+  "commands.powers_unchained.techtable.unknown_task": "Неизвестное задание: %s",
+  "commands.powers_unchained.techtable.all_tasks": "все задания",
+  "commands.powers_unchained.techtable.task_done": "Задание выполнено: %s (игроков: %s)",
+  "commands.powers_unchained.techtable.task_reset": "Задание сброшено: %s (игроков: %s)"
 }

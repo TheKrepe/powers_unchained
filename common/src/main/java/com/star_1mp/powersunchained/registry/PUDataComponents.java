@@ -30,6 +30,10 @@ public final class PUDataComponents {
     public static final Supplier<DataComponentType<List<String>>> UNLOCKED_MODULES = Services.REGISTRY.registerDataComponent("unlocked_web_modules",
             builder -> builder.persistent(Codec.STRING.listOf()).networkSynchronized(ByteBufCodecs.STRING_UTF8.apply(ByteBufCodecs.list())));
 
+    /** Looks unlocked ON THIS gadget (owner: bought per pair of web-shooters, like modules). */
+    public static final Supplier<DataComponentType<List<String>>> UNLOCKED_SKINS = Services.REGISTRY.registerDataComponent("unlocked_gadget_skins",
+            builder -> builder.persistent(Codec.STRING.listOf()).networkSynchronized(ByteBufCodecs.STRING_UTF8.apply(ByteBufCodecs.list())));
+
     /** Look (design) of a gadget (Tech Table, Customization tab); missing = default. */
     public static final Supplier<DataComponentType<String>> GADGET_SKIN = Services.REGISTRY.registerDataComponent("gadget_skin",
             builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));

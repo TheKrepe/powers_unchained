@@ -1,8 +1,6 @@
 package com.star_1mp.powersunchained.client.techtable;
 
 import com.star_1mp.powersunchained.tech.TechRecipe;
-import com.star_1mp.powersunchained.tech.TechRecipes;
-import java.util.Locale;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -11,7 +9,7 @@ import net.minecraft.util.Mth;
 
 /**
  * How a Tech Table recipe looks in the recipe viewers (JEI / REI share it), in the Tech Table's own style: a steel
- * title bar with a copper edge and the drawing number, then a sheet of blueprint paper with the 3x3 sockets, a dashed
+ * title bar with a copper edge and the result's name (owner: no numbering), then a sheet of blueprint paper with the 3x3 sockets, a dashed
  * arrow that fills up, and the result in a glowing copper frame ("shapeless" noted under it). The viewers put their
  * item slots at {@link #cellSlot} / {@link #RESULT} (item positions, 16x16).
  */
@@ -49,11 +47,7 @@ public final class TechRecipeArt {
         g.fill(x, y, x + WIDTH, y + 1, COPPER);
         g.fill(x, y + 1, x + WIDTH, y + 2, COPPER_DARK);
         g.fill(x, y + 14, x + WIDTH, y + 15, 0xFF15181C);
-        String number = String.format(Locale.ROOT, "№ TT-%02d", TechRecipes.all().indexOf(recipe) + 1);
-        int nw = font.width(number);
-        g.text(font, Component.literal(trim(font, recipe.resultStack().getHoverName().getString(), WIDTH - nw - 14)),
-                x + 4, y + 4, 0xFFFFFFFF, true);
-        g.text(font, Component.literal(number), x + WIDTH - nw - 4, y + 4, COPPER, false);
+        g.text(font, Component.literal(trim(font, recipe.resultStack().getHoverName().getString(), WIDTH - 8)), x + 4, y + 4, 0xFFFFFFFF, true);
 
         // blueprint paper with a grid and a double border
         int py = y + 16;

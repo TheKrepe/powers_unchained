@@ -272,9 +272,8 @@
   "commands.powers_unchained.techtable.locked": "Locked %s on %s pair(s) of web-shooters",
   "screen.powers_unchained.tech_table.search": "Search...",
   "screen.powers_unchained.tech_table.search.none": "Nothing found",
-  "screen.powers_unchained.tech_table.requirement": "Condition:",
+  "screen.powers_unchained.tech_table.requirement": "Task:",
   "feat.powers_unchained.lightning_in_web_shooters": "Get struck by lightning wearing web-shooters",
-  "feat.powers_unchained.done": "Condition met: %s",
   "screen.powers_unchained.tech_table.do_task": "Complete the task",
   "screen.powers_unchained.tech_table.install_free": "Installing is free",
   "commands.powers_unchained.techtable.no_shooters": "No web-shooters: hold or wear them",
@@ -282,5 +281,11 @@
   "skin.powers_unchained.web_shooters.advanced.desc": "Web-shooters from the game Marvel's Spider-Man.",
   "skin.powers_unchained.web_shooters.brand_new_day": "Brand New Web-Shooters",
   "skin.powers_unchained.web_shooters.brand_new_day.desc": "Web-shooters from the film Spider-Man: Brand New Day.",
-  "screen.powers_unchained.tech_table.look.unlock": "Unlock look"
+  "screen.powers_unchained.tech_table.look.unlock": "Unlock look",
+  "toast.powers_unchained.task_done": "Task complete!",
+  "feat.powers_unchained.suit": "Unlock the suit \"%s\"",
+  "commands.powers_unchained.techtable.unknown_task": "Unknown task: %s",
+  "commands.powers_unchained.techtable.all_tasks": "all tasks",
+  "commands.powers_unchained.techtable.task_done": "Task done: %s for %s player(s)",
+  "commands.powers_unchained.techtable.task_reset": "Task reset: %s for %s player(s)"
 }

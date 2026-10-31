@@ -324,11 +324,14 @@ public class TechTableMenu extends AbstractContainerMenu {
             return false;
         }
         GadgetSkins skin = GadgetSkins.WEB_SHOOTERS.get(index);
-        TechProgress progress = this.progress();
-        if (progress.hasSkin(skin.id()) || skin.cost() == null || !skin.cost().pay(player)) {
+        ItemStack gadget = this.device();
+        // owner: bought on THIS pair of web-shooters only; may also need a suit unlocked
+        if (!isGadget(gadget) || skin.isUnlocked(gadget) || skin.cost() == null || !skin.requirementMet(player)
+                || !skin.cost().pay(player)) {
             return false;
         }
-        Services.GAMEPLAY.setTechProgress(player, progress.withSkin(skin.id()));
+        skin.unlock(gadget);
+        this.device.setChanged();
         this.sound(player, SoundEvents.PLAYER_LEVELUP, 0.7F, 1.6F);
         return true;
     }
@@ -339,7 +342,7 @@ public class TechTableMenu extends AbstractContainerMenu {
             return false;
         }
         GadgetSkins skin = GadgetSkins.WEB_SHOOTERS.get(index);
-        if (!this.progress().hasSkin(skin.id())) {
+        if (!skin.isUnlocked(gadget)) {
             return false;
         }
         GadgetSkins.set(gadget, skin.id());

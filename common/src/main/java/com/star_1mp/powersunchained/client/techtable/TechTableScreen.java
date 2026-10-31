@@ -888,7 +888,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 if (!this.matches(skin.displayName(), null)) {
                     continue;
                 }
-                boolean unlocked = this.progress().hasSkin(skin.id());
+                boolean unlocked = skin.isUnlocked(gadget);
                 boolean hover = in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2);
                 ItemStack icon = gadget.copy();  // the item icon changes with the look too
                 GadgetSkins.set(icon, skin.id());
@@ -956,7 +956,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             return;
         }
         GadgetSkins skin = GadgetSkins.WEB_SHOOTERS.get(Mth.clamp(this.selectedSkin, 0, GadgetSkins.WEB_SHOOTERS.size() - 1));
-        boolean unlocked = this.progress().hasSkin(skin.id());
+        boolean unlocked = skin.isUnlocked(gadget);
         boolean current = skin.id().equals(GadgetSkins.of(gadget));
         int ty = ry + 5;
         ty += this.wrapped(g, skin.displayName(), rx + 5, ty, RIGHT_W - 10, COPPER, 2) + 4;
@@ -965,6 +965,15 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             ty += this.wrapped(g, tr("look.default_desc"), rx + 5, ty, RIGHT_W - 10, GREY, 4) + 4;
         } else if (Language.getInstance().has(descKey)) {
             ty += this.wrapped(g, Component.translatable(descKey), rx + 5, ty, RIGHT_W - 10, GREY, 5) + 4;
+        }
+        boolean taskDone = skin.requirementMet(this.minecraft.player);
+        if (!unlocked && skin.requiredSuit() != null) {
+            // owner: the task (unlock the matching suit in the Suit Creator), done / not done
+            g.text(this.font, tr("requirement"), rx + 5, ty, COPPER_DARK, false);
+            ty += 11;
+            Component line = Component.literal(taskDone ? "✔ " : "✘ ").append(Component.translatable("feat.powers_unchained.suit",
+                    com.star_1mp.powersunchained.client.suitcreator.SuitCreatorClient.displayName(skin.requiredSuit())));
+            ty += this.wrapped(g, line, rx + 5, ty, RIGHT_W - 10, taskDone ? GREEN : RED, 3) + 4;
         }
         if (!GadgetSkins.DEFAULT.equals(skin.id()) && !unlocked) {
             g.text(this.font, tr("look.how"), rx + 5, ty, COPPER_DARK, false);
@@ -977,7 +986,10 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         }
         int bty = y + H - 8 - 20;
         if (!unlocked) {
-            boolean can = skin.cost() != null && skin.cost().canPay(this.minecraft.player);
+            boolean can = taskDone && skin.cost() != null && skin.cost().canPay(this.minecraft.player);
+            if (this.failFlash > 0) {
+                g.centeredText(this.font, tr(this.failKey), rx + RIGHT_W / 2, bty - 12, 0xFFFF9B8F);
+            }
             this.vanillaButton(g, rx + 3, bty, RIGHT_W - 6, 16, tr("look.unlock"), can, in(mx, my, rx + 3, bty, RIGHT_W - 6, 16), false);
         } else {
             this.vanillaButton(g, rx + 3, bty, RIGHT_W - 6, 16, tr(current ? "look.selected" : "look.select"), !current,
@@ -1168,8 +1180,10 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 int bty = y + H - 8 - 20;
                 if (in(mx, my, x + RIGHT_X + 3, bty, RIGHT_W - 6, 16)) {
                     GadgetSkins skin = GadgetSkins.WEB_SHOOTERS.get(Mth.clamp(this.selectedSkin, 0, GadgetSkins.WEB_SHOOTERS.size() - 1));
-                    if (!this.progress().hasSkin(skin.id())) {
-                        if (skin.cost() != null && skin.cost().canPay(this.minecraft.player)) {
+                    if (!skin.isUnlocked(gadget)) {
+                        if (!skin.requirementMet(this.minecraft.player)) {
+                            this.fail("do_task");
+                        } else if (skin.cost() != null && skin.cost().canPay(this.minecraft.player)) {
                             this.button(TechTableMenu.UNLOCK_SKIN + this.selectedSkin);
                             this.click();
                         } else {

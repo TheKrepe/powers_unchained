@@ -194,7 +194,9 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `WebAmmo.setFactor`, `WebShooting.zipCooldown`, `WebModules.cartridgeSlots` everywhere SLOTS was). Customization:
   `client/techtable/GadgetHologram` (SuitHologram with id `ID_BASE + 1000`; `GadgetHologram.Layer` on player renderers
   draws the shooters only on that id), looks `tech/GadgetSkins` (component `gadget_skin`; Default + owner's Advanced (Marvel's Spider-Man
-  game) and Brand New Day (film) web-shooters, unlocked per player for iron + fabrics (white+red / blue+red); 500+i unlock, 600+i select; each look changes
+  game) and Brand New Day (film) web-shooters, bought PER PAIR of web-shooters (component `unlocked_gadget_skins`, like modules)
+  for iron + fabrics (white+red / blue+red) AND a task: the suit Advanced 2.0 / Brand New Day unlocked in the Suit Creator
+  (`GadgetSkins.requiredSuit`); 500+i unlock, 600+i select; each look changes
   the wrists `textures/gadget/web_shooters_<look>(_slim).png` AND the item icon (`items/web_shooters.json` selects on the
   component); recolours of the owner's textures by `tools/gen_web_shooter_skins.py`, new files only; the hologram previews the
   look picked in the list). Electro-Web: `entity/web/ElectroWeb` (owner: an IMPACT web under current, does NOT stick: 3 dmg = 1.5 hearts, stun
@@ -207,14 +209,15 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `SuitHologram.applyPose` handles `rel % 1000`; controls under the hologram = the Suit Creator's Steve | Alex | pose buttons, device slot to their right). Without a device Upgrade / Customization show NO list, NO right panel
   and no ghost item; device slots show the cog sprite `tech_table/device_slot` (`tools/gen_device_slot_icon.py`).
   `/techtable module unlock|lock <module|all> [targets]` (`command/TechTableCommand`, acts on the held / worn web-shooters; lock also uninstalls). JEI + REI category
-  `powers_unchained:tech_table` drawn by `client/techtable/TechRecipeArt` (steel title bar + drawing number, blueprint
+  `powers_unchained:tech_table` drawn by `client/techtable/TechRecipeArt` (steel title bar with the result's name — owner: NO numbering —, blueprint
   paper, 3x3 sockets, filling dashed arrow, copper result frame, "shapeless").
   Owner: NO categories in the Tech Table lists (no recipe groups, no installed / unlocked / locked headers — the Upgrade
   list is one flat list in that order, installed modules get a green edge, locked a lock), a search box on top of the
   list instead (each tab clears it; hidden while the list is empty because there is no device).
   Module conditions (owner, like Fisk's suit requirements): `WebModule.requirement` = a feat in `TechProgress.feats`
   (`tech/TechFeats`); Electro-Web needs `lightning_in_web_shooters` (NeoForge `EntityStruckByLightningEvent` while wearing
-  web-shooters, action-bar message) besides the materials; the Upgrade panel shows "Условие: ✔/✘ ..." for locked modules
+  web-shooters) besides the materials -> toast `client/techtable/TechFeatToast` (client diff of the synced feats, top right);
+  `/techtable achieve unlock|lock <task|all> [targets]`; the panels show "Задание: ✔/✘ ..." for locked modules / looks
   (no before/after stats until unlocked). Link state (`isLinked`) is computed ONLY on the server (the client menu has no
   level access and used to reset it to 0 -> "no link" after taking the device out).
   CI scenes 8200-8470 (shots 62-66). Concepts kept in `docs/concepts/tech_table_gui` (v1 + v2).

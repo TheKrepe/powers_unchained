@@ -12,6 +12,8 @@ import com.star_1mp.powersunchained.registry.PUItems;
 import com.star_1mp.powersunchained.tech.WebModules;
 import java.util.ArrayList;
 import net.minecraft.world.item.ItemStack;
+import com.star_1mp.powersunchained.tech.TechFeats;
+import com.star_1mp.powersunchained.tech.TechProgress;
 import com.star_1mp.powersunchained.tech.WebModule;
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,13 +29,16 @@ import net.minecraft.server.level.ServerPlayer;
 /**
  * {@code /techtable module unlock|lock <module|all> [targets]} — unlocks / locks modules on the targets' web-shooters (the
  * pair in the main hand, else the worn pair; default target: the player running the command). Locking also takes the
- * module out.
+ * module out. {@code /techtable achieve unlock|lock <task|all> [targets]} sets Tech Table tasks (feats).
  * Module ids are tab-completed. Needs permission level 2.
  */
 public final class TechTableCommand {
 
     private static final DynamicCommandExceptionType UNKNOWN_MODULE = new DynamicCommandExceptionType(
             name -> Component.translatable("commands.powers_unchained.techtable.unknown", name));
+
+    private static final DynamicCommandExceptionType UNKNOWN_TASK = new DynamicCommandExceptionType(
+            name -> Component.translatable("commands.powers_unchained.techtable.unknown_task", name));
 
     private TechTableCommand() {
     }
@@ -43,7 +48,10 @@ public final class TechTableCommand {
                 .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("module")
                         .then(moduleCommand("unlock", true))
-                        .then(moduleCommand("lock", false))));
+                        .then(moduleCommand("lock", false)))
+                .then(Commands.literal("achieve")
+                        .then(achieveCommand("unlock", true))
+                        .then(achieveCommand("lock", false))));
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> moduleCommand(String name, boolean unlock) {
@@ -54,6 +62,41 @@ public final class TechTableCommand {
                         .executes(context -> set(context, List.of(context.getSource().getPlayerOrException()), unlock))
                         .then(Commands.argument("targets", EntityArgument.players())
                                 .executes(context -> set(context, EntityArgument.getPlayers(context, "targets"), unlock))));
+    }
+
+    /** {@code /techtable achieve unlock|lock <task|all> [targets]}: Tech Table tasks (e.g. lightning in web-shooters). */
+    private static LiteralArgumentBuilder<CommandSourceStack> achieveCommand(String name, boolean unlock) {
+        return Commands.literal(name)
+                .then(Commands.argument("task", StringArgumentType.word())
+                        .suggests((context, builder) -> SharedSuggestionProvider.suggest(
+                                Stream.concat(Stream.of("all"), TechFeats.ALL.stream()), builder))
+                        .executes(context -> achieve(context, List.of(context.getSource().getPlayerOrException()), unlock))
+                        .then(Commands.argument("targets", EntityArgument.players())
+                                .executes(context -> achieve(context, EntityArgument.getPlayers(context, "targets"), unlock))));
+    }
+
+    private static int achieve(CommandContext<CommandSourceStack> context, Collection<ServerPlayer> players, boolean unlock)
+            throws CommandSyntaxException {
+        String name = StringArgumentType.getString(context, "task");
+        List<String> feats;
+        if (name.equals("all")) {
+            feats = TechFeats.ALL;
+        } else if (TechFeats.ALL.contains(name)) {
+            feats = List.of(name);
+        } else {
+            throw UNKNOWN_TASK.create(name);
+        }
+        for (ServerPlayer player : players) {
+            TechProgress progress = Services.GAMEPLAY.techProgress(player);
+            for (String feat : feats) {
+                progress = unlock ? progress.withFeat(feat) : progress.withoutFeat(feat);
+            }
+            Services.GAMEPLAY.setTechProgress(player, progress);
+        }
+        Component what = feats.size() == 1 ? TechFeats.title(feats.get(0)) : Component.translatable("commands.powers_unchained.techtable.all_tasks");
+        context.getSource().sendSuccess(() -> Component.translatable(
+                "commands.powers_unchained.techtable.task_" + (unlock ? "done" : "reset"), what, players.size()), true);
+        return players.size();
     }
 
     private static int set(CommandContext<CommandSourceStack> context, Collection<ServerPlayer> players, boolean unlock)

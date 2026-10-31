@@ -779,6 +779,7 @@ public final class CiClientDriver {
                     run("give @p minecraft:" + item.replace("minecraft:powers_unchained:", "powers_unchained:"));
                 }
                 run("give @p powers_unchained:empty_web_cartridge 4");
+                run("suit unlock spider_man_advanced_2 @p");  // the Advanced look's task
                 run("give @p powers_unchained:white_fabric 4");
                 run("give @p powers_unchained:red_fabric 4");
             }
@@ -952,9 +953,14 @@ public final class CiClientDriver {
                 Constants.LOG.info("[CI] feats before lightning: {}", com.star_1mp.powersunchained.platform.Services.GAMEPLAY.techProgress(mc.player));
                 run("execute at @p run summon minecraft:lightning_bolt ~ ~ ~");
             }
+            case 8433 -> run("tick rate 2");
+            case 8434 -> shot("67_task_toast");
+            case 8436 -> run("tick rate 20");
             case 8437 -> Constants.LOG.info("[CI] feats after lightning: {}", com.star_1mp.powersunchained.platform.Services.GAMEPLAY.techProgress(mc.player));
+            case 8439 -> run("techtable achieve lock all @p");
+            case 8440 -> Constants.LOG.info("[CI] feats after achieve lock: {}", com.star_1mp.powersunchained.platform.Services.GAMEPLAY.techProgress(mc.player));
             // recipe viewers: the Tech Table category
-            case 8440 -> {
+            case 8442 -> {
                 mc.options.setCameraType(CameraType.FIRST_PERSON);
                 net.neoforged.fml.ModList mods = net.neoforged.fml.ModList.get();
                 try {

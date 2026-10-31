@@ -31,6 +31,7 @@ public final class SuitCreatorClient {
 
     /** Client tick: compares the synced progress with the last one and toasts new suits. */
     public static void tick() {
+        com.star_1mp.powersunchained.client.techtable.TechFeatToast.tick();
         ticks++;
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
