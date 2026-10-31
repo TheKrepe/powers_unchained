@@ -25,6 +25,7 @@ public class TechFeatToast implements Toast {
     private static final long DISPLAY_MS = 5000L;
 
     private static Set<String> known = new HashSet<>();
+    private static final java.util.Map<String, Long> LAST_TOAST = new java.util.HashMap<>();
     private static @Nullable Player lastPlayer;
     private static long ticks;
     private static long baselineUntil;
@@ -55,7 +56,9 @@ public class TechFeatToast implements Toast {
             return;
         }
         for (String feat : now) {
-            if (known.add(feat)) {
+            // a synced set can briefly come without the feat and with it again: one toast per feat per 200 ticks
+            if (known.add(feat) && ticks - LAST_TOAST.getOrDefault(feat, Long.MIN_VALUE / 2) > 200) {
+                LAST_TOAST.put(feat, ticks);
                 mc.gui.toastManager().addToast(new TechFeatToast(TechFeats.title(feat)));
             }
         }
@@ -81,7 +84,15 @@ public class TechFeatToast implements Toast {
     public void extractRenderState(GuiGraphicsExtractor graphics, Font font, long fullyVisibleForMs) {
         graphics.blitSprite(RenderPipelines.GUI_TEXTURED, BACKGROUND, 0, 0, this.width(), this.height());
         graphics.item(PUItems.WEB_SHOOTERS.get().getDefaultInstance(), 8, 8);
-        graphics.text(font, Component.translatable("toast.powers_unchained.task_done"), 30, 7, 0xFF7CFC6A, false);
-        graphics.text(font, font.plainSubstrByWidth(this.name.getString(), 124), 30, 18, 0xFFFFFFFF, false);
+        // the task's name can be long: up to 2 lines under the title
+        java.util.List<net.minecraft.util.FormattedCharSequence> lines = font.split(this.name, 126);
+        if (lines.size() <= 1) {
+            graphics.text(font, Component.translatable("toast.powers_unchained.task_done"), 30, 7, 0xFF7CFC6A, false);
+            graphics.text(font, font.plainSubstrByWidth(this.name.getString(), 126), 30, 18, 0xFFFFFFFF, false);
+        } else {
+            graphics.text(font, Component.translatable("toast.powers_unchained.task_done"), 30, 3, 0xFF7CFC6A, false);
+            graphics.text(font, lines.get(0), 30, 13, 0xFFFFFFFF, false);
+            graphics.text(font, lines.get(1), 30, 22, 0xFFFFFFFF, false);
+        }
     }
 }
