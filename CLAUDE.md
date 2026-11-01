@@ -291,6 +291,15 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `powers_unchained-hud.json` (null = automatic); a key whose ability the player lacks is empty, and empty keys are
   NOT drawn in the HUD (rows stack).
   CI scenes from tick 7040 (wheel, wall, ceiling, roll, sense, mannequin climb poses, ability keys, HUD order, 1x1 pillar).
+- Powers menu (abilities + progression for EVERY hero, not only Spider-Man): `client/power/PowersMenu` — key J
+  (`PUKeyMappings.POWERS_MENU`, also works inside the inventory screens) + an inventory button (20x18 like the recipe
+  book button, our emblem sprites `powers_menu/button(_highlighted)` from `tools/gen_powers_menu_button.py`; NeoForge
+  `ScreenEvent.Init.Post` adds it, `Render.Pre` re-places it every frame with the NeoForge getters `getLeftPos/getTopPos/
+  getImageWidth` — vanilla common code has no such getters). Place = Interface Settings cycle button, saved as
+  `menuButton` in `powers_unchained-hud.json`: recipe_book (survival: left+126, height/2-22 next to the recipe book;
+  creative: inventory tab only, left+151 top+20) / right / left (outside the panel, top) / hidden. The menu itself is a
+  placeholder `PowersMenuScreen` until the owner picks a concept: `docs/concepts/powers_menu` (Alien Evolution style —
+  player hologram in the middle; tabs Силы / Прокачка / Клавиши; generator `src/powers_screens.py`). CI shots 68-71.
 - Chest pieces are `<suit>_chestplate` (renamed from `_suit`).
 - Creative tabs (`PUCreativeTabs`): Suits, Weapons, Items, Blocks;
   ordered with `withTabsBefore`. Tab contents go through `IRegistryHelper.TabOutput` (search-only flag).

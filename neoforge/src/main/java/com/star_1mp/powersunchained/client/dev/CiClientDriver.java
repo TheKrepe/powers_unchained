@@ -976,7 +976,40 @@ public final class CiClientDriver {
             case 8441 -> run("tick rate 2");
             case 8460 -> shot("66_recipe_viewer_tech_table");
             case 8465 -> run("tick rate 20");
+            // powers menu: the inventory button (survival by the recipe book, creative on the right), the placeholder screen,
+            // the place setting
             case 8470 -> {
+                mc.gui.setScreen(null);
+                run("gamemode survival @p");
+                com.star_1mp.powersunchained.client.ability.AbilityHudConfig.get().menuButton = "recipe_book";
+            }
+            case 8474 -> mc.gui.setScreen(new net.minecraft.client.gui.screens.inventory.InventoryScreen(mc.player));
+            case 8477 -> run("tick rate 2");
+            case 8478 -> shot("68_inventory_button");
+            case 8490 -> {
+                run("tick rate 20");
+                mc.gui.setScreen(null);
+                run("gamemode creative @p");
+                com.star_1mp.powersunchained.client.ability.AbilityHudConfig.get().menuButton = "right";
+            }
+            case 8494 -> mc.gui.setScreen(new net.minecraft.client.gui.screens.inventory.InventoryScreen(mc.player));  // -> creative screen
+            case 8497 -> run("tick rate 2");
+            case 8498 -> shot("69_creative_button_right");
+            case 8510 -> {
+                run("tick rate 20");
+                com.star_1mp.powersunchained.client.ability.AbilityHudConfig.get().menuButton = "recipe_book";
+                com.star_1mp.powersunchained.client.power.PowersMenu.open(null);
+            }
+            case 8513 -> run("tick rate 2");
+            case 8514 -> shot("70_powers_menu_placeholder");
+            case 8526 -> {
+                run("tick rate 20");
+                mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.AbilityHudConfigScreen(null));
+            }
+            case 8529 -> run("tick rate 2");
+            case 8530 -> shot("71_settings_menu_button");
+            case 8542 -> run("tick rate 20");
+            case 8545 -> {
                 mc.gui.setScreen(null);
                 Constants.LOG.info("[CI] done");
                 mc.stop();
