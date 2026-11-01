@@ -195,7 +195,8 @@ public class PowersMenuScreen extends Screen {
 
     private enum Kind { POWER, GADGET }
 
-    private record Entry(String key, Kind kind, @Nullable Superpower power, ItemStack icon, Component name, Component sub) {
+    private record Entry(String key, Kind kind, @Nullable Superpower power, ItemStack icon, @Nullable Identifier emblem, Component name,
+            Component sub) {
     }
 
     private List<Entry> entries() {
@@ -208,21 +209,23 @@ public class PowersMenuScreen extends Screen {
         for (Superpower power : Superpower.values()) {
             if (Superpowers.data(player).has(power)) {
                 int level = PowerLevels.level(power, progress.get(power).xp());
-                list.add(new Entry("power:" + power.id(), Kind.POWER, power, powerIcon(power), power.title(), tr("sub.power", level)));
+                list.add(new Entry("power:" + power.id(), Kind.POWER, power, ItemStack.EMPTY, emblem(power), power.title(), tr("sub.power", level)));
             }
         }
         // owner: suits have no progression and are NOT listed here (Suit Creator only)
         ItemStack shooters = WebCartridges.wornShooters(player);
         if (!shooters.isEmpty()) {
-            list.add(new Entry("gadget:web_shooters", Kind.GADGET, null, shooters, shooters.getHoverName(), tr("sub.gadget")));
+            list.add(new Entry("gadget:web_shooters", Kind.GADGET, null, shooters, null, shooters.getHoverName(), tr("sub.gadget")));
         }
         return list;
     }
 
-    private static ItemStack powerIcon(Superpower power) {
-        return switch (power) {
-            case SPIDERMAN -> new ItemStack(PUItems.SPIDER_MAN_MASK.get());
+    /** The power's emblem = the hero's group emblem of the Suit Creator (owner). */
+    public static Identifier emblem(Superpower power) {
+        String group = switch (power) {
+            case SPIDERMAN -> "spider_man";
         };
+        return com.star_1mp.powersunchained.Constants.id("suit_creator/group/" + group);
     }
 
     private @Nullable Entry selectedEntry(List<Entry> entries) {
@@ -317,7 +320,7 @@ public class PowersMenuScreen extends Screen {
                 continue;
             }
             boolean hover = in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2);
-            this.card(g, lx, ly, LIST_W - 4, e.icon(), e.name(), e.sub(), e == sel, hover);
+            this.card(g, lx, ly, LIST_W - 4, e.icon(), e.emblem(), e.name(), e.sub(), e == sel, hover);
             ly += CARD_H;
             shown++;
         }
@@ -348,6 +351,27 @@ public class PowersMenuScreen extends Screen {
             float yawDeg = Mth.wrapDegrees(this.yaw + spin);
             int boxTop = feet - Math.round(1.9F * scale) - 4;
             drawEntity(g, hx + 2, boxTop, hx + hw - 2, feet + 2, scale, yawDeg, player);
+        }
+    }
+
+    /** A flat sprite turning round its vertical axis (squashed by cos of the angle), tinted like a hologram. */
+    private void spinningEmblem(GuiGraphicsExtractor g, Identifier sprite, int cx, int top, int size) {
+        float angle = this.time * 0.09F;
+        float sx = Mth.cos(angle);
+        float w = Math.max(0.06F, Math.abs(sx));
+        // the back side is a bit darker, like the far face of a hologram
+        int alpha = sx >= 0.0F ? 0xF0 : 0xA8;
+        float flicker = 0.92F + 0.08F * Mth.sin(this.time * 1.7F);
+        int color = ((int) (alpha * flicker) << 24) | 0xC8F6FF;
+        g.pose().pushMatrix();
+        g.pose().translate(cx + 0.5F, top);
+        g.pose().scale(w, 1.0F);
+        g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, -size / 2, 0, size, size, color);
+        g.pose().popMatrix();
+        // scan lines over it
+        int half = Math.max(1, Math.round(size * w / 2.0F));
+        for (int yy = top + 1; yy < top + size; yy += 3) {
+            g.fill(cx - half, yy, cx + half + 1, yy + 1, 0x2259E4FF);
         }
     }
 
@@ -511,14 +535,12 @@ public class PowersMenuScreen extends Screen {
         }
         Superpower power = sel.power();
         List<SkillNode> nodes = SkillTrees.of(power);
-        // root: the player (small hologram) at the top
+        // root: the power's emblem as a spinning hologram at the top (owner)
         int cx = tx + TREE_W / 2;
         int rootY = ty + 3;
         g.fillGradient(cx - 16, rootY + 4, cx + 16, rootY + ROOT_H - 4, 0x0059E4FF, 0x2459E4FF);
         g.fill(cx - 18, rootY + ROOT_H - 4, cx + 18, rootY + ROOT_H - 3, CYAN);
-        LocalPlayer player = this.player();
-        float spin = this.time * 0.8F;
-        drawEntity(g, cx - 30, rootY, cx + 30, rootY + ROOT_H - 3, 19, Mth.wrapDegrees(this.yaw + spin), player);
+        this.spinningEmblem(g, emblem(power), cx, rootY + 3, 27);
         // branch titles + lines from the root
         int bw = TREE_W / 3;
         for (SkillBranch b : SkillBranch.values()) {
@@ -666,7 +688,7 @@ public class PowersMenuScreen extends Screen {
         List<String> abilities = this.keyAbilities();
         for (String id : abilities) {
             boolean hover = in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2);
-            this.card(g, lx, ly, LIST_W - 4, abilityIcon(id), abilityName(id), tr("keys.drag"), id.equals(this.dragging), hover);
+            this.card(g, lx, ly, LIST_W - 4, abilityIcon(id), null, abilityName(id), tr("keys.drag"), id.equals(this.dragging), hover);
             ly += CARD_H;
         }
         g.disableScissor();
@@ -943,14 +965,18 @@ public class PowersMenuScreen extends Screen {
         return mx >= x && mx < x + w && my >= y && my < y + h;
     }
 
-    private void card(GuiGraphicsExtractor g, int x, int y, int w, ItemStack icon, Component name, @Nullable Component sub,
-            boolean selected, boolean hover) {
+    private void card(GuiGraphicsExtractor g, int x, int y, int w, ItemStack icon, @Nullable Identifier emblem, Component name,
+            @Nullable Component sub, boolean selected, boolean hover) {
         g.fill(x, y, x + w, y + CARD_H - 2, selected ? 0x40FF9A52 : hover ? 0x20FFFFFF : 0x0CFFFFFF);
         if (selected) {
             outline(g, x, y, w, CARD_H - 2, COPPER);
         }
         inset(g, x + 2, y + 1, 18, 18, 0xFF2A3038);
-        g.item(icon, x + 3, y + 2);
+        if (emblem != null) {
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, emblem, x + 2, y + 1, 18, 18);
+        } else {
+            g.item(icon, x + 3, y + 2);
+        }
         int tw = w - 26;
         g.text(this.font, this.trim(name.getString(), tw), x + 23, y + (sub == null ? 6 : 2), selected ? 0xFFFFD9B8 : WHITE, true);
         if (sub != null) {
