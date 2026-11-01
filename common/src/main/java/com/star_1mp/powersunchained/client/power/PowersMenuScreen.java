@@ -484,8 +484,8 @@ public class PowersMenuScreen extends Screen {
     private static final int TREE_X = CENTER_X;
     private static final int TREE_W = W - 8 - CENTER_X;
     private static final int TREE_TOP = 20;
-    private static final int ROOT_H = 50;
-    private static final int ROW0 = TREE_TOP + ROOT_H + 14;
+    private static final int ROOT_H = 42;
+    private static final int ROW0 = TREE_TOP + 64;
     private static final int ROW_STEP = 23;
     private static final int NODE = 20;
     private static final int STRIP_Y = H - 8 - 30;
@@ -494,7 +494,7 @@ public class PowersMenuScreen extends Screen {
     private static int[] nodePos(SkillNode n) {
         int bw = TREE_W / 3;
         int bx = TREE_X + n.branch().ordinal() * bw;
-        int cx = bx + bw / 2 + (n.col() - 1) * 28;
+        int cx = bx + bw / 2 + (n.col() - 1) * 23;
         return new int[]{cx - NODE / 2, ROW0 + n.row() * ROW_STEP};
     }
 
@@ -533,18 +533,18 @@ public class PowersMenuScreen extends Screen {
         List<SkillNode> nodes = SkillTrees.of(power);
         // root: the player (small hologram) at the top
         int cx = tx + TREE_W / 2;
-        int rootY = ty + 4;
+        int rootY = ty + 3;
         g.fillGradient(cx - 16, rootY + 4, cx + 16, rootY + ROOT_H - 4, 0x0059E4FF, 0x2459E4FF);
         g.fill(cx - 18, rootY + ROOT_H - 4, cx + 18, rootY + ROOT_H - 3, CYAN);
         LocalPlayer player = this.player();
         float spin = this.time * 0.8F;
-        drawEntity(g, cx - 30, rootY - 2, cx + 30, rootY + ROOT_H - 2, 24, Mth.wrapDegrees(this.yaw + spin), player);
+        drawEntity(g, cx - 30, rootY, cx + 30, rootY + ROOT_H - 3, 19, Mth.wrapDegrees(this.yaw + spin), player);
         // branch titles + lines from the root
         int bw = TREE_W / 3;
         for (SkillBranch b : SkillBranch.values()) {
             int bcx = x + TREE_X + b.ordinal() * bw + bw / 2;
             Component t = b.title();
-            g.text(this.font, t, bcx - this.font.width(t) / 2, y + ROW0 - 12, b.color(), true);
+            g.text(this.font, t, bcx - this.font.width(t) / 2, y + ROW0 - 13, b.color(), true);
         }
         for (SkillNode n : nodes) {
             if (n.requires().isEmpty()) {
@@ -555,7 +555,8 @@ public class PowersMenuScreen extends Screen {
                 int midY = rootY + ROOT_H + 1;
                 g.fill(cx, rootY + ROOT_H - 3, cx + 1, midY, c);
                 g.fill(Math.min(cx, nx), midY, Math.max(cx, nx) + 1, midY + 1, c);
-                g.fill(nx, midY, nx + 1, y + ROW0 - 13, c);
+                g.fill(nx, midY, nx + 1, y + ROW0 - 14, c);
+                g.fill(nx, y + ROW0 - 4, nx + 1, y + ROW0, c);
             }
             for (String r : n.requires()) {
                 SkillNode parent = SkillTrees.node(power, r);
