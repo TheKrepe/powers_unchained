@@ -29,7 +29,6 @@ import java.util.Map;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.player.LocalPlayer;
@@ -368,9 +367,28 @@ public class PowersMenuScreen extends Screen {
             float spin = this.rotating ? 0.0F : this.time * 0.8F;
             float yawDeg = Mth.wrapDegrees(this.yaw + spin);
             int boxTop = feet - Math.round(1.9F * scale) - 4;
-            InventoryScreen.renderEntityInInventoryFollowsAngle(g, hx + 2, boxTop, hx + hw - 2, feet + 2, scale, 0.0625F,
-                    yawDeg / 20.0F, 0.0F, player);
+            drawEntity(g, hx + 2, boxTop, hx + hw - 2, feet + 2, scale, yawDeg, player);
         }
+    }
+
+    /** The live player turned by {@code yawDeg} (like the inventory doll, without following the mouse). */
+    private static void drawEntity(GuiGraphicsExtractor g, int x0, int y0, int x1, int y1, int size, float yawDeg, LocalPlayer player) {
+        net.minecraft.client.renderer.entity.EntityRenderer<? super LocalPlayer, ?> renderer =
+                net.minecraft.client.Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
+        net.minecraft.client.renderer.entity.state.EntityRenderState state = renderer.createRenderState(player, 1.0F);
+        state.shadowPieces.clear();
+        state.outlineColor = 0;
+        if (state instanceof net.minecraft.client.renderer.entity.state.LivingEntityRenderState living) {
+            living.bodyRot = 180.0F + yawDeg;
+            living.yRot = 0.0F;
+            living.xRot = 0.0F;
+            living.boundingBoxWidth = living.boundingBoxWidth / living.scale;
+            living.boundingBoxHeight = living.boundingBoxHeight / living.scale;
+            living.scale = 1.0F;
+        }
+        org.joml.Quaternionf rotation = new org.joml.Quaternionf().rotateZ((float) Math.PI);
+        org.joml.Vector3f translation = new org.joml.Vector3f(0.0F, state.boundingBoxHeight / 2.0F + 0.0625F, 0.0F);
+        g.entity(state, size, translation, rotation, null, x0, y0, x1, y1);
     }
 
     // ---- Характеристики ----
@@ -520,8 +538,7 @@ public class PowersMenuScreen extends Screen {
         g.fill(cx - 18, rootY + ROOT_H - 4, cx + 18, rootY + ROOT_H - 3, CYAN);
         LocalPlayer player = this.player();
         float spin = this.time * 0.8F;
-        InventoryScreen.renderEntityInInventoryFollowsAngle(g, cx - 30, rootY - 2, cx + 30, rootY + ROOT_H - 2, 24, 0.0625F,
-                Mth.wrapDegrees(this.yaw + spin) / 20.0F, 0.0F, player);
+        drawEntity(g, cx - 30, rootY - 2, cx + 30, rootY + ROOT_H - 2, 24, Mth.wrapDegrees(this.yaw + spin), player);
         // branch titles + lines from the root
         int bw = TREE_W / 3;
         for (SkillBranch b : SkillBranch.values()) {
