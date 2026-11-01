@@ -285,9 +285,9 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   (`WallClimbClient.flipOff`: back flip `KIND_BACKFLIP` facing the wall, front flip facing away / off a ceiling);
   `RollPayload` c->s, `RollAnimPayload` s->c).
   Settings: the settings key (H, "Powers Unchained Settings") / mod list "Config" (`IConfigScreenFactory`) open
-  `client/ability/ModSettingsScreen` with 2 tabs: Interface Settings (`AbilityHudConfigScreen`: HUD on/off, names,
-  opacity, size, drag) and Ability Settings (`AbilitySettingsScreen`: the player's OWN set — one ability or None per
-  key, picked from the abilities they have; "Automatic" = default order). Saved as `abilitySlots` in
+  `client/ability/ModSettingsScreen`: Interface Settings (`AbilityHudConfigScreen`: HUD on/off, names, opacity, size,
+  drag) + a button to the powers menu's Keys tab (owner: the old Ability Settings screen is gone, keys are set ONLY in
+  the powers menu: the player's OWN set — one ability or None per key; "Automatic" = default order). Saved as `abilitySlots` in
   `powers_unchained-hud.json` (null = automatic); a key whose ability the player lacks is empty, and empty keys are
   NOT drawn in the HUD (rows stack).
   CI scenes from tick 7040 (wheel, wall, ceiling, roll, sense, mannequin climb poses, ability keys, HUD order, 1x1 pillar).
@@ -297,9 +297,24 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `ScreenEvent.Init.Post` adds it, `Render.Pre` re-places it every frame with the NeoForge getters `getLeftPos/getTopPos/
   getImageWidth` — vanilla common code has no such getters). Place = Interface Settings cycle button, saved as
   `menuButton` in `powers_unchained-hud.json`: recipe_book (survival: left+126, height/2-22 next to the recipe book;
-  creative: inventory tab only, left+151 top+20) / right / left (outside the panel, top) / hidden. The menu itself is a
-  placeholder `PowersMenuScreen` until the owner picks a concept: `docs/concepts/powers_menu` (Alien Evolution style —
-  player hologram in the middle; tabs Силы / Прокачка / Клавиши; generator `src/powers_screens.py`). CI shots 68-71.
+  creative: inventory tab only, left+151 top+20) / right / left (outside the panel, top) / hidden.
+  `PowersMenuScreen` (416x236, Suit Creator style; concepts in `docs/concepts/powers_menu`): tabs Характеристики /
+  Умения / Клавиши, skill-point counter of the selected power in the top bar on every tab. Left list (Stats / Skills,
+  with search) = what the player has RIGHT NOW: owned powers, worn suits, worn gadgets (taken off = gone). Stats: big
+  real-player hologram (drag to turn, `renderEntityInInventoryFollowsAngle`), the power's level bar under it, stats card
+  on the right. Skills: Palladium-like tree, the player = root at the top, 3 branches; gadgets -> "upgraded on the Tech
+  Table", suits -> no tree. Keys: drag abilities onto 5 sockets under the hologram (RMB = clear), HUD preview,
+  "Автоматически", HUD settings. CI shots 68-71 (70 / 70b / 70c = the three tabs).
+- Skill trees (`power/skill/`): `SkillTrees` (Spider-Man: 21 nodes, branches Agility / Sense / Combat of 7, shape
+  root -> 2 -> 2 -> merge -> top, costs 1,1,1,2,2,3,4 = 42), `SkillNode` (col 0-2, row, cost, requires, icon). Progress
+  `power/PowerProgress` (per power: xp + bought nodes) in attachment `PUAttachments.POWER_PROGRESS` (copyOnDeath, synced).
+  `PowerLevels`: max level = tree cost, xp for next = 30 + 15L, 1 skill point per level, points are PER POWER.
+  `PowerSkills`: XP from using the power (climbing, roll, spider-sense alerts, kills; web-shooter shots / zip / swing train
+  ONLY the Spider power), buying (`SkillBuyPayload`), attribute modifiers `skill/<name>`, dodge / sixth sense damage,
+  regeneration. Free from the start: wall climbing + a WEAK spider-sense (6 blocks, only close mobs / creepers / TNT);
+  ceilings, roll, flips, night vision, fall immunity, sense range / mobs / projectiles are skills (gates in
+  `WallClimbClient`, `RollClient`, `Rolling`, `SpiderSense.range`, `Superpowers.has/fallImmune`).
+  `/superpower xp <power> <amount>`, `/superpower skill unlock|lock <power> <skill|all>`.
 - Chest pieces are `<suit>_chestplate` (renamed from `_suit`).
 - Creative tabs (`PUCreativeTabs`): Suits, Weapons, Items, Blocks;
   ordered with `withTabsBefore`. Tab contents go through `IRegistryHelper.TabOutput` (search-only flag).
