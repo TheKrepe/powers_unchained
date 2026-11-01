@@ -31,7 +31,10 @@ import net.minecraft.world.entity.player.Player;
 public final class PowerSkills {
 
     /** Experience per action. */
-    public static final int XP_CLIMB = 1;       // every 2 seconds on a wall / ceiling
+    public static final int XP_CLIMB = 1;       // owner: VERY slow — 1 xp per 30 seconds spent on walls / ceilings
+    public static final int CLIMB_TICKS_PER_XP = 600;
+    /** Ticks spent climbing since the last climb xp (kept across climbs, so short climbs add up). */
+    private static final java.util.Map<java.util.UUID, Integer> CLIMB_TICKS = new java.util.HashMap<>();
     public static final int XP_ROLL = 2;
     public static final int XP_WEB_SHOT = 1;    // owner: web-shooters train the SPIDER power (only it)
     public static final int XP_WEB_ZIP = 2;
@@ -135,8 +138,12 @@ public final class PowerSkills {
         if (player.tickCount % 20 == 0) {
             applyAttributes(player);
         }
-        if (player.tickCount % 40 == 0 && WallClimbing.isClimbing(player)) {
-            spiderXp(player, XP_CLIMB);
+        if (WallClimbing.isClimbing(player)) {
+            int t = CLIMB_TICKS.merge(player.getUUID(), 1, Integer::sum);
+            if (t >= CLIMB_TICKS_PER_XP) {
+                CLIMB_TICKS.put(player.getUUID(), 0);
+                spiderXp(player, XP_CLIMB);
+            }
         }
         if (player.tickCount % 80 == 0 && spider(player, SkillTrees.REGENERATION) && player.getHealth() < player.getMaxHealth()
                 && player.tickCount - player.getLastHurtByMobTimestamp() > 100) {
@@ -203,5 +210,6 @@ public final class PowerSkills {
 
     public static void forget(ServerPlayer player) {
         LAST_SENSE.remove(player.getUUID());
+        CLIMB_TICKS.remove(player.getUUID());
     }
 }

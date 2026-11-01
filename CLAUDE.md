@@ -309,7 +309,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   root -> 2 -> 2 -> merge -> top, costs 1,1,1,2,2,3,4 = 42), `SkillNode` (col 0-2, row, cost, requires, icon). Progress
   `power/PowerProgress` (per power: xp + bought nodes) in attachment `PUAttachments.POWER_PROGRESS` (copyOnDeath, synced).
   `PowerLevels`: max level = tree cost, xp for next = 30 + 15L, 1 skill point per level, points are PER POWER.
-  `PowerSkills`: XP from using the power (climbing, roll, spider-sense alerts, kills; web-shooter shots / zip / swing train
+  `PowerSkills`: XP from using the power (climbing — owner: very slow, 1 xp per 600 climbing ticks —, roll, spider-sense alerts, kills; web-shooter shots / zip / swing train
   ONLY the Spider power), buying (`SkillBuyPayload`), attribute modifiers `skill/<name>`, dodge / sixth sense damage,
   regeneration. Free from the start: wall climbing + a WEAK spider-sense (6 blocks, only close mobs / creepers / TNT);
   ceilings, roll, flips, night vision, fall immunity, sense range / mobs / projectiles are skills (gates in
