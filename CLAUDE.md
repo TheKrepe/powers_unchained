@@ -300,7 +300,8 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   creative: inventory tab only, left+151 top+20) / right / left (outside the panel, top) / hidden.
   `PowersMenuScreen` (416x236, Suit Creator style; concepts in `docs/concepts/powers_menu`): tabs Характеристики /
   Умения / Клавиши, skill-point counter of the selected power in the top bar on every tab. Left list (Stats / Skills,
-  with search) = what the player has RIGHT NOW: owned powers, worn gadgets (taken off = gone); owner: suits have NO progression and are NOT listed. Stats: big
+  with search) = the powers the player has RIGHT NOW; owner: suits AND gadgets (web-shooters) are NOT listed there (gadgets only in
+  the Keys tab, upgraded on the Tech Table). Stats: big
   real-player hologram (drag to turn, `renderEntityInInventoryFollowsAngle`), the power's level bar under it, stats card
   on the right. Skills: Palladium-like tree, root = the power's emblem as a spinning hologram (`spinningEmblem`), 3 branches; a power's icon
   everywhere in the menu = the Suit Creator hero-group emblem (`PowersMenuScreen.emblem`, `suit_creator/group/<group>`); gadgets -> "upgraded on the Tech

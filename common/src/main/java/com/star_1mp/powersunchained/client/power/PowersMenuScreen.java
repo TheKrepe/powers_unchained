@@ -17,7 +17,6 @@ import com.star_1mp.powersunchained.power.skill.SkillBranch;
 import com.star_1mp.powersunchained.power.skill.SkillNode;
 import com.star_1mp.powersunchained.power.skill.SkillTrees;
 import com.star_1mp.powersunchained.registry.PUItems;
-import com.star_1mp.powersunchained.web.WebCartridges;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -193,7 +192,7 @@ public class PowersMenuScreen extends Screen {
     // what the player has right now (left list of Stats / Skills)
     // =====================================================================================================
 
-    private enum Kind { POWER, GADGET }
+    private enum Kind { POWER }
 
     private record Entry(String key, Kind kind, @Nullable Superpower power, ItemStack icon, @Nullable Identifier emblem, Component name,
             Component sub) {
@@ -212,11 +211,7 @@ public class PowersMenuScreen extends Screen {
                 list.add(new Entry("power:" + power.id(), Kind.POWER, power, ItemStack.EMPTY, emblem(power), power.title(), tr("sub.power", level)));
             }
         }
-        // owner: suits have no progression and are NOT listed here (Suit Creator only)
-        ItemStack shooters = WebCartridges.wornShooters(player);
-        if (!shooters.isEmpty()) {
-            list.add(new Entry("gadget:web_shooters", Kind.GADGET, null, shooters, null, shooters.getHoverName(), tr("sub.gadget")));
-        }
+        // owner: suits and gadgets (web-shooters) are NOT listed here — gadgets only appear in the Keys tab
         return list;
     }
 
@@ -525,7 +520,7 @@ public class PowersMenuScreen extends Screen {
         brackets(g, tx + 2, ty + 2, TREE_W - 4, H - 8 - TREE_TOP - 4, CYAN_DIM);
         Entry sel = this.selectedEntry(entries);
         if (sel == null || sel.kind() != Kind.POWER || sel.power() == null) {
-            Component msg = sel == null ? tr("skills.none") : tr("skills.gadget");
+            Component msg = tr("skills.none");
             int ly = ty + (H - 8 - TREE_TOP) / 2 - 10;
             for (FormattedCharSequence line : this.font.split(msg, TREE_W - 40)) {
                 g.text(this.font, line, tx + TREE_W / 2 - this.font.width(line) / 2, ly, GREY, false);
