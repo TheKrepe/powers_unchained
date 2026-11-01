@@ -50,7 +50,8 @@ public final class PowersMenu {
         }
     }
 
-    private static final WidgetSprites SPRITES = new WidgetSprites(Constants.id("powers_menu/button"), Constants.id("powers_menu/button_highlighted"));
+    /** NOT named SPRITES: inside the button that name is AbstractButton.SPRITES (the plain grey button) — the bug that drew a blank button. */
+    private static final WidgetSprites MENU_SPRITES = new WidgetSprites(Constants.id("powers_menu/button"), Constants.id("powers_menu/button_highlighted"));
 
     private PowersMenu() {
     }
@@ -94,8 +95,7 @@ public final class PowersMenu {
 
         @Override
         protected void extractContents(net.minecraft.client.gui.GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-            graphics.fill(this.getX() - 1, this.getY() - 1, this.getX() + this.width + 1, this.getY() + this.height + 1, 0xFFFF0000);  // TEMP debug
-            graphics.blitSprite(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, SPRITES.get(this.active, this.isHoveredOrFocused()),
+            graphics.blitSprite(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, PowersMenu.MENU_SPRITES.get(this.active, this.isHoveredOrFocused()),
                     this.getX(), this.getY(), this.width, this.height);
         }
 
