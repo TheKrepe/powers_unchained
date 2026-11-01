@@ -5,7 +5,6 @@ import com.star_1mp.powersunchained.client.ability.AbilityHudConfig;
 import com.star_1mp.powersunchained.client.input.PUKeyMappings;
 import java.util.Locale;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
@@ -73,7 +72,7 @@ public final class PowersMenu {
     }
 
     /** Inventory button with the powers emblem (20x18, like the recipe book button). */
-    public static final class MenuButton extends ImageButton {
+    public static final class MenuButton extends net.minecraft.client.gui.components.AbstractButton {
 
         private final AbstractContainerScreen<?> screen;
 
@@ -82,10 +81,26 @@ public final class PowersMenu {
         }
 
         MenuButton(AbstractContainerScreen<?> screen) {
-            super(0, 0, 20, 18, SPRITES, button -> open(screen), Component.translatable("key.powers_unchained.powers_menu"));
+            super(0, 0, 20, 18, Component.translatable("key.powers_unchained.powers_menu"));
             this.screen = screen;
             this.setTooltip(Tooltip.create(Component.translatable("key.powers_unchained.powers_menu").append(" (")
                     .append(PUKeyMappings.POWERS_MENU.getTranslatedKeyMessage()).append(")")));
+        }
+
+        @Override
+        public void onPress(net.minecraft.client.input.InputWithModifiers input) {
+            open(this.screen);
+        }
+
+        @Override
+        protected void extractContents(net.minecraft.client.gui.GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+            graphics.blitSprite(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, SPRITES.get(this.active, this.isHoveredOrFocused()),
+                    this.getX(), this.getY(), this.width, this.height);
+        }
+
+        @Override
+        protected void updateWidgetNarration(net.minecraft.client.gui.narration.NarrationElementOutput output) {
+            this.defaultButtonNarrationText(output);
         }
 
         /**

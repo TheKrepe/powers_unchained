@@ -49,6 +49,8 @@ public class PowersMenuScreen extends Screen {
         int x = (this.width - W) / 2;
         int y = (this.height - H) / 2;
         panel(g, x, y, W, H);
+        g.blitSprite(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED,
+                com.star_1mp.powersunchained.Constants.id("powers_menu/button"), x + W - 26, y + 2, 20, 18);
         g.text(this.font, this.title, x + 8, y + 7, 0xFF404040, false);
         int mx = x + 8;
         int my = y + 21;
