@@ -67,9 +67,7 @@ public final class PowersMenu {
     /** The button for the player's inventory screens (survival / creative), or null for other screens. */
     public static @Nullable MenuButton createButton(Screen screen) {
         if (screen instanceof InventoryScreen || screen instanceof CreativeModeInventoryScreen) {
-            MenuButton button = new MenuButton((AbstractContainerScreen<?>) screen);
-            button.place();
-            return button;
+            return new MenuButton((AbstractContainerScreen<?>) screen);
         }
         return null;
     }
@@ -79,6 +77,10 @@ public final class PowersMenu {
 
         private final AbstractContainerScreen<?> screen;
 
+        public AbstractContainerScreen<?> screen() {
+            return this.screen;
+        }
+
         MenuButton(AbstractContainerScreen<?> screen) {
             super(0, 0, 20, 18, SPRITES, button -> open(screen), Component.translatable("key.powers_unchained.powers_menu"));
             this.screen = screen;
@@ -86,9 +88,12 @@ public final class PowersMenu {
                     .append(PUKeyMappings.POWERS_MENU.getTranslatedKeyMessage()).append(")")));
         }
 
-        /** Every frame: the inventory moves when the recipe book opens, the creative screen changes tabs. */
-        public void place() {
-            ButtonPlace place = place();
+        /**
+         * Every frame (loader glue, which knows the screen's position): the inventory moves when the recipe book opens,
+         * the creative screen changes tabs.
+         */
+        public void place(int left, int top, int imageWidth) {
+            ButtonPlace place = PowersMenu.place();
             boolean creative = this.screen instanceof CreativeModeInventoryScreen;
             if (place == ButtonPlace.HIDDEN
                     || (creative && place == ButtonPlace.RECIPE_BOOK && !((CreativeModeInventoryScreen) this.screen).isInventoryOpen())) {
@@ -96,10 +101,8 @@ public final class PowersMenu {
                 return;
             }
             this.visible = true;
-            int left = this.screen.getLeftPos();
-            int top = this.screen.getTopPos();
             switch (place) {
-                case RIGHT -> this.setPosition(left + this.screen.getImageWidth() + 2, top + 4);
+                case RIGHT -> this.setPosition(left + imageWidth + 2, top + 4);
                 case LEFT -> this.setPosition(left - 22, top + 4);
                 default -> {
                     if (creative) {

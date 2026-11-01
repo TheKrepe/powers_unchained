@@ -133,13 +133,16 @@ public class PowersUnchainedNeoForgeClient {
         NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.ScreenEvent.Init.Post event) -> {
             var button = com.star_1mp.powersunchained.client.power.PowersMenu.createButton(event.getScreen());
             if (button != null) {
+                var screen = button.screen();
+                button.place(screen.getGuiLeft(), screen.getGuiTop(), screen.getXSize());
                 event.addListener(button);
             }
         });
         NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.ScreenEvent.Render.Pre event) -> {
             for (var child : event.getScreen().children()) {
                 if (child instanceof com.star_1mp.powersunchained.client.power.PowersMenu.MenuButton button) {
-                    button.place();
+                    var screen = button.screen();
+                    button.place(screen.getGuiLeft(), screen.getGuiTop(), screen.getXSize());
                 }
             }
         });
