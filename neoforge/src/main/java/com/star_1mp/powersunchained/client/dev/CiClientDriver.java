@@ -984,6 +984,19 @@ public final class CiClientDriver {
                 com.star_1mp.powersunchained.client.ability.AbilityHudConfig.get().menuButton = "recipe_book";
             }
             case 8474 -> mc.gui.setScreen(new net.minecraft.client.gui.screens.inventory.InventoryScreen(mc.player));
+            case 8476 -> {
+                if (mc.gui.screen() != null) {
+                    for (var c : mc.gui.screen().children()) {
+                        if (c instanceof net.minecraft.client.gui.components.AbstractWidget w) {
+                            Constants.LOG.info("[CI] widget {} at {},{} {}x{} visible {}", c.getClass().getName(), w.getX(), w.getY(),
+                                    w.getWidth(), w.getHeight(), w.visible);
+                        } else {
+                            Constants.LOG.info("[CI] child {}", c.getClass().getName());
+                        }
+                    }
+                    Constants.LOG.info("[CI] renderables: {}", mc.gui.screen().renderables.size());
+                }
+            }
             case 8477 -> run("tick rate 2");
             case 8478 -> shot("68_inventory_button");
             case 8490 -> {
