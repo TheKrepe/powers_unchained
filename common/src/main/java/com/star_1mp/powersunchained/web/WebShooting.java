@@ -67,6 +67,7 @@ public final class WebShooting {
 
         ServerLevel level = player.level();
         level.addFreshEntity(type.create(level, player, side));
+        com.star_1mp.powersunchained.power.PowerSkills.spiderXp(player, com.star_1mp.powersunchained.power.PowerSkills.XP_WEB_SHOT);
         announceShot(player, side);
         level.playSound(null, player.getX(), player.getY(), player.getZ(), PUSounds.WEB_SHOOT.get(), SoundSource.PLAYERS,
                 1.0F, 0.95F + level.getRandom().nextFloat() * 0.1F);
@@ -107,6 +108,7 @@ public final class WebShooting {
         level.getEntitiesOfClass(WebZipLine.class, player.getBoundingBox().inflate(64.0), line -> line.getShooter() == player)
                 .forEach(WebZipLine::discard);
         level.addFreshEntity(new WebZipLine(level, player));
+        com.star_1mp.powersunchained.power.PowerSkills.spiderXp(player, com.star_1mp.powersunchained.power.PowerSkills.XP_WEB_ZIP);
         announceShot(player, AbstractWebProjectile.RIGHT);
         level.playSound(null, player.getX(), player.getY(), player.getZ(), PUSounds.WEB_SHOOT.get(), SoundSource.PLAYERS,
                 1.0F, 0.75F + level.getRandom().nextFloat() * 0.1F);
@@ -145,6 +147,7 @@ public final class WebShooting {
         level.getEntitiesOfClass(WebSwingLine.class, player.getBoundingBox().inflate(80.0),
                 line -> line.getShooter() == player && !line.isDetached()).forEach(WebSwingLine::letGo);
         level.addFreshEntity(new WebSwingLine(level, player, kind));
+        com.star_1mp.powersunchained.power.PowerSkills.spiderXp(player, com.star_1mp.powersunchained.power.PowerSkills.XP_WEB_SWING);
         announceShot(player, kind == WebSwingLine.LEFT_HAND ? AbstractWebProjectile.LEFT : AbstractWebProjectile.RIGHT);
         level.playSound(null, player.getX(), player.getY(), player.getZ(), PUSounds.WEB_SHOOT.get(), SoundSource.PLAYERS,
                 1.0F, 0.85F + level.getRandom().nextFloat() * 0.1F);

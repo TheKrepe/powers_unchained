@@ -75,7 +75,7 @@ public final class SpiderSense {
             t.seen = false;
         }
         boolean fresh = false;
-        AABB area = player.getBoundingBox().inflate(RANGE);
+        AABB area = player.getBoundingBox().inflate(range(player));
         Vec3 eye = player.getEyePosition();
         for (Entity e : mc.level.getEntities(player, area)) {
             float danger = danger(player, e, eye);
@@ -130,20 +130,32 @@ public final class SpiderSense {
         return max;
     }
 
+    /**
+     * How far the sense reaches (skills, owner: weak at first): base 6 blocks (explosives + monsters right next to you),
+     * Danger Sense 16 (aggressive monsters), Wide Sense 24.
+     */
+    public static double range(LocalPlayer player) {
+        if (com.star_1mp.powersunchained.power.PowerSkills.spider(player, com.star_1mp.powersunchained.power.skill.SkillTrees.WIDE_SENSE)) {
+            return 24.0;
+        }
+        return com.star_1mp.powersunchained.power.PowerSkills.spider(player, com.star_1mp.powersunchained.power.skill.SkillTrees.DANGER_SENSE) ? RANGE : 6.0;
+    }
+
     /** 0 = harmless, up to 1 = urgent. */
     private static float danger(LocalPlayer player, Entity e, Vec3 eye) {
+        double range = range(player);
         if (!e.isAlive()) {
             return 0.0F;
         }
         double dist = e.distanceTo(player);
-        if (e instanceof Creeper creeper && creeper.getSwelling(1.0F) > 0.0F && dist < 10.0) {
+        if (e instanceof Creeper creeper && creeper.getSwelling(1.0F) > 0.0F && dist < Math.min(10.0, range)) {
             return 1.0F;
         }
-        if (e instanceof PrimedTnt && dist < 10.0) {
+        if (e instanceof PrimedTnt && dist < Math.min(10.0, range)) {
             return 1.0F;
         }
         if (e instanceof Projectile projectile) {
-            if (projectile.getOwner() == player || e.onGround()) {
+            if (projectile.getOwner() == player || e.onGround() || !com.star_1mp.powersunchained.power.PowerSkills.spider(player, com.star_1mp.powersunchained.power.skill.SkillTrees.PROJECTILE_SENSE)) {
                 return 0.0F;
             }
             Vec3 v = e.getDeltaMovement();
@@ -161,11 +173,11 @@ public final class SpiderSense {
             return miss < 2.0 ? (float) Mth.clamp(1.2 - t / 40.0, 0.5, 1.0) : 0.0F;
         }
         if (e instanceof Enemy && e instanceof Mob mob) {
-            boolean after = mob.isAggressive();
-            if (after && dist < RANGE) {
-                return (float) Mth.clamp(1.1 - dist / RANGE, 0.35, 1.0);
+            boolean after = mob.isAggressive() && com.star_1mp.powersunchained.power.PowerSkills.spider(player, com.star_1mp.powersunchained.power.skill.SkillTrees.DANGER_SENSE);
+            if (after && dist < range) {
+                return (float) Mth.clamp(1.1 - dist / range, 0.35, 1.0);
             }
-            if (dist < 5.0) {
+            if (dist < 3.5) {
                 return 0.4F;
             }
         }

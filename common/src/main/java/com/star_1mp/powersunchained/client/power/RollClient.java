@@ -52,7 +52,7 @@ public final class RollClient {
             flipUsed = false;
         }
         if (keyPressed && cooldown == 0 && WallClimbClient.isClimbing()
-                && Superpowers.isActive(player, com.star_1mp.powersunchained.power.PowerAbility.ROLL)) {
+                && Superpowers.isActive(player, com.star_1mp.powersunchained.power.PowerAbility.ROLL) && com.star_1mp.powersunchained.power.PowerSkills.spider(player, com.star_1mp.powersunchained.power.skill.SkillTrees.FLIPS)) {
             // on a wall / ceiling: a flip off it
             float[] flip = WallClimbClient.flipOff(player);
             if (flip != null) {
@@ -78,10 +78,10 @@ public final class RollClient {
         if (player.onGround()) {
             rollDir = dir;
             rollTicks = ROLL_TICKS;
-            cooldown = COOLDOWN;
+            cooldown = com.star_1mp.powersunchained.power.PowerSkills.spider(player, com.star_1mp.powersunchained.power.skill.SkillTrees.ACROBAT) ? COOLDOWN / 2 : COOLDOWN;  // Acrobat skill
             send(player, Rolling.KIND_ROLL, yaw);
             player.playSound(SoundEvents.PLAYER_ATTACK_SWEEP, 0.35F, 1.5F);
-        } else if (!flipUsed && WebSwingLine.of(player) == null) {
+        } else if (!flipUsed && WebSwingLine.of(player) == null && com.star_1mp.powersunchained.power.PowerSkills.spider(player, com.star_1mp.powersunchained.power.skill.SkillTrees.FLIPS)) {  // flips are a skill
             flipUsed = true;
             cooldown = COOLDOWN;
             Vec3 m = player.getDeltaMovement();

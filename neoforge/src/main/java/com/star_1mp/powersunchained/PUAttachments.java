@@ -21,6 +21,13 @@ public final class PUAttachments {
                     .build());
 
     /** Tech Table progress of a player (unlocked modules / gadget looks): saved, kept on death, synced to that player only. */
+    public static final Supplier<AttachmentType<com.star_1mp.powersunchained.power.PowerProgress>> POWER_PROGRESS = TYPES.register("power_progress",
+            () -> AttachmentType.builder(() -> com.star_1mp.powersunchained.power.PowerProgress.EMPTY)
+                    .serialize(com.star_1mp.powersunchained.power.PowerProgress.CODEC)
+                    .copyOnDeath()
+                    .sync((holder, to) -> holder == to, com.star_1mp.powersunchained.power.PowerProgress.STREAM_CODEC)
+                    .build());
+
     public static final Supplier<AttachmentType<com.star_1mp.powersunchained.tech.TechProgress>> TECH_PROGRESS = TYPES.register("tech_progress",
             () -> AttachmentType.builder(() -> com.star_1mp.powersunchained.tech.TechProgress.EMPTY)
                     .serialize(com.star_1mp.powersunchained.tech.TechProgress.CODEC)

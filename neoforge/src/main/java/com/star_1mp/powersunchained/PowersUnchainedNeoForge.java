@@ -46,6 +46,22 @@ public class PowersUnchainedNeoForge {
                 event.setCanceled(true);
             }
         });
+        // skill trees: monsters killed train the powers; Dodge / Sixth Sense change the damage taken
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.event.entity.living.LivingDeathEvent event) -> {
+            if (event.getSource().getEntity() instanceof ServerPlayer player) {
+                com.star_1mp.powersunchained.power.PowerSkills.onKill(player, event.getEntity());
+            }
+        });
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent event) -> {
+            if (event.getEntity() instanceof ServerPlayer player) {
+                float amount = com.star_1mp.powersunchained.power.PowerSkills.incomingDamage(player, event.getSource(), event.getAmount());
+                if (amount <= 0.0F) {
+                    event.setCanceled(true);
+                } else if (amount != event.getAmount()) {
+                    event.setAmount(amount);
+                }
+            }
+        });
         // Electro-Web module condition: struck by lightning while wearing web-shooters
         NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent event) -> {
             if (event.getEntity() instanceof ServerPlayer player) {
@@ -56,6 +72,7 @@ public class PowersUnchainedNeoForge {
             WebShooting.forget(event.getEntity());
             if (event.getEntity() instanceof ServerPlayer player) {
                 com.star_1mp.powersunchained.power.WallClimbing.forget(player);
+                com.star_1mp.powersunchained.power.PowerSkills.forget(player);
             }
         });
         // creative web-shooters (endless web) in the Operator Utilities tab
@@ -92,6 +109,13 @@ public class PowersUnchainedNeoForge {
                         com.star_1mp.powersunchained.power.Superpowers.toggle(player, power);
                     }
                 })
+                .playToServer(com.star_1mp.powersunchained.network.SkillBuyPayload.TYPE,
+                        com.star_1mp.powersunchained.network.SkillBuyPayload.STREAM_CODEC, (payload, context) -> {
+                    com.star_1mp.powersunchained.power.Superpower power = com.star_1mp.powersunchained.power.Superpower.byId(payload.power());
+                    if (power != null && context.player() instanceof ServerPlayer player) {
+                        com.star_1mp.powersunchained.power.PowerSkills.buy(player, power, payload.node());
+                    }
+                })
                 .playToServer(com.star_1mp.powersunchained.network.ClimbPayload.TYPE,
                         com.star_1mp.powersunchained.network.ClimbPayload.STREAM_CODEC, (payload, context) -> {
                     if (context.player() instanceof ServerPlayer player) {
@@ -114,6 +138,7 @@ public class PowersUnchainedNeoForge {
                         com.star_1mp.powersunchained.network.SenseAlertPayload.STREAM_CODEC, (payload, context) -> {
                     if (context.player() instanceof ServerPlayer player && com.star_1mp.powersunchained.power.Superpowers.isActive(player,
                             com.star_1mp.powersunchained.power.PowerAbility.SPIDER_SENSE)) {
+                        com.star_1mp.powersunchained.power.PowerSkills.onSenseAlert(player);
                         com.star_1mp.powersunchained.platform.Services.GAMEPLAY.sendToTrackingAndSelf(player,
                                 new com.star_1mp.powersunchained.network.SenseAlertSyncPayload(player.getId()));
                     }

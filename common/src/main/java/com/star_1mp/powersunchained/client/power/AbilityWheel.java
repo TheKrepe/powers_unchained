@@ -71,7 +71,7 @@ public final class AbilityWheel {
         PowerData data = Superpowers.data(player);
         List<PowerAbility> list = new ArrayList<>();
         for (PowerAbility p : PowerAbility.values()) {
-            if (p.toggleable() && data.has(p)) {
+            if (p.toggleable() && Superpowers.has(player, p)) {
                 list.add(p);
             }
         }

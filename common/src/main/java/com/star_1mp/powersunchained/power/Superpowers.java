@@ -16,17 +16,18 @@ public final class Superpowers {
         return Services.GAMEPLAY.powerData(player);
     }
 
+    /** Owned through a power AND, for abilities a skill unlocks (roll, night vision), that skill bought. */
     public static boolean has(Player player, PowerAbility ability) {
-        return data(player).has(ability);
+        return data(player).has(ability) && PowerSkills.unlocks(player, ability);
     }
 
     public static boolean isActive(Player player, PowerAbility ability) {
-        return data(player).isActive(ability);
+        return data(player).isActive(ability) && PowerSkills.unlocks(player, ability);
     }
 
-    /** Spider-Man takes no fall damage at all (like Fisk's Superheroes' Spider-Man): swings, jumps, drops. */
+    /** Spider-Man with the Soft Landing skill takes no fall damage at all (like Fisk's Spider-Man). */
     public static boolean fallImmune(Player player) {
-        return data(player).has(Superpower.SPIDERMAN);
+        return PowerSkills.spider(player, com.star_1mp.powersunchained.power.skill.SkillTrees.SOFT_LANDING);
     }
 
     public static void add(ServerPlayer player, Superpower power) {
@@ -46,7 +47,7 @@ public final class Superpowers {
     /** From the ability wheel. */
     public static void toggle(ServerPlayer player, PowerAbility power) {
         PowerData data = data(player);
-        if (!data.has(power) || !power.toggleable()) {
+        if (!has(player, power) || !power.toggleable()) {
             return;
         }
         Services.GAMEPLAY.setPowerData(player, data.toggle(power));
@@ -66,8 +67,11 @@ public final class Superpowers {
             if (current == null || current.getDuration() < 260) {
                 player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 0, true, false, false));
             }
+        } else if (player.tickCount % 20 == 0) {
+            clearNightVision(player);
         }
         WallClimbing.serverTick(player);
+        PowerSkills.serverTick(player);
     }
 
     private static void clearNightVision(ServerPlayer player) {

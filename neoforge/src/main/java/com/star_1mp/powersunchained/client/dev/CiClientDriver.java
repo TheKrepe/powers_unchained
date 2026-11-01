@@ -685,17 +685,11 @@ public final class CiClientDriver {
             case 7868 -> mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.ModSettingsScreen(null));
             case 7870 -> shot("57a_mod_settings");
             case 7900 -> {
-                mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.AbilitySettingsScreen(null));
-                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.ability.AbilitySettingsScreen screen) {
-                    // own set: roll on key 1, web shot on key 3, nothing on key 5; then pick key 2
-                    screen.debugChoose(0, com.star_1mp.powersunchained.client.ability.AbilitySlots.ROLL);
-                    screen.debugChoose(2, com.star_1mp.powersunchained.client.ability.AbilitySlots.WEB_SHOT);
-                    screen.debugChoose(4, com.star_1mp.powersunchained.client.ability.AbilitySlots.NONE);
-                    screen.debugSelect(1);
-                }
+                // own set: roll on key 1, web shot on key 3, nothing on key 5
+                com.star_1mp.powersunchained.client.ability.AbilitySlots.choose(mc.player, 0, com.star_1mp.powersunchained.client.ability.AbilitySlots.ROLL);
+                com.star_1mp.powersunchained.client.ability.AbilitySlots.choose(mc.player, 2, com.star_1mp.powersunchained.client.ability.AbilitySlots.WEB_SHOT);
+                com.star_1mp.powersunchained.client.ability.AbilitySlots.choose(mc.player, 4, com.star_1mp.powersunchained.client.ability.AbilitySlots.NONE);
             }
-            case 7901 -> run("tick rate 2");
-            case 7902 -> shot("57_ability_settings");
             case 7905 -> run("tick rate 20");
             case 7935 -> mc.gui.setScreen(null);
             case 7945 -> shot("57b_hud_own_set");
@@ -998,10 +992,37 @@ public final class CiClientDriver {
             case 8510 -> {
                 run("tick rate 20");
                 com.star_1mp.powersunchained.client.ability.AbilityHudConfig.get().menuButton = "recipe_book";
-                com.star_1mp.powersunchained.client.power.PowersMenu.open(null);
+                run("gamemode survival @p");
+                run("superpower add spiderman @p");
+                run("superpower xp spiderman 1500 @p");
+                run("superpower skill unlock spiderman roll @p");
+                run("superpower skill unlock spiderman quick_crawl @p");
+                run("superpower skill unlock spiderman danger_sense @p");
+                run("superpower skill unlock spiderman strength @p");
+                run("superpower skill unlock spiderman tough_body @p");
+                run("item replace entity @p armor.chest with powers_unchained:spider_man_chestplate");
+                run("item replace entity @p armor.head with powers_unchained:spider_man_mask");
             }
-            case 8513 -> run("tick rate 2");
-            case 8514 -> shot("70_powers_menu_placeholder");
+            case 8514 -> com.star_1mp.powersunchained.client.power.PowersMenu.open(null);
+            case 8517 -> run("tick rate 2");
+            case 8518 -> shot("70_powers_menu_stats");
+            case 8519 -> {
+                run("tick rate 20");
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.power.PowersMenuScreen screen) {
+                    screen.debugTab(com.star_1mp.powersunchained.client.power.PowersMenuScreen.TAB_SKILLS);
+                    screen.debugSelect("power:spiderman", "ceilings");
+                }
+            }
+            case 8521 -> run("tick rate 2");
+            case 8522 -> shot("70b_powers_menu_skills");
+            case 8523 -> {
+                run("tick rate 20");
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.power.PowersMenuScreen screen) {
+                    screen.debugTab(com.star_1mp.powersunchained.client.power.PowersMenuScreen.TAB_KEYS);
+                }
+            }
+            case 8524 -> run("tick rate 2");
+            case 8525 -> shot("70c_powers_menu_keys");
             case 8526 -> {
                 run("tick rate 20");
                 mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.AbilityHudConfigScreen(null));

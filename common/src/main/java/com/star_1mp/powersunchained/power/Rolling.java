@@ -23,10 +23,14 @@ public final class Rolling {
         if (!Superpowers.isActive(player, com.star_1mp.powersunchained.power.PowerAbility.ROLL) || (kind < KIND_ROLL || kind > KIND_BACKFLIP)) {
             return;
         }
+        if (kind != KIND_ROLL && !PowerSkills.spider(player, com.star_1mp.powersunchained.power.skill.SkillTrees.FLIPS)) {
+            return;  // flips are a skill
+        }
         if (kind != KIND_ROLL) {
             // a flip off a jump or a web lands softly
             WebShooting.markFallSafe(player);
         }
+        PowerSkills.spiderXp(player, PowerSkills.XP_ROLL);
         Services.GAMEPLAY.sendToTrackingAndSelf(player, new com.star_1mp.powersunchained.network.RollAnimPayload(player.getId(), kind, yaw));
     }
 }

@@ -43,6 +43,11 @@ public interface IGameplayHelper {
     /** The player's Tech Table progress (both sides; the client only knows its own). */
     com.star_1mp.powersunchained.tech.TechProgress techProgress(Player player);
 
+    /** Levelling of the player's superpowers (experience, bought skills; synced to that player). */
+    com.star_1mp.powersunchained.power.PowerProgress powerProgress(Player player);
+
+    void setPowerProgress(Player player, com.star_1mp.powersunchained.power.PowerProgress progress);
+
     /** Server side: stores the player's Tech Table progress and syncs it to them. */
     void setTechProgress(Player player, com.star_1mp.powersunchained.tech.TechProgress progress);
 

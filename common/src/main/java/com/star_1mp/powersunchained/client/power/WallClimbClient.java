@@ -190,6 +190,9 @@ public final class WallClimbClient {
     }
 
     private static void attach(LocalPlayer player, int newMode, Direction newWall) {
+        if (newMode == WallClimbing.MODE_CEILING && !com.star_1mp.powersunchained.power.PowerSkills.spider(player, com.star_1mp.powersunchained.power.skill.SkillTrees.CEILINGS)) {
+            return;  // ceilings are a skill (Agility)
+        }
         boolean fresh = mode == WallClimbing.MODE_NONE;
         mode = newMode;
         wall = newWall;
@@ -439,6 +442,9 @@ public final class WallClimbClient {
 
     /** From a wall's bottom edge onto its underside (a ceiling). */
     private static boolean tryUnderneath(LocalPlayer player, AABB next, Vec3 v) {
+        if (!com.star_1mp.powersunchained.power.PowerSkills.spider(player, com.star_1mp.powersunchained.power.skill.SkillTrees.CEILINGS)) {
+            return false;
+        }
         Vec3 n = normal(wall);
         Vec3 look = player.getLookAngle();
         if (new Vec3(look.x, 0.0, look.z).dot(n) < -0.2 && player.getXRot() < 60.0F) {
@@ -596,7 +602,9 @@ public final class WallClimbClient {
     }
 
     private static double speed(Input keys) {
-        return SPEED * (keys.sprint() ? SPRINT : 1.0);
+        LocalPlayer player = net.minecraft.client.Minecraft.getInstance().player;
+        double skill = player != null && com.star_1mp.powersunchained.power.PowerSkills.spider(player, com.star_1mp.powersunchained.power.skill.SkillTrees.QUICK_CRAWL) ? 1.3 : 1.0;  // Quick Crawl skill
+        return SPEED * skill * (keys.sprint() ? SPRINT : 1.0);
     }
 
     private static Vec2 currentMove(LocalPlayer player) {
