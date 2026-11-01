@@ -300,10 +300,10 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   creative: inventory tab only, left+151 top+20) / right / left (outside the panel, top) / hidden.
   `PowersMenuScreen` (416x236, Suit Creator style; concepts in `docs/concepts/powers_menu`): tabs Характеристики /
   Умения / Клавиши, skill-point counter of the selected power in the top bar on every tab. Left list (Stats / Skills,
-  with search) = what the player has RIGHT NOW: owned powers, worn suits, worn gadgets (taken off = gone). Stats: big
+  with search) = what the player has RIGHT NOW: owned powers, worn gadgets (taken off = gone); owner: suits have NO progression and are NOT listed. Stats: big
   real-player hologram (drag to turn, `renderEntityInInventoryFollowsAngle`), the power's level bar under it, stats card
   on the right. Skills: Palladium-like tree, the player = root at the top, 3 branches; gadgets -> "upgraded on the Tech
-  Table", suits -> no tree. Keys: drag abilities onto 5 sockets under the hologram (RMB = clear), HUD preview,
+  Table". Keys: drag abilities onto 5 sockets under the hologram (RMB = clear), HUD preview,
   "Автоматически", HUD settings. CI shots 68-71 (70 / 70b / 70c = the three tabs).
 - Skill trees (`power/skill/`): `SkillTrees` (Spider-Man: 21 nodes, branches Agility / Sense / Combat of 7, shape
   root -> 2 -> 2 -> merge -> top, costs 1,1,1,2,2,3,4 = 42), `SkillNode` (col 0-2, row, cost, requires, icon). Progress

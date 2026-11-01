@@ -6,8 +6,6 @@ import com.star_1mp.powersunchained.client.ability.AbilityHudConfig;
 import com.star_1mp.powersunchained.client.ability.AbilityHudConfigScreen;
 import com.star_1mp.powersunchained.client.ability.AbilitySlots;
 import com.star_1mp.powersunchained.client.input.PUKeyMappings;
-import com.star_1mp.powersunchained.client.suitcreator.SuitCreatorClient;
-import com.star_1mp.powersunchained.item.SuitPieceItem;
 import com.star_1mp.powersunchained.network.SkillBuyPayload;
 import com.star_1mp.powersunchained.platform.Services;
 import com.star_1mp.powersunchained.power.PowerLevels;
@@ -19,13 +17,10 @@ import com.star_1mp.powersunchained.power.skill.SkillBranch;
 import com.star_1mp.powersunchained.power.skill.SkillNode;
 import com.star_1mp.powersunchained.power.skill.SkillTrees;
 import com.star_1mp.powersunchained.registry.PUItems;
-import com.star_1mp.powersunchained.suit.Suit;
 import com.star_1mp.powersunchained.web.WebCartridges;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -39,7 +34,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -52,7 +46,7 @@ import org.jspecify.annotations.Nullable;
  *   centre = the player as a hologram + the selected power's level bar, right = the player's stats;</li>
  *   <li>Умения: the selected power's skill tree (Palladium-like, three branches under the player), bought with that
  *   power's own skill points (experience from using it -> levels -> 1 point a level); gadgets are upgraded on the Tech
- *   Table, suits have no tree;</li>
+ *   Table;</li>
  *   <li>Клавиши: drag abilities onto the 5 keys under the hologram, the HUD preview, "Automatic".</li>
  * </ul>
  * The skill-point counter of the selected power is in the top bar on every tab.
@@ -199,7 +193,7 @@ public class PowersMenuScreen extends Screen {
     // what the player has right now (left list of Stats / Skills)
     // =====================================================================================================
 
-    private enum Kind { POWER, SUIT, GADGET }
+    private enum Kind { POWER, GADGET }
 
     private record Entry(String key, Kind kind, @Nullable Superpower power, ItemStack icon, Component name, Component sub) {
     }
@@ -217,21 +211,7 @@ public class PowersMenuScreen extends Screen {
                 list.add(new Entry("power:" + power.id(), Kind.POWER, power, powerIcon(power), power.title(), tr("sub.power", level)));
             }
         }
-        // worn suits (each suit once, with how many of its pieces are on)
-        Map<Suit, Integer> suits = new LinkedHashMap<>();
-        Map<Suit, ItemStack> suitIcon = new LinkedHashMap<>();
-        for (EquipmentSlot slot : new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
-            ItemStack stack = player.getItemBySlot(slot);
-            SuitPieceItem piece = SuitPieceItem.get(stack, slot);
-            if (piece != null) {
-                suits.merge(piece.getSuit(), 1, Integer::sum);
-                suitIcon.putIfAbsent(piece.getSuit(), stack);
-            }
-        }
-        for (Map.Entry<Suit, Integer> e : suits.entrySet()) {
-            list.add(new Entry("suit:" + e.getKey().id(), Kind.SUIT, null, suitIcon.get(e.getKey()), SuitCreatorClient.displayName(e.getKey()),
-                    tr("sub.suit", e.getValue())));
-        }
+        // owner: suits have no progression and are NOT listed here (Suit Creator only)
         ItemStack shooters = WebCartridges.wornShooters(player);
         if (!shooters.isEmpty()) {
             list.add(new Entry("gadget:web_shooters", Kind.GADGET, null, shooters, shooters.getHoverName(), tr("sub.gadget")));
@@ -521,7 +501,7 @@ public class PowersMenuScreen extends Screen {
         brackets(g, tx + 2, ty + 2, TREE_W - 4, H - 8 - TREE_TOP - 4, CYAN_DIM);
         Entry sel = this.selectedEntry(entries);
         if (sel == null || sel.kind() != Kind.POWER || sel.power() == null) {
-            Component msg = sel == null ? tr("skills.none") : sel.kind() == Kind.GADGET ? tr("skills.gadget") : tr("skills.suit");
+            Component msg = sel == null ? tr("skills.none") : tr("skills.gadget");
             int ly = ty + (H - 8 - TREE_TOP) / 2 - 10;
             for (FormattedCharSequence line : this.font.split(msg, TREE_W - 40)) {
                 g.text(this.font, line, tx + TREE_W / 2 - this.font.width(line) / 2, ly, GREY, false);
