@@ -129,7 +129,36 @@ public class PowersUnchainedNeoForgeClient {
             event.registerEntityRenderer(PUEntities.WEB_SWING_LINE.get(), WebProjectileRenderer::impact);
             event.registerEntityRenderer(PUEntities.WEB_COCOON.get(), WebCocoonRenderer::new);
         });
+        // powers menu button in the player's inventory (survival + creative), placed per the Interface Settings
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.ScreenEvent.Init.Post event) -> {
+            var button = com.star_1mp.powersunchained.client.power.PowersMenu.createButton(event.getScreen());
+            if (button != null) {
+                event.addListener(button);
+            }
+        });
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.ScreenEvent.Render.Pre event) -> {
+            for (var child : event.getScreen().children()) {
+                if (child instanceof com.star_1mp.powersunchained.client.power.PowersMenu.MenuButton button) {
+                    button.place();
+                }
+            }
+        });
+        // the powers key also works inside the inventory screens (not while typing in the creative search)
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.ScreenEvent.KeyPressed.Pre event) -> {
+            if ((event.getScreen() instanceof net.minecraft.client.gui.screens.inventory.InventoryScreen
+                    || event.getScreen() instanceof net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen creative
+                            && !creative.isInputCaptured())
+                    && PUKeyMappings.POWERS_MENU.matches(event.getKeyEvent())) {
+                com.star_1mp.powersunchained.client.power.PowersMenu.open(event.getScreen());
+                event.setCanceled(true);
+            }
+        });
         NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post event) -> {
+            while (PUKeyMappings.POWERS_MENU.consumeClick()) {
+                if (Minecraft.getInstance().gui.screen() == null) {
+                    com.star_1mp.powersunchained.client.power.PowersMenu.open(null);
+                }
+            }
             while (PUKeyMappings.HUD_SETTINGS.consumeClick()) {
                 if (Minecraft.getInstance().gui.screen() == null) {
                     Minecraft.getInstance().gui.setScreen(new com.star_1mp.powersunchained.client.ability.ModSettingsScreen(null));

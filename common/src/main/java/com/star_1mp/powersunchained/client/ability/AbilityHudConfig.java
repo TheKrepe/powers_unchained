@@ -43,6 +43,9 @@ public final class AbilityHudConfig {
      */
     public java.util.List<String> abilitySlots = null;
 
+    /** Where the powers menu button sits in the inventory ({@code PowersMenu.ButtonPlace} id). */
+    public String menuButton = "recipe_book";
+
     private static AbilityHudConfig instance;
 
     public static AbilityHudConfig get() {

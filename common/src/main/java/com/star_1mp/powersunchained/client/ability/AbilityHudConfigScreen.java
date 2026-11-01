@@ -47,7 +47,7 @@ public class AbilityHudConfigScreen extends Screen {
         int gap = 4;
         int left = this.width / 2 - w - gap / 2;
         int right = this.width / 2 + gap / 2;
-        int y = this.height - 4 * 24 - 8;
+        int y = this.height - 5 * 24 - 8;
 
         this.addRenderableWidget(CycleButton.onOffBuilder(this.config.enabled)
                 .create(left, y, w, 20, Component.translatable("screen.powers_unchained.hud_settings.enabled"),
@@ -81,6 +81,13 @@ public class AbilityHudConfigScreen extends Screen {
                 AbilityHudConfigScreen.this.config.scale = this.actual();
             }
         });
+        y += 24;
+        // where the powers menu button sits in the inventory
+        this.addRenderableWidget(CycleButton.builder(com.star_1mp.powersunchained.client.power.PowersMenu.ButtonPlace::label,
+                        com.star_1mp.powersunchained.client.power.PowersMenu.place())
+                .withValues(com.star_1mp.powersunchained.client.power.PowersMenu.ButtonPlace.values())
+                .create(left, y, w * 2 + gap, 20, Component.translatable("screen.powers_unchained.hud_settings.menu_button"),
+                        (button, value) -> this.config.menuButton = value.id()));
         y += 24;
         this.addRenderableWidget(Button.builder(Component.translatable("screen.powers_unchained.hud_settings.reset"), button -> {
             this.config.reset();

@@ -1,0 +1,114 @@
+package com.star_1mp.powersunchained.client.power;
+
+import com.star_1mp.powersunchained.Constants;
+import com.star_1mp.powersunchained.client.ability.AbilityHudConfig;
+import com.star_1mp.powersunchained.client.input.PUKeyMappings;
+import java.util.Locale;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.components.WidgetSprites;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.network.chat.Component;
+import org.jspecify.annotations.Nullable;
+
+/**
+ * The powers menu (abilities + progression, for every hero of the mod): opened with its key or the button in the
+ * inventory. The menu itself is not made yet ({@link PowersMenuScreen} is a placeholder); concepts in
+ * {@code docs/concepts/powers_menu}.
+ */
+public final class PowersMenu {
+
+    /** Where the inventory button sits (Interface Settings). */
+    public enum ButtonPlace {
+        /** Next to the recipe book (survival); right of the armour on the creative inventory tab. */
+        RECIPE_BOOK,
+        /** Outside the inventory, at its top right. */
+        RIGHT,
+        /** Outside the inventory, at its top left. */
+        LEFT,
+        /** No button, key only. */
+        HIDDEN;
+
+        public String id() {
+            return this.name().toLowerCase(Locale.ROOT);
+        }
+
+        public Component label() {
+            return Component.translatable("screen.powers_unchained.hud_settings.menu_button." + this.id());
+        }
+
+        public static ButtonPlace byId(@Nullable String id) {
+            for (ButtonPlace p : values()) {
+                if (p.id().equals(id)) {
+                    return p;
+                }
+            }
+            return RECIPE_BOOK;
+        }
+    }
+
+    private static final WidgetSprites SPRITES = new WidgetSprites(Constants.id("powers_menu/button"), Constants.id("powers_menu/button_highlighted"));
+
+    private PowersMenu() {
+    }
+
+    public static ButtonPlace place() {
+        return ButtonPlace.byId(AbilityHudConfig.get().menuButton);
+    }
+
+    public static void open(@Nullable Screen parent) {
+        Minecraft.getInstance().gui.setScreen(new PowersMenuScreen(parent));
+    }
+
+    /** The button for the player's inventory screens (survival / creative), or null for other screens. */
+    public static @Nullable MenuButton createButton(Screen screen) {
+        if (screen instanceof InventoryScreen || screen instanceof CreativeModeInventoryScreen) {
+            MenuButton button = new MenuButton((AbstractContainerScreen<?>) screen);
+            button.place();
+            return button;
+        }
+        return null;
+    }
+
+    /** Inventory button with the powers emblem (20x18, like the recipe book button). */
+    public static final class MenuButton extends ImageButton {
+
+        private final AbstractContainerScreen<?> screen;
+
+        MenuButton(AbstractContainerScreen<?> screen) {
+            super(0, 0, 20, 18, SPRITES, button -> open(screen), Component.translatable("key.powers_unchained.powers_menu"));
+            this.screen = screen;
+            this.setTooltip(Tooltip.create(Component.translatable("key.powers_unchained.powers_menu").append(" (")
+                    .append(PUKeyMappings.POWERS_MENU.getTranslatedKeyMessage()).append(")")));
+        }
+
+        /** Every frame: the inventory moves when the recipe book opens, the creative screen changes tabs. */
+        public void place() {
+            ButtonPlace place = place();
+            boolean creative = this.screen instanceof CreativeModeInventoryScreen;
+            if (place == ButtonPlace.HIDDEN
+                    || (creative && place == ButtonPlace.RECIPE_BOOK && !((CreativeModeInventoryScreen) this.screen).isInventoryOpen())) {
+                this.visible = false;
+                return;
+            }
+            this.visible = true;
+            int left = this.screen.getLeftPos();
+            int top = this.screen.getTopPos();
+            switch (place) {
+                case RIGHT -> this.setPosition(left + this.screen.getImageWidth() + 2, top + 4);
+                case LEFT -> this.setPosition(left - 22, top + 4);
+                default -> {
+                    if (creative) {
+                        this.setPosition(left + 151, top + 20);  // right of the armour slots, inventory tab only
+                    } else {
+                        this.setPosition(left + 126, this.screen.height / 2 - 22);  // the recipe book button is at +104
+                    }
+                }
+            }
+        }
+    }
+}

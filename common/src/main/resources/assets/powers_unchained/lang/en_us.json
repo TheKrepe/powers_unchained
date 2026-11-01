@@ -287,5 +287,14 @@
   "commands.powers_unchained.techtable.unknown_task": "Unknown task: %s",
   "commands.powers_unchained.techtable.all_tasks": "all tasks",
   "commands.powers_unchained.techtable.task_done": "Task done: %s for %s player(s)",
-  "commands.powers_unchained.techtable.task_reset": "Task reset: %s for %s player(s)"
+  "commands.powers_unchained.techtable.task_reset": "Task reset: %s for %s player(s)",
+  "key.powers_unchained.powers_menu": "Powers Menu",
+  "screen.powers_unchained.powers_menu": "Powers",
+  "screen.powers_unchained.powers_menu.soon": "Powers & progression menu — coming soon",
+  "screen.powers_unchained.powers_menu.soon_desc": "The powers, suits and gadgets of every hero, their abilities and progression will live here. For now only the button and the key work.",
+  "screen.powers_unchained.hud_settings.menu_button": "Powers button",
+  "screen.powers_unchained.hud_settings.menu_button.recipe_book": "By the recipe book",
+  "screen.powers_unchained.hud_settings.menu_button.right": "Right of the inventory",
+  "screen.powers_unchained.hud_settings.menu_button.left": "Left of the inventory",
+  "screen.powers_unchained.hud_settings.menu_button.hidden": "Hidden (key only)"
 }

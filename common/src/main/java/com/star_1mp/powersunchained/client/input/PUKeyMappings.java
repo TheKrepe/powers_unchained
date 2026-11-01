@@ -25,8 +25,11 @@ public final class PUKeyMappings {
     /** Opens the HUD settings. */
     public static final KeyMapping HUD_SETTINGS = new KeyMapping("key." + Constants.MOD_ID + ".hud_settings", InputConstants.KEY_H, CATEGORY);
 
+    /** Opens the powers menu (abilities + progression); also the button in the inventory. */
+    public static final KeyMapping POWERS_MENU = new KeyMapping("key." + Constants.MOD_ID + ".powers_menu", InputConstants.KEY_J, CATEGORY);
+
     /** Every key of the mod, to register. */
-    public static final List<KeyMapping> REGISTER = List.of(ABILITY_1, ABILITY_2, ABILITY_3, ABILITY_4, ABILITY_5, HUD_SETTINGS);
+    public static final List<KeyMapping> REGISTER = List.of(ABILITY_1, ABILITY_2, ABILITY_3, ABILITY_4, ABILITY_5, HUD_SETTINGS, POWERS_MENU);
 
     private PUKeyMappings() {
     }

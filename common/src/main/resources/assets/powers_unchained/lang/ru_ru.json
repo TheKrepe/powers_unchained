@@ -287,5 +287,14 @@
   "commands.powers_unchained.techtable.unknown_task": "Неизвестное задание: %s",
   "commands.powers_unchained.techtable.all_tasks": "все задания",
   "commands.powers_unchained.techtable.task_done": "Задание выполнено: %s (игроков: %s)",
-  "commands.powers_unchained.techtable.task_reset": "Задание сброшено: %s (игроков: %s)"
+  "commands.powers_unchained.techtable.task_reset": "Задание сброшено: %s (игроков: %s)",
+  "key.powers_unchained.powers_menu": "Меню способностей",
+  "screen.powers_unchained.powers_menu": "Способности",
+  "screen.powers_unchained.powers_menu.soon": "Меню способностей и прокачки — скоро",
+  "screen.powers_unchained.powers_menu.soon_desc": "Здесь будут силы, костюмы и гаджеты всех героев, их способности и прокачка. Пока это заготовка: кнопка и клавиша уже работают.",
+  "screen.powers_unchained.hud_settings.menu_button": "Кнопка способностей",
+  "screen.powers_unchained.hud_settings.menu_button.recipe_book": "У книги рецептов",
+  "screen.powers_unchained.hud_settings.menu_button.right": "Справа от инвентаря",
+  "screen.powers_unchained.hud_settings.menu_button.left": "Слева от инвентаря",
+  "screen.powers_unchained.hud_settings.menu_button.hidden": "Скрыта (только клавиша)"
 }
