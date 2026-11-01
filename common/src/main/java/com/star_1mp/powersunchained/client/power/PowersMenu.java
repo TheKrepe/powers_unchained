@@ -94,6 +94,7 @@ public final class PowersMenu {
 
         @Override
         protected void extractContents(net.minecraft.client.gui.GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+            graphics.fill(this.getX() - 1, this.getY() - 1, this.getX() + this.width + 1, this.getY() + this.height + 1, 0xFFFF0000);  // TEMP debug
             graphics.blitSprite(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, SPRITES.get(this.active, this.isHoveredOrFocused()),
                     this.getX(), this.getY(), this.width, this.height);
         }
