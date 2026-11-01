@@ -1006,31 +1006,31 @@ public final class CiClientDriver {
             case 8514 -> com.star_1mp.powersunchained.client.power.PowersMenu.open(null);
             case 8517 -> run("tick rate 2");
             case 8518 -> shot("70_powers_menu_stats");
-            case 8522 -> {
+            case 8528 -> {
                 run("tick rate 20");
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.power.PowersMenuScreen screen) {
                     screen.debugTab(com.star_1mp.powersunchained.client.power.PowersMenuScreen.TAB_SKILLS);
                     screen.debugSelect("power:spiderman", "ceilings");
                 }
             }
-            case 8525 -> run("tick rate 2");
-            case 8526 -> shot("70b_powers_menu_skills");
-            case 8530 -> {
+            case 8531 -> run("tick rate 2");
+            case 8532 -> shot("70b_powers_menu_skills");
+            case 8542 -> {
                 run("tick rate 20");
                 if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.power.PowersMenuScreen screen) {
                     screen.debugTab(com.star_1mp.powersunchained.client.power.PowersMenuScreen.TAB_KEYS);
                 }
             }
-            case 8533 -> run("tick rate 2");
-            case 8534 -> shot("70c_powers_menu_keys");
-            case 8538 -> {
+            case 8545 -> run("tick rate 2");
+            case 8546 -> shot("70c_powers_menu_keys");
+            case 8556 -> {
                 run("tick rate 20");
                 mc.gui.setScreen(new com.star_1mp.powersunchained.client.ability.AbilityHudConfigScreen(null));
             }
-            case 8541 -> run("tick rate 2");
-            case 8542 -> shot("71_settings_menu_button");
-            case 8546 -> run("tick rate 20");
-            case 8550 -> {
+            case 8559 -> run("tick rate 2");
+            case 8560 -> shot("71_settings_menu_button");
+            case 8570 -> run("tick rate 20");
+            case 8574 -> {
                 mc.gui.setScreen(null);
                 Constants.LOG.info("[CI] done");
                 mc.stop();
