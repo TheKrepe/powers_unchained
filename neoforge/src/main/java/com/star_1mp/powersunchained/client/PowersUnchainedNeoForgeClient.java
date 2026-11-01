@@ -134,7 +134,7 @@ public class PowersUnchainedNeoForgeClient {
             var button = com.star_1mp.powersunchained.client.power.PowersMenu.createButton(event.getScreen());
             if (button != null) {
                 var screen = button.screen();
-                button.place(screen.getGuiLeft(), screen.getGuiTop(), screen.getXSize());
+                button.place(screen.getLeftPos(), screen.getTopPos(), screen.getImageWidth());
                 event.addListener(button);
             }
         });
@@ -142,7 +142,7 @@ public class PowersUnchainedNeoForgeClient {
             for (var child : event.getScreen().children()) {
                 if (child instanceof com.star_1mp.powersunchained.client.power.PowersMenu.MenuButton button) {
                     var screen = button.screen();
-                    button.place(screen.getGuiLeft(), screen.getGuiTop(), screen.getXSize());
+                    button.place(screen.getLeftPos(), screen.getTopPos(), screen.getImageWidth());
                 }
             }
         });
