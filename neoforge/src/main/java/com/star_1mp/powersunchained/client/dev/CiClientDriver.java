@@ -1074,7 +1074,7 @@ public final class CiClientDriver {
             case 8670 -> mc.gui.setScreen(null);
             case 8680 -> shot("75_irradiating_world");
             case 8685 -> run("tick sprint 3100");
-            case 8800 -> {
+            case 9400 -> {
                 long radioactive = mc.level.getEntitiesOfClass(com.star_1mp.powersunchained.entity.spider.RadioactiveSpider.class,
                         new net.minecraft.world.phys.AABB(995, -62, -3, 1006, -55, 8)).size();
                 long cave = mc.level.getEntitiesOfClass(net.minecraft.world.entity.monster.spider.CaveSpider.class,
@@ -1083,7 +1083,7 @@ public final class CiClientDriver {
                 shot("76_irradiator_after");
             }
             // the bite: a free radioactive spider next to a player without powers
-            case 8810 -> {
+            case 9410 -> {
                 run("kill @e[type=powers_unchained:radioactive_spider]");
                 run("kill @e[type=minecraft:cave_spider]");
                 run("kill @e[type=minecraft:item]");
@@ -1091,19 +1091,19 @@ public final class CiClientDriver {
                 run("effect clear @p");
                 run("tp @p 1000.5 -60 0.5 0 25");
             }
-            case 8820 -> run("summon powers_unchained:radioactive_spider 1001.5 -60 2.0");
-            case 8862 -> {
+            case 9420 -> run("summon powers_unchained:radioactive_spider 1001.5 -60 2.0");
+            case 9462 -> {
                 Constants.LOG.info("[CI] bitten: fever {}", mc.player.hasEffect(com.star_1mp.powersunchained.registry.PUEffects.RADIOACTIVE_FEVER.get()));
                 shot("77_bite");
             }
-            case 8900 -> shot("78_fever");
-            case 8905 -> run("tick sprint 640");
-            case 8985 -> {
+            case 9500 -> shot("78_fever");
+            case 9505 -> run("tick sprint 640");
+            case 9585 -> {
                 Constants.LOG.info("[CI] powers after fever: {}",
                         com.star_1mp.powersunchained.power.Superpowers.data(mc.player).has(com.star_1mp.powersunchained.power.Superpower.SPIDERMAN));
                 shot("79_power_gained");
             }
-            case 9010 -> {
+            case 9610 -> {
                 mc.gui.setScreen(null);
                 Constants.LOG.info("[CI] done");
                 mc.stop();
