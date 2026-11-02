@@ -86,6 +86,9 @@ public class IrradiatorBlockEntity extends BlockEntity implements Container, Men
     public static final int DATA_KIND = 5;
     public static final int DATA_SIZE = 6;
 
+    /** owner: creatures up to 2.4 blocks above the top (feet height) count as "on" the Irradiator. */
+    public static final double REACH_UP = 2.4;
+
     private final NonNullList<ItemStack> items = NonNullList.withSize(SLOTS, ItemStack.EMPTY);
     private boolean running;
     private int progress;
@@ -355,11 +358,12 @@ public class IrradiatorBlockEntity extends BlockEntity implements Container, Men
     }
 
     private AABB top(BlockPos pos) {
-        return new AABB(pos.getX() + 0.05, pos.getY() + 0.9, pos.getZ() + 0.05, pos.getX() + 0.95, pos.getY() + 1.4, pos.getZ() + 0.95);
+        return new AABB(pos.getX() + 0.05, pos.getY() + 0.9, pos.getZ() + 0.05, pos.getX() + 0.95, pos.getY() + 1.0 + REACH_UP, pos.getZ() + 0.95);
     }
 
     private boolean isOnTop(LivingEntity entity, BlockPos pos) {
-        return entity.getBoundingBox().intersects(this.top(pos)) && entity.getY() >= pos.getY() + 0.85 && entity.getY() < pos.getY() + 1.4;
+        return entity.getBoundingBox().intersects(this.top(pos)) && entity.getY() >= pos.getY() + 0.85
+                && entity.getY() < pos.getY() + 1.0 + REACH_UP;
     }
 
     /** A mob or player standing on the block (the one nearest the middle). */

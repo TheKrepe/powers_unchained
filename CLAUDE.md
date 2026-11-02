@@ -324,7 +324,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   glowstone dust + redstone is HIDDEN until feat `TechFeats.SEEN_RADIOACTIVE_EYE` (inventory check every 40 ticks; not a
   task, no toast) and is not in JEI/REI — `TechRecipes.isVisible/viewerRecipes`). One capsule per run, it turns into an
   empty cartridge (in the fuel slot when it was the last one, else the result slot). 150 s (`Irradiation.DURATION`),
-  started by the screen button (menu button 0) OR a rising redstone edge. A mob / player standing ON the block has
+  started by the screen button (menu button 0) OR a rising redstone edge. A mob / player standing ON the block (owner: or up to 2 blocks above it, `REACH_UP` 2.4) has
   priority: frozen (`WebSlowness.hold` + snapped to the middle), darkness + nausea till the end, shakes like a curing
   zombie villager (client `IrradiatorShake` from the BE update packet's "Shake" id -> `LivingEntityRendererMixin` sets
   `isFullyFrozen`), ZV cure sound at the start; cave spider -> `RadioactiveSpider` 70 % (`convertTo`, levelEvent 1027) else it
