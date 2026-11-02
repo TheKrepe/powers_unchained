@@ -361,7 +361,8 @@ public class PowersMenuScreen extends Screen {
         g.pose().pushMatrix();
         g.pose().translate(cx + 0.5F, top);
         g.pose().scale(w, 1.0F);
-        g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, -size / 2, 0, size, size, color);
+        g.pose().translate(-size / 2.0F, 0.0F);  // centred exactly on cx + 0.5 (odd sizes too)
+        g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, 0, 0, size, size, color);
         g.pose().popMatrix();
         // scan lines over it
         int half = Math.max(1, Math.round(size * w / 2.0F));
@@ -533,9 +534,11 @@ public class PowersMenuScreen extends Screen {
         // root: the power's emblem as a spinning hologram at the top (owner)
         int cx = tx + TREE_W / 2;
         int rootY = ty + 3;
-        g.fillGradient(cx - 16, rootY + 4, cx + 16, rootY + ROOT_H - 4, 0x0059E4FF, 0x2459E4FF);
-        g.fill(cx - 18, rootY + ROOT_H - 4, cx + 18, rootY + ROOT_H - 3, CYAN);
-        this.spinningEmblem(g, emblem(power), cx, rootY + 3, 27);
+        int emblemSize = 27;  // 3x the 9x9 emblem
+        int emblemTop = rootY + (ROOT_H - 4 - emblemSize) / 2;
+        g.fillGradient(cx - 20, rootY + 1, cx + 21, rootY + ROOT_H - 4, 0x0059E4FF, 0x2459E4FF);
+        g.fill(cx - 21, rootY + ROOT_H - 4, cx + 22, rootY + ROOT_H - 3, CYAN);
+        this.spinningEmblem(g, emblem(power), cx, emblemTop, emblemSize);
         // branch titles + lines from the root
         int bw = TREE_W / 3;
         for (SkillBranch b : SkillBranch.values()) {
@@ -966,10 +969,12 @@ public class PowersMenuScreen extends Screen {
         if (selected) {
             outline(g, x, y, w, CARD_H - 2, COPPER);
         }
-        inset(g, x + 2, y + 1, 18, 18, 0xFF2A3038);
         if (emblem != null) {
+            // 9x9 emblem at exactly 2x inside a 20x20 frame (any other size smears the pixels)
+            inset(g, x + 1, y, 20, 20, 0xFF2A3038);
             g.blitSprite(RenderPipelines.GUI_TEXTURED, emblem, x + 2, y + 1, 18, 18);
         } else {
+            inset(g, x + 2, y + 1, 18, 18, 0xFF2A3038);
             g.item(icon, x + 3, y + 2);
         }
         int tw = w - 26;
