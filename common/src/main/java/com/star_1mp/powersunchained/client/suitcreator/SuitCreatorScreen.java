@@ -97,6 +97,9 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
     private final List<Row> rows = new ArrayList<>();
     private int listScroll;
     private @Nullable Suit selected;
+    private boolean autoPicked;
+    /** Saved pick meaning "deliberately nothing" (a click on the list's empty area). */
+    private static final String NONE = "none";
     private int tab;
     private boolean tagsOpen;
     private int piece = SuitCatalog.ALL;
@@ -147,6 +150,15 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
 
     private boolean unlocked(Suit suit) {
         return this.progress().isUnlocked(suit);
+    }
+
+    private void deselect() {
+        if (this.selected != null) {
+            this.selected = null;
+            this.sewTicks = -1;
+            this.materialScroll = 0;
+            SuitCreatorPrefs.selected = NONE;
+        }
     }
 
     private void select(Suit suit) {
@@ -274,12 +286,14 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         if (this.rows.isEmpty()) {
             this.rows.add(new Row(Row.MESSAGE, SuitCreatorPrefs.TAGS.isEmpty() ? "empty_tags" : "empty", null, 0));
         }
-        if (this.selected == null) {
-            this.rows.stream().filter(r -> r.suit != null).findFirst().ifPresent(r -> this.select(r.suit));
-            if (this.selected == null) {
-                this.select(Suits.ALL.get(0));
+        // first look at the screen: the first suit is picked; after that nothing picked stays possible (owner)
+        if (this.selected == null && !this.autoPicked) {
+            this.autoPicked = true;
+            if (!NONE.equals(SuitCreatorPrefs.selected)) {
+                this.rows.stream().filter(r -> r.suit != null).findFirst().ifPresent(r -> this.select(r.suit));
             }
         }
+        this.autoPicked = true;
         int content = this.rows.stream().mapToInt(Row::height).sum();
         this.listScroll = Mth.clamp(this.listScroll, 0, Math.max(0, content - (LIST_H - 4)));
     }
@@ -1140,6 +1154,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
                 }
                 ry += row.height();
             }
+            this.deselect();  // owner: a click on the list's empty area clears the pick
             return true;
         }
         // scrollbar drag-free click: jump

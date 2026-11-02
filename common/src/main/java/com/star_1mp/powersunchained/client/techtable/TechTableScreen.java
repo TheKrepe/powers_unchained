@@ -690,8 +690,9 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         return list;
     }
 
-    private WebModule shownModule() {
-        return this.selectedModule != null ? this.selectedModule : WebModule.values()[0];
+    /** The picked module, or null (owner: a click on the list's empty area clears the pick). */
+    private @Nullable WebModule shownModule() {
+        return this.selectedModule;
     }
 
     private void drawUpgrade(GuiGraphicsExtractor g, int x, int y, int mx, int my) {
@@ -782,6 +783,10 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
             return;
         }
         WebModule m = this.shownModule();
+        if (m == null) {
+            g.centeredText(this.font, tr("pick_hint"), rx + RIGHT_W / 2, ry + 8, DIM);
+            return;
+        }
         boolean unlocked = WebModules.isUnlocked(gadget, m);
         boolean isInstalled = WebModules.has(gadget, m);
         int ty = ry + 4;
@@ -929,7 +934,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         if (hasGadget) {
             float spin = this.rotating ? 0.0F : this.time * 0.6F;
             GadgetHologram.draw(g, hx + 2, hy + 14, hx + hw - 2, feet, 40.0F, this.holoSlim(), this.yaw + spin, this.time, this.holoPose,
-                    GadgetSkins.WEB_SHOOTERS.get(Mth.clamp(this.selectedSkin, 0, GadgetSkins.WEB_SHOOTERS.size() - 1)).id());
+                    this.selectedSkin < 0 ? GadgetSkins.of(gadget) : GadgetSkins.WEB_SHOOTERS.get(Mth.clamp(this.selectedSkin, 0, GadgetSkins.WEB_SHOOTERS.size() - 1)).id());
             // Steve / Alex + pose, exactly like the Suit Creator's controls
             int[] b0 = this.holoButton(0);
             int[] b1 = this.holoButton(1);
@@ -954,6 +959,10 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
         int ry = y + BP_Y;
         monitor(g, rx, ry, RIGHT_W, H - BP_Y - 8);
         if (!hasGadget) {
+            return;
+        }
+        if (this.selectedSkin < 0) {
+            g.centeredText(this.font, tr("pick_hint"), rx + RIGHT_W / 2, ry + 8, DIM);
             return;
         }
         GadgetSkins skin = GadgetSkins.WEB_SHOOTERS.get(Mth.clamp(this.selectedSkin, 0, GadgetSkins.WEB_SHOOTERS.size() - 1));
@@ -1086,6 +1095,8 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                         }
                         ly += CARD_H;
                     }
+                    this.selectedRecipe = null;  // owner: empty area of a list = nothing picked
+                    return true;
                 }
             }
             case TechTableMenu.TAB_UPGRADE -> {
@@ -1103,6 +1114,8 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                         }
                         ly += CARD_H;
                     }
+                    this.selectedModule = null;  // owner: empty area of a list = nothing picked
+                    return true;
                 }
                 // start dragging a module
                 if (TechTableMenu.isGadget(gadget)) {
@@ -1135,7 +1148,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                 // unlock button
                 WebModule m = this.shownModule();
                 int bty = y + H - 8 - 20;
-                if (!WebModules.isUnlocked(gadget, m) && in(mx, my, x + RIGHT_X + 3, bty, RIGHT_W - 6, 16)) {
+                if (m != null && !WebModules.isUnlocked(gadget, m) && in(mx, my, x + RIGHT_X + 3, bty, RIGHT_W - 6, 16)) {
                     if (!m.requirementMet(this.progress())) {
                         this.fail("do_task");  // owner: the condition comes first, even with the materials in hand
                     } else if (m.unlockCost().canPay(this.minecraft.player)) {
@@ -1177,9 +1190,11 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
                         }
                         ly += CARD_H;
                     }
+                    this.selectedSkin = -1;  // owner: empty area of a list = nothing picked
+                    return true;
                 }
                 int bty = y + H - 8 - 20;
-                if (in(mx, my, x + RIGHT_X + 3, bty, RIGHT_W - 6, 16)) {
+                if (this.selectedSkin >= 0 && in(mx, my, x + RIGHT_X + 3, bty, RIGHT_W - 6, 16)) {
                     GadgetSkins skin = GadgetSkins.WEB_SHOOTERS.get(Mth.clamp(this.selectedSkin, 0, GadgetSkins.WEB_SHOOTERS.size() - 1));
                     if (!skin.isUnlocked(gadget)) {
                         if (!skin.requirementMet(this.minecraft.player)) {

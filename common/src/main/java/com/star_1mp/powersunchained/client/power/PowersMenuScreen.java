@@ -251,7 +251,13 @@ public class PowersMenuScreen extends Screen {
         return com.star_1mp.powersunchained.Constants.id("suit_creator/group/" + group);
     }
 
+    /** Saved pick meaning "deliberately nothing" (a click on the list's empty area, owner). */
+    private static final String NONE = "none";
+
     private @Nullable Entry selectedEntry(List<Entry> entries) {
+        if (NONE.equals(this.selected)) {
+            return null;
+        }
         for (Entry e : entries) {
             if (e.key().equals(this.selected)) {
                 return e;
@@ -262,6 +268,9 @@ public class PowersMenuScreen extends Screen {
 
     /** The power whose points / level / tree are shown: the selected one, else the first owned. */
     private @Nullable Superpower shownPower(List<Entry> entries) {
+        if (NONE.equals(this.selected)) {
+            return null;
+        }
         Entry sel = this.selectedEntry(entries);
         if (sel != null && sel.power() != null) {
             return sel.power();
@@ -861,6 +870,11 @@ public class PowersMenuScreen extends Screen {
                 }
                 ly += CARD_H;
             }
+            // owner: a click on the list's empty area clears the pick
+            this.selected = NONE;
+            lastSelected = NONE;
+            this.selectedNode = null;
+            return true;
         }
         if (this.tab == TAB_STATS) {
             if (in(mx, my, x + CENTER_X, y + HOLO_Y, CENTER_W, HOLO_H)) {
@@ -897,6 +911,11 @@ public class PowersMenuScreen extends Screen {
                 this.failFlash = 40;
                 this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.VILLAGER_NO, 1.2F));
             }
+            return true;
+        }
+        // owner: a click on the tree's empty area clears the picked skill
+        if (in(mx, my, x + TREE_X, y + TREE_TOP, TREE_W, H - 8 - TREE_TOP)) {
+            this.selectedNode = null;
             return true;
         }
         return false;

@@ -423,5 +423,6 @@
   "jei.powers_unchained.irradiator.time": "150 seconds, 1 capsule",
   "jei.powers_unchained.irradiator.on_block": "Standing on the Irradiator",
   "jei.powers_unchained.irradiator.fail_spider": "Failure: the spider dies",
-  "jei.powers_unchained.irradiator.fail_item": "Failure: the item burns up"
+  "jei.powers_unchained.irradiator.fail_item": "Failure: the item burns up",
+  "screen.powers_unchained.tech_table.pick_hint": "Pick one in the list on the left"
 }

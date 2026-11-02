@@ -353,6 +353,11 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `_chestplate.png`, `_chestplate_slim.png` (3px arms), `_pants.png`, `_boots.png` (`tools/suit_textures.py`
   splits a full texture; the generators call it).
 
+## UI rule (owner)
+- In EVERY list of our screens (Suit Creator catalog, Tech Table Create / Upgrade / Customize lists, powers menu list, the
+  skill tree) a click on the empty area clears the pick (Suit Creator saves `"none"` so it stays cleared; the first open
+  still picks the first suit). Right panels then show nothing / a "pick one" hint.
+
 ## Performance notes (owner asked for these optimisations — keep them)
 - Power XP is stored at once but synced at most once a second (`PowerSkills.flushXp`, `setPowerProgressQuiet` /
   `syncPowerProgress`); skill attribute modifiers are applied once per player ENTITY and on changes
