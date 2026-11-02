@@ -1039,10 +1039,10 @@ public final class CiClientDriver {
                 run("superpower remove spiderman @p");
                 run("effect clear @p");
                 run("time set 6000");
-                run("setblock 1000 -60 3 powers_unchained:irradiator[facing=north]");
-                run("tp @p 1000.5 -60 0.5 0 25");
+                run("tp @p 1000.5 -60 0.5 0 25");  // first: setblock only works in loaded chunks
             }
-            case 8577 -> {
+            case 8580 -> run("setblock 1000 -60 3 powers_unchained:irradiator[facing=north]");
+            case 8582 -> {
                 run("item replace block 1000 -60 3 container.0 with powers_unchained:isotope_capsule 2");
                 run("item replace block 1000 -60 3 container.1 with minecraft:spider_eye 4");
                 run("summon minecraft:cave_spider 1000.5 -59 3.5 {NoAI:1b,PersistenceRequired:1b}");
