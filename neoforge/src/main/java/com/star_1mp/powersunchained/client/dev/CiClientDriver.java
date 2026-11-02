@@ -1050,9 +1050,19 @@ public final class CiClientDriver {
             }
             case 8595 -> shot("72_irradiator_world");
             case 8605 -> {
-                net.minecraft.core.BlockPos pos = new net.minecraft.core.BlockPos(1000, -60, 3);
-                mc.gameMode.useItemOn(mc.player, net.minecraft.world.InteractionHand.MAIN_HAND, new net.minecraft.world.phys.BlockHitResult(
-                        net.minecraft.world.phys.Vec3.atCenterOf(pos), net.minecraft.core.Direction.NORTH, pos, false));
+                // open the machine's menu on the integrated server, like a right click
+                net.minecraft.server.MinecraftServer server = mc.getSingleplayerServer();
+                if (server != null) {
+                    server.execute(() -> {
+                        net.minecraft.server.level.ServerPlayer sp = server.getPlayerList().getPlayers().getFirst();
+                        if (sp.level().getBlockEntity(new net.minecraft.core.BlockPos(1000, -60, 3))
+                                instanceof com.star_1mp.powersunchained.block.entity.IrradiatorBlockEntity be) {
+                            sp.openMenu(be);
+                        } else {
+                            Constants.LOG.warn("[CI] no irradiator block entity");
+                        }
+                    });
+                }
             }
             case 8615 -> shot("73_irradiator_gui");
             case 8625 -> {
@@ -1088,12 +1098,12 @@ public final class CiClientDriver {
             }
             case 8900 -> shot("78_fever");
             case 8905 -> run("tick sprint 640");
-            case 8945 -> {
+            case 8985 -> {
                 Constants.LOG.info("[CI] powers after fever: {}",
                         com.star_1mp.powersunchained.power.Superpowers.data(mc.player).has(com.star_1mp.powersunchained.power.Superpower.SPIDERMAN));
                 shot("79_power_gained");
             }
-            case 8975 -> {
+            case 9010 -> {
                 mc.gui.setScreen(null);
                 Constants.LOG.info("[CI] done");
                 mc.stop();
