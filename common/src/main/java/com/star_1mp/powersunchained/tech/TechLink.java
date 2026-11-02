@@ -21,7 +21,19 @@ public final class TechLink {
     public static final int MAX_NODES = 512;
     public static final int MAX_DISTANCE = 64;
 
+    /** Bumped whenever blocks change in a way that could cut / build a line (loader block events). */
+    private static volatile int version;
+
     private TechLink() {
+    }
+
+    public static int version() {
+        return version;
+    }
+
+    /** Loader hook: a block was placed, broken or blown up. */
+    public static void blocksChanged() {
+        version++;
     }
 
     public static boolean isLinked(Level level, BlockPos table) {

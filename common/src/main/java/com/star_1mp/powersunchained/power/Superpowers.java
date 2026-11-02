@@ -32,10 +32,12 @@ public final class Superpowers {
 
     public static void add(ServerPlayer player, Superpower power) {
         Services.GAMEPLAY.setPowerData(player, data(player).add(power));
+        PowerSkills.refreshAttributes(player);
     }
 
     public static void remove(ServerPlayer player, Superpower power) {
         Services.GAMEPLAY.setPowerData(player, data(player).remove(power));
+        PowerSkills.refreshAttributes(player);
         if (!isActive(player, PowerAbility.NIGHT_VISION)) {
             clearNightVision(player);
         }

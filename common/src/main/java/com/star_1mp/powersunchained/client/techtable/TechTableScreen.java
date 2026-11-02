@@ -262,9 +262,7 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
 
     private static void monitor(GuiGraphicsExtractor g, int x, int y, int w, int h) {
         inset(g, x, y, w, h, GLASS);
-        for (int yy = y + 2; yy < y + h - 1; yy += 2) {
-            g.fill(x + 1, yy, x + w - 1, yy + 1, 0x163C5A6E);
-        }
+        com.star_1mp.powersunchained.client.gui.GuiFx.scanlines(g, x, y, w, h);
         g.fill(x + 1, y + 1, x + w - 1, y + 2, 0x28FF9A52);
     }
 

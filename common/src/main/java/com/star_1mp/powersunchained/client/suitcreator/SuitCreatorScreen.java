@@ -217,6 +217,25 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
         }
     }
 
+    private long rowsTick = -1;
+    private String rowsQuery = "";
+    private boolean rowsDirty = true;
+
+    /**
+     * Optimisation: the catalog rows are rebuilt once per game tick, or at once after a click (favourite, collapse,
+     * tags...) or a new search text — not every frame.
+     */
+    private void rebuildRowsIfNeeded() {
+        long tick = SuitCreatorClient.ticks();
+        String query = this.search.getValue();
+        if (this.rowsDirty || tick != this.rowsTick || !query.equals(this.rowsQuery)) {
+            this.rowsDirty = false;
+            this.rowsTick = tick;
+            this.rowsQuery = query;
+            this.rebuildRows();
+        }
+    }
+
     private void rebuildRows() {
         this.rows.clear();
         SuitProgress progress = this.progress();
@@ -304,9 +323,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
     /** Dark glass monitor with faint scanlines. */
     private static void monitor(GuiGraphicsExtractor g, int x, int y, int w, int h) {
         inset(g, x, y, w, h, GLASS);
-        for (int yy = y + 2; yy < y + h - 1; yy += 2) {
-            g.fill(x + 1, yy, x + w - 1, yy + 1, 0x163C5A6E);
-        }
+        com.star_1mp.powersunchained.client.gui.GuiFx.scanlines(g, x, y, w, h);
         g.fill(x + 1, y + 1, x + w - 1, y + 2, 0x2859E4FF);
     }
 
@@ -390,7 +407,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
     public void extractBackground(GuiGraphicsExtractor g, int mouseX, int mouseY, float partialTick) {
         super.extractBackground(g, mouseX, mouseY, partialTick);
         this.time = SuitCreatorClient.ticks() + partialTick;
-        this.rebuildRows();
+        this.rebuildRowsIfNeeded();
         int x = this.leftPos;
         int y = this.topPos;
         panel(g, x, y, W, H);
@@ -1025,6 +1042,7 @@ public class SuitCreatorScreen extends AbstractContainerScreen<SuitCreatorMenu> 
 
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        this.rowsDirty = true;
         double mx = event.x();
         double my = event.y();
         int x = this.leftPos;

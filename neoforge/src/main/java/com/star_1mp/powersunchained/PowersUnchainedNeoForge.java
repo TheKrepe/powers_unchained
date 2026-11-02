@@ -68,6 +68,13 @@ public class PowersUnchainedNeoForge {
                 com.star_1mp.powersunchained.tech.TechFeats.onStruckByLightning(player);
             }
         });
+        // Tech Table link cache: re-search the redstone line only after block changes
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.event.level.BlockEvent.EntityPlaceEvent event) ->
+                com.star_1mp.powersunchained.tech.TechLink.blocksChanged());
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.event.level.BlockEvent.BreakEvent event) ->
+                com.star_1mp.powersunchained.tech.TechLink.blocksChanged());
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.event.level.ExplosionEvent.Detonate event) ->
+                com.star_1mp.powersunchained.tech.TechLink.blocksChanged());
         NeoForge.EVENT_BUS.addListener((PlayerEvent.PlayerLoggedOutEvent event) -> {
             WebShooting.forget(event.getEntity());
             if (event.getEntity() instanceof ServerPlayer player) {

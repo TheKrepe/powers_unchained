@@ -66,7 +66,14 @@ public final class WebShooting {
         }
 
         ServerLevel level = player.level();
-        level.addFreshEntity(type.create(level, player, side));
+        AbstractWebProjectile web = type.create(level, player, side);
+        // safety cap: at most MAX_LIVE_WEBS webs of one player in the world — the oldest dissolves first
+        state.live.removeIf(net.minecraft.world.entity.Entity::isRemoved);
+        while (state.live.size() >= MAX_LIVE_WEBS) {
+            state.live.pollFirst().discard();
+        }
+        state.live.addLast(web);
+        level.addFreshEntity(web);
         com.star_1mp.powersunchained.power.PowerSkills.spiderXp(player, com.star_1mp.powersunchained.power.PowerSkills.XP_WEB_SHOT);
         announceShot(player, side);
         level.playSound(null, player.getX(), player.getY(), player.getZ(), PUSounds.WEB_SHOOT.get(), SoundSource.PLAYERS,
@@ -206,8 +213,12 @@ public final class WebShooting {
         STATES.remove(player.getUUID());
     }
 
+    /** Most webs one player can have in the world at once (they also dissolve after a few seconds). */
+    public static final int MAX_LIVE_WEBS = 24;
+
     private static final class State {
         final WebAmmo ammo = new WebAmmo();
+        final java.util.ArrayDeque<AbstractWebProjectile> live = new java.util.ArrayDeque<>();
         long lastRight = Long.MIN_VALUE / 2;
         long lastLeft = Long.MIN_VALUE / 2;
         long lastZip = Long.MIN_VALUE / 2;

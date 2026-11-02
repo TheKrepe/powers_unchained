@@ -88,6 +88,16 @@ public class NeoForgeGameplayHelper implements IGameplayHelper {
     }
 
     @Override
+    public void setPowerProgressQuiet(Player player, com.star_1mp.powersunchained.power.PowerProgress progress) {
+        player.setData(com.star_1mp.powersunchained.PUAttachments.POWER_PROGRESS, progress);
+    }
+
+    @Override
+    public void syncPowerProgress(Player player) {
+        player.syncData(com.star_1mp.powersunchained.PUAttachments.POWER_PROGRESS);
+    }
+
+    @Override
     public com.star_1mp.powersunchained.tech.TechProgress techProgress(Player player) {
         return player.getData(com.star_1mp.powersunchained.PUAttachments.TECH_PROGRESS);
     }

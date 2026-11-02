@@ -48,6 +48,12 @@ public interface IGameplayHelper {
 
     void setPowerProgress(Player player, com.star_1mp.powersunchained.power.PowerProgress progress);
 
+    /** Stores the progress on the server WITHOUT sending it (see {@link #syncPowerProgress}). */
+    void setPowerProgressQuiet(Player player, com.star_1mp.powersunchained.power.PowerProgress progress);
+
+    /** Sends the stored progress to the player. */
+    void syncPowerProgress(Player player);
+
     /** Server side: stores the player's Tech Table progress and syncs it to them. */
     void setTechProgress(Player player, com.star_1mp.powersunchained.tech.TechProgress progress);
 

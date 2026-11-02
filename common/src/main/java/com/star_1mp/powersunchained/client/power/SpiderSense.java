@@ -34,6 +34,8 @@ public final class SpiderSense {
     private static int flash;
     private static final int FLASH_TICKS = 18;
     private static boolean debugForce;
+    private static final int SCAN_INTERVAL = 3;
+    private static int scanTimer;
 
     private static final class Threat {
         Vec3 pos;
@@ -71,6 +73,42 @@ public final class SpiderSense {
             THREATS.clear();
             return;
         }
+        boolean fresh = false;
+        // optimisation: the area scan (every entity within up to 24 blocks) runs every 3rd tick; in between only the
+        // known threats are followed (one id lookup each), so their marks still move smoothly
+        if (--scanTimer > 0) {
+            for (Map.Entry<Integer, Threat> en : THREATS.entrySet()) {
+                Entity e = mc.level.getEntity(en.getKey());
+                if (e == null || e.isRemoved()) {
+                    en.getValue().seen = false;
+                } else if (en.getValue().seen) {
+                    en.getValue().pos = e.getBoundingBox().getCenter();
+                }
+            }
+        } else {
+            scanTimer = SCAN_INTERVAL;
+            fresh = scan(mc, player);
+        }
+        decay();
+        if (fresh) {
+            flash = FLASH_TICKS;
+            // comic bolts over the head, for us and everyone watching
+            SpiderSenseLayer.burst(player.getId());
+            com.star_1mp.powersunchained.platform.Services.GAMEPLAY.sendToServer(
+                    new com.star_1mp.powersunchained.network.SenseAlertPayload(player.getId()));
+            if (soundCooldown == 0) {
+                soundCooldown = SOUND_COOLDOWN;
+                // louder: full volume, a few layers
+                player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1.0F, 1.7F);
+                player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1.0F, 0.9F);
+                player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1.0F, 1.25F);
+                player.playSound(SoundEvents.NOTE_BLOCK_CHIME.value(), 0.7F, 1.6F);
+            }
+        }
+    }
+
+    /** Scans the area round the player. @return whether a NEW threat showed up */
+    private static boolean scan(Minecraft mc, LocalPlayer player) {
         for (Threat t : THREATS.values()) {
             t.seen = false;
         }
@@ -92,6 +130,10 @@ public final class SpiderSense {
             t.target = danger;
             t.seen = true;
         }
+        return fresh;
+    }
+
+    private static void decay() {
         Iterator<Threat> it = THREATS.values().iterator();
         while (it.hasNext()) {
             Threat t = it.next();
@@ -102,21 +144,6 @@ public final class SpiderSense {
             t.strength = Mth.approach(t.strength, t.target, t.target > t.strength ? 0.35F : 0.08F);
             if (!t.seen && t.strength <= 0.0F) {
                 it.remove();
-            }
-        }
-        if (fresh) {
-            flash = FLASH_TICKS;
-            // comic bolts over the head, for us and everyone watching
-            SpiderSenseLayer.burst(player.getId());
-            com.star_1mp.powersunchained.platform.Services.GAMEPLAY.sendToServer(
-                    new com.star_1mp.powersunchained.network.SenseAlertPayload(player.getId()));
-            if (soundCooldown == 0) {
-                soundCooldown = SOUND_COOLDOWN;
-                // louder: full volume, a few layers
-                player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1.0F, 1.7F);
-                player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1.0F, 0.9F);
-                player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1.0F, 1.25F);
-                player.playSound(SoundEvents.NOTE_BLOCK_CHIME.value(), 0.7F, 1.6F);
             }
         }
     }

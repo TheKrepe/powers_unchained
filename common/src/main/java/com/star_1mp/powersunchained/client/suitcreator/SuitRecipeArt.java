@@ -201,9 +201,7 @@ public final class SuitRecipeArt {
         g.fill(x, y, x + 1, y + h - 1, 0xFF373737);
         g.fill(x + 1, y + h - 1, x + w, y + h, 0xFFFFFFFF);
         g.fill(x + w - 1, y + 1, x + w, y + h, 0xFFFFFFFF);
-        for (int yy = y + 2; yy < y + h - 1; yy += 2) {
-            g.fill(x + 1, yy, x + w - 1, yy + 1, 0x163C5A6E);
-        }
+        com.star_1mp.powersunchained.client.gui.GuiFx.scanlines(g, x, y, w, h);
         g.fill(x + 1, y + 1, x + w - 1, y + 2, 0x2859E4FF);
     }
 

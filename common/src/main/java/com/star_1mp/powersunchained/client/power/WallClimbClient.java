@@ -152,12 +152,8 @@ public final class WallClimbClient {
     }
 
     private static boolean zipping(LocalPlayer player) {
-        for (WebZipLine line : player.level().getEntitiesOfClass(WebZipLine.class, player.getBoundingBox().inflate(64.0))) {
-            if (!(line instanceof WebSwingLine) && line.getShooter() == player && !line.isDetached() && line.isStuck()) {
-                return true;
-            }
-        }
-        return false;
+        // optimisation: the line reports itself (used to be a search of a 128-block box every tick)
+        return WebZipLine.isZipping(player);
     }
 
     // ---- attaching / leaving ----

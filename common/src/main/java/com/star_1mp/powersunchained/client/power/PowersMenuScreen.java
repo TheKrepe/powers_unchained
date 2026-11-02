@@ -18,6 +18,8 @@ import com.star_1mp.powersunchained.power.skill.SkillNode;
 import com.star_1mp.powersunchained.power.skill.SkillTrees;
 import com.star_1mp.powersunchained.registry.PUItems;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Locale;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -34,6 +36,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jspecify.annotations.Nullable;
@@ -74,6 +77,15 @@ public class PowersMenuScreen extends Screen {
     private static final int HOLO_Y = 20;
     private static final int HOLO_H = 150;
     private static final int HOLO_SCALE = 48;
+
+    /** Optimisation: icons are made once, not a new ItemStack every frame. */
+    private static final Map<Item, ItemStack> ICONS = new HashMap<>();
+    private static final Map<String, ItemStack> ABILITY_ICONS = new HashMap<>();
+    private static final Map<SkillNode, ItemStack> NODE_ICONS = new HashMap<>();
+
+    private static ItemStack icon(Item item) {
+        return ICONS.computeIfAbsent(item, ItemStack::new);
+    }
 
     private static final int LABEL = 0xFF404040;
     private static final int COPPER = 0xFFFF9A52;
@@ -198,7 +210,23 @@ public class PowersMenuScreen extends Screen {
             Component sub) {
     }
 
+    /**
+     * Optimisation: the list is built once per game tick (it was rebuilt several times every frame) — still "what the
+     * player has right now", at most one tick old.
+     */
     private List<Entry> entries() {
+        int tick = this.player() != null ? this.player().tickCount : 0;
+        if (this.entriesCache == null || this.entriesTick != tick) {
+            this.entriesCache = this.buildEntries();
+            this.entriesTick = tick;
+        }
+        return this.entriesCache;
+    }
+
+    private @Nullable List<Entry> entriesCache;
+    private int entriesTick = -1;
+
+    private List<Entry> buildEntries() {
         LocalPlayer player = this.player();
         List<Entry> list = new ArrayList<>();
         if (player == null) {
@@ -413,30 +441,30 @@ public class PowersMenuScreen extends Screen {
         LocalPlayer p = this.player();
         int ty = ry + 17;
         boolean spider = Superpowers.data(p).has(Superpower.SPIDERMAN);
-        ty = this.stat(g, rx, ty, new ItemStack(Items.APPLE), "stat.health", fmt(p.getMaxHealth() / 2.0) + "♥", p.getMaxHealth() / 40.0, RED, mx, my);
-        ty = this.stat(g, rx, ty, new ItemStack(Items.IRON_SWORD), "stat.attack", fmt(p.getAttributeValue(Attributes.ATTACK_DAMAGE)),
+        ty = this.stat(g, rx, ty, icon(Items.APPLE), "stat.health", fmt(p.getMaxHealth() / 2.0) + "♥", p.getMaxHealth() / 40.0, RED, mx, my);
+        ty = this.stat(g, rx, ty, icon(Items.IRON_SWORD), "stat.attack", fmt(p.getAttributeValue(Attributes.ATTACK_DAMAGE)),
                 p.getAttributeValue(Attributes.ATTACK_DAMAGE) / 12.0, 0xFFFF7A4A, mx, my);
-        ty = this.stat(g, rx, ty, new ItemStack(Items.IRON_CHESTPLATE), "stat.armor", fmt(p.getArmorValue()), p.getArmorValue() / 30.0,
+        ty = this.stat(g, rx, ty, icon(Items.IRON_CHESTPLATE), "stat.armor", fmt(p.getArmorValue()), p.getArmorValue() / 30.0,
                 0xFFB8C4D0, mx, my);
         double speed = p.getAttributeValue(Attributes.MOVEMENT_SPEED) / 0.1;
-        ty = this.stat(g, rx, ty, new ItemStack(Items.SUGAR), "stat.speed", Math.round(speed * 100) + "%", speed / 2.0, 0xFF7CE0FF, mx, my);
+        ty = this.stat(g, rx, ty, icon(Items.SUGAR), "stat.speed", Math.round(speed * 100) + "%", speed / 2.0, 0xFF7CE0FF, mx, my);
         double jump = p.getAttributeValue(Attributes.JUMP_STRENGTH) / 0.42;
-        ty = this.stat(g, rx, ty, new ItemStack(Items.RABBIT_FOOT), "stat.jump", Math.round(jump * 100) + "%", jump / 2.0, 0xFF9CFF7A, mx, my);
-        ty = this.stat(g, rx, ty, new ItemStack(Items.CLOCK), "stat.attack_speed", fmt(p.getAttributeValue(Attributes.ATTACK_SPEED)),
+        ty = this.stat(g, rx, ty, icon(Items.RABBIT_FOOT), "stat.jump", Math.round(jump * 100) + "%", jump / 2.0, 0xFF9CFF7A, mx, my);
+        ty = this.stat(g, rx, ty, icon(Items.CLOCK), "stat.attack_speed", fmt(p.getAttributeValue(Attributes.ATTACK_SPEED)),
                 p.getAttributeValue(Attributes.ATTACK_SPEED) / 6.0, 0xFFFFD27A, mx, my);
         boolean regen = PowerSkills.spider(p, SkillTrees.REGENERATION);
-        ty = this.stat(g, rx, ty, new ItemStack(Items.GLISTERING_MELON_SLICE), "stat.regen", regen ? tr("stat.regen.on").getString() : "—",
+        ty = this.stat(g, rx, ty, icon(Items.GLISTERING_MELON_SLICE), "stat.regen", regen ? tr("stat.regen.on").getString() : "—",
                 regen ? 0.5 : 0.0, 0xFFFF7AB8, mx, my);
         if (spider) {
             ty += 3;
             g.text(this.font, Superpower.SPIDERMAN.title(), rx + 5, ty, COPPER_DARK, false);
             ty += 12;
             boolean quick = PowerSkills.spider(p, SkillTrees.QUICK_CRAWL);
-            ty = this.stat(g, rx, ty, new ItemStack(Items.LADDER), "stat.climb", quick ? "130%" : "100%", quick ? 0.65 : 0.5, GREEN, mx, my);
+            ty = this.stat(g, rx, ty, icon(Items.LADDER), "stat.climb", quick ? "130%" : "100%", quick ? 0.65 : 0.5, GREEN, mx, my);
             double range = SpiderSense.range(p);
-            ty = this.stat(g, rx, ty, new ItemStack(Items.ENDER_EYE), "stat.sense", fmt(range), range / 24.0, 0xFFC08CFF, mx, my);
+            ty = this.stat(g, rx, ty, icon(Items.ENDER_EYE), "stat.sense", fmt(range), range / 24.0, 0xFFC08CFF, mx, my);
             boolean soft = Superpowers.fallImmune(p);
-            this.stat(g, rx, ty, new ItemStack(Items.FEATHER), "stat.fall", soft ? tr("stat.fall.none").getString() : "100%",
+            this.stat(g, rx, ty, icon(Items.FEATHER), "stat.fall", soft ? tr("stat.fall.none").getString() : "100%",
                     soft ? 1.0 : 0.0, 0xFFE8E8E8, mx, my);
         }
     }
@@ -598,7 +626,7 @@ public class PowersMenuScreen extends Screen {
             if (st == NodeState.OWNED) {
                 g.fill(nx + 1, ny + 1, nx + NODE - 1, ny + 2, (n.branch().color() & 0xFFFFFF) | 0x60000000);
             }
-            g.item(n.icon().get(), nx + 2, ny + 2);
+            g.item(NODE_ICONS.computeIfAbsent(n, k -> k.icon().get()), nx + 2, ny + 2);
             if (st == NodeState.LOCKED || st == NodeState.NO_POINTS) {
                 g.fill(nx + 1, ny + 1, nx + NODE - 1, ny + NODE - 1, st == NodeState.LOCKED ? 0xB0101418 : 0x70101418);
             }
@@ -647,6 +675,10 @@ public class PowersMenuScreen extends Screen {
     // ---- Клавиши ----
 
     private static ItemStack abilityIcon(String id) {
+        return ABILITY_ICONS.computeIfAbsent(id, PowersMenuScreen::makeAbilityIcon);
+    }
+
+    private static ItemStack makeAbilityIcon(String id) {
         return new ItemStack(switch (id) {
             case AbilitySlots.WEB_SHOT -> PUItems.WEB_SHOOTERS.get();
             case AbilitySlots.WEB_ZIP -> Items.COBWEB;
@@ -662,7 +694,22 @@ public class PowersMenuScreen extends Screen {
         return a != null ? a.previewName() : Component.literal(id);
     }
 
+    private @Nullable List<String> keysCache;
+    private int keysTick = -1;
+    private String keysQuery = "";
+
+    /** Cached per game tick and search text (optimisation, like {@link #entries()}). */
     private List<String> keyAbilities() {
+        int tick = this.player() != null ? this.player().tickCount : 0;
+        if (this.keysCache == null || this.keysTick != tick || !this.keysQuery.equals(this.query())) {
+            this.keysCache = this.buildKeyAbilities();
+            this.keysTick = tick;
+            this.keysQuery = this.query();
+        }
+        return this.keysCache;
+    }
+
+    private List<String> buildKeyAbilities() {
         List<String> list = new ArrayList<>();
         for (String id : AbilitySlots.owned(this.player())) {
             if (this.matches(abilityName(id))) {
@@ -1027,9 +1074,7 @@ public class PowersMenuScreen extends Screen {
 
     private static void monitor(GuiGraphicsExtractor g, int x, int y, int w, int h) {
         inset(g, x, y, w, h, GLASS);
-        for (int yy = y + 2; yy < y + h - 1; yy += 2) {
-            g.fill(x + 1, yy, x + w - 1, yy + 1, 0x163C5A6E);
-        }
+        com.star_1mp.powersunchained.client.gui.GuiFx.scanlines(g, x, y, w, h);
         g.fill(x + 1, y + 1, x + w - 1, y + 2, 0x28FF9A52);
     }
 

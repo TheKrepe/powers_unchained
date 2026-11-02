@@ -27,6 +27,9 @@ public final class WebHandTracker {
 
     /** Start of a player's render: the pose stack is at the player's position (camera-relative, world axes). */
     public static void begin(int entityId, PoseStack poseStack) {
+        if (ORIGIN.size() > 64) {
+            ORIGIN.clear();  // set again at the start of every player's render, so nothing is lost
+        }
         ORIGIN.put(entityId, poseStack.last().pose().transformPosition(new Vector3f()));
     }
 
@@ -37,18 +40,31 @@ public final class WebHandTracker {
             return;
         }
         Matrix4f m = poseStack.last().pose();
+        if (HANDS.size() > 32) {
+            prune();
+        }
         Hands hands = HANDS.computeIfAbsent(state.id, id -> new Hands());
         hands.right = wrist(m, model.rightArm, -1.0F).sub(origin);
         hands.left = wrist(m, model.leftArm, 1.0F).sub(origin);
         hands.time = System.nanoTime();
     }
 
+    /** Players not drawn for a few seconds (left, died, out of sight) are forgotten — the maps used to only grow. */
+    private static void prune() {
+        long now = System.nanoTime();
+        HANDS.entrySet().removeIf(e -> now - e.getValue().time > 3_000_000_000L);
+        ORIGIN.keySet().retainAll(HANDS.keySet());
+    }
+
+    /** Reused every frame (render thread only) instead of a new PoseStack per arm per player per frame. */
+    private static final PoseStack SCRATCH = new PoseStack();
+
     /** The web-shooter on the arm: near the end of the arm, in the middle of the arm's width. */
     private static Vector3f wrist(Matrix4f m, ModelPart arm, float side) {
-        PoseStack stack = new PoseStack();
-        stack.last().pose().set(m);
-        arm.translateAndRotate(stack);
-        return stack.last().pose().transformPosition(new Vector3f(side * 1.0F / 16.0F, 9.0F / 16.0F, 0.0F));
+        SCRATCH.setIdentity();
+        SCRATCH.last().pose().set(m);
+        arm.translateAndRotate(SCRATCH);
+        return SCRATCH.last().pose().transformPosition(new Vector3f(side * 1.0F / 16.0F, 9.0F / 16.0F, 0.0F));
     }
 
     /** World position of the player's wrist (drawn within the last moment), or null. */

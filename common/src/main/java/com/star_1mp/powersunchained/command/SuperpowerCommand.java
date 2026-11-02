@@ -59,6 +59,7 @@ public final class SuperpowerCommand {
         int amount = com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(context, "amount");
         for (ServerPlayer player : players) {
             com.star_1mp.powersunchained.power.PowerSkills.addXp(player, power, amount);
+            com.star_1mp.powersunchained.power.PowerSkills.flushXp(player);
         }
         context.getSource().sendSuccess(() -> Component.translatable("commands.powers_unchained.superpower.xp", amount, power.title(),
                 players.size()), true);

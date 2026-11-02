@@ -184,6 +184,25 @@ public class WebZipLine extends AbstractWebProjectile {
             WebShotTracker.hold(player.getId(), this.getShootSide());  // arm aimed while the line flies
         }
         zipListener.zip(player.getId(), this.isStuck());
+        if (!(this instanceof WebSwingLine) && this.isStuck()) {
+            if (CLIENT_ZIPPING.size() > 16) {
+                long now = this.level().getGameTime();
+                CLIENT_ZIPPING.values().removeIf(t -> now - t > 40);
+            }
+            CLIENT_ZIPPING.put(player.getId(), this.level().getGameTime());
+        }
+    }
+
+    /**
+     * Client: shooter id -> game time a zip line of theirs last pulled (caught, not let go). Wall climbing asks this
+     * every tick instead of searching a 128-block box for lines (optimisation).
+     */
+    private static final java.util.Map<Integer, Long> CLIENT_ZIPPING = new java.util.concurrent.ConcurrentHashMap<>();
+
+    /** Client: whether the player is being pulled by a zip line right now. */
+    public static boolean isZipping(Player player) {
+        Long t = CLIENT_ZIPPING.get(player.getId());
+        return t != null && player.level().getGameTime() - t <= 1;
     }
 
     /** Every tick once the line caught on a block or an entity (and was not let go): the zip pull. */

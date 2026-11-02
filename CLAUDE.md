@@ -326,6 +326,19 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `_chestplate.png`, `_chestplate_slim.png` (3px arms), `_pants.png`, `_boots.png` (`tools/suit_textures.py`
   splits a full texture; the generators call it).
 
+## Performance notes (owner asked for these optimisations — keep them)
+- Power XP is stored at once but synced at most once a second (`PowerSkills.flushXp`, `setPowerProgressQuiet` /
+  `syncPowerProgress`); skill attribute modifiers are applied once per player ENTITY and on changes
+  (`PowerSkills.refreshAttributes`), not every second.
+- Tech Table link: re-searched only after block place / break / explosion (`TechLink.version`, NeoForge block events)
+  or every 5 s.
+- Spider-Sense scans the area every 3rd tick (known threats followed by id in between); wall climbing asks
+  `WebZipLine.isZipping` instead of searching a 128-block box every tick.
+- GUI monitors' scan lines = ONE tiled sprite `ui/scanlines` (`client/gui/GuiFx.scanlines`), not a fill per line;
+  powers menu / Suit Creator lists rebuilt once per tick (or after a click / new search), icons cached.
+- `WebHandTracker` forgets players not drawn for 3 s and reuses one PoseStack; at most `WebShooting.MAX_LIVE_WEBS` (24)
+  webs per player in the world (oldest dissolves).
+
 ## Lessons from Palladium 5 (`26.1/dev`, NeoForge 26.1.2, closest reference to our target)
 - Abilities are codec-based (`Codec` dispatch by registry), not property bags. State is split into
   `unlocking` (condition / buyable) and `enabling` (condition / keybind handler) handlers.

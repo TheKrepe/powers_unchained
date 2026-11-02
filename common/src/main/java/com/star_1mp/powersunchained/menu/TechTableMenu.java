@@ -95,6 +95,7 @@ public class TechTableMenu extends AbstractContainerMenu {
     /** 1 = the table is linked to a Suit Creator (touching / redstone line, see {@link TechLink}): Customization works. */
     private final DataSlot linked = DataSlot.standalone();
     private int linkCheck;
+    private int linkVersion = -1;
 
     /** Client view: the open tab (inactive slots are neither drawn nor clickable). */
     public int tab = TAB_CREATE;
@@ -146,8 +147,11 @@ public class TechTableMenu extends AbstractContainerMenu {
 
     @Override
     public void broadcastChanges() {
-        if (++this.linkCheck >= 10) {  // twice a second
+        // optimisation: the redstone-line search runs again only when blocks were placed / broken / blown up somewhere
+        // (TechLink.version) — checked twice a second — or every 5 seconds for anything else (pistons, water...)
+        if (++this.linkCheck % 10 == 0 && (this.linkVersion != TechLink.version() || this.linkCheck >= 100)) {
             this.linkCheck = 0;
+            this.linkVersion = TechLink.version();
             this.updateLink();
         }
         super.broadcastChanges();

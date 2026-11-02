@@ -43,6 +43,16 @@ public final class PowerSkills {
     public static final int XP_KILL = 4;        // a monster killed
 
     private static final Map<UUID, Long> LAST_SENSE = new HashMap<>();
+    /**
+     * Optimisation: experience is stored on the server at once but sent to the player at most once a second (every web
+     * shot used to send the whole progress). Weak keys: a player entity that is gone drops out by itself.
+     */
+    private static final Map<ServerPlayer, Boolean> UNSYNCED = new java.util.WeakHashMap<>();
+    /**
+     * Optimisation: the skill attribute modifiers are put on once per player ENTITY (login, respawn = a new entity) and
+     * again only when the skills / powers change ({@link #refreshAttributes}), instead of every second for everyone.
+     */
+    private static final Map<ServerPlayer, Boolean> ATTRIBUTES_APPLIED = new java.util.WeakHashMap<>();
 
     private PowerSkills() {
     }
@@ -84,7 +94,20 @@ public final class PowerSkills {
         if (xp >= max) {
             return;
         }
-        Services.GAMEPLAY.setPowerProgress(player, progress.withXp(power, Math.min(max, xp + amount)));
+        Services.GAMEPLAY.setPowerProgressQuiet(player, progress.withXp(power, Math.min(max, xp + amount)));
+        UNSYNCED.put(player, Boolean.TRUE);
+    }
+
+    /** Sends experience gained since the last sync (also before anything that sends the whole progress anyway). */
+    public static void flushXp(ServerPlayer player) {
+        if (UNSYNCED.remove(player) != null) {
+            Services.GAMEPLAY.syncPowerProgress(player);
+        }
+    }
+
+    /** The skills or powers changed: put the attribute modifiers on again (next tick). */
+    public static void refreshAttributes(ServerPlayer player) {
+        ATTRIBUTES_APPLIED.remove(player);
     }
 
     /** Spider-Man experience (also from the web-shooters, owner). */
@@ -127,6 +150,7 @@ public final class PowerSkills {
                 return false;
             }
         }
+        UNSYNCED.remove(player);  // the full progress (with the new xp) is sent right now
         Services.GAMEPLAY.setPowerProgress(player, progress.withNode(power, id, true));
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, 0.6F, 1.5F);
         applyAttributes(player);
@@ -135,8 +159,11 @@ public final class PowerSkills {
 
     /** Server, every player tick. */
     public static void serverTick(ServerPlayer player) {
-        if (player.tickCount % 20 == 0) {
+        if (ATTRIBUTES_APPLIED.put(player, Boolean.TRUE) == null) {
             applyAttributes(player);
+        }
+        if (player.tickCount % 20 == 0) {
+            flushXp(player);
         }
         if (WallClimbing.isClimbing(player)) {
             int t = CLIMB_TICKS.merge(player.getUUID(), 1, Integer::sum);
@@ -209,7 +236,10 @@ public final class PowerSkills {
     }
 
     public static void forget(ServerPlayer player) {
+        flushXp(player);
         LAST_SENSE.remove(player.getUUID());
         CLIMB_TICKS.remove(player.getUUID());
+        UNSYNCED.remove(player);
+        ATTRIBUTES_APPLIED.remove(player);
     }
 }
