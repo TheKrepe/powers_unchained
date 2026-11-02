@@ -969,12 +969,11 @@ public class PowersMenuScreen extends Screen {
         if (selected) {
             outline(g, x, y, w, CARD_H - 2, COPPER);
         }
+        inset(g, x + 2, y + 1, 18, 18, 0xFF2A3038);
         if (emblem != null) {
-            // 9x9 emblem at exactly 2x inside a 20x20 frame (any other size smears the pixels)
-            inset(g, x + 1, y, 20, 20, 0xFF2A3038);
-            g.blitSprite(RenderPipelines.GUI_TEXTURED, emblem, x + 2, y + 1, 18, 18);
+            // owner: a bit smaller — 16x16 like an item, inside the same 18x18 frame
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, emblem, x + 3, y + 2, 16, 16);
         } else {
-            inset(g, x + 2, y + 1, 18, 18, 0xFF2A3038);
             g.item(icon, x + 3, y + 2);
         }
         int tw = w - 26;
