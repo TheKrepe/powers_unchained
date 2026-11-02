@@ -34,6 +34,13 @@ public final class PUEntities {
             () -> EntityType.Builder.<WebSwingLine>of(WebSwingLine::new, MobCategory.MISC)
                     .noLootTable().noSummon().sized(0.3F, 0.3F).clientTrackingRange(10).updateInterval(1));
 
+    /** Cave spider size (owner); the cave spider loot table is copied 1:1 into its own. */
+    public static final Supplier<EntityType<com.star_1mp.powersunchained.entity.spider.RadioactiveSpider>> RADIOACTIVE_SPIDER =
+            Services.REGISTRY.registerEntityType("radioactive_spider",
+                    () -> EntityType.Builder.<com.star_1mp.powersunchained.entity.spider.RadioactiveSpider>of(
+                                    com.star_1mp.powersunchained.entity.spider.RadioactiveSpider::new, MobCategory.MONSTER)
+                            .sized(0.7F, 0.5F).eyeHeight(0.45F).passengerAttachments(0.5F).clientTrackingRange(8));
+
     private PUEntities() {
     }
 

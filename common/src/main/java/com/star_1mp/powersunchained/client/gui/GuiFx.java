@@ -24,4 +24,28 @@ public final class GuiFx {
             g.blitSprite(RenderPipelines.GUI_TEXTURED, SCANLINES, x + 1, y + 1, w - 2, h - 2);
         }
     }
+
+    /**
+     * A live entity in the GUI box {@code x0,y0 .. x1,y1}, turned by {@code yawDeg}, {@code size} pixels per block (like
+     * the inventory doll, without following the mouse).
+     */
+    public static void entity(GuiGraphicsExtractor g, int x0, int y0, int x1, int y1, int size, float yawDeg,
+            net.minecraft.world.entity.LivingEntity entity) {
+        net.minecraft.client.renderer.entity.EntityRenderer<? super net.minecraft.world.entity.LivingEntity, ?> renderer =
+                net.minecraft.client.Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity);
+        net.minecraft.client.renderer.entity.state.EntityRenderState state = renderer.createRenderState(entity, 1.0F);
+        state.shadowPieces.clear();
+        state.outlineColor = 0;
+        if (state instanceof net.minecraft.client.renderer.entity.state.LivingEntityRenderState living) {
+            living.bodyRot = 180.0F + yawDeg;
+            living.yRot = 0.0F;
+            living.xRot = 0.0F;
+            living.boundingBoxWidth = living.boundingBoxWidth / living.scale;
+            living.boundingBoxHeight = living.boundingBoxHeight / living.scale;
+            living.scale = 1.0F;
+        }
+        org.joml.Quaternionf rotation = new org.joml.Quaternionf().rotateZ((float) Math.PI);
+        org.joml.Vector3f translation = new org.joml.Vector3f(0.0F, state.boundingBoxHeight / 2.0F + 0.0625F, 0.0F);
+        g.entity(state, size, translation, rotation, null, x0, y0, x1, y1);
+    }
 }

@@ -57,6 +57,9 @@ public class TechFeatToast implements Toast {
         }
         for (String feat : now) {
             // a synced set can briefly come without the feat and with it again: one toast per feat per 200 ticks
+            if (!TechFeats.ALL.contains(feat)) {
+                continue;  // hidden progress flags (e.g. a recipe revealed), not tasks: no toast
+            }
             if (known.add(feat) && ticks - LAST_TOAST.getOrDefault(feat, Long.MIN_VALUE / 2) > 200) {
                 LAST_TOAST.put(feat, ticks);
                 mc.gui.toastManager().addToast(new TechFeatToast(TechFeats.title(feat)));

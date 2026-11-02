@@ -13,10 +13,17 @@ public final class PUDamageTypes {
 
     public static final ResourceKey<DamageType> WEB = ResourceKey.create(Registries.DAMAGE_TYPE, Constants.id("web"));
 
+    /** The Irradiator's radiation (and a Radioactive Spider dying of it). */
+    public static final ResourceKey<DamageType> RADIATION = ResourceKey.create(Registries.DAMAGE_TYPE, Constants.id("radiation"));
+
     private PUDamageTypes() {
     }
 
     public static DamageSource web(Entity web, @Nullable Entity shooter) {
         return new DamageSource(web.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(WEB), web, shooter);
+    }
+
+    public static DamageSource radiation(net.minecraft.world.level.Level level) {
+        return new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(RADIATION));
     }
 }

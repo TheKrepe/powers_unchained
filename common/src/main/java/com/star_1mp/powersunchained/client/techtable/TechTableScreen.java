@@ -466,6 +466,9 @@ public class TechTableScreen extends AbstractContainerScreen<TechTableMenu> {
     private List<TechRecipe> createRows() {
         List<TechRecipe> rows = new ArrayList<>();
         for (TechRecipe r : TechRecipes.all()) {
+            if (this.minecraft.player != null && !TechRecipes.isVisible(r, this.minecraft.player)) {
+                continue;
+            }
             if (this.matches(recipeName(r), recipeSub(r))) {
                 rows.add(r);
             }

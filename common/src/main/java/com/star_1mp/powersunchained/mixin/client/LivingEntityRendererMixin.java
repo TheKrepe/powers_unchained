@@ -45,4 +45,14 @@ public abstract class LivingEntityRendererMixin<S extends LivingEntityRenderStat
             poseStack.scale(-1.0F, -1.0F, 1.0F);
         }
     }
+
+    /** Irradiated creatures shake like a curing zombie villager (owner): the vanilla "fully frozen" shake. */
+    @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;F)V",
+            at = @At("TAIL"))
+    private void powers_unchained$irradiationShake(net.minecraft.world.entity.LivingEntity entity, S state, float partialTicks,
+            CallbackInfo ci) {
+        if (com.star_1mp.powersunchained.irradiation.IrradiatorShake.isShaking(entity.getId(), entity.level().getGameTime())) {
+            state.isFullyFrozen = true;
+        }
+    }
 }

@@ -26,6 +26,8 @@ public final class PowersUnchained {
         PUBlocks.init();
         PUItems.init();
         PUEntities.init();
+        com.star_1mp.powersunchained.registry.PUBlockEntities.init();
+        com.star_1mp.powersunchained.registry.PUEffects.init();
         PUSounds.init();
         com.star_1mp.powersunchained.registry.PUMenus.init();
         PUCreativeTabs.init();

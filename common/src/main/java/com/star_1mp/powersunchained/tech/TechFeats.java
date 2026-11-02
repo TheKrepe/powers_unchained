@@ -14,6 +14,12 @@ public final class TechFeats {
     /** Struck by lightning while wearing web-shooters (Electro-Web). */
     public static final String LIGHTNING = "lightning_in_web_shooters";
 
+    /**
+     * Not a task (no toast, not in the command): the player has had a Radioactive Spider Eye, which reveals the cheaper
+     * Isotope Capsule recipe on the Tech Table.
+     */
+    public static final String SEEN_RADIOACTIVE_EYE = "seen_radioactive_spider_eye";
+
     /** Every task (for the command). */
     public static final java.util.List<String> ALL = java.util.List.of(LIGHTNING);
 
@@ -28,6 +34,15 @@ public final class TechFeats {
     public static void onStruckByLightning(ServerPlayer player) {
         if (WebShooting.hasWebShooters(player)) {
             complete(player, LIGHTNING);
+        }
+    }
+
+    /** Server, every player tick: notices a radioactive spider eye in the inventory (every 2 s). */
+    public static void playerTick(ServerPlayer player) {
+        if (player.tickCount % 40 == 0 && !Services.GAMEPLAY.techProgress(player).hasFeat(SEEN_RADIOACTIVE_EYE)
+                && player.getInventory().contains(new net.minecraft.world.item.ItemStack(
+                        com.star_1mp.powersunchained.registry.PUItems.RADIOACTIVE_SPIDER_EYE.get()))) {
+            complete(player, SEEN_RADIOACTIVE_EYE);
         }
     }
 

@@ -36,6 +36,7 @@ public class PUReiPlugin implements REIClientPlugin {
 
     public static final CategoryIdentifier<SuitCreatorDisplay> SUIT_CREATOR = CategoryIdentifier.of(Constants.MOD_ID, "suit_creator");
     public static final CategoryIdentifier<TechTableDisplay> TECH_TABLE = CategoryIdentifier.of(Constants.MOD_ID, "tech_table");
+    public static final CategoryIdentifier<IrradiatorDisplay> IRRADIATOR = CategoryIdentifier.of(Constants.MOD_ID, "irradiator");
 
     /** Dev/CI only: opens the Tech Table category. */
     public static void debugShowTechTable() {
@@ -53,6 +54,8 @@ public class PUReiPlugin implements REIClientPlugin {
         registry.addWorkstations(SUIT_CREATOR, EntryStacks.of(PUItems.SUIT_CREATOR.get()));
         registry.add(new TechTableCategory());
         registry.addWorkstations(TECH_TABLE, EntryStacks.of(PUItems.TECH_TABLE.get()));
+        registry.add(new IrradiatorCategory());
+        registry.addWorkstations(IRRADIATOR, EntryStacks.of(PUItems.IRRADIATOR.get()));
     }
 
     @Override
@@ -60,8 +63,12 @@ public class PUReiPlugin implements REIClientPlugin {
         for (SuitRecipe recipe : SuitRecipe.all()) {
             registry.add(new SuitCreatorDisplay(recipe));
         }
-        for (TechRecipe recipe : TechRecipes.all()) {
+        for (TechRecipe recipe : TechRecipes.viewerRecipes()) {
             registry.add(new TechTableDisplay(recipe));
+        }
+        int n = 0;
+        for (var recipe : com.star_1mp.powersunchained.irradiation.IrradiatorViewRecipe.all()) {
+            registry.add(new IrradiatorDisplay(recipe, n++));
         }
     }
 
@@ -143,6 +150,70 @@ public class PUReiPlugin implements REIClientPlugin {
             }
             widgets.add(Widgets.createSlot(new Point(x + TechRecipeArt.RESULT[0], y + TechRecipeArt.RESULT[1]))
                     .entries(display.getOutputEntries().get(0)).disableBackground().markOutput());
+            return widgets;
+        }
+    }
+
+    public static final class IrradiatorDisplay extends BasicDisplay {
+
+        final com.star_1mp.powersunchained.irradiation.IrradiatorViewRecipe recipe;
+
+        IrradiatorDisplay(com.star_1mp.powersunchained.irradiation.IrradiatorViewRecipe recipe, int index) {
+            super(List.of(EntryIngredients.of(recipe.input())), List.of(EntryIngredients.of(recipe.output())),
+                    Optional.of(Constants.id("irradiator/" + index)));
+            this.recipe = recipe;
+        }
+
+        @Override
+        public CategoryIdentifier<?> getCategoryIdentifier() {
+            return IRRADIATOR;
+        }
+
+        @Override
+        public DisplaySerializer<? extends Display> getSerializer() {
+            return null;  // client-only
+        }
+    }
+
+    static final class IrradiatorCategory implements DisplayCategory<IrradiatorDisplay> {
+
+        @Override
+        public CategoryIdentifier<? extends IrradiatorDisplay> getCategoryIdentifier() {
+            return IRRADIATOR;
+        }
+
+        @Override
+        public Component getTitle() {
+            return Component.translatable("block.powers_unchained.irradiator");
+        }
+
+        @Override
+        public Renderer getIcon() {
+            return EntryStacks.of(PUItems.IRRADIATOR.get());
+        }
+
+        @Override
+        public int getDisplayWidth(IrradiatorDisplay display) {
+            return com.star_1mp.powersunchained.client.irradiation.IrradiatorRecipeArt.WIDTH + 8;
+        }
+
+        @Override
+        public int getDisplayHeight() {
+            return com.star_1mp.powersunchained.client.irradiation.IrradiatorRecipeArt.HEIGHT + 8;
+        }
+
+        @Override
+        public List<Widget> setupDisplay(IrradiatorDisplay display, Rectangle bounds) {
+            int x = bounds.x + 4;
+            int y = bounds.y + 4;
+            int[] in = com.star_1mp.powersunchained.client.irradiation.IrradiatorRecipeArt.INPUT;
+            int[] out = com.star_1mp.powersunchained.client.irradiation.IrradiatorRecipeArt.OUTPUT;
+            List<Widget> widgets = new ArrayList<>();
+            widgets.add(Widgets.createRecipeBase(bounds));
+            widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) ->
+                    com.star_1mp.powersunchained.client.irradiation.IrradiatorRecipeArt.draw(graphics, display.recipe, x, y)));
+            widgets.add(Widgets.createSlot(new Point(x + in[0], y + in[1])).entries(display.getInputEntries().get(0)).disableBackground().markInput());
+            widgets.add(Widgets.createSlot(new Point(x + out[0], y + out[1])).entries(display.getOutputEntries().get(0)).disableBackground().markOutput());
             return widgets;
         }
     }

@@ -44,10 +44,18 @@ public final class PUItems {
     public static final Supplier<EmptyWebCartridgeItem> EMPTY_WEB_CARTRIDGE = register(WEAPONS, "empty_web_cartridge", EmptyWebCartridgeItem::new,
             properties -> properties.stacksTo(16));
 
+    // Irradiation (owner: capsule, eye, spawn egg in the Items tab)
+    /** Irradiator fuel: one per irradiation, an empty cartridge comes back. */
+    public static final Supplier<Item> ISOTOPE_CAPSULE = register(ITEMS, "isotope_capsule", Item::new, properties -> properties.stacksTo(16));
+    /** From a Radioactive Spider killed before it bit anyone, or an irradiated spider eye; the cheaper capsule. */
+    public static final Supplier<Item> RADIOACTIVE_SPIDER_EYE = register(ITEMS, "radioactive_spider_eye", Item::new, UnaryOperator.identity());
+    public static final Supplier<com.star_1mp.powersunchained.item.RadioactiveSpiderEggItem> RADIOACTIVE_SPIDER_SPAWN_EGG = register(ITEMS,
+            "radioactive_spider_spawn_egg", com.star_1mp.powersunchained.item.RadioactiveSpiderEggItem::new, UnaryOperator.identity());
 
     // Blocks
     public static final Supplier<BlockItem> SUIT_CREATOR = blockItem("suit_creator", PUBlocks.SUIT_CREATOR);
     public static final Supplier<BlockItem> TECH_TABLE = blockItem("tech_table", PUBlocks.TECH_TABLE);
+    public static final Supplier<BlockItem> IRRADIATOR = blockItem("irradiator", PUBlocks.IRRADIATOR);
 
     // Suits: four pieces for every suit in Suits.ALL
     private static final Map<Suit, Map<ArmorType, Supplier<SuitPieceItem>>> SUIT_PIECES = registerSuits();

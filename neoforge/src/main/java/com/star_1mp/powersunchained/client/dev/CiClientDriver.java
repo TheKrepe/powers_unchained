@@ -1030,7 +1030,70 @@ public final class CiClientDriver {
             case 8559 -> run("tick rate 2");
             case 8560 -> shot("71_settings_menu_button");
             case 8570 -> run("tick rate 20");
+            // ---- Irradiator + Radioactive Spider ----
             case 8574 -> {
+                mc.gui.setScreen(null);
+                mc.options.setCameraType(CameraType.FIRST_PERSON);
+                run("gamemode survival @p");
+                run("difficulty normal");
+                run("superpower remove spiderman @p");
+                run("effect clear @p");
+                run("time set 6000");
+                run("setblock 1000 -60 3 powers_unchained:irradiator[facing=north]");
+                run("tp @p 1000.5 -60 0.5 0 25");
+            }
+            case 8577 -> {
+                run("item replace block 1000 -60 3 container.0 with powers_unchained:isotope_capsule 2");
+                run("item replace block 1000 -60 3 container.1 with minecraft:spider_eye 4");
+                run("summon minecraft:cave_spider 1000.5 -59 3.5 {NoAI:1b,PersistenceRequired:1b}");
+                run("summon powers_unchained:radioactive_spider 1002.2 -60 2.2 {NoAI:1b,PersistenceRequired:1b,Rotation:[220f,0f]}");
+            }
+            case 8595 -> shot("72_irradiator_world");
+            case 8605 -> {
+                net.minecraft.core.BlockPos pos = new net.minecraft.core.BlockPos(1000, -60, 3);
+                mc.gameMode.useItemOn(mc.player, net.minecraft.world.InteractionHand.MAIN_HAND, new net.minecraft.world.phys.BlockHitResult(
+                        net.minecraft.world.phys.Vec3.atCenterOf(pos), net.minecraft.core.Direction.NORTH, pos, false));
+            }
+            case 8615 -> shot("73_irradiator_gui");
+            case 8625 -> {
+                if (mc.gui.screen() instanceof com.star_1mp.powersunchained.client.irradiation.IrradiatorScreen screen) {
+                    screen.debugStart();
+                }
+            }
+            case 8660 -> shot("74_irradiator_running");
+            case 8670 -> mc.gui.setScreen(null);
+            case 8680 -> shot("75_irradiating_world");
+            case 8685 -> run("tick sprint 3100");
+            case 8800 -> {
+                long radioactive = mc.level.getEntitiesOfClass(com.star_1mp.powersunchained.entity.spider.RadioactiveSpider.class,
+                        new net.minecraft.world.phys.AABB(995, -62, -3, 1006, -55, 8)).size();
+                long cave = mc.level.getEntitiesOfClass(net.minecraft.world.entity.monster.spider.CaveSpider.class,
+                        new net.minecraft.world.phys.AABB(995, -62, -3, 1006, -55, 8)).size();
+                Constants.LOG.info("[CI] irradiation result: radioactive spiders {} cave spiders {}", radioactive, cave);
+                shot("76_irradiator_after");
+            }
+            // the bite: a free radioactive spider next to a player without powers
+            case 8810 -> {
+                run("kill @e[type=powers_unchained:radioactive_spider]");
+                run("kill @e[type=minecraft:cave_spider]");
+                run("kill @e[type=minecraft:item]");
+                run("superpower remove spiderman @p");
+                run("effect clear @p");
+                run("tp @p 1000.5 -60 0.5 0 25");
+            }
+            case 8820 -> run("summon powers_unchained:radioactive_spider 1001.5 -60 2.0");
+            case 8862 -> {
+                Constants.LOG.info("[CI] bitten: fever {}", mc.player.hasEffect(com.star_1mp.powersunchained.registry.PUEffects.RADIOACTIVE_FEVER.get()));
+                shot("77_bite");
+            }
+            case 8900 -> shot("78_fever");
+            case 8905 -> run("tick sprint 640");
+            case 8945 -> {
+                Constants.LOG.info("[CI] powers after fever: {}",
+                        com.star_1mp.powersunchained.power.Superpowers.data(mc.player).has(com.star_1mp.powersunchained.power.Superpower.SPIDERMAN));
+                shot("79_power_gained");
+            }
+            case 8975 -> {
                 mc.gui.setScreen(null);
                 Constants.LOG.info("[CI] done");
                 mc.stop();

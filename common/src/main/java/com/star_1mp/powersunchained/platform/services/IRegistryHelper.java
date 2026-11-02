@@ -38,6 +38,15 @@ public interface IRegistryHelper {
     /** Registers an entity type; the builder is built with the registry key. */
     <T extends Entity> Supplier<EntityType<T>> registerEntityType(String name, Supplier<EntityType.Builder<T>> builder);
 
+    /** Registers a block entity type for {@code blocks} (resolved lazily, after the blocks exist). */
+    <T extends net.minecraft.world.level.block.entity.BlockEntity> Supplier<net.minecraft.world.level.block.entity.BlockEntityType<T>> registerBlockEntity(
+            String name, net.minecraft.world.level.block.entity.BlockEntityType.BlockEntitySupplier<T> factory,
+            Supplier<? extends Block> block);
+
+    /** Registers a mob effect; the supplier is also the effect's registry holder. */
+    Supplier<net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect>> registerMobEffect(String name,
+            Supplier<? extends net.minecraft.world.effect.MobEffect> effect);
+
     /** Registers a menu type (no extra open data); {@code factory} = (container id, player inventory) -> menu. */
     <T extends net.minecraft.world.inventory.AbstractContainerMenu> Supplier<net.minecraft.world.inventory.MenuType<T>> registerMenu(
             String name, java.util.function.BiFunction<Integer, net.minecraft.world.entity.player.Inventory, T> factory);

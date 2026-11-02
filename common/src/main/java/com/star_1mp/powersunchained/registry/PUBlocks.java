@@ -30,6 +30,18 @@ public final class PUBlocks {
                     .sound(SoundType.WOOD)
                     .ignitedByLava());
 
+    /** Steel + lead machine with a glowing core: pickaxe, like the Suit Creator; light 7 idle, 13 while irradiating. */
+    public static final Supplier<com.star_1mp.powersunchained.block.IrradiatorBlock> IRRADIATOR = Services.REGISTRY.registerBlock(
+            "irradiator",
+            com.star_1mp.powersunchained.block.IrradiatorBlock::new,
+            properties -> properties
+                    .mapColor(MapColor.METAL)
+                    .requiresCorrectToolForDrops()
+                    .strength(3.5F, 6.0F)
+                    .sound(SoundType.METAL)
+                    .lightLevel(state -> state.getValue(com.star_1mp.powersunchained.block.IrradiatorBlock.ACTIVE) ? 13 : 7)
+                    .noOcclusion());
+
     private PUBlocks() {
     }
 

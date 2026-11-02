@@ -31,6 +31,9 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     private static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, Constants.MOD_ID);
     private static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, Constants.MOD_ID);
     private static final DeferredRegister<net.minecraft.world.inventory.MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, Constants.MOD_ID);
+    private static final DeferredRegister<net.minecraft.world.level.block.entity.BlockEntityType<?>> BLOCK_ENTITIES =
+            DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Constants.MOD_ID);
+    private static final DeferredRegister<net.minecraft.world.effect.MobEffect> MOB_EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT, Constants.MOD_ID);
     private static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Constants.MOD_ID);
 
     /** Hooks all deferred registers to the mod event bus. Call after common content has been declared. */
@@ -41,6 +44,8 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
         ENTITY_TYPES.register(modEventBus);
         SOUNDS.register(modEventBus);
         MENUS.register(modEventBus);
+        BLOCK_ENTITIES.register(modEventBus);
+        MOB_EFFECTS.register(modEventBus);
         CREATIVE_TABS.register(modEventBus);
     }
 
@@ -67,6 +72,21 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     @Override
     public <T extends Entity> Supplier<EntityType<T>> registerEntityType(String name, Supplier<EntityType.Builder<T>> builder) {
         return ENTITY_TYPES.register(name, id -> builder.get().build(ResourceKey.create(Registries.ENTITY_TYPE, id)));
+    }
+
+    @Override
+    public <T extends net.minecraft.world.level.block.entity.BlockEntity> Supplier<net.minecraft.world.level.block.entity.BlockEntityType<T>> registerBlockEntity(
+            String name, net.minecraft.world.level.block.entity.BlockEntityType.BlockEntitySupplier<T> factory, Supplier<? extends Block> block) {
+        return BLOCK_ENTITIES.register(name, () -> new net.minecraft.world.level.block.entity.BlockEntityType<>(factory, block.get()));
+    }
+
+    @Override
+    public Supplier<net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect>> registerMobEffect(String name,
+            Supplier<? extends net.minecraft.world.effect.MobEffect> effect) {
+        net.neoforged.neoforge.registries.DeferredHolder<net.minecraft.world.effect.MobEffect, ? extends net.minecraft.world.effect.MobEffect> holder =
+                MOB_EFFECTS.register(name, effect);
+        net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> asHolder = holder;
+        return () -> asHolder;
     }
 
     @Override

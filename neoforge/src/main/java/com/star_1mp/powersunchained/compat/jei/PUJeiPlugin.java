@@ -29,6 +29,8 @@ public class PUJeiPlugin implements IModPlugin {
 
     public static final IRecipeType<SuitRecipe> SUIT_CREATOR = IRecipeType.create(Constants.MOD_ID, "suit_creator", SuitRecipe.class);
     public static final IRecipeType<TechRecipe> TECH_TABLE = IRecipeType.create(Constants.MOD_ID, "tech_table", TechRecipe.class);
+    public static final IRecipeType<com.star_1mp.powersunchained.irradiation.IrradiatorViewRecipe> IRRADIATOR = IRecipeType.create(
+            Constants.MOD_ID, "irradiator", com.star_1mp.powersunchained.irradiation.IrradiatorViewRecipe.class);
 
     @Override
     public Identifier getPluginUid() {
@@ -72,19 +74,22 @@ public class PUJeiPlugin implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         category = new SuitCreatorCategory(registration.getJeiHelpers().getGuiHelper());
-        registration.addRecipeCategories(category, new TechTableCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(category, new TechTableCategory(registration.getJeiHelpers().getGuiHelper()),
+                new IrradiatorCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addRecipes(SUIT_CREATOR, SuitRecipe.all());
-        registration.addRecipes(TECH_TABLE, TechRecipes.all());
+        registration.addRecipes(TECH_TABLE, TechRecipes.viewerRecipes());
+        registration.addRecipes(IRRADIATOR, com.star_1mp.powersunchained.irradiation.IrradiatorViewRecipe.all());
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addCraftingStation(SUIT_CREATOR, PUItems.SUIT_CREATOR.get());
         registration.addCraftingStation(TECH_TABLE, PUItems.TECH_TABLE.get());
+        registration.addCraftingStation(IRRADIATOR, PUItems.IRRADIATOR.get());
     }
 
     /** Dev/CI only: opens the Tech Table category. */
@@ -117,6 +122,30 @@ public class PUJeiPlugin implements IModPlugin {
         @Override
         public void draw(TechRecipe recipe, IRecipeSlotsView slots, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
             TechRecipeArt.draw(graphics, recipe, 0, 0);
+        }
+    }
+
+    /** The Irradiator: sample -> result with the chance ({@link com.star_1mp.powersunchained.client.irradiation.IrradiatorRecipeArt}). */
+    static final class IrradiatorCategory extends AbstractRecipeCategory<com.star_1mp.powersunchained.irradiation.IrradiatorViewRecipe> {
+
+        IrradiatorCategory(IGuiHelper gui) {
+            super(IRRADIATOR, Component.translatable("block.powers_unchained.irradiator"), gui.createDrawableItemLike(PUItems.IRRADIATOR.get()),
+                    com.star_1mp.powersunchained.client.irradiation.IrradiatorRecipeArt.WIDTH,
+                    com.star_1mp.powersunchained.client.irradiation.IrradiatorRecipeArt.HEIGHT);
+        }
+
+        @Override
+        public void setRecipe(IRecipeLayoutBuilder builder, com.star_1mp.powersunchained.irradiation.IrradiatorViewRecipe recipe, IFocusGroup focuses) {
+            int[] in = com.star_1mp.powersunchained.client.irradiation.IrradiatorRecipeArt.INPUT;
+            int[] out = com.star_1mp.powersunchained.client.irradiation.IrradiatorRecipeArt.OUTPUT;
+            builder.addInputSlot(in[0], in[1]).add(recipe.input());
+            builder.addOutputSlot(out[0], out[1]).add(recipe.output());
+        }
+
+        @Override
+        public void draw(com.star_1mp.powersunchained.irradiation.IrradiatorViewRecipe recipe, IRecipeSlotsView slots, GuiGraphicsExtractor graphics,
+                double mouseX, double mouseY) {
+            com.star_1mp.powersunchained.client.irradiation.IrradiatorRecipeArt.draw(graphics, recipe, 0, 0);
         }
     }
 

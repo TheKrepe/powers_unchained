@@ -108,6 +108,8 @@ public class PowersUnchainedNeoForgeClient {
         modEventBus.addListener((RegisterGuiLayersEvent event) -> {
             event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("web_shooters"), WebShooterHud::render);
             event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("abilities"), AbilityHud::render);
+            event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("radioactive_fever"),
+                    com.star_1mp.powersunchained.client.irradiation.FeverClient::render);
             event.registerBelow(VanillaGuiLayers.CROSSHAIR, Constants.id("web_overlay"), WebOverlay::render);
             event.registerAbove(VanillaGuiLayers.CROSSHAIR, Constants.id("spider_sense"),
                     com.star_1mp.powersunchained.client.power.SpiderSense::render);
@@ -128,6 +130,8 @@ public class PowersUnchainedNeoForgeClient {
             event.registerEntityRenderer(PUEntities.WEB_ZIP_LINE.get(), WebProjectileRenderer::impact);
             event.registerEntityRenderer(PUEntities.WEB_SWING_LINE.get(), WebProjectileRenderer::impact);
             event.registerEntityRenderer(PUEntities.WEB_COCOON.get(), WebCocoonRenderer::new);
+            event.registerEntityRenderer(PUEntities.RADIOACTIVE_SPIDER.get(),
+                    com.star_1mp.powersunchained.client.irradiation.RadioactiveSpiderRenderer::new);
         });
         // powers menu button in the player's inventory (survival + creative), placed per the Interface Settings
         NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.ScreenEvent.Init.Post event) -> {
@@ -175,12 +179,20 @@ public class PowersUnchainedNeoForgeClient {
             WebZipAnimation.tick();
             com.star_1mp.powersunchained.client.suitcreator.SuitCreatorClient.tick();
             com.star_1mp.powersunchained.client.power.PowerClient.tick();
+            com.star_1mp.powersunchained.client.irradiation.FeverClient.tick();
         });
         // upside down on the web: the camera turns over too (Fisk's camera roll)
         NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.client.event.ViewportEvent.ComputeCameraAngles event) -> {
             float roll = com.star_1mp.powersunchained.client.web.WebRappel.cameraRoll((float) event.getPartialTick());
             if (roll != 0.0F) {
                 event.setRoll(event.getRoll() + roll);
+            }
+            // the Radioactive Spider's bite: a second of shaking
+            float pt = (float) event.getPartialTick();
+            float shake = com.star_1mp.powersunchained.client.irradiation.FeverClient.shakeRoll(pt);
+            if (shake != 0.0F) {
+                event.setRoll(event.getRoll() + shake);
+                event.setYaw(event.getYaw() + com.star_1mp.powersunchained.client.irradiation.FeverClient.shakeYaw(pt));
             }
         });
         // the ability wheel: while open the mouse moves its pointer, not the camera
@@ -199,6 +211,9 @@ public class PowersUnchainedNeoForgeClient {
         modEventBus.addListener((net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) -> event.register(
                 com.star_1mp.powersunchained.registry.PUMenus.SUIT_CREATOR.get(),
                 com.star_1mp.powersunchained.client.suitcreator.SuitCreatorScreen::new));
+        modEventBus.addListener((net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) -> event.register(
+                com.star_1mp.powersunchained.registry.PUMenus.IRRADIATOR.get(),
+                com.star_1mp.powersunchained.client.irradiation.IrradiatorScreen::new));
         modEventBus.addListener((net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) -> event.register(
                 com.star_1mp.powersunchained.registry.PUMenus.TECH_TABLE.get(),
                 com.star_1mp.powersunchained.client.techtable.TechTableScreen::new));

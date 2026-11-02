@@ -36,8 +36,19 @@ public class PowersUnchainedNeoForge {
             if (event.getEntity() instanceof ServerPlayer player) {
                 WebShooting.playerTick(player);
                 com.star_1mp.powersunchained.power.Superpowers.serverTick(player);
+                com.star_1mp.powersunchained.tech.TechFeats.playerTick(player);
             }
         });
+        // the Radioactive Fever can't be cured (milk, /effect clear): the bite's powers always come
+        NeoForge.EVENT_BUS.addListener((net.neoforged.neoforge.event.entity.living.MobEffectEvent.Remove event) -> {
+            if (event.getEffect() != null && event.getEffect().is(com.star_1mp.powersunchained.Constants.id("radioactive_fever"))) {
+                event.setCanceled(true);
+            }
+        });
+        // Radioactive Spider attributes (cave spider's)
+        modEventBus.addListener((net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent event) ->
+                event.put(com.star_1mp.powersunchained.registry.PUEntities.RADIOACTIVE_SPIDER.get(),
+                        com.star_1mp.powersunchained.entity.spider.RadioactiveSpider.createAttributes().build()));
         // no fall damage when landing after travelling by web (zip, swing)
         NeoForge.EVENT_BUS.addListener((LivingFallEvent event) -> {
             if (event.getEntity() instanceof ServerPlayer player
