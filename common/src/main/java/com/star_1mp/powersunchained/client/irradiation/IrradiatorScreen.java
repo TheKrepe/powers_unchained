@@ -26,7 +26,7 @@ import org.jspecify.annotations.Nullable;
  * Irradiator screen (owner: "технологичный-зелёный"): our machine panel with dark green monitors. Left: the irradiation
  * chamber — a glass cylinder with the glowing core and whatever is being irradiated (the creature standing on the block,
  * live, or the sample item); middle: the dose gauge (needle dial + bar); right: capsule / sample / result slots;
- * under the chamber the IRRADIATE button and the chance of the creature / item on it.
+ * under the chamber the IRRADIATE button (owner: no time left, no chance text).
  */
 public class IrradiatorScreen extends AbstractContainerScreen<IrradiatorMenu> {
 
@@ -170,8 +170,7 @@ public class IrradiatorScreen extends AbstractContainerScreen<IrradiatorMenu> {
 
     private Component status() {
         if (this.menu.running()) {
-            int left = Math.max(0, Irradiation.DURATION - this.menu.progress()) / 20;
-            return tr("status.running", String.format("%d:%02d", left / 60, left % 60));
+            return tr("status.running");  // owner: no time left shown
         }
         if (!this.hasFuel()) {
             return tr("status.no_fuel");
@@ -256,21 +255,7 @@ public class IrradiatorScreen extends AbstractContainerScreen<IrradiatorMenu> {
         g.blitSprite(RenderPipelines.GUI_TEXTURED, id, x + BTN_X, y + BTN_Y, BTN_W, BTN_H);
         Component text = this.menu.running() ? tr("button.running") : tr("button.start");
         g.centeredText(this.font, text, x + BTN_X + BTN_W / 2, y + BTN_Y + 4, active ? 0xFFB8FF7A : 0xFFA0A0A0);
-        // chance of what is on it
-        int kind = this.menu.targetKind();
-        Component chance;
-        if (this.target() != null) {
-            chance = tr("chance." + switch (kind) {
-                case Irradiation.KIND_CAVE_SPIDER -> "mutation";
-                case Irradiation.KIND_PLAYER -> "player";
-                default -> "mob";
-            }, Irradiation.chancePercent(kind));
-        } else if (this.itemReady()) {
-            chance = tr("chance.item", Irradiation.chancePercent(Irradiation.KIND_NONE));
-        } else {
-            chance = tr("chance.none");
-        }
-        g.text(this.font, chance, x + GA_X, y + BTN_Y + 4, kind == Irradiation.KIND_CAVE_SPIDER && this.target() != null ? GREEN : GREY, false);
+        // owner: no chance text ("Мутация: 70%") on the screen
     }
 
     @Override
