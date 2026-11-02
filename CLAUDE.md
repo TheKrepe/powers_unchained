@@ -303,7 +303,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   with search) = the powers the player has RIGHT NOW; owner: suits AND gadgets (web-shooters) are NOT listed there (gadgets only in
   the Keys tab, upgraded on the Tech Table). Stats: big
   real-player hologram (drag to turn, `renderEntityInInventoryFollowsAngle`), the power's level bar under it, stats card
-  on the right. Skills: Palladium-like tree, root = the power's emblem as a spinning hologram (`spinningEmblem`), 3 branches; a power's icon
+  on the right. Skills: Palladium-like tree, root = the power's emblem as a STILL hologram (owner: no spin, no glitch lines; `emblemHologram`), 3 branches; a power's icon
   everywhere in the menu = the Suit Creator hero-group emblem (`PowersMenuScreen.emblem`, `suit_creator/group/<group>`); Keys: drag abilities onto 5 sockets under the hologram (RMB = clear), HUD preview,
   "Автоматически", HUD settings. CI shots 68-71 (70 / 70b / 70c = the three tabs).
 - Skill trees (`power/skill/`): `SkillTrees` (Spider-Man: 21 nodes, branches Agility / Sense / Combat of 7, shape

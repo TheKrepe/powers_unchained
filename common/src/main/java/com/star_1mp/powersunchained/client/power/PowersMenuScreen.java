@@ -377,26 +377,9 @@ public class PowersMenuScreen extends Screen {
         }
     }
 
-    /** A flat sprite turning round its vertical axis (squashed by cos of the angle), tinted like a hologram. */
-    private void spinningEmblem(GuiGraphicsExtractor g, Identifier sprite, int cx, int top, int size) {
-        float angle = this.time * 0.09F;
-        float sx = Mth.cos(angle);
-        float w = Math.max(0.06F, Math.abs(sx));
-        // the back side is a bit darker, like the far face of a hologram
-        int alpha = sx >= 0.0F ? 0xF0 : 0xA8;
-        float flicker = 0.92F + 0.08F * Mth.sin(this.time * 1.7F);
-        int color = ((int) (alpha * flicker) << 24) | 0xC8F6FF;
-        g.pose().pushMatrix();
-        g.pose().translate(cx + 0.5F, top);
-        g.pose().scale(w, 1.0F);
-        g.pose().translate(-size / 2.0F, 0.0F);  // centred exactly on cx + 0.5 (odd sizes too)
-        g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, 0, 0, size, size, color);
-        g.pose().popMatrix();
-        // scan lines over it
-        int half = Math.max(1, Math.round(size * w / 2.0F));
-        for (int yy = top + 1; yy < top + size; yy += 3) {
-            g.fill(cx - half, yy, cx + half + 1, yy + 1, 0x2259E4FF);
-        }
+    /** owner: the emblem hologram stands still, no spinning, no flicker / scan-line glitch — just a steady holo tint. */
+    private void emblemHologram(GuiGraphicsExtractor g, Identifier sprite, int cx, int top, int size) {
+        g.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, cx - size / 2, top, size, size, 0xF0C8F6FF);
     }
 
     /** The live player turned by {@code yawDeg} (like the inventory doll, without following the mouse). */
@@ -559,14 +542,14 @@ public class PowersMenuScreen extends Screen {
         }
         Superpower power = sel.power();
         List<SkillNode> nodes = SkillTrees.of(power);
-        // root: the power's emblem as a spinning hologram at the top (owner)
+        // root: the power's emblem as a still hologram at the top (owner: no spinning, no glitch lines)
         int cx = tx + TREE_W / 2;
         int rootY = ty + 3;
         int emblemSize = 27;  // 3x the 9x9 emblem
         int emblemTop = rootY + (ROOT_H - 4 - emblemSize) / 2;
         g.fillGradient(cx - 20, rootY + 1, cx + 21, rootY + ROOT_H - 4, 0x0059E4FF, 0x2459E4FF);
         g.fill(cx - 21, rootY + ROOT_H - 4, cx + 22, rootY + ROOT_H - 3, CYAN);
-        this.spinningEmblem(g, emblem(power), cx, emblemTop, emblemSize);
+        this.emblemHologram(g, emblem(power), cx, emblemTop, emblemSize);
         // branch titles + lines from the root
         int bw = TREE_W / 3;
         for (SkillBranch b : SkillBranch.values()) {
