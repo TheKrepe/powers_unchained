@@ -316,6 +316,33 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   ceilings, roll, flips, night vision, fall immunity, sense range / mobs / projectiles are skills (gates in
   `WallClimbClient`, `RollClient`, `Rolling`, `SpiderSense.range`, `Superpowers.has/fallImmune`).
   `/superpower xp <power> <amount>`, `/superpower skill unlock|lock <power> <skill|all>`.
+- Radioactive Spider + Irradiator (owner's final spec, `irradiation/`): the SURVIVAL way to get the Spider-Man power.
+  `block/IrradiatorBlock` (+ `block/entity/IrradiatorBlockEntity`, Container + MenuProvider; FACING + ACTIVE, light 7/13;
+  Tech Table ONLY recipe; textures/models by `tools/gen_irradiation.py`, idle + `_active` models, translucent glass
+  cylinder, glowing core via `light_emission`). Fuel = `isotope_capsule` (Tech Table: empty cartridge + 4 glowstone dust +
+  redstone block + amethyst shard; the cheaper `isotope_capsule_from_eye` = empty cartridge + radioactive spider eye + 2
+  glowstone dust + redstone is HIDDEN until feat `TechFeats.SEEN_RADIOACTIVE_EYE` (inventory check every 40 ticks; not a
+  task, no toast) and is not in JEI/REI — `TechRecipes.isVisible/viewerRecipes`). One capsule per run, it turns into an
+  empty cartridge (in the fuel slot when it was the last one, else the result slot). 150 s (`Irradiation.DURATION`),
+  started by the screen button (menu button 0) OR a rising redstone edge. A mob / player standing ON the block has
+  priority: frozen (`WebSlowness.hold` + snapped to the middle), darkness + nausea till the end, shakes like a curing
+  zombie villager (client `IrradiatorShake` from the BE update packet's "Shake" id -> `LivingEntityRendererMixin` sets
+  `isFullyFrozen`), ZV cure sound at the start; cave spider -> `RadioactiveSpider` 70 % (`convertTo`, levelEvent 1027) else it
+  dies for real (radiation damage, vanilla loot); player survives 75 % (poison 5 min) else dies; any other mob 70 %.
+  Else the sample slot item (`IrradiationRecipes`: spider eye -> radioactive spider eye 70 %, else burns up). Sculk
+  clicking = geiger. Screen `client/irradiation/IrradiatorScreen` (green: chamber with the live creature / item, needle
+  dial + dose bar, slots). Advancements (vanilla Adventure tab, impossible criteria awarded in code, `PUAdvancements`):
+  irradiation/sample (cave spider on the block), experiment (start), great_power (bitten -> powers). JEI/REI category
+  `powers_unchained:irradiator` (`IrradiatorViewRecipe`, `IrradiatorRecipeArt`).
+  `entity/spider/RadioactiveSpider` (extends Spider; cave spider model layer, size, 12 HP, sounds; loot table = vanilla
+  cave spider JSON 1:1; NO poison): hunts the nearest player WITHOUT the power within 12 (re-picked every second, so a
+  closer player "steals" it), climbs; its hit = `RadioactiveBite.bite` (nausea + slowness I + `PUEffects.RADIOACTIVE_FEVER`
+  30 s) and it dies at once (green sparks, loot); 5 min without a target -> dies; killed by a player before biting ->
+  + radioactive spider eye. The fever's last tick (`RadioactiveFeverEffect`) gives the power; milk / clear can't remove
+  it (NeoForge `MobEffectEvent.Remove` cancelled). Client `FeverClient`: bite = 1 s red flash + camera shake, fever =
+  dark pulsing edges, end = first spider-sense burst + `PowerGainedToast`. Renderer `RadioactiveSpiderRenderer` (cave
+  spider layer + pulsing emissive layer of the red patterns). Spawn egg = own `RadioactiveSpiderEggItem` (vanilla
+  `spawnEgg` needs the entity type while items register). CI scenes 8574-8975 (shots 72-79, `tick sprint`).
 - Chest pieces are `<suit>_chestplate` (renamed from `_suit`).
 - Creative tabs (`PUCreativeTabs`): Suits, Weapons, Items, Blocks;
   ordered with `withTabsBefore`. Tab contents go through `IRegistryHelper.TabOutput` (search-only flag).
