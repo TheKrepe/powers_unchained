@@ -419,7 +419,7 @@
   "advancements.powers_unchained.great_power.title": "Great Power…",
   "advancements.powers_unchained.great_power.description": "Get powers from a Radioactive Spider's bite",
   "toast.powers_unchained.power_gained.spiderman": "You got Spider-Man's powers!",
-  "toast.powers_unchained.power_gained.hint": "Open the powers menu — %s",
+  "toast.powers_unchained.power_gained.hint": "Powers menu — %s",
   "tech_recipe.powers_unchained.irradiator.desc": "Irradiates the creature standing on it, or an item. Runs on isotope capsules.",
   "tech_recipe.powers_unchained.isotope_capsule.desc": "Irradiator fuel: one capsule per irradiation.",
   "tech_recipe.powers_unchained.isotope_capsule_from_eye.desc": "A cheaper capsule made from a radioactive spider eye.",

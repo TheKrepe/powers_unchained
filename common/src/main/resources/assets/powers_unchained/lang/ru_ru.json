@@ -419,7 +419,7 @@
   "advancements.powers_unchained.great_power.title": "Великая сила…",
   "advancements.powers_unchained.great_power.description": "Получите силы от укуса Радиоактивного паука",
   "toast.powers_unchained.power_gained.spiderman": "Вы получили силы Человека-Паука!",
-  "toast.powers_unchained.power_gained.hint": "Откройте меню способностей — %s",
+  "toast.powers_unchained.power_gained.hint": "Меню способностей — %s",
   "tech_recipe.powers_unchained.irradiator.desc": "Облучает существо, стоящее на нём, или предмет. Питается изотопными капсулами.",
   "tech_recipe.powers_unchained.isotope_capsule.desc": "Топливо Облучателя: одна капсула — одно облучение.",
   "tech_recipe.powers_unchained.isotope_capsule_from_eye.desc": "Капсула подешевле — из радиоактивного паучьего глаза.",

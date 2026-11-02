@@ -264,6 +264,10 @@ public class IrradiatorBlockEntity extends BlockEntity implements Container, Men
     private void finish(ServerLevel level, BlockPos pos, @Nullable LivingEntity target) {
         this.useFuel(level, pos);
         float roll = level.getRandom().nextFloat();
+        if (Boolean.getBoolean("powers_unchained.ci")) {
+            com.star_1mp.powersunchained.Constants.LOG.info("[CI] irradiation finished: mode {} target {} roll {}", this.mode,
+                    target == null ? "-" : target.getType().getDescriptionId(), roll);
+        }
         if (this.mode == MODE_ENTITY && target != null) {
             int kind = Irradiation.kind(target);
             if (kind == Irradiation.KIND_CAVE_SPIDER && target instanceof CaveSpider spider) {
