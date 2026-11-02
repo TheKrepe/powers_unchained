@@ -156,7 +156,7 @@ public class IrradiatorBlockEntity extends BlockEntity implements Container, Men
                 this.targetId = id;
                 if (on != null && this.targetKind == Irradiation.KIND_CAVE_SPIDER && level.getGameTime() % 20 == 0) {
                     for (Player p : level.players()) {
-                        if (p instanceof ServerPlayer sp && p.distanceToSqr(pos.getCenter()) < 16 * 16) {
+                        if (p instanceof ServerPlayer sp && p.distanceToSqr(net.minecraft.world.phys.Vec3.atCenterOf(pos)) < 16 * 16) {
                             PUAdvancements.award(sp, PUAdvancements.SAMPLE);
                         }
                     }
@@ -252,7 +252,7 @@ public class IrradiatorBlockEntity extends BlockEntity implements Container, Men
             PUAdvancements.award(starter, PUAdvancements.EXPERIMENT);
         } else {
             for (Player p : level.players()) {
-                if (p instanceof ServerPlayer sp && p.distanceToSqr(pos.getCenter()) < 16 * 16) {
+                if (p instanceof ServerPlayer sp && p.distanceToSqr(net.minecraft.world.phys.Vec3.atCenterOf(pos)) < 16 * 16) {
                     PUAdvancements.award(sp, PUAdvancements.EXPERIMENT);
                 }
             }

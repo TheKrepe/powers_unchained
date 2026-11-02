@@ -1,6 +1,5 @@
 package com.star_1mp.powersunchained.block;
 
-import com.mojang.serialization.MapCodec;
 import com.star_1mp.powersunchained.block.entity.IrradiatorBlockEntity;
 import com.star_1mp.powersunchained.registry.PUBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -33,18 +32,12 @@ import org.jspecify.annotations.Nullable;
  */
 public class IrradiatorBlock extends BaseEntityBlock {
 
-    public static final MapCodec<IrradiatorBlock> CODEC = simpleCodec(IrradiatorBlock::new);
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     public IrradiatorBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ACTIVE, false));
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override
