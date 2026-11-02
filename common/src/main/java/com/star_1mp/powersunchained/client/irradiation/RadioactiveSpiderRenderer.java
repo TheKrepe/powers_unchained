@@ -49,7 +49,9 @@ public class RadioactiveSpiderRenderer extends SpiderRenderer<RadioactiveSpider>
             if (state.deathTime > 0.0F) {
                 return;  // "goes out" when it dies
             }
-            float pulse = 0.35F + 0.65F * (0.5F + 0.5F * Mth.sin(state.ageInTicks * 0.08F));
+            // a slow, eased breathing glow (never fully off, so the shaded red stays readable)
+            float t = 0.5F + 0.5F * Mth.sin(state.ageInTicks * 0.07F);
+            float pulse = 0.4F + 0.6F * (t * t * (3.0F - 2.0F * t));
             int color = ARGB.colorFromFloat(1.0F, pulse, pulse, pulse);
             collector.order(1).submitModel(this.getParentModel(), state, poseStack, GLOW, light, OverlayTexture.NO_OVERLAY, color, null,
                     state.outlineColor);

@@ -171,8 +171,8 @@ public final class SpiderSense {
     /** 0 = harmless, up to 1 = urgent. */
     private static float danger(LocalPlayer player, Entity e, Vec3 eye) {
         double range = range(player);
-        if (!e.isAlive()) {
-            return 0.0F;
+        if (!e.isAlive() || e instanceof com.star_1mp.powersunchained.entity.spider.RadioactiveSpider) {
+            return 0.0F;  // owner: the sense does not warn about radioactive spiders
         }
         double dist = e.distanceTo(player);
         if (e instanceof Creeper creeper && creeper.getSwelling(1.0F) > 0.0F && dist < Math.min(10.0, range)) {

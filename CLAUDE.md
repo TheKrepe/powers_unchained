@@ -341,7 +341,7 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   + radioactive spider eye. The fever's last tick (`RadioactiveFeverEffect`) gives the power; milk / clear can't remove
   it (NeoForge `MobEffectEvent.Remove` cancelled). Client `FeverClient`: bite = 1 s red flash + camera shake, fever =
   dark pulsing edges, end = first spider-sense burst + `PowerGainedToast`. Renderer `RadioactiveSpiderRenderer` (cave
-  spider layer + pulsing emissive layer of the red patterns). Spawn egg = own `RadioactiveSpiderEggItem` (vanilla
+  spider layer + eased pulsing emissive layer of the SHADED red patterns with a faint halo). Spider-Sense ignores it (owner). Spawn egg = own `RadioactiveSpiderEggItem` (vanilla
   `spawnEgg` needs the entity type while items register). CI scenes 8574-8975 (shots 72-79, `tick sprint`).
 - Chest pieces are `<suit>_chestplate` (renamed from `_suit`).
 - Creative tabs (`PUCreativeTabs`): Suits, Weapons, Items, Blocks;

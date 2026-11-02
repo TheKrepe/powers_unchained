@@ -246,9 +246,15 @@ for y in range(src.height):
         out.putpixel((x, y), NAVY[idx])
 
 
-def pattern(x, y, color=RED):
-    out.putpixel((x, y), color)
-    glow.putpixel((x, y), rgb("#ff3a3a"))
+# red patterns: collected first, then shaded (light from above, darker rims / tips) and given a soft glow
+RED_HI = rgb("#ff6a52")
+RED_MID = rgb("#a8121f")
+RED_DEEP = rgb("#5c0812")
+PATTERN = {}
+
+
+def pattern(x, y, weight=1.0):
+    PATTERN[(x, y)] = max(PATTERN.get((x, y), 0.0), weight)
 
 
 # the abdomen's back (top face of the 10x8x12 box at texOffs 0,12: u 12..21, v 12..23): a spider symbol
@@ -271,19 +277,55 @@ for j, row in enumerate(symbol):
     for i, ch in enumerate(row):
         if ch == "#":
             pattern(ox + i, oy + j)
-# red markings along the abdomen's sides (front/back/east/west faces, v 24..31)
+# thin red markings along the abdomen's sides (front/back/east/west faces, v 24..31)
 for u in range(0, 44):
     for v in (25, 28):
         if src.getpixel((u, v))[3] and (u + v) % 5 == 0:
-            pattern(u, v, RED_D)
+            pattern(u, v, 0.55)
 # red bands round the legs (legs texOffs 18,0: 16x2x2 -> rows 0..3)
 for u in range(18, 54):
     for v in range(0, 4):
         if src.getpixel((u, v))[3] and (u - 18) % 6 in (1, 2):
-            pattern(u, v, RED)
+            pattern(u, v, 0.8)
 # a mark on the thorax top (6x6x6 at texOffs 0,0: top face u 6..11, v 0..5)
 for (i, j) in ((8, 2), (9, 2), (8, 3), (9, 3)):
     pattern(i, j)
+
+
+def mix(a, b, t):
+    return tuple(int(a[k] + (b[k] - a[k]) * t) for k in range(3)) + (255,)
+
+
+def red_shade(x, y, weight):
+    n = sum((x + dx, y + dy) in PATTERN for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
+    lit = (x, y - 1) not in PATTERN          # top edge catches the light
+    dark = (x, y + 1) not in PATTERN         # bottom edge in shade
+    if n <= 1:
+        c = RED_MID                          # thin tips
+    elif n >= 4:
+        c = mix(RED, RED_HI, 0.55)           # the core of a shape
+    else:
+        c = RED
+    if lit and n >= 2:
+        c = mix(c, RED_HI, 0.45)
+    elif dark:
+        c = mix(c, RED_DEEP, 0.4)
+    return mix(RED_DEEP, c, 0.35 + 0.65 * weight)
+
+
+for (x, y), wgt in PATTERN.items():
+    c = red_shade(x, y, wgt)
+    out.putpixel((x, y), c)
+    # glow: the same shading, brighter in the middle of shapes (eyes render type is additive)
+    glow.putpixel((x, y), mix((0, 0, 0, 255), mix(c, rgb("#ff8a6a"), 0.25), 0.55 + 0.45 * wgt))
+# a faint halo round the patterns on the dark body, so the pulse blooms softly instead of switching on/off
+for (x, y), wgt in list(PATTERN.items()):
+    for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+        q = (x + dx, y + dy)
+        if q in PATTERN or not (0 <= q[0] < src.width and 0 <= q[1] < src.height) or src.getpixel(q)[3] == 0:
+            continue
+        if glow.getpixel(q)[3] == 0:
+            glow.putpixel(q, (int(70 * wgt), int(8 * wgt), int(10 * wgt), 255))
 out.save(os.path.join(TEX_E, "radioactive_spider.png"))
 glow.save(os.path.join(TEX_E, "radioactive_spider_glow.png"))
 
