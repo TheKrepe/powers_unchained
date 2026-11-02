@@ -228,24 +228,119 @@ public class IrradiatorScreen extends AbstractContainerScreen<IrradiatorMenu> {
         }
     }
 
+    /**
+     * Owner's variant A, "fuel rod": the capsule sits in the neck of a tall flask whose green isotope drains as the dose
+     * rises (bubbles, a rippling surface, a breathing glow); a dashed pipe carries pulses to the chamber while it works;
+     * on the right two petri dishes: sample -> radiation sign -> result.
+     */
     private void drawSlots(GuiGraphicsExtractor g, int px, int py) {
         monitor(g, px, py, RP_W, CH_H);
-        int sx = this.leftPos + IrradiatorMenu.SLOT_X;
-        label(g, tr("slot.fuel"), px, this.topPos + IrradiatorMenu.FUEL_Y - 10);
-        slot(g, sx, this.topPos + IrradiatorMenu.FUEL_Y);
-        label(g, tr("slot.sample"), px, this.topPos + IrradiatorMenu.INPUT_Y - 10);
-        slot(g, sx, this.topPos + IrradiatorMenu.INPUT_Y);
-        label(g, tr("slot.result"), px, this.topPos + IrradiatorMenu.OUTPUT_Y - 10);
-        slot(g, sx, this.topPos + IrradiatorMenu.OUTPUT_Y);
-        if (!this.hasFuel() && this.menu.slotItem(IrradiatorBlockEntity.SLOT_FUEL).isEmpty()) {
-            // ghost capsule in the empty fuel slot
-            g.item(new ItemStack(PUItems.ISOTOPE_CAPSULE.get()), sx, this.topPos + IrradiatorMenu.FUEL_Y);
-            g.fill(sx, this.topPos + IrradiatorMenu.FUEL_Y, sx + 16, this.topPos + IrradiatorMenu.FUEL_Y + 16, 0xA00A140D);
+        int x = this.leftPos;
+        int y = this.topPos;
+        boolean running = this.menu.running();
+        boolean fuel = this.hasFuel();
+
+        // the flask (under the capsule's neck)
+        int fx = x + IrradiatorMenu.FUEL_X;
+        int fy = y + IrradiatorMenu.FUEL_Y + 18;
+        int fw = 16;
+        int fh = py + CH_H - 12 - fy;
+        outline(g, fx - 1, fy - 1, fw + 2, fh + 2, 0xA058F05A);
+        g.fill(fx, fy, fx + fw, fy + fh, 0xFF06100A);
+        float left = !fuel ? 0.0F : running ? 1.0F - this.menu.progress() / (float) Irradiation.DURATION : 1.0F;
+        int level = Math.round((fh - 2) * Mth.clamp(left, 0.0F, 1.0F));
+        if (level > 0) {
+            int surface = fy + fh - level;
+            float breathe = 0.75F + 0.25F * Mth.sin(this.time * (running ? 0.3F : 0.08F));
+            for (int yy = surface; yy < fy + fh; yy++) {
+                float depth = (yy - surface) / (float) Math.max(1, level);
+                int a = (int) ((150 + 80 * depth) * breathe);
+                int c = depth < 0.15F ? 0xC8FFB0 : 0x58F05A;
+                g.fill(fx, yy, fx + fw, yy + 1, Mth.clamp(a, 0, 255) << 24 | c);
+            }
+            // a rippling surface
+            for (int i = 0; i < fw; i++) {
+                int wave = Math.round(Mth.sin(this.time * 0.25F + i * 0.8F) * (running ? 1.0F : 0.5F));
+                if (wave < 0) {
+                    g.fill(fx + i, surface - 1, fx + i + 1, surface, 0xA0C8FFB0);
+                }
+            }
+            // bubbles rising through the isotope
+            int bubbles = running ? 5 : 2;
+            for (int b = 0; b < bubbles; b++) {
+                float speed = running ? 0.6F + b * 0.13F : 0.15F + b * 0.05F;
+                int travel = Math.max(1, level - 2);
+                int by = fy + fh - 2 - (int) ((this.time * speed + b * 17) % travel);
+                int bx = fx + 2 + (b * 5 + (int) (Mth.sin(this.time * 0.2F + b) * 1.5F) + 13) % (fw - 4);
+                g.fill(bx, by, bx + 1, by + 1, 0xFFE8FFE0);
+            }
+        }
+        // glass highlight + marks
+        g.fill(fx + 2, fy + 1, fx + 3, fy + fh - 1, 0x40FFFFFF);
+        for (int t = 1; t < 4; t++) {
+            int ty = fy + fh * t / 4;
+            g.fill(fx + fw - 3, ty, fx + fw, ty + 1, 0x8058F05A);
+        }
+        // the capsule's slot = the flask's neck
+        slot(g, fx, y + IrradiatorMenu.FUEL_Y);
+        if (this.menu.slotItem(IrradiatorBlockEntity.SLOT_FUEL).isEmpty()) {
+            g.item(new ItemStack(PUItems.ISOTOPE_CAPSULE.get()), fx, y + IrradiatorMenu.FUEL_Y);
+            g.fill(fx, y + IrradiatorMenu.FUEL_Y, fx + 16, y + IrradiatorMenu.FUEL_Y + 16, 0xA00A140D);
+        }
+
+        // dashed pipe to the chamber, pulses run along it while it works
+        int pipeY = py - 4 + 2;
+        int from = x + CH_X + CH_W;
+        int to = fx + fw / 2;
+        for (int xx = from; xx < to; xx++) {
+            int phase = running ? (int) (this.time * 1.5F) : 0;
+            boolean dash = Math.floorMod(xx + phase, 6) < 4;
+            boolean pulse = running && Math.floorMod(xx + (int) (this.time * 3.0F), 24) < 3;
+            if (dash) {
+                g.fill(xx, pipeY, xx + 1, pipeY + 1, pulse ? 0xFFC8FFB0 : running ? GREEN : GREEN_DIM);
+            }
+        }
+        g.fill(to, pipeY, to + 1, y + IrradiatorMenu.FUEL_Y - 1, running ? GREEN : GREEN_DIM);
+
+        // petri dishes: sample -> radiation sign -> result
+        this.dish(g, x + IrradiatorMenu.INPUT_X, y + IrradiatorMenu.INPUT_Y, tr("slot.sample"));
+        this.dish(g, x + IrradiatorMenu.OUTPUT_X, y + IrradiatorMenu.OUTPUT_Y, tr("slot.result"));
+        int cx = x + IrradiatorMenu.INPUT_X + 8;
+        int top = y + IrradiatorMenu.INPUT_Y + 22;
+        int bottom = y + IrradiatorMenu.OUTPUT_Y - 12;
+        g.fill(cx, top, cx + 1, top + 4, AMBER);
+        g.fill(cx, bottom - 4, cx + 1, bottom, AMBER);
+        float spin = running ? this.time * 0.08F : 0.0F;
+        trefoil(g, cx, (top + bottom) / 2, spin, running ? AMBER : 0xFF8A6A2A);
+    }
+
+    private void dish(GuiGraphicsExtractor g, int sx, int sy, Component label) {
+        g.centeredText(this.font, label, sx + 8, sy - 10, GREEN_DIM);
+        slot(g, sx, sy);
+        ellipse(g, sx + 8, sy + 19, 13, 3, 0xFF9FD8B0);
+        ellipse(g, sx + 8, sy + 19, 11, 2, 0xFF4E7A5A);
+    }
+
+    /** A small radiation sign (three blades round a dot), turning while it works. */
+    private static void trefoil(GuiGraphicsExtractor g, int cx, int cy, float angle, int color) {
+        g.fill(cx - 1, cy - 1, cx + 2, cy + 2, color);
+        for (int blade = 0; blade < 3; blade++) {
+            double base = angle + blade * Math.PI * 2 / 3 - Math.PI / 2;
+            for (double r = 2.5; r <= 5.5; r += 0.5) {
+                for (double s = -0.5; s <= 0.5; s += 0.12) {
+                    int px = cx + (int) Math.round(Math.cos(base + s) * r);
+                    int py = cy + (int) Math.round(Math.sin(base + s) * r);
+                    g.fill(px, py, px + 1, py + 1, color);
+                }
+            }
         }
     }
 
-    private void label(GuiGraphicsExtractor g, Component text, int px, int y) {
-        g.centeredText(this.font, text, px + RP_W / 2, y, GREEN_DIM);
+    private static void outline(GuiGraphicsExtractor g, int x, int y, int w, int h, int color) {
+        g.fill(x, y, x + w, y + 1, color);
+        g.fill(x, y + h - 1, x + w, y + h, color);
+        g.fill(x, y + 1, x + 1, y + h - 1, color);
+        g.fill(x + w - 1, y + 1, x + w, y + h - 1, color);
     }
 
     private void drawButton(GuiGraphicsExtractor g, int x, int y, int mx, int my) {

@@ -331,7 +331,9 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   dies for real (radiation damage, vanilla loot); player survives 75 % (poison 5 min) else dies; any other mob 70 %.
   Else the sample slot item (`IrradiationRecipes`: spider eye -> radioactive spider eye 70 %, else burns up). Sculk
   clicking = geiger. Screen `client/irradiation/IrradiatorScreen` (green: chamber with the live creature / item, needle
-  dial + dose bar, slots; owner: NO time left and NO chance text on it). Advancements (vanilla Adventure tab, impossible criteria awarded in code, `PUAdvancements`):
+  dial + dose bar; right part = owner's concept A "fuel rod" (`docs/concepts/irradiator_gui`): capsule in the neck of a
+  flask whose isotope drains with the dose (bubbles, ripples, glow), dashed pipe with pulses to the chamber, petri
+  dishes Образец -> spinning radiation sign -> Итог; owner: NO time left and NO chance text on it). Advancements (vanilla Adventure tab, impossible criteria awarded in code, `PUAdvancements`):
   irradiation/sample (cave spider on the block), experiment (start), great_power (bitten -> powers). JEI/REI category
   `powers_unchained:irradiator` (`IrradiatorViewRecipe`, `IrradiatorRecipeArt`).
   `entity/spider/RadioactiveSpider` (extends Spider; cave spider model layer, size, 12 HP, sounds; loot table = vanilla

@@ -24,10 +24,13 @@ public class IrradiatorMenu extends AbstractContainerMenu {
     public static final int BUTTON_START = 0;
 
     // slot positions (match client/irradiation/IrradiatorScreen)
-    public static final int SLOT_X = 207;
-    public static final int FUEL_Y = 32;
-    public static final int INPUT_Y = 66;
-    public static final int OUTPUT_Y = 100;
+    // owner's variant A: the capsule in the neck of the fuel-rod flask, sample / result in two petri dishes
+    public static final int FUEL_X = 186;
+    public static final int FUEL_Y = 34;
+    public static final int INPUT_X = 222;
+    public static final int INPUT_Y = 50;
+    public static final int OUTPUT_X = 222;
+    public static final int OUTPUT_Y = 98;
     public static final int INVENTORY_X = 49;
     public static final int INVENTORY_Y = 152;
 
@@ -46,19 +49,19 @@ public class IrradiatorMenu extends AbstractContainerMenu {
         this.container = container;
         this.data = data;
         this.access = access;
-        this.addSlot(new Slot(container, IrradiatorBlockEntity.SLOT_FUEL, SLOT_X, FUEL_Y) {
+        this.addSlot(new Slot(container, IrradiatorBlockEntity.SLOT_FUEL, FUEL_X, FUEL_Y) {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return stack.is(PUItems.ISOTOPE_CAPSULE.get());
             }
         });
-        this.addSlot(new Slot(container, IrradiatorBlockEntity.SLOT_INPUT, SLOT_X, INPUT_Y) {
+        this.addSlot(new Slot(container, IrradiatorBlockEntity.SLOT_INPUT, INPUT_X, INPUT_Y) {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return IrradiationRecipes.find(stack) != null;
             }
         });
-        this.addSlot(new Slot(container, IrradiatorBlockEntity.SLOT_OUTPUT, SLOT_X, OUTPUT_Y) {
+        this.addSlot(new Slot(container, IrradiatorBlockEntity.SLOT_OUTPUT, OUTPUT_X, OUTPUT_Y) {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return false;
