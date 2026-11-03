@@ -1118,8 +1118,8 @@ public final class CiClientDriver {
                 run("setblock 1002 -60 3 powers_unchained:irradiator[facing=north,active=true]");
                 run("tp @p 1001.5 -59 0.8 0 28");
             }
-            case 9630 -> shot("80_irradiator_night");
-            case 9650 -> {
+            case 9650 -> shot("80_irradiator_night");
+            case 9730 -> {
                 mc.gui.setScreen(null);
                 Constants.LOG.info("[CI] done");
                 mc.stop();
