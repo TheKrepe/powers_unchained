@@ -1,0 +1,1 @@
+MC=neoforge/build/moddev/artifacts/minecraft-patched-26.3.0.90.jar NEO=/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/neoforge/26.3.0.90/f9050ab2898015126f93c74320163a2f86af7899/neoforge-26.3.0.90-sources.jar
