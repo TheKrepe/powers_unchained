@@ -1116,12 +1116,12 @@ public final class CiClientDriver {
                 run("kill @e[type=!player]");
                 run("tp @p 1001.5 -60 0.5 0 22");  // first: setblock only works in loaded chunks
             }
-            case 9612 -> {
+            case 9620 -> {
                 run("setblock 1000 -60 3 powers_unchained:irradiator[facing=north]");
                 run("setblock 1002 -60 3 powers_unchained:irradiator[facing=north,active=true]");
             }
-            case 9650 -> shot("80_irradiator_night");
-            case 9730 -> {
+            case 9720 -> shot("80_irradiator_night");
+            case 9790 -> {
                 mc.gui.setScreen(null);
                 Constants.LOG.info("[CI] done");
                 mc.stop();
