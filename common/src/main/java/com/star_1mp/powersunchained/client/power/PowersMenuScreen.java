@@ -16,7 +16,7 @@ import com.star_1mp.powersunchained.power.Superpowers;
 import com.star_1mp.powersunchained.power.skill.SkillBranch;
 import com.star_1mp.powersunchained.power.skill.SkillNode;
 import com.star_1mp.powersunchained.power.skill.SkillTrees;
-import com.star_1mp.powersunchained.registry.PUItems;
+import com.star_1mp.powersunchained.Constants;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,8 +80,7 @@ public class PowersMenuScreen extends Screen {
 
     /** Optimisation: icons are made once, not a new ItemStack every frame. */
     private static final Map<Item, ItemStack> ICONS = new HashMap<>();
-    private static final Map<String, ItemStack> ABILITY_ICONS = new HashMap<>();
-    private static final Map<SkillNode, ItemStack> NODE_ICONS = new HashMap<>();
+    private static final Map<String, Identifier> ABILITY_ICONS = new HashMap<>();
 
     private static ItemStack icon(Item item) {
         return ICONS.computeIfAbsent(item, ItemStack::new);
@@ -306,7 +305,7 @@ public class PowersMenuScreen extends Screen {
         super.extractRenderState(g, mouseX, mouseY, partialTick);
         if (this.dragging != null) {
             g.nextStratum();
-            g.item(abilityIcon(this.dragging), mouseX - 8, mouseY - 8);
+            abilitySprite(g, this.dragging, mouseX - 9, mouseY - 9);
         }
     }
 
@@ -618,7 +617,7 @@ public class PowersMenuScreen extends Screen {
             if (st == NodeState.OWNED) {
                 g.fill(nx + 1, ny + 1, nx + NODE - 1, ny + 2, (n.branch().color() & 0xFFFFFF) | 0x60000000);
             }
-            g.item(NODE_ICONS.computeIfAbsent(n, k -> k.icon().get()), nx + 2, ny + 2);
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, n.icon(), nx + 1, ny + 1, 18, 18);
             if (st == NodeState.LOCKED || st == NodeState.NO_POINTS) {
                 g.fill(nx + 1, ny + 1, nx + NODE - 1, ny + NODE - 1, st == NodeState.LOCKED ? 0xB0101418 : 0x70101418);
             }
@@ -666,19 +665,16 @@ public class PowersMenuScreen extends Screen {
 
     // ---- Клавиши ----
 
-    private static ItemStack abilityIcon(String id) {
-        return ABILITY_ICONS.computeIfAbsent(id, PowersMenuScreen::makeAbilityIcon);
+    /** Owner: own 18x18 icons for every key ability (the roll shares the skill tree's roll icon). */
+    private static Identifier abilityIcon(String id) {
+        return ABILITY_ICONS.computeIfAbsent(id, k -> Constants.id("ability/" + switch (k) {
+            case AbilitySlots.WEB_SHOT, AbilitySlots.WEB_ZIP, AbilitySlots.WEB_SWING, AbilitySlots.ROLL, AbilitySlots.ABILITY_WHEEL -> k;
+            default -> "unknown";
+        }));
     }
 
-    private static ItemStack makeAbilityIcon(String id) {
-        return new ItemStack(switch (id) {
-            case AbilitySlots.WEB_SHOT -> PUItems.WEB_SHOOTERS.get();
-            case AbilitySlots.WEB_ZIP -> Items.COBWEB;
-            case AbilitySlots.WEB_SWING -> Items.STRING;
-            case AbilitySlots.ROLL -> Items.FEATHER;
-            case AbilitySlots.ABILITY_WHEEL -> Items.ENDER_EYE;
-            default -> Items.PAPER;
-        });
+    private static void abilitySprite(GuiGraphicsExtractor g, String id, int x, int y) {
+        g.blitSprite(RenderPipelines.GUI_TEXTURED, abilityIcon(id), x, y, 18, 18);
     }
 
     private static Component abilityName(String id) {
@@ -725,7 +721,7 @@ public class PowersMenuScreen extends Screen {
         List<String> abilities = this.keyAbilities();
         for (String id : abilities) {
             boolean hover = in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2);
-            this.card(g, lx, ly, LIST_W - 4, abilityIcon(id), null, abilityName(id), tr("keys.drag"), id.equals(this.dragging), hover);
+            this.card(g, lx, ly, LIST_W - 4, ItemStack.EMPTY, abilityIcon(id), abilityName(id), tr("keys.drag"), id.equals(this.dragging), hover);
             ly += CARD_H;
         }
         g.disableScissor();
@@ -746,7 +742,7 @@ public class PowersMenuScreen extends Screen {
             inset(g, s[0], s[1], s[2], s[3], 0xFF1A2027);
             outline(g, s[0] - 1, s[1] - 1, s[2] + 2, s[3] + 2, target ? COPPER : empty ? 0xFF3A4652 : CYAN);
             if (!empty) {
-                g.item(abilityIcon(id), s[0] + 5, s[1] + 5);
+                abilitySprite(g, id, s[0] + 4, s[1] + 4);
                 if (in(mx, my, s[0], s[1], s[2], s[3]) && this.dragging == null) {
                     g.setTooltipForNextFrame(this.font, List.of(abilityName(id).getVisualOrderText(),
                             tr("keys.remove").copy().withColor(GREY).getVisualOrderText()), mx, my);
@@ -1019,7 +1015,9 @@ public class PowersMenuScreen extends Screen {
             outline(g, x, y, w, CARD_H - 2, COPPER);
         }
         inset(g, x + 2, y + 1, 18, 18, 0xFF2A3038);
-        if (emblem != null) {
+        if (emblem != null && emblem.getPath().startsWith("ability/")) {
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, emblem, x + 2, y + 1, 18, 18);
+        } else if (emblem != null) {
             // owner: a bit smaller — 16x16 like an item, inside the same 18x18 frame
             g.blitSprite(RenderPipelines.GUI_TEXTURED, emblem, x + 3, y + 2, 16, 16);
         } else {

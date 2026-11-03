@@ -122,7 +122,7 @@ def core(active):
     def f(x, y):
         streak = 0.5 + 0.5 * math.sin(x * 1.7 + (y // 3) * 0.6)
         base = GREEN_L if active else GREEN
-        c = shade(base, (0.75 if active else 0.55) + 0.35 * streak)
+        c = shade(base, (0.75 if active else 0.7) + 0.35 * streak)
         if 5 <= x <= 10 and active:
             c = shade(GREEN_L, 1.0 + 0.1 * streak)
         return c
@@ -158,7 +158,7 @@ ALL = ("north", "south", "east", "west", "up", "down")
 SIDES = ("north", "south", "east", "west")
 
 
-def box(f, t, tex, faces=ALL, uv=None, cull=None, light=0):
+def box(f, t, tex, faces=ALL, uv=None, cull=None, light=0, shade=None):
     el = {"from": list(f), "to": list(t), "faces": {}}
     for face in faces:
         tx = tex[face] if isinstance(tex, dict) else tex
@@ -170,6 +170,8 @@ def box(f, t, tex, faces=ALL, uv=None, cull=None, light=0):
         el["faces"][face] = fd
     if light:
         el["light_emission"] = light
+    if shade is not None:
+        el["shade"] = shade
     return el
 
 
@@ -186,8 +188,8 @@ def model(active):
     # lead-grey collar round the bottom of the cylinder
     E.append(box((2, 3, 2), (14, 5, 14), "#lead", faces=SIDES, uv={f: [2, 0, 14, 2] for f in SIDES}))
     # the glowing core (inside) and the thick glass cylinder round it
-    E.append(box((6, 5, 6), (10, 13, 10), "#core", faces=SIDES, uv={f: [4, 2, 12, 14] for f in SIDES}, light=15 if active else 8))
-    E.append(box((3, 5, 3), (13, 13, 13), "#glass", faces=SIDES, uv={f: [0, 1, 16, 15] for f in SIDES}))
+    E.append(box((6, 5, 6), (10, 13, 10), "#core", faces=SIDES, uv={f: [4, 2, 12, 14] for f in SIDES}, light=15, shade=False))  # owner: the core always glows
+    E.append(box((3, 5, 3), (13, 13, 13), "#glass", faces=SIDES, uv={f: [0, 1, 16, 15] for f in SIDES}, light=12 if active else 9))
     # dose gauge on the front frame
     E.append(box((9, 6, 2), (13, 10, 3), {"north": "#gauge", "south": "#steel", "east": "#steel", "west": "#steel",
                                            "up": "#steel", "down": "#steel"},

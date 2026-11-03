@@ -372,7 +372,8 @@
           ]
         }
       },
-      "light_emission": 15
+      "light_emission": 15,
+      "shade": false
     },
     {
       "from": [
@@ -422,7 +423,8 @@
             15
           ]
         }
-      }
+      },
+      "light_emission": 12
     },
     {
       "from": [

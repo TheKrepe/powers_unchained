@@ -4,9 +4,8 @@ import com.star_1mp.powersunchained.power.Superpower;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import com.star_1mp.powersunchained.Constants;
+import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -79,14 +78,15 @@ public final class SkillTrees {
         String p = Superpower.SPIDERMAN.id();
         List<SkillNode> list = new ArrayList<>();
         branch(list, p, SkillBranch.AGILITY,
-                ROLL, Items.FEATHER, QUICK_CRAWL, Items.LADDER, SPIDER_JUMP, Items.RABBIT_FOOT, CEILINGS, Items.COBWEB,
-                FLIPS, Items.PHANTOM_MEMBRANE, SOFT_LANDING, Items.HAY_BLOCK, ACROBAT, Items.SUGAR);
+                ROLL, "ability/roll", QUICK_CRAWL, "ability/quick_crawl", SPIDER_JUMP, "ability/spider_jump",
+                CEILINGS, "ability/ceilings", FLIPS, "ability/flips", SOFT_LANDING, "ability/soft_landing", ACROBAT, "ability/acrobat");
         branch(list, p, SkillBranch.SENSE,
-                DANGER_SENSE, Items.ENDER_EYE, NIGHT_VISION, Items.SPIDER_EYE, PROJECTILE_SENSE, Items.ARROW, WIDE_SENSE, Items.SPYGLASS,
-                DODGE, Items.SHIELD, REFLEXES, Items.CLOCK, SIXTH_SENSE, Items.TOTEM_OF_UNDYING);
+                DANGER_SENSE, "power/spider_sense", NIGHT_VISION, "power/night_vision", PROJECTILE_SENSE, "ability/projectile_sense",
+                WIDE_SENSE, "ability/wide_sense", DODGE, "ability/dodge", REFLEXES, "ability/reflexes", SIXTH_SENSE, "ability/sixth_sense");
         branch(list, p, SkillBranch.COMBAT,
-                STRENGTH, Items.IRON_SWORD, TOUGH_BODY, Items.APPLE, HEAVY_PUNCH, Items.PISTON, STRENGTH_2, Items.DIAMOND_SWORD,
-                SPIDER_ARMOR, Items.IRON_CHESTPLATE, REGENERATION, Items.GLISTERING_MELON_SLICE, HERO_BODY, Items.GOLDEN_APPLE);
+                STRENGTH, "ability/strength", TOUGH_BODY, "ability/tough_body", HEAVY_PUNCH, "ability/heavy_punch",
+                STRENGTH_2, "ability/strength_2", SPIDER_ARMOR, "ability/spider_armor", REGENERATION, "ability/regeneration",
+                HERO_BODY, "ability/hero_body");
         return List.copyOf(list);
     }
 
@@ -97,18 +97,17 @@ public final class SkillTrees {
      */
     private static void branch(List<SkillNode> list, String power, SkillBranch branch, Object... idsAndIcons) {
         String[] ids = new String[7];
-        Item[] icons = new Item[7];
+        Identifier[] icons = new Identifier[7];
         for (int i = 0; i < 7; i++) {
             ids[i] = (String) idsAndIcons[i * 2];
-            icons[i] = (Item) idsAndIcons[i * 2 + 1];
+            icons[i] = Constants.id((String) idsAndIcons[i * 2 + 1]);
         }
         int[][] shape = {{1, 0}, {0, 1}, {2, 1}, {0, 2}, {2, 2}, {1, 3}, {1, 4}};
         int[] costs = {1, 1, 1, 2, 2, 3, 4};
         List<List<String>> requires = List.of(List.of(), List.of(ids[0]), List.of(ids[0]), List.of(ids[1]), List.of(ids[2]),
                 List.of(ids[3], ids[4]), List.of(ids[5]));
         for (int i = 0; i < 7; i++) {
-            Item icon = icons[i];
-            list.add(new SkillNode(power, ids[i], branch, shape[i][0], shape[i][1], costs[i], requires.get(i), () -> new ItemStack(icon)));
+            list.add(new SkillNode(power, ids[i], branch, shape[i][0], shape[i][1], costs[i], requires.get(i), icons[i]));
         }
     }
 }

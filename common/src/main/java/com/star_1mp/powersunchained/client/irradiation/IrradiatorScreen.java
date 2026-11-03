@@ -96,6 +96,8 @@ public class IrradiatorScreen extends AbstractContainerScreen<IrradiatorMenu> {
         panel(g, x, y, W, H);
         g.text(this.font, this.title, x + 8, y + 7, LABEL, false);
         hazard(g, x + 124, y + 7, W - 132, 6);
+        // owner: the same stripe again next to the button
+        hazard(g, x + 124, y + BTN_Y + (BTN_H - 6) / 2, W - 132, 6);
         this.drawChamber(g, x + CH_X, y + CH_Y);
         this.drawGauge(g, x + GA_X, y + CH_Y);
         this.drawSlots(g, x + RP_X, y + CH_Y);

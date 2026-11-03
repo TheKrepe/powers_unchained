@@ -1103,7 +1103,18 @@ public final class CiClientDriver {
                         com.star_1mp.powersunchained.power.Superpowers.data(mc.player).has(com.star_1mp.powersunchained.power.Superpower.SPIDERMAN));
                 shot("79_power_gained");
             }
-            case 9610 -> {
+            case 9600 -> {
+                // the glowing core at night: idle (left) and running (right)
+                mc.gui.setScreen(null);
+                run("time set 18000");
+                run("effect clear @p");
+                run("kill @e[type=!player]");
+                run("setblock 1000 -60 3 powers_unchained:irradiator[facing=north]");
+                run("setblock 1002 -60 3 powers_unchained:irradiator[facing=north,active=true]");
+                run("tp @p 1001.5 -59 0.8 0 28");
+            }
+            case 9622 -> shot("80_irradiator_night");
+            case 9640 -> {
                 mc.gui.setScreen(null);
                 Constants.LOG.info("[CI] done");
                 mc.stop();
