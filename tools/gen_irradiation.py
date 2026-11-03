@@ -342,7 +342,7 @@ for y in range(egg.height):
             eo.putpixel((x, y), RED if l > 125 else RED_D)
         else:
             eo.putpixel((x, y), NAVY[min(len(NAVY) - 1, int(l / 75.0 * len(NAVY)))])
-eo.save(os.path.join(TEX_I, "radioactive_spider_spawn_egg.png"))
+pass  # owner's hand-made texture (3rd archive) - do not overwrite: radioactive_spider_spawn_egg.png
 
 # ------------------------------------------------------------------------------------------------- items
 cart = Image.open(os.path.join(TEX_I, "empty_web_cartridge.png")).convert("RGBA")
@@ -356,7 +356,7 @@ for y in range(16):
             cap.putpixel((x, y), GREEN_L)
         elif p[:3] == (0x8b, 0xc1, 0xcd):
             cap.putpixel((x, y), GREEN)
-cap.save(os.path.join(TEX_I, "isotope_capsule.png"))
+pass  # owner's hand-made texture (3rd archive) - do not overwrite: isotope_capsule.png
 
 
 def eye(x, y):
@@ -374,7 +374,7 @@ def eye(x, y):
     return shade(rgb("#8e1424"), 1.0 - d / 14.0)
 
 
-img(eye).save(os.path.join(TEX_I, "radioactive_spider_eye.png"))
+pass  # owner's hand-made texture (3rd archive): radioactive_spider_eye.png
 
 
 # effect icon 18x18: a green radiation trefoil

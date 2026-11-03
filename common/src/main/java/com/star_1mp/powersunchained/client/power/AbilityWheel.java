@@ -196,10 +196,10 @@ public final class AbilityWheel {
         for (int i = 0; i < n; i++) {
             float ang = segmentAngle(i, n) * Mth.DEG_TO_RAD;
             float rad = (INNER + OUTER) / 2.0F;
-            int ix = Math.round(cx + Mth.cos(ang) * rad) - 12;
-            int iy = Math.round(cy + Mth.sin(ang) * rad) - 12;
+            int ix = Math.round(cx + Mth.cos(ang) * rad) - 9;
+            int iy = Math.round(cy + Mth.sin(ang) * rad) - 9;
             int color = fade(data.isActive(powers.get(i)) ? 0xFFFFFFFF : 0xFFB4BAC4, a);
-            g.blitSprite(RenderPipelines.GUI_TEXTURED, icon(powers.get(i)), ix, iy, 24, 24, color);
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, icon(powers.get(i)), ix, iy, 18, 18, color);
         }
 
         // texts: the pointed ability's name and state

@@ -55,6 +55,8 @@ def save(px, name):
     for y in range(16):
         for x in range(16):
             im.putpixel((x, y), px[y][x])
+    if name in ('tech_table_front', 'tech_table_top', 'tech_table_bottom', 'tech_table_side'):
+        return  # owner's hand-made textures (3rd archive)
     im.save(os.path.join(TEX, name + ".png"))
 
 

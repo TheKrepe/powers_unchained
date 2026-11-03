@@ -83,7 +83,10 @@ Actions logs/artifacts. Workarounds that push results to git branches (fetch the
   `item/<color>_fabric.png`, `item/spider_man_{mask,chestplate,pants,boots}.png`, `gui/web_fluid.png`,
   `suit/spider_man/spider_man_{mask,chestplate,chestplate_slim,pants,boots}.png`; 2nd archive: Advanced 2.0 / Brand New
   Day / Raimi suit + item textures, `item/web_shooters.png`, `item/(empty_)web_cartridge.png`, all Suit Creator GUI
-  sprites (`gui/sprites/suit_creator/**`, xp_orb is 9x9). Re-running `tools/gen_fabrics.py`
+  sprites (`gui/sprites/suit_creator/**`, xp_orb is 9x9). 3rd archive: `block/tech_table_{front,top,bottom,side}.png`, `item/isotope_capsule.png`,
+  `item/radioactive_spider_eye.png`, `item/radioactive_spider_spawn_egg.png`, `gui/sprites/power/{night_vision,spider_sense,wall_climbing}.png`
+  (18x18, drawn 1:1 at 18 in the ability wheel), `entity/web/web_cocoon.png`, `entity/power/spider_sense_bolt.png` (the generators
+  `gen_irradiation` / `gen_power_icons` / `gen_spider_sense_bolt` / `gen_tech_table_block` / `gen_web_extra` now skip them). Re-running `tools/gen_fabrics.py`
   / `tools/gen_spider_variants.py` / the HUD generators would replace them — skip those files.
 - Suit Creator (`block/SuitCreatorBlock`, id `suit_creator`): Fisk's Superheroes-inspired steel machine (corner
   pillars, recessed body, glowing amber vent / data screen / side lights via element `light_emission`), metal,

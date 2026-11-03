@@ -36,7 +36,7 @@ for _ in range(6):
     x0, y0 = rnd.randrange(64), rnd.randrange(64)
     ang = rnd.uniform(0, math.pi)
     wrapped_line((x0, y0), (x0 + math.cos(ang) * 50, y0 + math.sin(ang) * 50), (255, 255, 255, 250), 2)
-tile.save(os.path.join(ENT, "web_cocoon.png"))
+# owner's hand-made texture (3rd archive): web_cocoon.png - do not overwrite
 
 def web(draw, cx, cy, radius, spokes, rings, alpha, start=0.0, sweep=2 * math.pi):
     angles = [start + sweep * i / (spokes - (0 if sweep >= 2 * math.pi else 1)) for i in range(spokes)]

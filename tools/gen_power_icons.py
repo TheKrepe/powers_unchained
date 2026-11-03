@@ -83,6 +83,8 @@ def main():
                         0 <= x + dx < 16 and 0 <= y + dy < 16 and img.getpixel((x + dx, y + dy))[3] > 0
                         for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
                     out.putpixel((x, y), (16, 22, 30, 150))
+        if name in ('night_vision', 'spider_sense', 'wall_climbing'):
+            continue  # owner's hand-made icons (3rd archive)
         out.save(os.path.join(OUT, name + '.png'))
 
 

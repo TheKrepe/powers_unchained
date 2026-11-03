@@ -28,7 +28,8 @@ def main():
             if ch in COLOURS:
                 img.putpixel((x, y), COLOURS[ch])
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    img.save(OUT)
+    pass  # owner's hand-made texture (3rd archive) - do not overwrite
+    # img.save(OUT)
 
 
 if __name__ == '__main__':
