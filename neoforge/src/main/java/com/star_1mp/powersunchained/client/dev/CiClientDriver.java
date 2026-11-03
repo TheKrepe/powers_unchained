@@ -1105,7 +1105,12 @@ public final class CiClientDriver {
             }
             case 9600 -> {
                 // the glowing core at night: idle (left) and running (right)
+                if (mc.player.isDeadOrDying()) {
+                    mc.player.respawn();  // the slimes of the flat world may have won
+                }
                 mc.gui.setScreen(null);
+                run("difficulty peaceful");
+                run("gamemode creative @p");
                 run("time set 18000");
                 run("effect clear @p");
                 run("kill @e[type=!player]");
@@ -1113,8 +1118,8 @@ public final class CiClientDriver {
                 run("setblock 1002 -60 3 powers_unchained:irradiator[facing=north,active=true]");
                 run("tp @p 1001.5 -59 0.8 0 28");
             }
-            case 9622 -> shot("80_irradiator_night");
-            case 9640 -> {
+            case 9630 -> shot("80_irradiator_night");
+            case 9650 -> {
                 mc.gui.setScreen(null);
                 Constants.LOG.info("[CI] done");
                 mc.stop();
