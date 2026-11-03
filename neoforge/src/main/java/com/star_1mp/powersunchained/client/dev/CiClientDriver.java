@@ -1114,9 +1114,11 @@ public final class CiClientDriver {
                 run("time set 18000");
                 run("effect clear @p");
                 run("kill @e[type=!player]");
+                run("tp @p 1001.5 -60 0.5 0 22");  // first: setblock only works in loaded chunks
+            }
+            case 9612 -> {
                 run("setblock 1000 -60 3 powers_unchained:irradiator[facing=north]");
                 run("setblock 1002 -60 3 powers_unchained:irradiator[facing=north,active=true]");
-                run("tp @p 1001.5 -59 0.8 0 28");
             }
             case 9650 -> shot("80_irradiator_night");
             case 9730 -> {
