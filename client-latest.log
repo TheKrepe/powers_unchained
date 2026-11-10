@@ -1,0 +1,589 @@
+[10Nov2026 19:00:27.630] [main/INFO] [net.neoforged.fml.startup.Entrypoint/]: JVM Uptime at startup: 167ms
+[10Nov2026 19:00:27.651] [main/INFO] [net.neoforged.fml.loading.FMLLoader/]: Starting FancyModLoader version 12.0.12 (CLIENT in DEV)
+[10Nov2026 19:00:27.651] [main/INFO] [net.neoforged.fml.loading.FMLLoader/]: Game directory: /home/runner/work/powers_unchained/powers_unchained/neoforge/runs/ciclient
+[10Nov2026 19:00:27.739] [main/INFO] [net.neoforged.fml.loading.EarlyServiceDiscovery/]: Found 2 early service jars (out of 106) in 42ms
+[10Nov2026 19:00:27.741] [main/INFO] [net.neoforged.fml.loading.FMLLoader/]: Loading FML Early Services:
+[10Nov2026 19:00:27.742] [main/INFO] [net.neoforged.fml.loading.FMLLoader/]:  - /home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/loader/12.0.12/f097a25d6289aa0b289e7cdb6de83a5c8c72f77e/loader-12.0.12.jar
+[10Nov2026 19:00:27.743] [main/INFO] [net.neoforged.fml.loading.FMLLoader/]:  - /home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/earlydisplay/12.0.12/8437387fd35033b1ea0d3fac7cc28ced4efdc6b/earlydisplay-12.0.12.jar
+[10Nov2026 19:00:27.753] [main/INFO] [net.neoforged.fml.loading.ImmediateWindowHandler/]: Loading ImmediateWindowProvider fmlearlywindow
+[10Nov2026 19:00:27.763] [main/INFO] [EARLYDISPLAY/]: Detected CI environment, disabling ELS
+[10Nov2026 19:00:27.764] [main/INFO] [net.neoforged.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider fmlearlywindow cannot run in the current environment, disabling
+[10Nov2026 19:00:27.853] [ForkJoinPool.commonPool-worker-1/INFO] [net.neoforged.fml.loading.moddiscovery.locators.GameLocator/]: Detected a joined NeoForge and Minecraft configuration. Applying filtering...
+[10Nov2026 19:00:28.093] [ForkJoinPool.commonPool-worker-1/INFO] [net.neoforged.fml.loading.moddiscovery.locators.InDevFolderLocator/CORE]: Got mod coordinates powers_unchained%%/home/runner/work/powers_unchained/powers_unchained/neoforge/build/classes/java/main:powers_unchained%%/home/runner/work/powers_unchained/powers_unchained/neoforge/build/resources/main from env
+[10Nov2026 19:00:28.374] [ForkJoinPool.commonPool-worker-1/WARN] [net.neoforged.jarjar.selection.JarSelector/]: Attempted to select a dependency jar for JarJar which was passed in as source: mezz_config. Using jar(/home/runner/.gradle/caches/modules-2/files-2.1/net.mezzdev.config/mezz_config-26.3-neoforge/0.6.6/673ee12247f453374861e132bac191d5dbf5e551/mezz_config-26.3-neoforge-0.6.6.jar)
+[10Nov2026 19:00:28.374] [ForkJoinPool.commonPool-worker-1/INFO] [net.neoforged.fml.loading.moddiscovery.locators.JarInJarDependencyLocator/]: Found 2 dependencies adding them to mods collection
+[10Nov2026 19:00:28.383] [ForkJoinPool.commonPool-worker-1/INFO] [net.neoforged.fml.loading.moddiscovery.ModDiscoverer/]: 
+     Mod List:
+		Name Version (Mod Id)
+
+		Curios API 17.0.0-beta.3+26.3 (curios)
+		Just Enough Items 31.17.0.100 (jei)
+		MezzConfig 0.6.6 (mezz_config)
+		Minecraft 26.3 (minecraft)
+		NeoForge 26.3.0.102 (neoforge)
+		Powers Unchained 0.1.0 (powers_unchained)
+[10Nov2026 19:00:28.896] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=file:/home/runner/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.17.4+mixin.0.8.7/5f66cc9f59b8efaa942155a3d5a30599bf6640dd/sponge-mixin-0.17.4+mixin.0.8.7.jar Service=FML Env=CLIENT
+[10Nov2026 19:00:28.953] [main/INFO] [net.neoforged.fml.loading.FMLLoader/]: Loading FML Plugins:
+[10Nov2026 19:00:28.957] [main/INFO] [net.neoforged.fml.loading.FMLLoader/]:  - /home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/neoforge/26.3.0.102/d3169ff3cbcd5f50e6bcf2bdbaa2d7d1aaac99fd/neoforge-26.3.0.102-universal.jar > net.neoforged.neoforge-coremods-26.3.0.102.jar
+[10Nov2026 19:00:29.221] [main/INFO] [net.neoforged.fml.loading.FMLLoader/]: Building game content classloader:
+ - curios (jar(/home/runner/.gradle/caches/modules-2/files-2.1/top.theillusivec4.curios/curios-neoforge/17.0.0-beta.3+26.3/8abf8160149f14d4d526c76ba6ed50955ba72716/curios-neoforge-17.0.0-beta.3+26.3.jar))
+ - jei (jar(/home/runner/.gradle/caches/modules-2/files-2.1/mezz.jei/jei-26.3-neoforge/31.17.0.100/d1bf3a87ced282190438668c42d0e43fa36af509/jei-26.3-neoforge-31.17.0.100.jar))
+ - mezz_config (jar(/home/runner/.gradle/caches/modules-2/files-2.1/net.mezzdev.config/mezz_config-26.3-neoforge/0.6.6/673ee12247f453374861e132bac191d5dbf5e551/mezz_config-26.3-neoforge-0.6.6.jar))
+ - minecraft (composite(filtered(jar(/home/runner/work/powers_unchained/powers_unchained/neoforge/build/moddev/artifacts/minecraft-patched-26.3.0.102.jar)), filtered(jar(/home/runner/work/powers_unchained/powers_unchained/neoforge/build/moddev/artifacts/minecraft-patched-26.3.0.102.jar))))
+ - mixinextras.neoforge (jar(/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/neoforge/26.3.0.102/d3169ff3cbcd5f50e6bcf2bdbaa2d7d1aaac99fd/neoforge-26.3.0.102-universal.jar > mixinextras-neoforge-0.5.5.jar))
+ - neoforge (composite(filtered(jar(/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/neoforge/26.3.0.102/d3169ff3cbcd5f50e6bcf2bdbaa2d7d1aaac99fd/neoforge-26.3.0.102-universal.jar))))
+ - net.neoforged.fml.generated (empty(VirtualJar/net.neoforged.fml.generated))
+ - powers_unchained (composite(folder(/home/runner/work/powers_unchained/powers_unchained/neoforge/build/classes/java/main), folder(/home/runner/work/powers_unchained/powers_unchained/neoforge/build/resources/main)))
+[10Nov2026 19:00:29.272] [main/INFO] [net.neoforged.fml.loading.FMLLoader/]: Built game content classloader in 91ms
+[10Nov2026 19:00:31.848] [main/INFO] [MixinExtras|Service/]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.5).
+[10Nov2026 19:00:34.134] [Datafixer Bootstrap #0/INFO] [com.mojang.datafixers.DataFixerBuilder/]: 310 Datafixer optimizations took 1339 milliseconds
+[10Nov2026 19:00:43.010] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[10Nov2026 19:00:43.020] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, targets] with inputs: [0.1 -0.5 .9, 0 0 0]
+[10Nov2026 19:00:43.033] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [teleport, destination] and [teleport, targets] with inputs: [Player, 0123, @e, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[10Nov2026 19:00:43.037] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [teleport, targets] and [teleport, destination] with inputs: [Player, 0123, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[10Nov2026 19:00:43.040] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [teleport, targets, location] and [teleport, targets, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[10Nov2026 19:00:43.043] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [time, set, time] and [time, set, timemarker] with inputs: [0, 0s, 0d, 0t]
+[10Nov2026 19:00:43.045] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [time, set, timemarker] and [time, set, time] with inputs: [012]
+[10Nov2026 19:00:43.049] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [time, of, clock, set, time] and [time, of, clock, set, timemarker] with inputs: [0, 0s, 0d, 0t]
+[10Nov2026 19:00:43.051] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [time, of, clock, set, timemarker] and [time, of, clock, set, time] with inputs: [012]
+[10Nov2026 19:00:43.262] [modloading-worker-0/INFO] [net.neoforged.neoforge.common.NeoForgeMod/NEOFORGE-MOD]: NeoForge mod loading, version 26.3.0.102, for MC 26.3
+[10Nov2026 19:00:43.676] [modloading-worker-0/INFO] [Powers Unchained/]: Put powers_unchained:suit_creator right after crafting in JEI's recipe category order
+[10Nov2026 19:00:43.727] [modloading-worker-0/INFO] [mezz.jei.library.load.PluginCaller/]: Sending ConfigManager...
+[10Nov2026 19:00:43.732] [modloading-worker-0/INFO] [mezz.jei.library.load.PluginCaller/]: Sending ConfigManager took 1.832 milliseconds
+[10Nov2026 19:00:43.751] [modloading-worker-0/INFO] [Powers Unchained/]: Powers Unchained is loading on NeoForge (development environment)
+[10Nov2026 19:00:43.937] [modloading-worker-0/WARN] [Powers Unchained/]: [CI] Client test driver enabled
+[10Nov2026 19:00:44.651] [Render thread/INFO] [com.mojang.authlib.services.MinecraftServicesDiscoveryService/]: Environment: Environment[discoveryUrl=https://discovery.minecraftservices.com/minecraft/client, name=PROD]
+[10Nov2026 19:00:44.689] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
+[10Nov2026 19:00:44.976] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.4.3+4
+[10Nov2026 19:00:45.065] [Render thread/INFO] [com.mojang.blaze3d.platform.SdlDebug/]: SDL [SYSTEM]: App name: Minecraft
+[10Nov2026 19:00:45.065] [Render thread/INFO] [com.mojang.blaze3d.platform.SdlDebug/]: SDL [SYSTEM]: App version: 26.3
+[10Nov2026 19:00:45.066] [Render thread/INFO] [com.mojang.blaze3d.platform.SdlDebug/]: SDL [SYSTEM]: App ID: com.mojang.minecraft
+[10Nov2026 19:00:45.066] [Render thread/INFO] [com.mojang.blaze3d.platform.SdlDebug/]: SDL [SYSTEM]: SDL revision: SDL-3.4.14--128-NOTFOUND
+[10Nov2026 19:00:45.663] [Render thread/ERROR] [net.minecraft.client.Minecraft/]: Failed to create backend OpenGL
+com.mojang.renderpearl.api.device.BackendCreationException: Failed to create window for OpenGL context: Couldn't find matching GLX visual
+	at TRANSFORMER/minecraft@26.3/com.mojang.renderpearl.backend.opengl.GlDevice.<init>(GlDevice.java:77) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/com.mojang.renderpearl.backend.opengl.GlBackend.createDevice(GlBackend.java:75) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.client.Minecraft.<init>(Minecraft.java:496) [minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.client.main.Main.main(Main.java:280) [minecraft-patched-26.3.0.102.jar:?]
+	at net.neoforged.fml.startup.Client.main(Client.java:19) [loader-12.0.12.jar:12.0]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[?:?]
+	at net.neoforged.devlaunch.Main.main(Main.java:57) [DevLaunch-1.0.2.jar:?]
+[10Nov2026 19:00:45.704] [Render thread/INFO] [com.mojang.renderpearl.backend.vulkan.VulkanBackend/]: Enabling optional FeatureSet [EXT MultiDraw]
+[10Nov2026 19:00:45.705] [Render thread/INFO] [com.mojang.renderpearl.backend.vulkan.VulkanBackend/]: Optional FeatureSet [NV Diagnostic Checkpoint] not supported
+[10Nov2026 19:00:45.705] [Render thread/INFO] [com.mojang.renderpearl.backend.vulkan.VulkanBackend/]: Enabling optional FeatureSet [Calibrated Timestamps]
+[10Nov2026 19:00:45.705] [Render thread/INFO] [com.mojang.renderpearl.backend.vulkan.VulkanBackend/]: Optional FeatureSet [AMD Buffer Marker] not supported
+[10Nov2026 19:00:45.706] [Render thread/INFO] [com.mojang.renderpearl.backend.vulkan.VulkanBackend/]: Enabling optional FeatureSet [Wireframe]
+[10Nov2026 19:00:45.810] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Using graphics backend Vulkan, using drivers: 1.4.335 llvmpipe Mesa 26.0.8-1ubuntu0.3 (LLVM 21.1.8)
+[10Nov2026 19:00:45.810] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Using graphics device: llvmpipe (LLVM 21.1.8, 256 bits) (0x10005)
+[10Nov2026 19:00:45.811] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Using graphics device extensions: VK_EXT_calibrated_timestamps (D), VK_KHR_synchronization2 (D), VK_EXT_multi_draw (D), VK_EXT_vertex_attribute_divisor (D), VK_KHR_swapchain (D), VK_KHR_surface (I), VK_KHR_push_descriptor (D), VK_KHR_xlib_surface (I), VK_EXT_debug_utils (I), VK_KHR_dynamic_rendering (D)
+[10Nov2026 19:00:45.824] [Render thread/INFO] [com.mojang.blaze3d.platform.Window/]: Created window using SDL video driver: x11
+[10Nov2026 19:00:47.024] [Render thread/ERROR] [com.mojang.text2speech.Narrator/]: Error while loading the narrator
+com.mojang.text2speech.Narrator$InitializeException: Failed to load library flite
+	at com.mojang.text2speech.NarratorLinux$FliteLibrary.loadNative(NarratorLinux.java:82) ~[text2speech-1.19.12.jar:?]
+	at com.mojang.text2speech.NarratorLinux.<init>(NarratorLinux.java:19) ~[text2speech-1.19.12.jar:?]
+	at com.mojang.text2speech.Narrator.getNarrator(Narrator.java:41) [text2speech-1.19.12.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.client.GameNarrator.<init>(GameNarrator.java:22) [minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.client.Minecraft.<init>(Minecraft.java:723) [minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.client.main.Main.main(Main.java:280) [minecraft-patched-26.3.0.102.jar:?]
+	at net.neoforged.fml.startup.Client.main(Client.java:19) [loader-12.0.12.jar:12.0]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[?:?]
+	at net.neoforged.devlaunch.Main.main(Main.java:57) [DevLaunch-1.0.2.jar:?]
+Caused by: java.lang.UnsatisfiedLinkError: Unable to load library 'flite':
+libflite.so: cannot open shared object file: No such file or directory
+libflite.so: cannot open shared object file: No such file or directory
+Native library (linux-x86-64/libflite.so) not found in resource path (/home/runner/work/powers_unchained/powers_unchained/neoforge/build/classes/java/main:/home/runner/work/powers_unchained/powers_unchained/neoforge/build/resources/main:/home/runner/work/powers_unchained/powers_unchained/neoforge/build/moddev/artifacts/minecraft-patched-26.3.0.102.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/DevLaunch/1.0.2/2e0e9a67793d5bfdedee4f9ea00934dbf3f2e22d/DevLaunch-1.0.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/top.theillusivec4.curios/curios-neoforge/17.0.0-beta.3+26.3/8abf8160149f14d4d526c76ba6ed50955ba72716/curios-neoforge-17.0.0-beta.3+26.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/mezz.jei/jei-26.3-neoforge/31.17.0.100/d1bf3a87ced282190438668c42d0e43fa36af509/jei-26.3-neoforge-31.17.0.100.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/neoforge/26.3.0.102/d3169ff3cbcd5f50e6bcf2bdbaa2d7d1aaac99fd/neoforge-26.3.0.102-universal.jar:/home/runner/.gradle/caches/modules-2/files-2.1/mezz.jei/jei-26.3-lib/31.17.0.100/73f1264bd0164a1b549664c37b88806aaa24c813/jei-26.3-lib-31.17.0.100.jar:/home/runner/.gradle/caches/modules-2/files-2.1/mezz.jei/jei-26.3-gui/31.17.0.100/5d96221a469e15eccce4662a4f6d733288fbd1ca/jei-26.3-gui-31.17.0.100.jar:/home/runner/.gradle/caches/modules-2/files-2.1/mezz.jei/jei-26.3-common/31.17.0.100/8e86e1917305b90754ff916e8bfbf01ce58767e1/jei-26.3-common-31.17.0.100.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.mezzdev.config/mezz_config-26.3-neoforge/0.6.6/673ee12247f453374861e132bac191d5dbf5e551/mezz_config-26.3-neoforge-0.6.6.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/earlydisplay/12.0.12/8437387fd35033b1ea0d3fac7cc28ced4efdc6b/earlydisplay-12.0.12.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/loader/12.0.12/f097a25d6289aa0b289e7cdb6de83a5c8c72f77e/loader-12.0.12.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/accesstransformers/11.0.2/25dcb69c78b16669935f0ab91dff830ce192379d/accesstransformers-11.0.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.11/7ddfa7d6cee28f627af0bd246ef046e24e1b02a/asm-commons-9.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/mergetool/2.0.7/793b18456e92c4a7f66d9b5d8bf7a9c1c7a20b20/mergetool-2.0.7-api.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.11/1d4e8839681014f2530b85a1969eb5b0d8af3dd7/asm-util-9.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.11/f35f7706e93e0de19c256b3e7e7f43e792a8d571/asm-analysis-9.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.11/2e0298e7c0986f94e161de26d108c78d20547935/asm-tree-9.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/bus/8.0.5/5b2d33285ab5d1554e9798ad98c40d6ea3868bd5/bus-8.0.5.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.11/2a2c870691d2220eb93492c88fdcd3711ab0fadb/asm-9.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/toml/3.9.0/8548891033db17e8f219b453cac38fb865ee4224/toml-3.9.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/core/3.9.0/29bba7ced5c9768adda06384c61fff2c33dc5e05/core-3.9.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/JarJarSelector/0.5.3/6b845aab8d5c8e721b4e3cd30f97722b7f8044b1/JarJarSelector-0.5.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/JarJarMetadata/0.5.3/ff40c1cd721d07615d825c5bbf27705b2e3258ed/JarJarMetadata-0.5.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-artifact/3.10.0/27e1f01911be3be075ea108d4fe8fd59ae717c5c/maven-artifact-3.10.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.jodah/typetools/0.6.3/a01aaa6ddaea9ec07ec4f209487b7a46a526283a/typetools-0.6.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecrell/terminalconsoleappender/1.3.0/b562e9bb61235c9520e26282cdee71f8f802d1fc/terminalconsoleappender-1.3.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.17.4+mixin.0.8.7/5f66cc9f59b8efaa942155a3d5a30599bf6640dd/sponge-mixin-0.17.4+mixin.0.8.7.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.mezzdev.config/mezz_config-26.3-config-api/0.6.6/7ec6a390c83264c3ee5601b72e6c601ddd416ad2/mezz_config-26.3-config-api-0.6.6.jar:/home/runner/.gradle/caches/modules-2/files-2.1/mezz.jei/jei-26.3-common-api/31.17.0.100/95f6f0de82717298032fca0074603f864df20844/jei-26.3-common-api-31.17.0.100.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.sf.jopt-simple/jopt-simple/5.0.4/4fdac2fbe92dfad86aa6e9301736f6b4342a3f5c/jopt-simple-5.0.4.jar:/home/runner/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.20.0/36f3474daec2849c149e877614e7f979b2082cd2/commons-io-2.20.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-sdl/3.4.3/c02146735d6ff70d070c73532b435e5c893a346b/lwjgl-sdl-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-sdl/3.4.3/6ed1b80b7c211a491612c70e43f27ba1f42cccd0/lwjgl-sdl-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/logging/1.7.12/351cea64a5233361327d8d54c44277041beed97f/logging-1.7.12.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-slf4j2-impl/2.26.0/668c0f0e813d83f00a7182533aa658ec7e7a0a0d/log4j-slf4j2-impl-2.26.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.26.0/d267ca60b27ddb075e0b4e75e7875859717bf85f/log4j-core-2.26.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.26.0/ad52af0ecf054a7e3f275a2e180ee06d9c490951/log4j-api-2.26.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/33.6.0-jre/c376b13067cc99a5774403530953f7b05a91e218/guava-33.6.0-jre.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.14.0/efc0e34ede4e3204eaefb84a00e55e8c86634382/gson-2.14.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.20.0/65897b3e5731220962e659e001904af3c3cbeba9/commons-lang3-3.20.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jspecify/jspecify/1.0.1/3d60fd98eb8ade73004f4195c37b6317e02cf3d7/jspecify-1.0.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged.accesstransformers/at-parser/11.0.2/64aae57d6d26d69543c5275181fe6971707a4e16/at-parser-11.0.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/2.0.17/d9e58ac9c7779ba3bf8142aff6c830617a7fe60f/slf4j-api-2.0.17.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/srgutils/1.0.10/abb471237b33b19f040ada00bfbad1ec45b949b6/srgutils-1.0.10.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.codehaus.plexus/plexus-utils/3.6.2/c8e32e2f08fb3a0e6caf34f1448cc69f077f4282/plexus-utils-3.6.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jline/jline-reader/3.20.0/8f15415b022a25b473e8e16c28ae913186ffb9c4/jline-reader-3.20.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.2/25ea2e8b0c338a877313bd4672d3fe056ea78f0d/jsr305-3.0.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/26.1.0/c1e9226d7ca6661020c58c94397da0cc3673d5e4/annotations-26.1.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/ca.weblite/java-objc-bridge/1.1/1227f9e0666314f9de41477e3ec277e542ed7f7b/java-objc-bridge-1.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-freetype/3.4.3/d2b12961d44f92860fb1ab501f9c69b7a2975236/lwjgl-freetype-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-freetype/3.4.3/38f27c9a0fbe000bfb38b295c32944d699e246e9/lwjgl-freetype-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.4.3/350f317eaf5295b1e53f6664ef5fdeeaaa7dcbf0/lwjgl-jemalloc-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.4.3/ca21b4b4c6d223907de645a18436ef6f677a5d4f/lwjgl-jemalloc-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.4.3/32b52cda5af6937a4e4bd321bdb83082025cb332/lwjgl-openal-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.4.3/7daa62f9f7b38b30e8a3d3bc7069e9b2e3cd52f0/lwjgl-openal-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.4.3/b81769ee48050f8c71e70839505f350bf9219d90/lwjgl-opengl-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.4.3/ec6fb42167943e94f7f0b14707c1737653c4044b/lwjgl-opengl-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-shaderc/3.4.3/ba9fbc8fc4d50b3e4b436cc958ddb4abdb05867c/lwjgl-shaderc-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-shaderc/3.4.3/37faa5824f75901f4961e56805aedf68e13cf8b/lwjgl-shaderc-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-spvc/3.4.3/98e5b5ef5159100b26a169a9aed6c24e820e3eaa/lwjgl-spvc-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-spvc/3.4.3/709eb01deec4bdafb7634b125a63fd8de172fc50/lwjgl-spvc-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.4.3/cdce54785bd3758e44a81f345d6260774d921c78/lwjgl-stb-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.4.3/3878e44ce27c12791e570b5c8754ef3b68401dd3/lwjgl-stb-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vma/3.4.3/816a6ac87f1e447e5346ca0e7a1078353f51fbd6/lwjgl-vma-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vma/3.4.3/3a9a95d3e83f7fc49c6ed8d0e1c853b77662d90e/lwjgl-vma-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vulkan/3.4.3/ffdaf1898192059f059d66f9fa37e3debcac10e0/lwjgl-vulkan-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.3/aeaffd00d57023a2c947393ed251f0354f0985fc/failureaccess-1.0.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/b421526c5f297295adef1c886e5246c39d4ac629/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.48.0/bbe30942a31d1778c74cb272321267eca82dc708/error_prone_annotations-2.48.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.j2objc/j2objc-annotations/3.1/a892ca9507839bbdb900d64310ac98256cab992f/j2objc-annotations-3.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jline/jline-terminal/3.20.0/d0ddcc708ddf527a3454c941b7b9225cc83a15ff/jline-terminal-3.20.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/at.yawk.lz4/lz4-java/1.10.1/f541d7f910fe3d76f38f799c507c48cc81b12ecb/lz4-java-1.10.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.azure/azure-json/1.4.0/fcc1d354dbc3e0300e5276b1bf124d0247799cd8/azure-json-1.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.github.oshi/oshi-core/6.9.0/3224870731860cfcd7744581a05b559e94291e7/oshi-core-6.9.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.ibm.icu/icu4j/78.3/6a851a53bb1f25689fc418dcc8935b0d93580adf/icu4j-78.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.microsoft.azure/msal4j/1.24.1/c233f2d047b9755f7041adf21a858c680e4c9242/msal4j-1.24.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/authlib/10.0.77/add8754cda96cf0cd840441632875648836f8a71/authlib-10.0.77.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/blocklist/1.0.10/5c685c5ffa94c4cd39496c7184c1d122e515ecef/blocklist-1.0.10.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/brigadier/1.3.11/3373d1e7bf00c8b99bed1ea4efb8c47344e4a887/brigadier-1.3.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/datafixerupper/10.0.21/b6b2ae770c02e0c1eb90f9985b151e9085a38d0b/datafixerupper-10.0.21.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/jtracy/1.14.38/cc2ad81342001b4281c305a298d7f50332354058/jtracy-1.14.38.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/jtracy/1.14.38/d2433300f8a4e99595d513546d19ecddc3eaa15e/jtracy-1.14.38-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/patchy/2.2.10/da05971b07cbb379d002cf7eaec6a2048211fefc/patchy-2.2.10.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/text2speech/1.19.12/2e517a75c79d34d32de2b5d68422150836c2133e/text2speech-1.19.12.jar:/home/runner/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.22.0/6b3eb4beb7058c2a638f5f17bcb388649fd339dd/commons-codec-1.22.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-buffer/4.2.16.Final/5397ef65dcb60670e0e0dba4854522873af3070/netty-buffer-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-base/4.2.16.Final/1a01d45a9efc228c6d747525848b065e0656b5f/netty-codec-base-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-compression/4.2.16.Final/bdbbcfcdbe217b95c14a04df4fc5d31213d5c27c/netty-codec-compression-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http/4.2.16.Final/b5e0715df90047ee5a0138c8f704f43c751009e4/netty-codec-http-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-common/4.2.16.Final/c2bc7fa5acfa2afc777e944d84f0aa65559cc81e/netty-common-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler/4.2.16.Final/cc82873ae4b6d14effe480740ad838de09add70d/netty-handler-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver/4.2.16.Final/fcea6d64273b59ab9127b68c16ae98af34642139/netty-resolver-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-classes-epoll/4.2.16.Final/cf90c7b892e284ba9f1545dce170168369b3b9d6/netty-transport-classes-epoll-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-classes-kqueue/4.2.16.Final/fa2bcf8c71626510f6fae173f78182117b70f7a/netty-transport-classes-kqueue-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-unix-common/4.2.16.Final/3cf32390f1b80af890ac44aa0698c2ff58c2a4d7/netty-transport-native-unix-common-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport/4.2.16.Final/ae87a3bec51d503475a19fbd718bf777f2fc06c6/netty-transport-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/it.unimi.dsi/fastutil/8.5.18/a6cff377eecc19c2037bf31568a6d7106b50ba1f/fastutil-8.5.18.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna-platform/5.17.0/a4934c44d25a9d8c2ddf4203affd20330cb3426f/jna-platform-5.17.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.17.0/33d12735bef894440780fce64f9758d420c7bae2/jna-5.17.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.28.0/e482f2c7a88dac3c497e96aa420b6a769f59c8d7/commons-compress-1.28.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jcraft/jorbis/0.0.17/8872d22b293e8f5d7d56ff92be966e6dc28ebdc6/jorbis-0.0.17.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.joml/joml/1.10.9/438e036486bad66b189bff385dd07dea4f74a146/joml-1.10.9.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.4.3/7ab5265a73d8a959ed62332d546536ae6be2f0d5/lwjgl-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.4.3/2800e134537db1a175eba41c430b1018eddc48f0/lwjgl-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-epoll/4.2.16.Final/eed34f3b37b4c46a0cbb49456ccc4e3bd7195e4c/netty-transport-native-epoll-4.2.16.Final-linux-aarch_64.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-epoll/4.2.16.Final/439c24f5c27c220deb042b42e4048d606edeb78d/netty-transport-native-epoll-4.2.16.Final-linux-x86_64.jar)
+	at com.sun.jna.NativeLibrary.loadLibrary(NativeLibrary.java:325) ~[jna-5.17.0.jar:5.17.0 (b0)]
+	at com.sun.jna.NativeLibrary.getInstance(NativeLibrary.java:481) ~[jna-5.17.0.jar:5.17.0 (b0)]
+	at com.sun.jna.NativeLibrary.getInstance(NativeLibrary.java:423) ~[jna-5.17.0.jar:5.17.0 (b0)]
+	at com.mojang.text2speech.NarratorLinux$FliteLibrary.loadNative(NarratorLinux.java:80) ~[text2speech-1.19.12.jar:?]
+	... 9 more
+	Suppressed: java.lang.UnsatisfiedLinkError: libflite.so: cannot open shared object file: No such file or directory
+		at com.sun.jna.Native.open(Native Method)
+		at com.sun.jna.NativeLibrary.loadLibrary(NativeLibrary.java:213) ~[jna-5.17.0.jar:5.17.0 (b0)]
+		... 12 more
+	Suppressed: java.lang.UnsatisfiedLinkError: libflite.so: cannot open shared object file: No such file or directory
+		at com.sun.jna.Native.open(Native Method)
+		at com.sun.jna.NativeLibrary.loadLibrary(NativeLibrary.java:226) ~[jna-5.17.0.jar:5.17.0 (b0)]
+		... 12 more
+	Suppressed: java.io.IOException: Native library (linux-x86-64/libflite.so) not found in resource path (/home/runner/work/powers_unchained/powers_unchained/neoforge/build/classes/java/main:/home/runner/work/powers_unchained/powers_unchained/neoforge/build/resources/main:/home/runner/work/powers_unchained/powers_unchained/neoforge/build/moddev/artifacts/minecraft-patched-26.3.0.102.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/DevLaunch/1.0.2/2e0e9a67793d5bfdedee4f9ea00934dbf3f2e22d/DevLaunch-1.0.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/top.theillusivec4.curios/curios-neoforge/17.0.0-beta.3+26.3/8abf8160149f14d4d526c76ba6ed50955ba72716/curios-neoforge-17.0.0-beta.3+26.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/mezz.jei/jei-26.3-neoforge/31.17.0.100/d1bf3a87ced282190438668c42d0e43fa36af509/jei-26.3-neoforge-31.17.0.100.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/neoforge/26.3.0.102/d3169ff3cbcd5f50e6bcf2bdbaa2d7d1aaac99fd/neoforge-26.3.0.102-universal.jar:/home/runner/.gradle/caches/modules-2/files-2.1/mezz.jei/jei-26.3-lib/31.17.0.100/73f1264bd0164a1b549664c37b88806aaa24c813/jei-26.3-lib-31.17.0.100.jar:/home/runner/.gradle/caches/modules-2/files-2.1/mezz.jei/jei-26.3-gui/31.17.0.100/5d96221a469e15eccce4662a4f6d733288fbd1ca/jei-26.3-gui-31.17.0.100.jar:/home/runner/.gradle/caches/modules-2/files-2.1/mezz.jei/jei-26.3-common/31.17.0.100/8e86e1917305b90754ff916e8bfbf01ce58767e1/jei-26.3-common-31.17.0.100.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.mezzdev.config/mezz_config-26.3-neoforge/0.6.6/673ee12247f453374861e132bac191d5dbf5e551/mezz_config-26.3-neoforge-0.6.6.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/earlydisplay/12.0.12/8437387fd35033b1ea0d3fac7cc28ced4efdc6b/earlydisplay-12.0.12.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/loader/12.0.12/f097a25d6289aa0b289e7cdb6de83a5c8c72f77e/loader-12.0.12.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/accesstransformers/11.0.2/25dcb69c78b16669935f0ab91dff830ce192379d/accesstransformers-11.0.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.11/7ddfa7d6cee28f627af0bd246ef046e24e1b02a/asm-commons-9.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/mergetool/2.0.7/793b18456e92c4a7f66d9b5d8bf7a9c1c7a20b20/mergetool-2.0.7-api.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.11/1d4e8839681014f2530b85a1969eb5b0d8af3dd7/asm-util-9.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.11/f35f7706e93e0de19c256b3e7e7f43e792a8d571/asm-analysis-9.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.11/2e0298e7c0986f94e161de26d108c78d20547935/asm-tree-9.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/bus/8.0.5/5b2d33285ab5d1554e9798ad98c40d6ea3868bd5/bus-8.0.5.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.11/2a2c870691d2220eb93492c88fdcd3711ab0fadb/asm-9.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/toml/3.9.0/8548891033db17e8f219b453cac38fb865ee4224/toml-3.9.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/core/3.9.0/29bba7ced5c9768adda06384c61fff2c33dc5e05/core-3.9.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/JarJarSelector/0.5.3/6b845aab8d5c8e721b4e3cd30f97722b7f8044b1/JarJarSelector-0.5.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/JarJarMetadata/0.5.3/ff40c1cd721d07615d825c5bbf27705b2e3258ed/JarJarMetadata-0.5.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-artifact/3.10.0/27e1f01911be3be075ea108d4fe8fd59ae717c5c/maven-artifact-3.10.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.jodah/typetools/0.6.3/a01aaa6ddaea9ec07ec4f209487b7a46a526283a/typetools-0.6.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecrell/terminalconsoleappender/1.3.0/b562e9bb61235c9520e26282cdee71f8f802d1fc/terminalconsoleappender-1.3.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.17.4+mixin.0.8.7/5f66cc9f59b8efaa942155a3d5a30599bf6640dd/sponge-mixin-0.17.4+mixin.0.8.7.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.mezzdev.config/mezz_config-26.3-config-api/0.6.6/7ec6a390c83264c3ee5601b72e6c601ddd416ad2/mezz_config-26.3-config-api-0.6.6.jar:/home/runner/.gradle/caches/modules-2/files-2.1/mezz.jei/jei-26.3-common-api/31.17.0.100/95f6f0de82717298032fca0074603f864df20844/jei-26.3-common-api-31.17.0.100.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.sf.jopt-simple/jopt-simple/5.0.4/4fdac2fbe92dfad86aa6e9301736f6b4342a3f5c/jopt-simple-5.0.4.jar:/home/runner/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.20.0/36f3474daec2849c149e877614e7f979b2082cd2/commons-io-2.20.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-sdl/3.4.3/c02146735d6ff70d070c73532b435e5c893a346b/lwjgl-sdl-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-sdl/3.4.3/6ed1b80b7c211a491612c70e43f27ba1f42cccd0/lwjgl-sdl-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/logging/1.7.12/351cea64a5233361327d8d54c44277041beed97f/logging-1.7.12.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-slf4j2-impl/2.26.0/668c0f0e813d83f00a7182533aa658ec7e7a0a0d/log4j-slf4j2-impl-2.26.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.26.0/d267ca60b27ddb075e0b4e75e7875859717bf85f/log4j-core-2.26.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.26.0/ad52af0ecf054a7e3f275a2e180ee06d9c490951/log4j-api-2.26.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/33.6.0-jre/c376b13067cc99a5774403530953f7b05a91e218/guava-33.6.0-jre.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.14.0/efc0e34ede4e3204eaefb84a00e55e8c86634382/gson-2.14.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.20.0/65897b3e5731220962e659e001904af3c3cbeba9/commons-lang3-3.20.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jspecify/jspecify/1.0.1/3d60fd98eb8ade73004f4195c37b6317e02cf3d7/jspecify-1.0.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged.accesstransformers/at-parser/11.0.2/64aae57d6d26d69543c5275181fe6971707a4e16/at-parser-11.0.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/2.0.17/d9e58ac9c7779ba3bf8142aff6c830617a7fe60f/slf4j-api-2.0.17.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/srgutils/1.0.10/abb471237b33b19f040ada00bfbad1ec45b949b6/srgutils-1.0.10.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.codehaus.plexus/plexus-utils/3.6.2/c8e32e2f08fb3a0e6caf34f1448cc69f077f4282/plexus-utils-3.6.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jline/jline-reader/3.20.0/8f15415b022a25b473e8e16c28ae913186ffb9c4/jline-reader-3.20.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.2/25ea2e8b0c338a877313bd4672d3fe056ea78f0d/jsr305-3.0.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/26.1.0/c1e9226d7ca6661020c58c94397da0cc3673d5e4/annotations-26.1.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/ca.weblite/java-objc-bridge/1.1/1227f9e0666314f9de41477e3ec277e542ed7f7b/java-objc-bridge-1.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-freetype/3.4.3/d2b12961d44f92860fb1ab501f9c69b7a2975236/lwjgl-freetype-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-freetype/3.4.3/38f27c9a0fbe000bfb38b295c32944d699e246e9/lwjgl-freetype-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.4.3/350f317eaf5295b1e53f6664ef5fdeeaaa7dcbf0/lwjgl-jemalloc-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.4.3/ca21b4b4c6d223907de645a18436ef6f677a5d4f/lwjgl-jemalloc-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.4.3/32b52cda5af6937a4e4bd321bdb83082025cb332/lwjgl-openal-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.4.3/7daa62f9f7b38b30e8a3d3bc7069e9b2e3cd52f0/lwjgl-openal-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.4.3/b81769ee48050f8c71e70839505f350bf9219d90/lwjgl-opengl-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.4.3/ec6fb42167943e94f7f0b14707c1737653c4044b/lwjgl-opengl-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-shaderc/3.4.3/ba9fbc8fc4d50b3e4b436cc958ddb4abdb05867c/lwjgl-shaderc-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-shaderc/3.4.3/37faa5824f75901f4961e56805aedf68e13cf8b/lwjgl-shaderc-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-spvc/3.4.3/98e5b5ef5159100b26a169a9aed6c24e820e3eaa/lwjgl-spvc-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-spvc/3.4.3/709eb01deec4bdafb7634b125a63fd8de172fc50/lwjgl-spvc-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.4.3/cdce54785bd3758e44a81f345d6260774d921c78/lwjgl-stb-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.4.3/3878e44ce27c12791e570b5c8754ef3b68401dd3/lwjgl-stb-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vma/3.4.3/816a6ac87f1e447e5346ca0e7a1078353f51fbd6/lwjgl-vma-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vma/3.4.3/3a9a95d3e83f7fc49c6ed8d0e1c853b77662d90e/lwjgl-vma-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vulkan/3.4.3/ffdaf1898192059f059d66f9fa37e3debcac10e0/lwjgl-vulkan-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.3/aeaffd00d57023a2c947393ed251f0354f0985fc/failureaccess-1.0.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/b421526c5f297295adef1c886e5246c39d4ac629/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.48.0/bbe30942a31d1778c74cb272321267eca82dc708/error_prone_annotations-2.48.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.j2objc/j2objc-annotations/3.1/a892ca9507839bbdb900d64310ac98256cab992f/j2objc-annotations-3.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jline/jline-terminal/3.20.0/d0ddcc708ddf527a3454c941b7b9225cc83a15ff/jline-terminal-3.20.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/at.yawk.lz4/lz4-java/1.10.1/f541d7f910fe3d76f38f799c507c48cc81b12ecb/lz4-java-1.10.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.azure/azure-json/1.4.0/fcc1d354dbc3e0300e5276b1bf124d0247799cd8/azure-json-1.4.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.github.oshi/oshi-core/6.9.0/3224870731860cfcd7744581a05b559e94291e7/oshi-core-6.9.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.ibm.icu/icu4j/78.3/6a851a53bb1f25689fc418dcc8935b0d93580adf/icu4j-78.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.microsoft.azure/msal4j/1.24.1/c233f2d047b9755f7041adf21a858c680e4c9242/msal4j-1.24.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/authlib/10.0.77/add8754cda96cf0cd840441632875648836f8a71/authlib-10.0.77.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/blocklist/1.0.10/5c685c5ffa94c4cd39496c7184c1d122e515ecef/blocklist-1.0.10.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/brigadier/1.3.11/3373d1e7bf00c8b99bed1ea4efb8c47344e4a887/brigadier-1.3.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/datafixerupper/10.0.21/b6b2ae770c02e0c1eb90f9985b151e9085a38d0b/datafixerupper-10.0.21.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/jtracy/1.14.38/cc2ad81342001b4281c305a298d7f50332354058/jtracy-1.14.38.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/jtracy/1.14.38/d2433300f8a4e99595d513546d19ecddc3eaa15e/jtracy-1.14.38-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/patchy/2.2.10/da05971b07cbb379d002cf7eaec6a2048211fefc/patchy-2.2.10.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/text2speech/1.19.12/2e517a75c79d34d32de2b5d68422150836c2133e/text2speech-1.19.12.jar:/home/runner/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.22.0/6b3eb4beb7058c2a638f5f17bcb388649fd339dd/commons-codec-1.22.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-buffer/4.2.16.Final/5397ef65dcb60670e0e0dba4854522873af3070/netty-buffer-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-base/4.2.16.Final/1a01d45a9efc228c6d747525848b065e0656b5f/netty-codec-base-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-compression/4.2.16.Final/bdbbcfcdbe217b95c14a04df4fc5d31213d5c27c/netty-codec-compression-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec-http/4.2.16.Final/b5e0715df90047ee5a0138c8f704f43c751009e4/netty-codec-http-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-common/4.2.16.Final/c2bc7fa5acfa2afc777e944d84f0aa65559cc81e/netty-common-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler/4.2.16.Final/cc82873ae4b6d14effe480740ad838de09add70d/netty-handler-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver/4.2.16.Final/fcea6d64273b59ab9127b68c16ae98af34642139/netty-resolver-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-classes-epoll/4.2.16.Final/cf90c7b892e284ba9f1545dce170168369b3b9d6/netty-transport-classes-epoll-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-classes-kqueue/4.2.16.Final/fa2bcf8c71626510f6fae173f78182117b70f7a/netty-transport-classes-kqueue-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-unix-common/4.2.16.Final/3cf32390f1b80af890ac44aa0698c2ff58c2a4d7/netty-transport-native-unix-common-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport/4.2.16.Final/ae87a3bec51d503475a19fbd718bf777f2fc06c6/netty-transport-4.2.16.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/it.unimi.dsi/fastutil/8.5.18/a6cff377eecc19c2037bf31568a6d7106b50ba1f/fastutil-8.5.18.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna-platform/5.17.0/a4934c44d25a9d8c2ddf4203affd20330cb3426f/jna-platform-5.17.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.17.0/33d12735bef894440780fce64f9758d420c7bae2/jna-5.17.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.28.0/e482f2c7a88dac3c497e96aa420b6a769f59c8d7/commons-compress-1.28.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jcraft/jorbis/0.0.17/8872d22b293e8f5d7d56ff92be966e6dc28ebdc6/jorbis-0.0.17.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.joml/joml/1.10.9/438e036486bad66b189bff385dd07dea4f74a146/joml-1.10.9.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.4.3/7ab5265a73d8a959ed62332d546536ae6be2f0d5/lwjgl-3.4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.4.3/2800e134537db1a175eba41c430b1018eddc48f0/lwjgl-3.4.3-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-epoll/4.2.16.Final/eed34f3b37b4c46a0cbb49456ccc4e3bd7195e4c/netty-transport-native-epoll-4.2.16.Final-linux-aarch_64.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-epoll/4.2.16.Final/439c24f5c27c220deb042b42e4048d606edeb78d/netty-transport-native-epoll-4.2.16.Final-linux-x86_64.jar)
+		at com.sun.jna.Native.extractFromResourcePath(Native.java:1141)
+		at com.sun.jna.NativeLibrary.loadLibrary(NativeLibrary.java:297) ~[jna-5.17.0.jar:5.17.0 (b0)]
+		... 12 more
+[10Nov2026 19:00:47.053] [modloading-worker-0/INFO] [net.neoforged.neoforge.common.VersionChecker/]: No mods enabled for version check
+[10Nov2026 19:00:47.267] [Render thread/INFO] [net.minecraft.server.packs.resources.ReloadableResourceManager/]: Reloading ResourceManager: vanilla, vanilla, mod_resources, mod/curios, mod/mezz_config, mod/neoforge, mod/powers_unchained, mod/jei
+[10Nov2026 19:00:48.833] [resourceLoad/INFO] [net.minecraft.client.gui.font.providers.UnihexProvider/]: Found unifont_all_no_pua-17.0.01.hex, loading
+[10Nov2026 19:00:49.454] [resourceLoad/INFO] [net.minecraft.client.gui.font.providers.UnihexProvider/]: Found unifont_jp_patch-17.0.01.hex, loading
+[10Nov2026 19:00:49.484] [resourceLoad/INFO] [net.minecraft.client.gui.font.providers.UnihexProvider/]: Found unifont_pua-17.0.01.hex, loading
+[10Nov2026 19:00:59.431] [Render thread/ERROR] [net.minecraft.client.sounds.SoundEngine/SOUNDS]: Error starting SoundSystem. Turning off sounds & music
+java.lang.IllegalStateException: Failed to open OpenAL device
+	at TRANSFORMER/minecraft@26.3/com.mojang.blaze3d.audio.Library.openDeviceOrFallback(Library.java:185) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/com.mojang.blaze3d.audio.Library.init(Library.java:66) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.client.sounds.SoundEngine.loadLibrary(SoundEngine.java:112) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.client.sounds.SoundEngine.reload(SoundEngine.java:103) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.client.sounds.SoundManager.apply(SoundManager.java:120) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.client.sounds.SoundManager.apply(SoundManager.java:43) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.server.packs.resources.SimplePreparableReloadListener.lambda$reload$1(SimplePreparableReloadListener.java:19) ~[minecraft-patched-26.3.0.102.jar:?]
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:739) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:503) ~[?:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.server.packs.resources.SimpleReloadInstance.lambda$prepareTasks$3(SimpleReloadInstance.java:75) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.util.thread.BlockableEventLoop.doRunTask(BlockableEventLoop.java:165) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.util.thread.ReentrantBlockableEventLoop.doRunTask(ReentrantBlockableEventLoop.java:24) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.util.thread.BlockableEventLoop.pollTask(BlockableEventLoop.java:140) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.util.thread.BlockableEventLoop.runAllTasks(BlockableEventLoop.java:121) ~[minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.client.Minecraft.runTick(Minecraft.java:1200) [minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.client.Minecraft.run(Minecraft.java:938) [minecraft-patched-26.3.0.102.jar:?]
+	at TRANSFORMER/minecraft@26.3/net.minecraft.client.main.Main.main(Main.java:294) [minecraft-patched-26.3.0.102.jar:?]
+	at net.neoforged.fml.startup.Client.main(Client.java:19) [loader-12.0.12.jar:12.0]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[?:?]
+	at net.neoforged.devlaunch.Main.main(Main.java:57) [DevLaunch-1.0.2.jar:?]
+[10Nov2026 19:00:59.438] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x0 minecraft:textures/atlas/particles.png-atlas
+[10Nov2026 19:00:59.493] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x128x0 minecraft:textures/atlas/celestials.png-atlas
+[10Nov2026 19:00:59.498] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x128x0 minecraft:textures/atlas/decorated_pot.png-atlas
+[10Nov2026 19:00:59.503] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x0 minecraft:textures/atlas/paintings.png-atlas
+[10Nov2026 19:00:59.514] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x512x0 minecraft:textures/atlas/shield_patterns.png-atlas
+[10Nov2026 19:00:59.521] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x512x0 minecraft:textures/atlas/banner_patterns.png-atlas
+[10Nov2026 19:00:59.528] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 2048x2048x4 minecraft:textures/atlas/blocks.png-atlas
+[10Nov2026 19:00:59.687] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x512x0 minecraft:textures/atlas/items.png-atlas
+[10Nov2026 19:00:59.708] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x0 minecraft:textures/atlas/gui.png-atlas
+[10Nov2026 19:00:59.726] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x64x0 minecraft:textures/atlas/map_decorations.png-atlas
+[10Nov2026 19:00:59.728] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x0 minecraft:textures/atlas/chest.png-atlas
+[10Nov2026 19:00:59.732] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x0 minecraft:textures/atlas/shulker_boxes.png-atlas
+[10Nov2026 19:00:59.953] [Render thread/INFO] [net.neoforged.neoforge.client.entity.animation.json.AnimationLoader/]: Loaded 0 entity animations
+[10Nov2026 19:01:03.950] [Worker-Main-1/INFO] [net.minecraft.advancements.AdvancementTree/]: Loaded 1873 advancements
+[10Nov2026 19:01:04.274] [Render thread/INFO] [net.neoforged.neoforge.common.crafting.RecipePriorityManager/]: Loaded 0 recipe priority overrides
+[10Nov2026 19:01:05.072] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Starting integrated minecraft server version 26.3
+[10Nov2026 19:01:05.073] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Generating keypair
+[10Nov2026 19:01:05.410] [Server thread/INFO] [Curios API/]: Loaded 11 curio slots
+[10Nov2026 19:01:05.410] [Server thread/INFO] [Curios API/]: Loaded 1 curio entities
+[10Nov2026 19:01:05.902] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Loading 0 persistent chunks...
+[10Nov2026 19:01:05.903] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Подготовка области возрождения: 16%
+[10Nov2026 19:01:05.916] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[10Nov2026 19:01:05.945] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[10Nov2026 19:01:05.957] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[10Nov2026 19:01:05.981] [Server thread/INFO] [net.neoforged.neoforge.server.permission.PermissionAPI/]: Successfully initialized permission handler neoforge:default_handler
+[10Nov2026 19:01:09.902] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Loading 48 chunks for player spawn...
+[10Nov2026 19:01:09.909] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Подготовка области возрождения: 16%
+[10Nov2026 19:01:09.909] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Подготовка области возрождения: 16%
+[10Nov2026 19:01:09.957] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Подготовка области возрождения: 16%
+[10Nov2026 19:01:10.008] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Подготовка области возрождения: 16%
+[10Nov2026 19:01:10.060] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Подготовка области возрождения: 16%
+[10Nov2026 19:01:10.105] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Подготовка области возрождения: 18%
+[10Nov2026 19:01:10.155] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Подготовка области возрождения: 18%
+[10Nov2026 19:01:10.205] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Подготовка области возрождения: 18%
+[10Nov2026 19:01:10.405] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Подготовка области возрождения: 18%
+[10Nov2026 19:01:10.705] [Server thread/INFO] [net.minecraft.server.level.progress.LoggingLevelLoadListener/]: Time elapsed: 4804 ms
+[10Nov2026 19:01:11.257] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: Dev[local:E:92e99b30] logged in with entity id 1 at (-9.5, -60.0, 7.5)
+[10Nov2026 19:01:11.354] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev присоединился к игре
+[10Nov2026 19:01:11.778] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing view distance to 6, from 10
+[10Nov2026 19:01:11.795] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing simulation distance to 6, from 0
+[10Nov2026 19:01:12.653] [Render thread/INFO] [mezz.jei.common.util.LoggedTimer/]: Starting JEI...
+[10Nov2026 19:01:12.653] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Configuring JEI...
+[10Nov2026 19:01:12.656] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Configuring JEI took 2.523 milliseconds
+[10Nov2026 19:01:12.694] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering item subtypes...
+[10Nov2026 19:01:12.702] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering item subtypes took 7.754 milliseconds
+[10Nov2026 19:01:12.703] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering fluid subtypes...
+[10Nov2026 19:01:12.704] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering fluid subtypes took 1.282 milliseconds
+[10Nov2026 19:01:12.712] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering ingredients...
+[10Nov2026 19:01:13.411] [Render thread/INFO] [mezz.jei.library.load.PluginCallerTimerRunnable/]: Registering ingredients: jei:minecraft took 699.4 milliseconds
+[10Nov2026 19:01:13.412] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering ingredients took 700.3 milliseconds
+[10Nov2026 19:01:13.412] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering extra ingredients...
+[10Nov2026 19:01:13.414] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering extra ingredients took 1.795 milliseconds
+[10Nov2026 19:01:13.415] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering search ingredient aliases...
+[10Nov2026 19:01:13.419] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering search ingredient aliases took 197.0 microseconds
+[10Nov2026 19:01:13.419] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering slot display interpreters...
+[10Nov2026 19:01:13.438] [Render thread/INFO] [mezz.jei.library.load.PluginCallerTimerRunnable/]: Registering slot display interpreters: jei:minecraft took 18.01 milliseconds
+[10Nov2026 19:01:13.444] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering slot display interpreters took 24.49 milliseconds
+[10Nov2026 19:01:13.498] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering Mod Info...
+[10Nov2026 19:01:13.519] [Render thread/INFO] [mezz.jei.library.load.PluginCallerTimerRunnable/]: Registering Mod Info: jei:minecraft took 19.13 milliseconds
+[10Nov2026 19:01:13.520] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering Mod Info took 20.15 milliseconds
+[10Nov2026 19:01:13.626] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering advanced search...
+[10Nov2026 19:01:13.632] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering advanced search took 257.9 microseconds
+[10Nov2026 19:01:13.643] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering categories...
+[10Nov2026 19:01:13.726] [Render thread/INFO] [mezz.jei.library.load.PluginCallerTimerRunnable/]: Registering categories: jei:minecraft took 78.51 milliseconds
+[10Nov2026 19:01:13.750] [Render thread/INFO] [mezz.jei.library.load.PluginCallerTimerRunnable/]: Registering categories: jei:internal took 14.39 milliseconds
+[10Nov2026 19:01:13.751] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering categories took 107.1 milliseconds
+[10Nov2026 19:01:13.759] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering vanilla category extensions...
+[10Nov2026 19:01:13.778] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering vanilla category extensions took 11.66 milliseconds
+[10Nov2026 19:01:13.779] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering recipe catalysts...
+[10Nov2026 19:01:13.792] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering recipe catalysts took 12.82 milliseconds
+[10Nov2026 19:01:13.793] [Render thread/INFO] [mezz.jei.common.util.LoggedTimer/]: Building recipe registry...
+[10Nov2026 19:01:13.831] [Render thread/INFO] [net.mezzdev.config.sorting.SortingConfig/]: Migrated legacy sorting config file '/home/runner/work/powers_unchained/powers_unchained/neoforge/runs/ciclient/config/jei/recipe-category-sort-order.ini' to '/home/runner/work/powers_unchained/powers_unchained/neoforge/runs/ciclient/config/jei/client/recipe-category-sort-order.ini'; the source was preserved and backed up at '/home/runner/work/powers_unchained/powers_unchained/neoforge/runs/ciclient/config/jei/recipe-category-sort-order.ini.bak.1'.
+[10Nov2026 19:01:13.860] [Render thread/INFO] [mezz.jei.common.util.LoggedTimer/]: Building recipe registry took 66.06 milliseconds
+[10Nov2026 19:01:13.864] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering advanced plugins...
+[10Nov2026 19:01:13.917] [Render thread/INFO] [mezz.jei.library.load.registration.AdvancedRegistration/]: Added typed recipe manager plugin: class mezz.jei.library.plugins.vanilla.crafting.FireworkStarRecipeManagerPlugin
+[10Nov2026 19:01:13.918] [Render thread/INFO] [mezz.jei.library.load.PluginCallerTimerRunnable/]: Registering advanced plugins: jei:minecraft took 50.28 milliseconds
+[10Nov2026 19:01:13.918] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering advanced plugins took 53.72 milliseconds
+[10Nov2026 19:01:13.919] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering recipes...
+[10Nov2026 19:01:16.098] [Render thread/INFO] [mezz.jei.library.load.PluginCallerTimerRunnable/]: Registering recipes: jei:minecraft took 2.176 seconds
+[10Nov2026 19:01:16.119] [Render thread/INFO] [mezz.jei.library.load.PluginCallerTimerRunnable/]: Registering recipes: powers_unchained:jei_plugin took 20.02 milliseconds
+[10Nov2026 19:01:16.638] [Render thread/INFO] [mezz.jei.library.load.PluginCallerTimerRunnable/]: Registering recipes: jei:internal took 516.2 milliseconds
+[10Nov2026 19:01:16.639] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering recipes took 2.720 seconds
+[10Nov2026 19:01:16.651] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering recipes transfer handlers...
+[10Nov2026 19:01:16.657] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering recipes transfer handlers took 4.349 milliseconds
+[10Nov2026 19:01:16.665] [Render thread/INFO] [mezz.jei.common.util.LoggedTimer/]: Building runtime...
+[10Nov2026 19:01:16.668] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering gui handlers...
+[10Nov2026 19:01:16.679] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering gui handlers took 10.32 milliseconds
+[10Nov2026 19:01:16.684] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering Runtime...
+[10Nov2026 19:01:16.687] [Render thread/INFO] [mezz.jei.gui.startup.JeiGuiStarter/]: Starting JEI GUI
+[10Nov2026 19:01:16.692] [Render thread/INFO] [mezz.jei.common.util.LoggedTimer/]: Building ingredient list...
+[10Nov2026 19:01:16.778] [Render thread/INFO] [mezz.jei.common.util.LoggedTimer/]: Building ingredient list took 85.43 milliseconds
+[10Nov2026 19:01:16.778] [Render thread/INFO] [mezz.jei.common.util.LoggedTimer/]: Building ingredient filter...
+[10Nov2026 19:01:16.814] [Render thread/INFO] [mezz.jei.gui.ingredients.IngredientFilter/]: Adding 2061 ingredients
+[10Nov2026 19:01:18.117] [Render thread/INFO] [mezz.jei.gui.ingredients.IngredientFilter/]: Added 2061 ingredients
+[10Nov2026 19:01:18.119] [Render thread/INFO] [mezz.jei.common.util.LoggedTimer/]: Building ingredient filter took 1.340 seconds
+[10Nov2026 19:01:18.341] [Render thread/INFO] [mezz.jei.library.load.PluginCallerTimerRunnable/]: Registering Runtime: jei:neoforge_gui took 1.656 seconds
+[10Nov2026 19:01:18.342] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Registering Runtime took 1.657 seconds
+[10Nov2026 19:01:18.343] [Render thread/INFO] [mezz.jei.common.util.LoggedTimer/]: Building runtime took 1.678 seconds
+[10Nov2026 19:01:18.343] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Sending Runtime...
+[10Nov2026 19:01:18.347] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Sending Runtime took 1.670 milliseconds
+[10Nov2026 19:01:18.347] [Render thread/INFO] [mezz.jei.common.util.LoggedTimer/]: Starting JEI took 5.694 seconds
+[10Nov2026 19:01:18.361] [Render thread/WARN] [net.minecraft.client.multiplayer.ClientPacketListener/]: Ignoring chat session from Dev due to missing Services public key
+[10Nov2026 19:01:18.374] [Render thread/INFO] [net.minecraft.advancements.AdvancementTree/]: Loaded 2 advancements
+[10Nov2026 19:01:18.707] [Render thread/WARN] [net.minecraft.client.renderer.ShaderManager/]: Requested post effect does not exist: minecraft:end_of_frame
+[10Nov2026 19:01:18.798] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageMapped/]: Resizing Dynamic Transforms UBO, capacity limit of 2 reached during a single frame. New capacity will be 4.
+[10Nov2026 19:01:19.306] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageMapped/]: Resizing Dynamic Transforms UBO, capacity limit of 4 reached during a single frame. New capacity will be 8.
+[10Nov2026 19:01:19.966] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageMapped/]: Resizing Dynamic Transforms UBO, capacity limit of 8 reached during a single frame. New capacity will be 16.
+[10Nov2026 19:01:20.251] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageMapped/]: Resizing Chunk Sections Command Buffer, capacity limit of 2 reached during a single frame. New capacity will be 8.
+[10Nov2026 19:01:20.252] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageNonMapped/]: Resizing Chunk Sections Instanced, capacity limit of 2 reached during a single frame. New capacity will be 8.
+[10Nov2026 19:01:20.940] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageMapped/]: Resizing Chunk Sections Command Buffer, capacity limit of 8 reached during a single frame. New capacity will be 16.
+[10Nov2026 19:01:20.940] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageNonMapped/]: Resizing Chunk Sections Instanced, capacity limit of 8 reached during a single frame. New capacity will be 16.
+[10Nov2026 19:01:21.240] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageMapped/]: Resizing Chunk Sections Command Buffer, capacity limit of 16 reached during a single frame. New capacity will be 32.
+[10Nov2026 19:01:21.244] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageNonMapped/]: Resizing Chunk Sections Instanced, capacity limit of 16 reached during a single frame. New capacity will be 32.
+[10Nov2026 19:01:21.753] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageMapped/]: Resizing Chunk Sections Command Buffer, capacity limit of 32 reached during a single frame. New capacity will be 64.
+[10Nov2026 19:01:21.753] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageNonMapped/]: Resizing Chunk Sections Instanced, capacity limit of 32 reached during a single frame. New capacity will be 64.
+[10Nov2026 19:01:22.569] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageMapped/]: Resizing Chunk Sections Command Buffer, capacity limit of 64 reached during a single frame. New capacity will be 128.
+[10Nov2026 19:01:22.570] [Render thread/INFO] [net.minecraft.client.renderer.DynamicGpuDataStorageNonMapped/]: Resizing Chunk Sections Instanced, capacity limit of 64 reached during a single frame. New capacity will be 128.
+[10Nov2026 19:01:33.504] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Убито 13 сущностей
+[10Nov2026 19:01:33.536] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Установлено minecraft:overworld на 6000 тактов
+[10Nov2026 19:01:33.544] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Режим игры игрока Dev изменён на Творческий режим
+[10Nov2026 19:01:33.553] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: У игрока Dev предметы не обнаружены
+[10Nov2026 19:01:33.558] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано: Человек-Паук (игроков: 1)
+[10Nov2026 19:01:33.616] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Ваш режим игры изменён на Творческий режим
+[10Nov2026 19:01:33.899] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 800.500000, -60.000000, 0.500000
+[10Nov2026 19:01:34.780] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заполнено 25 блоков
+[10Nov2026 19:01:34.791] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заполнено 49 блоков
+[10Nov2026 19:01:34.820] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заменено 1 ячеек у Dev на [Маска Человека-Паука]
+[10Nov2026 19:01:34.827] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заменено 1 ячеек у Dev на [Нагрудник Человека-Паука]
+[10Nov2026 19:01:34.829] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заменено 1 ячеек у Dev на [Штаны Человека-Паука]
+[10Nov2026 19:01:34.833] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заменено 1 ячеек у Dev на [Ботинки Человека-Паука]
+[10Nov2026 19:01:35.599] [Render thread/INFO] [Powers Unchained/]: [CI] powers: PowerData[owned=[spiderman], enabled=[wall_climbing, spider_sense, roll]]
+[10Nov2026 19:01:36.933] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 44_ability_wheel
+[10Nov2026 19:01:39.731] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 44b_ability_wheel_night_vision_on
+[10Nov2026 19:01:41.197] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 800.500000, -60.000000, -1.690000
+[10Nov2026 19:01:41.198] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 5.0 в секунду
+[10Nov2026 19:01:43.711] [Render thread/INFO] [Powers Unchained/]: [CI] climb pressing into the wall: mode 1 wall north at (800.5, -58.699999999999974, -1.699999988079071) yaw -180.0
+[10Nov2026 19:01:44.083] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 45_climb_wall_up
+[10Nov2026 19:01:46.087] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 46_climb_wall_sideways
+[10Nov2026 19:01:46.489] [Render thread/INFO] [Powers Unchained/]: [CI] climb sideways: mode 1 wall north at (801.5242077578623, -58.10055046035666, -1.699999988079071) yaw -90.0
+[10Nov2026 19:01:50.087] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 47_climb_outer_corner
+[10Nov2026 19:01:50.496] [Render thread/INFO] [Powers Unchained/]: [CI] climb outer corner: mode 1 wall west at (803.3000000119209, -58.43908257352547, -2.636051927544604) yaw -180.0
+[10Nov2026 19:01:52.543] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 47b_climb_around
+[10Nov2026 19:01:52.916] [Render thread/INFO] [Powers Unchained/]: [CI] climb around: mode 1 wall south at (802.3639480724555, -58.57449541879299, -3.300000011920929) yaw -270.0
+[10Nov2026 19:01:54.516] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 800.500000, -58.000000, -1.690000
+[10Nov2026 19:01:56.543] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 47c_climb_up_from_behind
+[10Nov2026 19:01:58.088] [Render thread/INFO] [Powers Unchained/]: [CI] climb near the top: mode 1 wall north at (800.5, -58.46415937495544, -1.699999988079071) yaw 0.0
+[10Nov2026 19:01:58.492] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 48_climb_mantle
+[10Nov2026 19:02:01.277] [Render thread/INFO] [Powers Unchained/]: [CI] climb mantle: mode 1 wall north at (800.5, -58.46415937495544, -1.699999988079071) yaw 0.0
+[10Nov2026 19:02:03.273] [Render thread/INFO] [Powers Unchained/]: [CI] climb after the mantle: mode 1 wall north at (800.5, -58.46415937495544, -1.699999988079071) yaw 0.0
+[10Nov2026 19:02:08.479] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Режим игры игрока Dev изменён на Режим выживания
+[10Nov2026 19:02:08.480] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 821.500000, -60.000000, -0.500000
+[10Nov2026 19:02:08.599] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Ваш режим игры изменён на Режим выживания
+[10Nov2026 19:02:10.558] [Render thread/INFO] [Powers Unchained/]: [CI] climb jumped to the ceiling: mode 0 wall north at (821.5, -58.87839995384216, -0.5) yaw -90.0
+[10Nov2026 19:02:11.718] [Render thread/INFO] [Powers Unchained/]: [CI] climb ceiling: mode 0 wall north at (821.9335254469589, -60.0, -0.5) yaw -90.0
+[10Nov2026 19:02:12.109] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 49_climb_ceiling
+[10Nov2026 19:02:15.283] [Render thread/INFO] [Powers Unchained/]: [CI] climb ceiling edge: mode 0 wall north at (825.7668543492794, -60.0, -0.5) yaw -90.0
+[10Nov2026 19:02:15.707] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 49b_climb_ceiling_edge
+[10Nov2026 19:02:17.302] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 49c_climb_ceiling_edge
+[10Nov2026 19:02:18.090] [Render thread/INFO] [Powers Unchained/]: [CI] climb outer face: mode 0 wall north at (828.7888803375793, -60.0, -0.5) yaw -90.0
+[10Nov2026 19:02:21.325] [Render thread/INFO] [Powers Unchained/]: [CI] climb over the platform: mode 0 wall north at (832.2426254319068, -60.0, -0.5) yaw -90.0
+[10Nov2026 19:02:22.488] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 49d_climb_ceiling_front
+[10Nov2026 19:02:23.309] [Render thread/INFO] [Powers Unchained/]: [CI] climb end: mode 0 wall north at (834.4012161159881, -60.0, -0.5) yaw -90.0
+[10Nov2026 19:02:23.310] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:02:24.920] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 840.500000, -60.000000, 0.500000
+[10Nov2026 19:02:25.385] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 4.0 в секунду
+[10Nov2026 19:02:25.588] [Render thread/INFO] [Powers Unchained/]: [CI] roll key: null
+[10Nov2026 19:02:26.034] [Render thread/INFO] [Powers Unchained/]: [CI] roll: rolling false animated false on ground true at (839.8730936137515, -60.0, 0.5)
+[10Nov2026 19:02:26.559] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 50_roll
+[10Nov2026 19:02:29.570] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 50b_roll
+[10Nov2026 19:02:30.035] [Render thread/INFO] [Powers Unchained/]: [CI] after the roll: (836.442418693615, -60.0, 0.5)
+[10Nov2026 19:02:32.061] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:02:32.597] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 4.0 в секунду
+[10Nov2026 19:02:32.906] [Render thread/INFO] [Powers Unchained/]: [CI] roll key: null
+[10Nov2026 19:02:33.398] [Render thread/INFO] [Powers Unchained/]: [CI] roll: rolling false animated false on ground false at (834.4597014831054, -58.975575911786315, 0.5)
+[10Nov2026 19:02:33.868] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 51_air_flip
+[10Nov2026 19:02:36.890] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 51b_air_flip
+[10Nov2026 19:02:39.405] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:02:40.161] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Установлена сложность игры: Лёгкая
+[10Nov2026 19:02:40.163] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 860.500000, -60.000000, 0.500000
+[10Nov2026 19:02:40.688] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Зомби» создана
+[10Nov2026 19:02:40.921] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 3.0 в секунду
+[10Nov2026 19:02:40.993] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 52_spider_sense
+[10Nov2026 19:02:42.364] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 52b_spider_sense_bolts
+[10Nov2026 19:02:44.684] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:02:44.912] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Убито 29 сущностей
+[10Nov2026 19:02:44.913] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Режим игры игрока Dev изменён на Творческий режим
+[10Nov2026 19:02:44.917] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 880.500000, -58.500000, 5.800000
+[10Nov2026 19:02:45.008] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Ваш режим игры изменён на Творческий режим
+[10Nov2026 19:02:45.307] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Player Dev standing on air - force-sending blocks below
+[10Nov2026 19:02:45.411] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заполнено 60 блоков
+[10Nov2026 19:02:45.415] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заполнено 20 блоков
+[10Nov2026 19:02:45.433] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Манекен» создана
+[10Nov2026 19:02:45.466] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Манекен» создана
+[10Nov2026 19:02:45.473] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Манекен» создана
+[10Nov2026 19:02:45.478] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Манекен» создана
+[10Nov2026 19:02:45.480] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Манекен» создана
+[10Nov2026 19:02:45.488] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Манекен» создана
+[10Nov2026 19:02:45.495] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Манекен» создана
+[10Nov2026 19:02:45.884] [Render thread/INFO] [Powers Unchained/]: [CI] climbing mannequins: 6
+[10Nov2026 19:02:46.652] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 4.0 в секунду
+[10Nov2026 19:02:46.779] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 54_climb_poses
+[10Nov2026 19:02:48.796] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:02:49.005] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 872.000000, -58.600000, 0.600000
+[10Nov2026 19:02:49.026] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 4.0 в секунду
+[10Nov2026 19:02:49.370] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 54c_perch_close
+[10Nov2026 19:02:50.874] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:02:51.053] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 892.500000, -59.000000, 1.500000
+[10Nov2026 19:02:51.645] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 54b_climb_ceiling_pose
+[10Nov2026 19:02:52.063] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 893.500000, -58.300000, 2.200000
+[10Nov2026 19:02:52.064] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 4.0 в секунду
+[10Nov2026 19:02:52.651] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 54d_web_rappel_pose
+[10Nov2026 19:02:54.620] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:02:55.620] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Убито 96 сущностей
+[10Nov2026 19:02:55.626] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Установлено minecraft:overworld на 18000 тактов
+[10Nov2026 19:02:55.627] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 860.500000, -60.000000, 0.500000
+[10Nov2026 19:02:57.081] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 53_night_vision
+[10Nov2026 19:03:00.113] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Установлено minecraft:overworld на 6000 тактов
+[10Nov2026 19:03:00.121] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 860.500000, -60.000000, 0.500000
+[10Nov2026 19:03:01.612] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 55_hud_spider_keys
+[10Nov2026 19:03:02.120] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: bracelet слот для Dev заменён на [Веб-шутеры]
+[10Nov2026 19:03:04.117] [Render thread/INFO] [Powers Unchained/]: [CI] ability keys: shot key.powers_unchained.ability_1 roll - wheel key.powers_unchained.ability_4
+[10Nov2026 19:03:04.117] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 56_hud_web_shooters_and_spider
+[10Nov2026 19:03:05.893] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 57a_mod_settings
+[10Nov2026 19:03:07.521] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:03:09.332] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 57b_hud_own_set
+[10Nov2026 19:03:11.171] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Режим игры игрока Dev изменён на Режим выживания
+[10Nov2026 19:03:11.172] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 900.500000, -60.000000, -1.690000
+[10Nov2026 19:03:11.312] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Ваш режим игры изменён на Режим выживания
+[10Nov2026 19:03:11.638] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заполнено 7 блоков
+[10Nov2026 19:03:12.071] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 900.500000, -59.000000, -1.690000
+[10Nov2026 19:03:12.071] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 5.0 в секунду
+[10Nov2026 19:03:14.288] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 58_pillar_edge
+[10Nov2026 19:03:15.878] [Render thread/INFO] [Powers Unchained/]: [CI] climb pillar 1: mode 1 wall west at (901.3000000119209, -59.46415937495544, -2.7699999880790704) yaw -180.0
+[10Nov2026 19:03:16.319] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 58b_pillar_round
+[10Nov2026 19:03:18.694] [Render thread/INFO] [Powers Unchained/]: [CI] climb pillar 2: mode 1 wall south at (899.9700000119211, -59.46415937495544, -3.300000011920929) yaw -270.0
+[10Nov2026 19:03:19.071] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 58c_pillar_round
+[10Nov2026 19:03:21.884] [Render thread/INFO] [Powers Unchained/]: [CI] climb pillar 3: mode 1 wall north at (899.869999988079, -59.46415937495544, -1.67000001192093) yaw -393.04688
+[10Nov2026 19:03:22.291] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 58d_pillar_round
+[10Nov2026 19:03:24.674] [Render thread/INFO] [Powers Unchained/]: [CI] climb pillar end: mode 1 wall west at (901.3299999844944, -59.46415937495544, -2.209999988079071) yaw -529.4531
+[10Nov2026 19:03:25.082] [Render thread/INFO] [Powers Unchained/]: [CI] roll key: null
+[10Nov2026 19:03:25.662] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 59_wall_flip
+[10Nov2026 19:03:26.317] [Render thread/INFO] [Powers Unchained/]: [CI] roll: rolling false animated false on ground false at (901.3000000119209, -59.46415937495544, -2.3799999880790708)
+[10Nov2026 19:03:26.317] [Render thread/INFO] [Powers Unchained/]: [CI] climb after the flip: mode 1 wall west at (901.3000000119209, -59.46415937495544, -2.3799999880790708) yaw -540.0
+[10Nov2026 19:03:27.874] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:03:28.946] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Режим игры игрока Dev изменён на Творческий режим
+[10Nov2026 19:03:28.950] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Открыто костюмов: 1 (игроков: 1)
+[10Nov2026 19:03:29.002] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Ваш режим игры изменён на Творческий режим
+[10Nov2026 19:03:29.520] [Render thread/INFO] [Powers Unchained/]: [CI] recipe viewer: jei true rei false
+[10Nov2026 19:03:29.584] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:03:36.405] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 60_recipe_viewer_suit_creator
+[10Nov2026 19:03:38.903] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:03:39.298] [Render thread/INFO] [Powers Unchained/]: [CI] recipe viewer: jei true rei false
+[10Nov2026 19:03:39.422] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:03:47.083] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 61_recipe_viewer_raimi_mask
+[10Nov2026 19:03:49.635] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:03:50.736] [Render thread/INFO] [Powers Unchained/]: [CI] JEI category order: [[visible], minecraft:crafting, powers_unchained:suit_creator, [hidden]]
+[10Nov2026 19:03:51.462] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Режим игры игрока Dev изменён на Режим выживания
+[10Nov2026 19:03:51.472] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Удалено 4 предметов у игрока Dev
+[10Nov2026 19:03:51.473] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 770.500000, -60.000000, 0.500000
+[10Nov2026 19:03:51.493] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev получил достижение «[Куй железо...]»
+[10Nov2026 19:03:51.520] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 64 [Железный слиток] игроку Dev
+[10Nov2026 19:03:51.554] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 2 [Раздатчик] игроку Dev
+[10Nov2026 19:03:51.556] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 2 [Липкий поршень] игроку Dev
+[10Nov2026 19:03:51.557] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 2 [Рычаг] игроку Dev
+[10Nov2026 19:03:51.587] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 16 [Стекло] игроку Dev
+[10Nov2026 19:03:51.592] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Ваш режим игры изменён на Режим выживания
+[10Nov2026 19:03:51.600] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Dev получил достижение «[Куй железо...]»
+[10Nov2026 19:03:51.611] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 64 [Медный слиток] игроку Dev
+[10Nov2026 19:03:51.616] [Render thread/INFO] [net.minecraft.advancements.AdvancementTree/]: Loaded 39 advancements
+[10Nov2026 19:03:51.657] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 64 [Редстоуновая пыль] игроку Dev
+[10Nov2026 19:03:51.667] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 16 [Золотой слиток] игроку Dev
+[10Nov2026 19:03:51.674] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 32 [Светокаменная пыль] игроку Dev
+[10Nov2026 19:03:51.688] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 8 [Осколок аметиста] игроку Dev
+[10Nov2026 19:03:51.696] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 16 [Сгусток слизи] игроку Dev
+[10Nov2026 19:03:51.698] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Неверный идентификатор
+[10Nov2026 19:03:51.705] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: give @p minecraft:powers_unchained:empty_web_cartridge 4<--[ЗДЕСЬ]
+[10Nov2026 19:03:51.714] [Render thread/INFO] [net.minecraft.advancements.AdvancementTree/]: Loaded 76 advancements
+[10Nov2026 19:03:51.732] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 4 [Картридж] игроку Dev
+[10Nov2026 19:03:51.733] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Открыто костюмов: 1 (игроков: 1)
+[10Nov2026 19:03:51.734] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 4 [Белая ткань] игроку Dev
+[10Nov2026 19:03:51.740] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано 4 [Красная ткань] игроку Dev
+[10Nov2026 19:03:51.819] [Render thread/INFO] [net.minecraft.advancements.AdvancementTree/]: Loaded 107 advancements
+[10Nov2026 19:03:51.823] [Render thread/INFO] [net.minecraft.advancements.AdvancementTree/]: Loaded 109 advancements
+[10Nov2026 19:03:52.798] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:03:52.799] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 62_tech_table_create
+[10Nov2026 19:03:57.177] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:03:57.566] [Server thread/INFO] [Powers Unchained/]: [CI] tech table before craft: grid [1 minecraft:iron_ingot, 1 minecraft:dispenser, 1 minecraft:iron_ingot, 1 powers_unchained:empty_web_cartridge, 1 minecraft:sticky_piston, 1 powers_unchained:empty_web_cartridge, 1 minecraft:iron_ingot, 1 minecraft:lever, 1 minecraft:iron_ingot] result 1 powers_unchained:web_shooters device 0 minecraft:air client tab 0
+[10Nov2026 19:03:57.766] [Server thread/INFO] [Powers Unchained/]: [CI] tech table after craft: grid [0 minecraft:air, 0 minecraft:air, 0 minecraft:air, 0 minecraft:air, 0 minecraft:air, 0 minecraft:air, 0 minecraft:air, 0 minecraft:air, 0 minecraft:air] result 0 minecraft:air device 0 minecraft:air client tab 0
+[10Nov2026 19:03:58.016] [Server thread/INFO] [Powers Unchained/]: [CI] tech table after moving the web-shooters: grid [0 minecraft:air, 0 minecraft:air, 0 minecraft:air, 0 minecraft:air, 0 minecraft:air, 0 minecraft:air, 0 minecraft:air, 0 minecraft:air, 0 minecraft:air] result 0 minecraft:air device 1 powers_unchained:web_shooters client tab 1
+[10Nov2026 19:03:58.637] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:03:58.723] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 63_tech_table_upgrade
+[10Nov2026 19:04:03.910] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:04:04.645] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:04:04.645] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 64_tech_table_customize
+[10Nov2026 19:04:09.847] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:04:10.045] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Изменён блок в точке 771, -60, -2
+[10Nov2026 19:04:10.571] [Render thread/INFO] [Powers Unchained/]: [CI] tech table linked: false
+[10Nov2026 19:04:10.755] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 64b_tech_table_customize_linked
+[10Nov2026 19:04:10.755] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:04:15.810] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:04:16.284] [Render thread/INFO] [Powers Unchained/]: [CI] linked after taking the device out: false
+[10Nov2026 19:04:16.361] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:04:16.430] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 63b_tech_table_upgrade_empty
+[10Nov2026 19:04:21.870] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:04:22.339] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:04:22.416] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 63c_tech_table_upgrade_creative
+[10Nov2026 19:04:27.814] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:04:28.043] [Render thread/INFO] [Powers Unchained/]: [CI] creative modules: [TIGHT_SPRING, FAST_FEED, SECOND_DRUM, ELECTRO_WEB]
+[10Nov2026 19:04:28.046] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Закрыто: все модули (веб-шутеров: 1)
+[10Nov2026 19:04:28.126] [Render thread/INFO] [Powers Unchained/]: [CI] modules after lock all: TechProgress[modules=[], skins=[], feats=[]]
+[10Nov2026 19:04:28.127] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Открыто: Быстрая подача (веб-шутеров: 1)
+[10Nov2026 19:04:28.249] [Render thread/INFO] [Powers Unchained/]: [CI] modules after unlock fast_feed: TechProgress[modules=[], skins=[], feats=[]]
+[10Nov2026 19:04:28.354] [Render thread/INFO] [Powers Unchained/]: [CI] tech table device: {powers_unchained:creative_web_shooters=>true, minecraft:enchantment_glint_override=>true, minecraft:interact_animation=>SwingAnimation[type=WHACK, duration=6], minecraft:max_stack_size=>1, minecraft:attribute_modifiers=>ItemAttributeModifiers[modifiers=[]], minecraft:item_model=>powers_unchained:web_shooters, minecraft:repair_cost=>0, minecraft:enchantments=>ItemEnchantments{enchantments={}}, minecraft:lore=>ItemLore[lines=[], styledLines=[]], minecraft:use_effects=>UseEffects[canSprint=false, interactVibrations=true, speedMultiplier=0.2], minecraft:rarity=>COMMON, minecraft:attack_animation=>SwingAnimation[type=WHACK, duration=6], minecraft:tooltip_display=>TooltipDisplay[hideTooltip=false, hiddenComponents={}], minecraft:item_name=>translation{key='item.powers_unchained.web_shooters', args=[]}, minecraft:break_sound=>Reference{ResourceKey[minecraft:sound_event / minecraft:entity.item.break]=SoundEvent[location=minecraft:entity.item.break, fixedRange=Optional.empty]}}
+[10Nov2026 19:04:28.486] [Server thread/INFO] [Powers Unchained/]: [CI] redstone link: wired true broken false
+[10Nov2026 19:04:29.243] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Режим игры игрока Dev изменён на Творческий режим
+[10Nov2026 19:04:29.246] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Удалено 259 предметов у игрока Dev
+[10Nov2026 19:04:29.246] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 790.500000, -60.000000, 0.500000
+[10Nov2026 19:04:29.248] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: bracelet слот для Dev заменён на [Веб-шутеры]
+[10Nov2026 19:04:29.249] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сложность не изменилась; уже выставлено значение «Лёгкая»
+[10Nov2026 19:04:29.252] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: minecraft:overworld теперь на временной отметке minecraft:night
+[10Nov2026 19:04:29.254] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Зомби» создана
+[10Nov2026 19:04:29.255] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Зомби» создана
+[10Nov2026 19:04:29.312] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Ваш режим игры изменён на Творческий режим
+[10Nov2026 19:04:29.822] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заменено 1 ячеек у Dev на [Воздух]
+[10Nov2026 19:04:29.822] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Открыто: Быстрая подача (веб-шутеров: 1)
+[10Nov2026 19:04:29.901] [Server thread/INFO] [Powers Unchained/]: [CI] worn shooters after the command (server): {powers_unchained:web_modules=>[electro_web, tight_spring], powers_unchained:web_cartridges=>[128, 128], powers_unchained:unlocked_web_modules=>[fast_feed]}
+[10Nov2026 19:04:30.083] [Render thread/INFO] [Powers Unchained/]: [CI] shot web ELECTRO
+[10Nov2026 19:04:30.082] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:04:30.167] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 65_electro_web
+[10Nov2026 19:04:33.730] [Server thread/INFO] [Powers Unchained/]: [CI] electro zombie hp 17.06 effects [effect.minecraft.slowness x 5, Duration: 53, effect.minecraft.weakness x 2, Duration: 53]
+[10Nov2026 19:04:33.730] [Server thread/INFO] [Powers Unchained/]: [CI] electro zombie hp 18.08 effects [effect.minecraft.slowness x 3, Duration: 23, effect.minecraft.weakness x 2, Duration: 23]
+[10Nov2026 19:04:35.794] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:04:35.971] [Render thread/INFO] [Powers Unchained/]: [CI] feats before lightning: TechProgress[modules=[], skins=[], feats=[]]
+[10Nov2026 19:04:35.972] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Молния» создана
+[10Nov2026 19:04:36.031] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:04:36.144] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 67_task_toast
+[10Nov2026 19:04:36.256] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:04:36.364] [Render thread/INFO] [Powers Unchained/]: [CI] feats after lightning: TechProgress[modules=[], skins=[], feats=[lightning_in_web_shooters]]
+[10Nov2026 19:04:36.523] [Render thread/INFO] [Powers Unchained/]: [CI] feats after achieve lock: TechProgress[modules=[], skins=[], feats=[lightning_in_web_shooters]]
+[10Nov2026 19:04:36.523] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задание сброшено: Попасть под молнию в веб-шутерах (игроков: 1)
+[10Nov2026 19:04:36.581] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:04:45.290] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 66_recipe_viewer_tech_table
+[10Nov2026 19:04:47.774] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:04:48.219] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Режим игры игрока Dev изменён на Режим выживания
+[10Nov2026 19:04:48.333] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Ваш режим игры изменён на Режим выживания
+[10Nov2026 19:04:48.583] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 68_inventory_button
+[10Nov2026 19:04:48.583] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:04:53.036] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:04:53.038] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Режим игры игрока Dev изменён на Творческий режим
+[10Nov2026 19:04:53.110] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Ваш режим игры изменён на Творческий режим
+[10Nov2026 19:04:53.805] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:04:53.809] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 69_creative_button_right
+[10Nov2026 19:04:54.953] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:04:54.954] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Режим игры игрока Dev изменён на Режим выживания
+[10Nov2026 19:04:54.955] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Выдано: Человек-Паук (игроков: 1)
+[10Nov2026 19:04:54.959] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: +1500 опыта силы Человек-Паук (игроков: 1)
+[10Nov2026 19:04:54.961] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Умение 1 открыто (игроков: 1)
+[10Nov2026 19:04:54.962] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Умение 1 открыто (игроков: 1)
+[10Nov2026 19:04:54.963] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Умение 1 открыто (игроков: 1)
+[10Nov2026 19:04:54.963] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Умение 1 открыто (игроков: 1)
+[10Nov2026 19:04:54.964] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Умение 1 открыто (игроков: 1)
+[10Nov2026 19:04:54.966] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заменено 1 ячеек у Dev на [Нагрудник Человека-Паука]
+[10Nov2026 19:04:54.966] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заменено 1 ячеек у Dev на [Маска Человека-Паука]
+[10Nov2026 19:04:55.051] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Ваш режим игры изменён на Режим выживания
+[10Nov2026 19:04:55.635] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:04:55.636] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 70_powers_menu_stats
+[10Nov2026 19:04:56.175] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:04:56.670] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:04:56.670] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 70b_powers_menu_skills
+[10Nov2026 19:04:58.403] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:04:58.906] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:04:58.907] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 70c_powers_menu_keys
+[10Nov2026 19:05:00.549] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:05:00.790] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 2.0 в секунду
+[10Nov2026 19:05:00.869] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 71_settings_menu_button
+[10Nov2026 19:05:05.395] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Задана целевая частота тактов: 20.0 в секунду
+[10Nov2026 19:05:05.693] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Установлена сложность игры: Нормальная
+[10Nov2026 19:05:05.694] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Забрано: Человек-Паук (игроков: 1)
+[10Nov2026 19:05:05.694] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: У цели отсутствуют эффекты; убирать нечего
+[10Nov2026 19:05:05.694] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Установлено minecraft:overworld на 6000 тактов
+[10Nov2026 19:05:05.699] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 1000.500000, -60.000000, 0.500000
+[10Nov2026 19:05:06.072] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Изменён блок в точке 1000, -60, 3
+[10Nov2026 19:05:06.137] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заменено 1 ячеек в 1000, -60, 3 на [Изотопная капсула]
+[10Nov2026 19:05:06.140] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Заменено 1 ячеек в 1000, -60, 3 на [Паучий глаз]
+[10Nov2026 19:05:06.161] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Пещерный паук» создана
+[10Nov2026 19:05:06.165] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Радиоактивный паук» создана
+[10Nov2026 19:05:06.687] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev получил достижение «[Образец получен]»
+[10Nov2026 19:05:06.841] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Dev получил достижение «[Образец получен]»
+[10Nov2026 19:05:06.845] [Render thread/INFO] [net.minecraft.advancements.AdvancementTree/]: Loaded 113 advancements
+[10Nov2026 19:05:06.854] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 72_irradiator_world
+[10Nov2026 19:05:07.963] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 73_irradiator_gui
+[10Nov2026 19:05:08.462] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev получил достижение «[Опасный эксперимент]»
+[10Nov2026 19:05:08.737] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Dev получил достижение «[Опасный эксперимент]»
+[10Nov2026 19:05:08.738] [Render thread/INFO] [net.minecraft.advancements.AdvancementTree/]: Loaded 113 advancements
+[10Nov2026 19:05:10.093] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 74_irradiator_running
+[10Nov2026 19:05:11.044] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 75_irradiating_world
+[10Nov2026 19:05:11.322] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Игровой процесс перематывается
+[10Nov2026 19:05:22.064] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Player Dev standing on air - force-sending blocks below
+[10Nov2026 19:05:22.437] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev был убит Слизень
+[10Nov2026 19:05:22.517] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Dev был убит Слизень
+[10Nov2026 19:05:22.517] [Render thread/INFO] [net.minecraft.advancements.AdvancementTree/]: Loaded 151 advancements
+[10Nov2026 19:05:22.759] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Перемотка завершена с 272 тактами в секунду (3.68 мс за такт)
+[10Nov2026 19:05:46.996] [Render thread/INFO] [Powers Unchained/]: [CI] irradiation result: radioactive spiders 0 cave spiders 0
+[10Nov2026 19:05:46.997] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 76_irradiator_after
+[10Nov2026 19:05:47.499] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность не обнаружена
+[10Nov2026 19:05:47.499] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность не обнаружена
+[10Nov2026 19:05:47.499] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность не обнаружена
+[10Nov2026 19:05:47.500] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Забрано: Человек-Паук (игроков: 1)
+[10Nov2026 19:05:47.500] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: У цели отсутствуют эффекты; убирать нечего
+[10Nov2026 19:05:47.501] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 1000.500000, -60.000000, 0.500000
+[10Nov2026 19:05:47.552] [Render thread/WARN] [net.neoforged.neoforge.client.network.ClientPayloadHandler/]: Received synced attachments from unknown entity
+[10Nov2026 19:05:47.552] [Render thread/WARN] [net.neoforged.neoforge.client.network.ClientPayloadHandler/]: Received synced attachments from unknown entity
+[10Nov2026 19:05:48.050] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность «Радиоактивный паук» создана
+[10Nov2026 19:05:50.132] [Render thread/INFO] [Powers Unchained/]: [CI] bitten: fever false
+[10Nov2026 19:05:50.133] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 77_bite
+[10Nov2026 19:05:52.001] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 78_fever
+[10Nov2026 19:05:52.266] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Игровой процесс перематывается
+[10Nov2026 19:05:52.345] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Перемотка завершена с 17978 тактами в секунду (0.06 мс за такт)
+[10Nov2026 19:05:56.234] [Render thread/INFO] [Powers Unchained/]: [CI] powers after fever: false
+[10Nov2026 19:05:56.234] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 79_power_gained
+[10Nov2026 19:05:57.020] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Установлена сложность игры: Мирная
+[10Nov2026 19:05:57.021] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Режим игры игрока Dev изменён на Творческий режим
+[10Nov2026 19:05:57.023] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Установлено minecraft:overworld на 18000 тактов
+[10Nov2026 19:05:57.023] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: У цели отсутствуют эффекты; убирать нечего
+[10Nov2026 19:05:57.024] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Сущность не обнаружена
+[10Nov2026 19:05:57.025] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev телепортирован в точку 1001.500000, -60.000000, 0.500000
+[10Nov2026 19:05:57.206] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] Ваш режим игры изменён на Творческий режим
+[10Nov2026 19:05:58.635] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Указана позиция незагруженной области
+[10Nov2026 19:05:58.636] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Указана позиция незагруженной области
+[10Nov2026 19:06:03.575] [Render thread/INFO] [Powers Unchained/]: [CI-SHOT] 80_irradiator_night
+[10Nov2026 19:06:07.029] [Render thread/INFO] [Powers Unchained/]: [CI] done
+[10Nov2026 19:06:07.082] [Render thread/INFO] [mezz.jei.library.startup.JeiStarter/]: Stopping JEI
+[10Nov2026 19:06:07.082] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Sending Runtime Unavailable...
+[10Nov2026 19:06:07.084] [Render thread/INFO] [mezz.jei.neoforge.plugins.neoforge.NeoForgeGuiPlugin/]: Stopping JEI GUI
+[10Nov2026 19:06:07.092] [Render thread/INFO] [mezz.jei.library.load.PluginCaller/]: Sending Runtime Unavailable took 9.560 milliseconds
+[10Nov2026 19:06:07.093] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
+[10Nov2026 19:06:07.109] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev lost connection: Отключение
+[10Nov2026 19:06:07.109] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: System chat: Dev покинул игру
+[10Nov2026 19:06:07.118] [Server thread/INFO] [net.minecraft.server.network.ServerCommonPacketListenerImpl/]: Stopping singleplayer server as player logged out
+[10Nov2026 19:06:07.146] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
+[10Nov2026 19:06:07.146] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
+[10Nov2026 19:06:07.146] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
+[10Nov2026 19:06:07.610] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[10Nov2026 19:06:08.108] [entity-deserializer/WARN] [net.minecraft.world.entity.EntityType/]: Skipping Entity with id minecraft:cave_spider
+[10Nov2026 19:06:08.170] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[10Nov2026 19:06:08.182] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[10Nov2026 19:06:08.688] [Render thread/INFO] [net.neoforged.fml.loading.FMLLoader/]: Closing FML Loader 55d7f8dd
+[10Nov2026 19:06:08.690] [Render thread/INFO] [net.neoforged.fml.ModLoader/]: Clearing ModLoader

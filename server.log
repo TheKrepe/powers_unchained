@@ -1,0 +1,205 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :build-logic:extractPluginRequests
+> Task :build-logic:generatePluginAdapters
+> Task :build-logic:compileJava
+> Task :build-logic:compileGroovy NO-SOURCE
+> Task :build-logic:compileGroovyPlugins
+> Task :build-logic:pluginDescriptors
+> Task :build-logic:processResources
+> Task :build-logic:classes
+> Task :build-logic:jar
+
+> Configure project :common
+Creating Minecraft artifacts without recompilation.
+
+> Configure project :neoforge
+Creating Minecraft artifacts without recompilation.
+
+> Task :common:createMinecraftArtifacts
+Loaded 109 artifacts from /home/runner/work/powers_unchained/powers_unchained/common/build/tmp/createMinecraftArtifacts/nfrt_artifact_manifest.properties
+[1m*** Started working on [4mdownloadManifest[23;0m[23;0m
+  ↓ https://piston-meta.mojang.com/mc/game/version_manifest_v2.json
+ [1m[92m✓[23;0m Completed [4mdownloadManifest[23;0m in 0.40s
+[1m*** Started working on [4mdownloadJson[23;0m[23;0m
+ [1m[92m✓[23;0m Completed [4mdownloadJson[23;0m in 0.00s
+[1m*** Started working on [4mdownloadClient[23;0m[23;0m
+[1m*** Started working on [4mdownloadServer[23;0m[23;0m
+ [1m[92m✓[23;0m Completed [4mdownloadClient[23;0m in 0.06s
+ [1m[92m✓[23;0m Completed [4mdownloadServer[23;0m in 0.06s
+[1m*** Started working on [4mpreProcessJar[23;0m[23;0m
+ [1m[92m♻[23;0m Used cache of [4mpreProcessJar[23;0m in 0.00s
+Performing periodic cache maintenance on /home/runner/.gradle/caches/neoformruntime
+Cleaning intermediate results cache in /home/runner/.gradle/caches/neoformruntime/intermediate_results
+ Maximum age: 744h
+ Maximum cache size: 10 GiB
+ [0;2;3m8 files found[23;0m
+ [0;2;3m142 MiB overall size[23;0m
+ [0;2;3m0 expired keys found[23;0m
+[0;2;3m Deleted 8 outdated lock files
+Total runtime: 1.27s
+
+
+> Task :common:compileJava
+
+> Task :neoforge:createMinecraftArtifacts
+Loaded 135 artifacts from /home/runner/work/powers_unchained/powers_unchained/neoforge/build/tmp/createMinecraftArtifacts/nfrt_artifact_manifest.properties
+[1m*** Started working on [4mdownloadManifest[23;0m[23;0m
+  ↓ https://piston-meta.mojang.com/mc/game/version_manifest_v2.json
+ [1m[92m✓[23;0m Completed [4mdownloadManifest[23;0m in 0.42s
+[1m*** Started working on [4mdownloadJson[23;0m[23;0m
+ [1m[92m✓[23;0m Completed [4mdownloadJson[23;0m in 0.01s
+[1m*** Started working on [4mdownloadServer[23;0m[23;0m
+[1m*** Started working on [4mdownloadClient[23;0m[23;0m
+ [1m[92m✓[23;0m Completed [4mdownloadServer[23;0m in 0.07s
+ [1m[92m✓[23;0m Completed [4mdownloadClient[23;0m in 0.07s
+[1m*** Started working on [4mpreProcessJar[23;0m[23;0m
+ [1m[92m♻[23;0m Used cache of [4mpreProcessJar[23;0m in 0.00s
+[1m*** Started working on [4mbinaryPatch[23;0m[23;0m
+  [33mWARNING: [23;0mnet.neoforged.installertools:binarypatcher:4.0.17:fatjar is not present in the artifact manifest
+ ↳ Running external tool net.neoforged.installertools:binarypatcher:4.0.17:fatjar
+ [1m[92m✓[23;0m Completed [4mbinaryPatch[23;0m in 4.09s
+[1m*** Started working on [4mcopyUnpatchedClasses[23;0m[23;0m
+ [1m[92m✓[23;0m Completed [4mcopyUnpatchedClasses[23;0m in 3.33s
+[1m*** Started working on [4mapplyDevTransforms[23;0m[23;0m
+ ↳ Running external tool net.neoforged.installertools:installertools:4.0.12:fatjar
+ [1m[92m✓[23;0m Completed [4mapplyDevTransforms[23;0m in 4.17s
+Total runtime: 12.97s
+
+
+> Task :neoforge:compileJava
+warning: unknown enum constant EnvType.CLIENT
+  reason: class file for net.fabricmc.api.EnvType not found
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+warning: unknown enum constant EnvType.CLIENT
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+20 warnings
+
+> Task :neoforge:processResources
+> Task :neoforge:classes
+
+> Task :neoforge:downloadAssets
+Loaded 135 artifacts from /home/runner/work/powers_unchained/powers_unchained/neoforge/build/tmp/downloadAssets/nfrt_artifact_manifest.properties
+Downloading asset index 34
+Using Minecraft asset root: /home/runner/.gradle/caches/neoformruntime/assets
+  ↓ https://piston-meta.mojang.com/v1/packages/e787e8afd149a4cefa89d341b91f5aed8f5d93a0/34.json
+
+> Task :neoforge:prepareCiServerRun
+
+> Task :neoforge:runCiServer
+2026-11-10T18:59:47.060934635Z main WARN Advanced terminal features are not available in this environment
+[18:59:47] [main/INFO] [ne.ne.fm.st.Entrypoint/]: JVM Uptime at startup: 186ms
+[18:59:47] [main/INFO] [ne.ne.fm.lo.FMLLoader/]: Starting FancyModLoader version 12.0.12 (DEDICATED_SERVER in DEV)
+[18:59:47] [main/INFO] [ne.ne.fm.lo.FMLLoader/]: Game directory: /home/runner/work/powers_unchained/powers_unchained/neoforge/runs/ciserver
+[18:59:47] [main/INFO] [ne.ne.fm.lo.EarlyServiceDiscovery/]: Found 2 early service jars (out of 106) in 41ms
+[18:59:47] [main/INFO] [ne.ne.fm.lo.FMLLoader/]: Loading FML Early Services:
+[18:59:47] [main/INFO] [ne.ne.fm.lo.FMLLoader/]:  - /home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/loader/12.0.12/f097a25d6289aa0b289e7cdb6de83a5c8c72f77e/loader-12.0.12.jar
+[18:59:47] [main/INFO] [ne.ne.fm.lo.FMLLoader/]:  - /home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/earlydisplay/12.0.12/8437387fd35033b1ea0d3fac7cc28ced4efdc6b/earlydisplay-12.0.12.jar
+[18:59:47] [main/INFO] [ne.ne.fm.lo.ImmediateWindowHandler/]: Not loading early display in headless mode.
+[18:59:47] [main/INFO] [ne.ne.fm.lo.mo.lo.GameLocator/]: Detected a joined NeoForge and Minecraft configuration. Applying filtering...
+[18:59:47] [main/INFO] [ne.ne.fm.lo.mo.lo.InDevFolderLocator/CORE]: Got mod coordinates powers_unchained%%/home/runner/work/powers_unchained/powers_unchained/neoforge/build/classes/java/main:powers_unchained%%/home/runner/work/powers_unchained/powers_unchained/neoforge/build/resources/main from env
+[18:59:47] [main/WARN] [ne.ne.ja.se.JarSelector/]: Attempted to select a dependency jar for JarJar which was passed in as source: mezz_config. Using jar(/home/runner/.gradle/caches/modules-2/files-2.1/net.mezzdev.config/mezz_config-26.3-neoforge/0.6.6/673ee12247f453374861e132bac191d5dbf5e551/mezz_config-26.3-neoforge-0.6.6.jar)
+[18:59:47] [main/INFO] [ne.ne.fm.lo.mo.lo.JarInJarDependencyLocator/]: Found 2 dependencies adding them to mods collection
+[18:59:47] [main/INFO] [ne.ne.fm.lo.mo.ModDiscoverer/]: 
+     Mod List:
+		Name Version (Mod Id)
+
+		Curios API 17.0.0-beta.3+26.3 (curios)
+		Just Enough Items 31.17.0.100 (jei)
+		MezzConfig 0.6.6 (mezz_config)
+		Minecraft 26.3 (minecraft)
+		NeoForge 26.3.0.102 (neoforge)
+		Powers Unchained 0.1.0 (powers_unchained)
+[18:59:48] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=file:/home/runner/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.17.4+mixin.0.8.7/5f66cc9f59b8efaa942155a3d5a30599bf6640dd/sponge-mixin-0.17.4+mixin.0.8.7.jar Service=FML Env=SERVER
+[18:59:48] [main/INFO] [ne.ne.fm.lo.FMLLoader/]: Loading FML Plugins:
+[18:59:48] [main/INFO] [ne.ne.fm.lo.FMLLoader/]:  - /home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/neoforge/26.3.0.102/d3169ff3cbcd5f50e6bcf2bdbaa2d7d1aaac99fd/neoforge-26.3.0.102-universal.jar > net.neoforged.neoforge-coremods-26.3.0.102.jar
+[18:59:48] [main/INFO] [ne.ne.fm.lo.FMLLoader/]: Building game content classloader:
+ - curios (jar(/home/runner/.gradle/caches/modules-2/files-2.1/top.theillusivec4.curios/curios-neoforge/17.0.0-beta.3+26.3/8abf8160149f14d4d526c76ba6ed50955ba72716/curios-neoforge-17.0.0-beta.3+26.3.jar))
+ - jei (jar(/home/runner/.gradle/caches/modules-2/files-2.1/mezz.jei/jei-26.3-neoforge/31.17.0.100/d1bf3a87ced282190438668c42d0e43fa36af509/jei-26.3-neoforge-31.17.0.100.jar))
+ - mezz_config (jar(/home/runner/.gradle/caches/modules-2/files-2.1/net.mezzdev.config/mezz_config-26.3-neoforge/0.6.6/673ee12247f453374861e132bac191d5dbf5e551/mezz_config-26.3-neoforge-0.6.6.jar))
+ - minecraft (composite(filtered(jar(/home/runner/work/powers_unchained/powers_unchained/neoforge/build/moddev/artifacts/minecraft-patched-26.3.0.102.jar)), filtered(jar(/home/runner/work/powers_unchained/powers_unchained/neoforge/build/moddev/artifacts/minecraft-patched-26.3.0.102.jar))))
+ - mixinextras.neoforge (jar(/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/neoforge/26.3.0.102/d3169ff3cbcd5f50e6bcf2bdbaa2d7d1aaac99fd/neoforge-26.3.0.102-universal.jar > mixinextras-neoforge-0.5.5.jar))
+ - neoforge (composite(filtered(jar(/home/runner/.gradle/caches/modules-2/files-2.1/net.neoforged/neoforge/26.3.0.102/d3169ff3cbcd5f50e6bcf2bdbaa2d7d1aaac99fd/neoforge-26.3.0.102-universal.jar))))
+ - net.neoforged.fml.generated (empty(VirtualJar/net.neoforged.fml.generated))
+ - powers_unchained (composite(folder(/home/runner/work/powers_unchained/powers_unchained/neoforge/build/classes/java/main), folder(/home/runner/work/powers_unchained/powers_unchained/neoforge/build/resources/main)))
+[18:59:48] [main/INFO] [ne.ne.fm.lo.FMLLoader/]: Built game content classloader in 83ms
+[18:59:50] [main/INFO] [MixinExtras|Service/]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.5).
+[19:00:00] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, location] and [teleport, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[19:00:00] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, location] and [teleport, targets] with inputs: [0.1 -0.5 .9, 0 0 0]
+[19:00:00] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, destination] and [teleport, targets] with inputs: [Player, 0123, @e, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[19:00:00] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, targets] and [teleport, destination] with inputs: [Player, 0123, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[19:00:00] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, targets, location] and [teleport, targets, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[19:00:00] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [time, set, time] and [time, set, timemarker] with inputs: [0, 0s, 0d, 0t]
+[19:00:00] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [time, set, timemarker] and [time, set, time] with inputs: [012]
+[19:00:00] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [time, of, clock, set, time] and [time, of, clock, set, timemarker] with inputs: [0, 0s, 0d, 0t]
+[19:00:00] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [time, of, clock, set, timemarker] and [time, of, clock, set, time] with inputs: [012]
+[19:00:01] [modloading-worker-0/INFO] [ne.ne.ne.co.NeoForgeMod/NEOFORGE-MOD]: NeoForge mod loading, version 26.3.0.102, for MC 26.3
+[19:00:01] [modloading-worker-0/INFO] [Powers Unchained/]: Powers Unchained is loading on NeoForge (development environment)
+[19:00:01] [modloading-worker-0/WARN] [Powers Unchained/]: [CI] Server world generator enabled
+[19:00:01] [modloading-worker-0/INFO] [ne.ne.ne.co.VersionChecker/]: No mods enabled for version check
+[19:00:01] [main/INFO] [mojang/MinecraftServicesDiscoveryService]: Environment: Environment[discoveryUrl=https://discovery.minecraftservices.com/minecraft/client, name=PROD]
+[19:00:04] [Worker-Main-1/INFO] [minecraft/Main]: No existing world data, creating new world
+[19:00:04] [Worker-Main-1/ERROR] [minecraft/DedicatedServerProperties]: No key layers in MapLike[{}]
+[19:00:05] [Worker-Main-1/INFO] [minecraft/AdvancementTree]: Loaded 1873 advancements
+[19:00:06] [main/INFO] [ne.ne.ne.co.cr.RecipePriorityManager/]: Loaded 0 recipe priority overrides
+[19:00:06] [Server thread/INFO] [minecraft/DedicatedServer]: Starting minecraft server version 26.3
+[19:00:06] [Server thread/INFO] [minecraft/DedicatedServer]: Loading properties
+[19:00:06] [Server thread/INFO] [minecraft/DedicatedServer]: Default game type: SURVIVAL
+[19:00:06] [Server thread/INFO] [minecraft/MinecraftServer]: Generating keypair
+[19:00:06] [Server thread/INFO] [minecraft/DedicatedServer]: Starting Minecraft server on *:25565
+[19:00:06] [Server thread/WARN] [minecraft/DedicatedServer]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[19:00:06] [Server thread/WARN] [minecraft/DedicatedServer]: The server will make no attempt to authenticate usernames. Beware.
+[19:00:06] [Server thread/WARN] [minecraft/DedicatedServer]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[19:00:06] [Server thread/WARN] [minecraft/DedicatedServer]: To change this, set "online-mode" to "true" in the server.properties file.
+[19:00:06] [Server thread/INFO] [Curios API/]: Loaded 11 curio slots
+[19:00:06] [Server thread/INFO] [Curios API/]: Loaded 1 curio entities
+[19:00:06] [Server thread/INFO] [minecraft/DedicatedServer]: Preparing level "world"
+[19:00:07] [Server thread/INFO] [minecraft/LoggingLevelLoadListener]: Selecting global world spawn...
+[19:00:07] [Server thread/INFO] [minecraft/LoggingLevelLoadListener]: Loading 0 persistent chunks...
+[19:00:07] [Server thread/INFO] [minecraft/LoggingLevelLoadListener]: Preparing spawn area: 100%
+[19:00:07] [Server thread/INFO] [minecraft/LoggingLevelLoadListener]: Time elapsed: 704 ms
+[19:00:07] [Server thread/INFO] [minecraft/DedicatedServer]: Done (1.082s)! For help, type "help"
+[19:00:07] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[19:00:07] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[19:00:07] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[19:00:08] [Server thread/INFO] [ne.ne.ne.se.pe.PermissionAPI/]: Successfully initialized permission handler neoforge:default_handler
+[19:00:08] [Server thread/INFO] [Powers Unchained/]: [CI] World generated, stopping server
+[19:00:08] [Server thread/INFO] [minecraft/MinecraftServer]: Stopping server
+[19:00:08] [Server thread/INFO] [minecraft/MinecraftServer]: Saving players
+[19:00:08] [Server thread/INFO] [minecraft/MinecraftServer]: Saving worlds
+[19:00:08] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[19:00:09] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[19:00:09] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[19:00:09] [main/INFO] [ne.ne.fm.lo.FMLLoader/]: Closing FML Loader 5e5d6e7b
+[19:00:09] [main/INFO] [ne.ne.fm.ModLoader/]: Clearing ModLoader
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1794337132854.json
+
+[Incubating] Problems report is available at: file:///home/runner/work/powers_unchained/powers_unchained/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 1m 22s
+15 actionable tasks: 15 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.7.1/userguide/configuration_cache_enabling.html
