@@ -8,6 +8,16 @@ Owner: Star_1mp (GitHub account still TheKrepe — keep repo URLs as they are). 
 Do not build or update the `fabric/` module until the owner asks to bring Fabric back. Still keep game logic
 in `common/` and loader glue in `neoforge/`, so Fabric can be re-enabled later with minimal work.
 
+## Loader updates (owner's standing rule)
+With EVERY change the owner asks for, also check the newest NeoForge / Fabric for the target MC version (now 26.3) and
+bump `gradle.properties` (`neoforge_version`, `fabric_version`, `fabric_loader_version`, `neo_form_version`) in the same
+build, then tell the owner what changed (old -> new) in the reply. Check via `http-probe.yml` with
+`https://maven.neoforged.net/releases/net/neoforged/neoforge/maven-metadata.xml`,
+`https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/maven-metadata.xml`,
+`https://meta.fabricmc.net/v2/versions/loader`, `https://maven.neoforged.net/releases/net/neoforged/neoform/maven-metadata.xml`.
+NOTE `neoforge.mods.toml` requires NeoForge >= `neoforge_version`, so players must update NeoForge too — say so.
+Fabric is not built right now, so its bumps are untested until Fabric comes back.
+
 ## Layout
 - `common/` — shared code, vanilla-only (compiled against NeoForm). Put ~all logic here.
 - `neoforge/`, `fabric/` — thin loader layers: entry points, registration glue, events, networking glue.
