@@ -6,7 +6,7 @@ slot (Customization tab) and on the dark blueprint socket (Upgrade tab).
 import sys
 from PIL import Image
 
-OUT = 'common/src/main/resources/assets/powers_unchained/textures/gui/sprites/tech_table/device_slot.png'
+OUT = 'common/src/main/resources/assets/powers_unleashed/textures/gui/sprites/tech_table/device_slot.png'
 
 # O = outline, f = fill, h = hole rim
 ART = [

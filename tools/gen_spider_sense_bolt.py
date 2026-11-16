@@ -4,7 +4,7 @@ looked at as an idea)."""
 import os
 from PIL import Image
 
-OUT = os.path.join(os.path.dirname(__file__), '..', 'common/src/main/resources/assets/powers_unchained/textures/entity/power/spider_sense_bolt.png')
+OUT = os.path.join(os.path.dirname(__file__), '..', 'common/src/main/resources/assets/powers_unleashed/textures/entity/power/spider_sense_bolt.png')
 
 # top = tip (far from the head), bottom = root (next to the head)
 GRID = """

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "powers_unchained:item/lime_fabric"
-  }
-}

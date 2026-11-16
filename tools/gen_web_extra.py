@@ -9,7 +9,7 @@ import sys
 
 from PIL import Image, ImageDraw
 
-ROOT = os.path.join(sys.argv[1], "assets", "powers_unchained", "textures")
+ROOT = os.path.join(sys.argv[1], "assets", "powers_unleashed", "textures")
 ENT = os.path.join(ROOT, "entity", "web")
 MISC = os.path.join(ROOT, "misc")
 os.makedirs(MISC, exist_ok=True)

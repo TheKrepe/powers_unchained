@@ -81,7 +81,7 @@ jobs:
           export SDL_VIDEO_X11_FORCE_EGL=1
           { glxinfo -B; glxinfo -t | head -60; eglinfo -B 2>/dev/null | head -60; vulkaninfo --summary; } > /tmp/out/gfxinfo.txt 2>&1 || true
           # the forked game JVM inherits this; the driver skips scenes before the given tick
-          export JAVA_TOOL_OPTIONS="-Dpowers_unchained.ci.start=${{ inputs.start_tick || '0' }}"
+          export JAVA_TOOL_OPTIONS="-Dpowers_unleashed.ci.start=${{ inputs.start_tick || '0' }}"
           (./gradlew :neoforge:runCiClient -Pci_recipe_viewer=${{ inputs.recipe_viewer || 'jei' }} --stacktrace > /tmp/client.log 2>&1; echo "[CI] gradle exited $?" >> /tmp/client.log) &
           end=$((SECONDS + 1500))
           taken=""

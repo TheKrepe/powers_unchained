@@ -17,7 +17,7 @@ from PIL import Image
 RES = sys.argv[1]
 CAVE_SPIDER = sys.argv[2]
 CAVE_EGG = sys.argv[3]
-A = os.path.join(RES, "assets", "powers_unchained")
+A = os.path.join(RES, "assets", "powers_unleashed")
 TEX_B = os.path.join(A, "textures", "block")
 TEX_I = os.path.join(A, "textures", "item")
 TEX_E = os.path.join(A, "textures", "entity", "radioactive_spider")
@@ -203,14 +203,14 @@ def model(active):
         "parent": "minecraft:block/block",
         "render_type": "minecraft:translucent",
         "textures": {
-            "particle": "powers_unchained:block/irradiator_steel",
-            "steel": "powers_unchained:block/irradiator_steel",
-            "plinth": "powers_unchained:block/irradiator_plinth",
-            "lead": "powers_unchained:block/irradiator_lead",
-            "top": "powers_unchained:block/irradiator_top",
-            "glass": "powers_unchained:block/irradiator_glass",
-            "core": "powers_unchained:block/irradiator_core" + ("_active" if active else ""),
-            "gauge": "powers_unchained:block/irradiator_gauge",
+            "particle": "powers_unleashed:block/irradiator_steel",
+            "steel": "powers_unleashed:block/irradiator_steel",
+            "plinth": "powers_unleashed:block/irradiator_plinth",
+            "lead": "powers_unleashed:block/irradiator_lead",
+            "top": "powers_unleashed:block/irradiator_top",
+            "glass": "powers_unleashed:block/irradiator_glass",
+            "core": "powers_unleashed:block/irradiator_core" + ("_active" if active else ""),
+            "gauge": "powers_unleashed:block/irradiator_gauge",
         },
         "elements": E,
     }

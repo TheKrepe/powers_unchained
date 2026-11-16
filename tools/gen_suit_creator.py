@@ -3,7 +3,7 @@ recessed body, glowing amber vent on the front, glowing data screen on top insid
 the sides, dark plinth with hazard stripes.
 
 Usage: python3 gen_suit_creator.py <resources root>
-Writes assets/powers_unchained/textures/block/suit_creator_*.png and models/block/suit_creator.json.
+Writes assets/powers_unleashed/textures/block/suit_creator_*.png and models/block/suit_creator.json.
 Front of the model faces north (blockstate rotates it).
 """
 import json
@@ -14,8 +14,8 @@ import sys
 from PIL import Image
 
 RES = sys.argv[1]
-TEX = os.path.join(RES, "assets", "powers_unchained", "textures", "block")
-MODEL = os.path.join(RES, "assets", "powers_unchained", "models", "block")
+TEX = os.path.join(RES, "assets", "powers_unleashed", "textures", "block")
+MODEL = os.path.join(RES, "assets", "powers_unleashed", "models", "block")
 os.makedirs(TEX, exist_ok=True)
 os.makedirs(MODEL, exist_ok=True)
 rnd = random.Random(263)
@@ -230,15 +230,15 @@ E.append(box((14, 15, 2), (16, 16, 14), rim, faces=("east", "west", "up"), uv=ri
 model = {
     "parent": "minecraft:block/block",
     "textures": {
-        "particle": "powers_unchained:block/suit_creator_frame",
-        "frame": "powers_unchained:block/suit_creator_frame",
-        "pillar": "powers_unchained:block/suit_creator_pillar",
-        "panel": "powers_unchained:block/suit_creator_panel",
-        "vent": "powers_unchained:block/suit_creator_vent",
-        "plinth": "powers_unchained:block/suit_creator_plinth",
-        "screen": "powers_unchained:block/suit_creator_screen",
-        "light": "powers_unchained:block/suit_creator_light",
-        "vent_back": "powers_unchained:block/suit_creator_vent_back",
+        "particle": "powers_unleashed:block/suit_creator_frame",
+        "frame": "powers_unleashed:block/suit_creator_frame",
+        "pillar": "powers_unleashed:block/suit_creator_pillar",
+        "panel": "powers_unleashed:block/suit_creator_panel",
+        "vent": "powers_unleashed:block/suit_creator_vent",
+        "plinth": "powers_unleashed:block/suit_creator_plinth",
+        "screen": "powers_unleashed:block/suit_creator_screen",
+        "light": "powers_unleashed:block/suit_creator_light",
+        "vent_back": "powers_unleashed:block/suit_creator_vent_back",
     },
     "elements": E,
 }

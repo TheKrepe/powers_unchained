@@ -37,12 +37,12 @@ neoForge {
         ciServer {
             server()
             gameDirectory = this.mkdir(this.file('runs/ciserver'))
-            systemProperty('powers_unchained.ci.server', 'true')
+            systemProperty('powers_unleashed.ci.server', 'true')
         }
         ciClient {
             client()
             gameDirectory = this.mkdir(this.file('runs/ciclient'))
-            systemProperty('powers_unchained.ci', 'true')
+            systemProperty('powers_unleashed.ci', 'true')
             programArguments.addAll('--quickPlaySingleplayer', 'ci', '--width', '1280', '--height', '720')
         }
     }

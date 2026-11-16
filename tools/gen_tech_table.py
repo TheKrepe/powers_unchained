@@ -6,8 +6,8 @@ import sys
 from PIL import Image
 
 ROOT = sys.argv[1]
-TEX = os.path.join(ROOT, "assets", "powers_unchained", "textures", "block")
-MOD = os.path.join(ROOT, "assets", "powers_unchained", "models", "block")
+TEX = os.path.join(ROOT, "assets", "powers_unleashed", "textures", "block")
+MOD = os.path.join(ROOT, "assets", "powers_unleashed", "models", "block")
 os.makedirs(TEX, exist_ok=True)
 os.makedirs(MOD, exist_ok=True)
 rnd = random.Random(42)
@@ -190,18 +190,18 @@ def spool(x, y, z, idx, h=3):
 # ------------------------------------------------------------------------------------------
 def t1():
     T = {
-        "front": "powers_unchained:block/tailoring_station_front",
-        "side": "powers_unchained:block/tailoring_station_side",
-        "top": "powers_unchained:block/tailoring_station_top",
+        "front": "powers_unleashed:block/tailoring_station_front",
+        "side": "powers_unleashed:block/tailoring_station_side",
+        "top": "powers_unleashed:block/tailoring_station_top",
         "bottom": "minecraft:block/polished_deepslate",
         "copper": "minecraft:block/cut_copper",
         "iron": "minecraft:block/iron_block",
         "dark": "minecraft:block/polished_deepslate",
-        "machine": "powers_unchained:block/tailoring_station_machine",
-        "screen": "powers_unchained:block/tailoring_station_screen",
-        "led": "powers_unchained:block/tailoring_station_led",
+        "machine": "powers_unleashed:block/tailoring_station_machine",
+        "screen": "powers_unleashed:block/tailoring_station_screen",
+        "led": "powers_unleashed:block/tailoring_station_led",
         "cloth": "minecraft:block/red_wool",
-        "spools": "powers_unchained:block/thread_spools",
+        "spools": "powers_unleashed:block/thread_spools",
         "spool_top": "minecraft:block/oak_log_top",
     }
     E = []
@@ -241,11 +241,11 @@ def t2():
         "leg": "minecraft:block/iron_block",
         "iron": "minecraft:block/iron_block",
         "dark": "minecraft:block/polished_deepslate",
-        "machine": "powers_unchained:block/tailoring_station_machine",
-        "screen": "powers_unchained:block/tailoring_station_screen",
-        "led": "powers_unchained:block/tailoring_station_led",
+        "machine": "powers_unleashed:block/tailoring_station_machine",
+        "screen": "powers_unleashed:block/tailoring_station_screen",
+        "led": "powers_unleashed:block/tailoring_station_led",
         "cloth": "minecraft:block/light_blue_wool",
-        "spools": "powers_unchained:block/thread_spools",
+        "spools": "powers_unleashed:block/thread_spools",
         "spool_top": "minecraft:block/oak_log_top",
     }
     E = []
@@ -275,15 +275,15 @@ def t2():
 # ------------------------------------------------------------------------------------------
 def t3():
     T = {
-        "front": "powers_unchained:block/tailoring_station_front",
-        "side": "powers_unchained:block/tailoring_station_side",
+        "front": "powers_unleashed:block/tailoring_station_front",
+        "side": "powers_unleashed:block/tailoring_station_side",
         "iron": "minecraft:block/iron_block",
         "copper": "minecraft:block/cut_copper",
         "dark": "minecraft:block/polished_deepslate",
         "glass": "minecraft:block/glass",
         "suit": "minecraft:block/red_wool",
         "suit2": "minecraft:block/blue_wool" if False else "minecraft:block/light_blue_wool",
-        "led": "powers_unchained:block/tailoring_station_led",
+        "led": "powers_unleashed:block/tailoring_station_led",
     }
     E = []
     E.append(box((0, 0, 0), (16, 8, 16), {"north": "#front", "south": "#side", "east": "#side", "west": "#side", "up": "#dark", "down": "#dark"},

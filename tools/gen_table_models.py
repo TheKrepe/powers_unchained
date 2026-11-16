@@ -3,7 +3,7 @@ import json
 import os
 import sys
 
-OUT = os.path.join(sys.argv[1], "assets", "powers_unchained", "models", "block")
+OUT = os.path.join(sys.argv[1], "assets", "powers_unleashed", "models", "block")
 os.makedirs(OUT, exist_ok=True)
 
 FACES = ("north", "south", "east", "west", "up", "down")
@@ -53,8 +53,8 @@ def concept_a():
         "top": "minecraft:block/spruce_planks",
         "leg": "minecraft:block/stripped_spruce_log",
         "iron": "minecraft:block/anvil",
-        "machine": "powers_unchained:block/sewing_machine",
-        "spools": "powers_unchained:block/thread_spools",
+        "machine": "powers_unleashed:block/sewing_machine",
+        "spools": "powers_unleashed:block/thread_spools",
         "spool_top": "minecraft:block/oak_log_top",
         "cloth": "minecraft:block/red_wool",
         "drawer": "minecraft:block/dark_oak_planks",
@@ -93,10 +93,10 @@ def concept_a():
 # =============================================================================================
 def concept_b():
     T = {
-        "front": "powers_unchained:block/tailoring_workbench_front",
-        "side": "powers_unchained:block/tailoring_workbench_side",
+        "front": "powers_unleashed:block/tailoring_workbench_front",
+        "side": "powers_unleashed:block/tailoring_workbench_side",
         "back": "minecraft:block/dark_oak_planks",
-        "mat": "powers_unchained:block/tailoring_cutting_mat",
+        "mat": "powers_unleashed:block/tailoring_cutting_mat",
         "bottom": "minecraft:block/dark_oak_planks",
         "roll": "minecraft:block/light_blue_wool",
         "roll_end": "minecraft:block/stripped_oak_log_top",
@@ -130,9 +130,9 @@ def concept_c():
         "cab": "minecraft:block/dark_oak_planks",
         "trim": "minecraft:block/spruce_planks",
         "pole": "minecraft:block/dark_oak_log",
-        "form": "powers_unchained:block/dress_form",
-        "tape": "powers_unchained:block/measuring_tape",
-        "spools": "powers_unchained:block/thread_spools",
+        "form": "powers_unleashed:block/dress_form",
+        "tape": "powers_unleashed:block/measuring_tape",
+        "spools": "powers_unleashed:block/thread_spools",
         "spool_top": "minecraft:block/oak_log_top",
     }
     E = []
@@ -160,8 +160,8 @@ def concept_d():
         "base": "minecraft:block/spruce_planks",
         "post": "minecraft:block/stripped_spruce_log",
         "board": "minecraft:block/spruce_planks",
-        "pattern": "powers_unchained:block/suit_pattern",
-        "spools": "powers_unchained:block/thread_spools",
+        "pattern": "powers_unleashed:block/suit_pattern",
+        "spools": "powers_unleashed:block/thread_spools",
         "spool_top": "minecraft:block/oak_log_top",
         "iron": "minecraft:block/iron_block",
     }

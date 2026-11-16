@@ -5,7 +5,7 @@ from PIL import Image
 
 MC = '/tmp/claude-0/-home-claude/d1a7857d-e1c0-50d7-96f4-5fbbc1adfa14/scratchpad/mcref8/assets/minecraft'
 MC_OLD = '/tmp/claude-0/-home-claude/d1a7857d-e1c0-50d7-96f4-5fbbc1adfa14/scratchpad/mcref4/assets/minecraft'
-MOD = '/home/claude/powers_unchained/common/src/main/resources/assets/powers_unchained'
+MOD = '/home/claude/powers_unchained/common/src/main/resources/assets/powers_unleashed'
 
 
 def hx(h, a=255):

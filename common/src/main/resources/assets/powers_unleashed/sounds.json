@@ -1,0 +1,66 @@
+{
+  "web_shooters.shoot": {
+    "sounds": [
+      "powers_unleashed:web_shooters/shoot1",
+      "powers_unleashed:web_shooters/shoot2",
+      "powers_unleashed:web_shooters/shoot3"
+    ],
+    "subtitle": "subtitles.powers_unleashed.web_shooters.shoot"
+  },
+  "web_shooters.switch": {
+    "sounds": [
+      "powers_unleashed:web_shooters/switch"
+    ],
+    "subtitle": "subtitles.powers_unleashed.web_shooters.switch"
+  },
+  "entity.web.bounce": {
+    "sounds": [
+      "powers_unleashed:entity/web/bounce"
+    ],
+    "subtitle": "subtitles.powers_unleashed.entity.web.bounce"
+  },
+  "web_swinging.enable": {
+    "sounds": [
+      "powers_unleashed:web_shooters/swinging/enable"
+    ],
+    "subtitle": "subtitles.powers_unleashed.web_swinging.enable"
+  },
+  "web_swinging.disable": {
+    "sounds": [
+      "powers_unleashed:web_shooters/swinging/disable"
+    ],
+    "subtitle": "subtitles.powers_unleashed.web_swinging.disable"
+  },
+  "web_swinging.whoosh": {
+    "sounds": [
+      "powers_unleashed:web_shooters/swinging/whoosh1",
+      "powers_unleashed:web_shooters/swinging/whoosh2",
+      "powers_unleashed:web_shooters/swinging/whoosh3",
+      "powers_unleashed:web_shooters/swinging/whoosh4",
+      "powers_unleashed:web_shooters/swinging/whoosh5",
+      "powers_unleashed:web_shooters/swinging/whoosh6",
+      "powers_unleashed:web_shooters/swinging/whoosh7",
+      "powers_unleashed:web_shooters/swinging/whoosh8",
+      "powers_unleashed:web_shooters/swinging/whoosh9"
+    ],
+    "subtitle": "subtitles.powers_unleashed.web_swinging.whoosh"
+  },
+  "web_swinging.stress": {
+    "sounds": [
+      {
+        "name": "powers_unleashed:web_shooters/swinging/stress_loop",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.powers_unleashed.web_swinging.stress"
+  },
+  "web_swinging.wind": {
+    "sounds": [
+      {
+        "name": "powers_unleashed:web_shooters/swinging/wind_loop",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.powers_unleashed.web_swinging.wind"
+  }
+}

@@ -7,7 +7,7 @@ from PIL import Image
 
 REPO, WOOL_DIR = sys.argv[1], sys.argv[2]
 RES = os.path.join(REPO, "common", "src", "main", "resources")
-NS = "powers_unchained"
+NS = "powers_unleashed"
 COLORS = ["white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray",
           "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black"]
 
@@ -87,7 +87,7 @@ for color in COLORS:
     write_json(os.path.join(RES, "data", NS, "recipe", name + ".json"), {
         "type": "minecraft:crafting_shapeless",
         "category": "misc",
-        "group": "powers_unchained_fabric",
+        "group": "powers_unleashed_fabric",
         "ingredients": [f"minecraft:{color}_wool", f"minecraft:{color}_wool", "minecraft:stick", "minecraft:string"],
         "result": {"count": 4, "id": f"{NS}:{name}"},
     })
@@ -95,7 +95,7 @@ for color in COLORS:
     write_json(os.path.join(RES, "data", NS, "recipe", f"dye_{name}.json"), {
         "type": "minecraft:crafting_shapeless",
         "category": "misc",
-        "group": "powers_unchained_dyed_fabric",
+        "group": "powers_unleashed_dyed_fabric",
         "ingredients": [f"minecraft:{color}_dye", [f"{NS}:{c}_fabric" for c in COLORS if c != color]],
         "result": {"id": f"{NS}:{name}"},
     })

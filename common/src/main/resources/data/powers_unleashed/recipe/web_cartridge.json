@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "powers_unleashed:empty_web_cartridge",
+    "minecraft:cobweb",
+    "minecraft:slime_ball"
+  ],
+  "result": {
+    "id": "powers_unleashed:web_cartridge"
+  }
+}

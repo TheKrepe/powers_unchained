@@ -6,7 +6,7 @@ import os
 import sys
 from PIL import Image
 
-OUT = os.path.join(sys.argv[1], 'assets', 'powers_unchained', 'textures', 'gui', 'sprites', 'tech_table', 'module')
+OUT = os.path.join(sys.argv[1], 'assets', 'powers_unleashed', 'textures', 'gui', 'sprites', 'tech_table', 'module')
 os.makedirs(OUT, exist_ok=True)
 
 

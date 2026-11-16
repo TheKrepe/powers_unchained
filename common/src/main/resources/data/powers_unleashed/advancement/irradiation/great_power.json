@@ -1,0 +1,22 @@
+{
+  "parent": "powers_unleashed:irradiation/experiment",
+  "display": {
+    "icon": {
+      "id": "powers_unleashed:radioactive_spider_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.powers_unleashed.great_power.title"
+    },
+    "description": {
+      "translate": "advancements.powers_unleashed.great_power.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

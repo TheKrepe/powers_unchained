@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "powers_unleashed:item/spider_man_first_appearance_boots"
+  }
+}

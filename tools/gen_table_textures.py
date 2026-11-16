@@ -4,7 +4,7 @@ import random
 import sys
 from PIL import Image
 
-OUT = os.path.join(sys.argv[1], "assets", "powers_unchained", "textures", "block")
+OUT = os.path.join(sys.argv[1], "assets", "powers_unleashed", "textures", "block")
 os.makedirs(OUT, exist_ok=True)
 rnd = random.Random(1337)
 

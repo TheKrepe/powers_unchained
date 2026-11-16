@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "powers_unleashed_fabric",
+  "ingredients": [
+    "minecraft:magenta_wool",
+    "minecraft:magenta_wool",
+    "minecraft:stick",
+    "minecraft:string"
+  ],
+  "result": {
+    "count": 4,
+    "id": "powers_unleashed:magenta_fabric"
+  }
+}

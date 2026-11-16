@@ -2,7 +2,7 @@
 import os
 from PIL import Image
 
-OUT = os.path.join(os.path.dirname(__file__), '..', 'common/src/main/resources/assets/powers_unchained/textures/gui/sprites/power')
+OUT = os.path.join(os.path.dirname(__file__), '..', 'common/src/main/resources/assets/powers_unleashed/textures/gui/sprites/power')
 
 ICONS = {
     # a sticky palm print with web threads on a wall

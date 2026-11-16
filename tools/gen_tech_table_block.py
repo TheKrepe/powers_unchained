@@ -14,7 +14,7 @@ import sys
 from PIL import Image
 
 ROOT = sys.argv[1]
-ASSETS = os.path.join(ROOT, "assets", "powers_unchained")
+ASSETS = os.path.join(ROOT, "assets", "powers_unleashed")
 TEX = os.path.join(ASSETS, "textures", "block")
 rnd = random.Random(1337)
 
@@ -223,10 +223,10 @@ save(bottom, "tech_table_bottom")
 model = {
     "parent": "minecraft:block/orientable_with_bottom",
     "textures": {
-        "top": "powers_unchained:block/tech_table_top",
-        "front": "powers_unchained:block/tech_table_front",
-        "side": "powers_unchained:block/tech_table_side",
-        "bottom": "powers_unchained:block/tech_table_bottom",
+        "top": "powers_unleashed:block/tech_table_top",
+        "front": "powers_unleashed:block/tech_table_front",
+        "side": "powers_unleashed:block/tech_table_side",
+        "bottom": "powers_unleashed:block/tech_table_bottom",
     },
 }
 with open(os.path.join(ASSETS, "models", "block", "tech_table.json"), "w") as f:
@@ -234,7 +234,7 @@ with open(os.path.join(ASSETS, "models", "block", "tech_table.json"), "w") as f:
     f.write("\n")
 states = {"variants": {}}
 for facing, y in (("north", 0), ("east", 90), ("south", 180), ("west", 270)):
-    v = {"model": "powers_unchained:block/tech_table"}
+    v = {"model": "powers_unleashed:block/tech_table"}
     if y:
         v["y"] = y
     states["variants"]["facing=" + facing] = v
@@ -242,6 +242,6 @@ with open(os.path.join(ASSETS, "blockstates", "tech_table.json"), "w") as f:
     json.dump(states, f, indent=2)
     f.write("\n")
 with open(os.path.join(ASSETS, "items", "tech_table.json"), "w") as f:
-    json.dump({"model": {"type": "minecraft:model", "model": "powers_unchained:block/tech_table"}}, f, indent=2)
+    json.dump({"model": {"type": "minecraft:model", "model": "powers_unleashed:block/tech_table"}}, f, indent=2)
     f.write("\n")
 print("tech table assets written")

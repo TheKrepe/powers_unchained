@@ -16,7 +16,7 @@ import sys
 from PIL import Image
 
 ROOT = sys.argv[1]
-TEX = os.path.join(ROOT, "assets", "powers_unchained", "textures")
+TEX = os.path.join(ROOT, "assets", "powers_unleashed", "textures")
 NAME = "spider_man_marvel_midnight"
 rnd = random.Random(2026)
 

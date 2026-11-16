@@ -153,7 +153,7 @@ def save(img, *path):
     img.save(p)
 
 
-suit_dir = ("assets", "powers_unchained", "textures", "suit", "spider_man")
+suit_dir = ("assets", "powers_unleashed", "textures", "suit", "spider_man")
 save(main_texture(False), *suit_dir, "spider_man.png")
 save(main_texture(True), *suit_dir, "spider_man_slim.png")
 boots = new()
@@ -246,7 +246,7 @@ BOOTS = [
     "KKKKKKK..KKKKKKK",
     "................",
 ]
-item_dir = ("assets", "powers_unchained", "textures", "item")
+item_dir = ("assets", "powers_unleashed", "textures", "item")
 save(icon(MASK, PAL), *item_dir, "spider_man_mask.png")
 save(icon(SUIT, PAL), *item_dir, "spider_man_chestplate.png")
 save(icon(PANTS, PAL), *item_dir, "spider_man_pants.png")

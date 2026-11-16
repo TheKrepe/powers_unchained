@@ -9,7 +9,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def skin_for(suit, slim=False):
-    d = f'{RES}/assets/powers_unchained/textures/suit/{suit}/'
+    d = f'{RES}/assets/powers_unleashed/textures/suit/{suit}/'
     out = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
     for p in ['pants', 'boots', ('chestplate_slim' if slim else 'chestplate'), 'mask']:
         f = d + f'{suit}_{p}.png'

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "G": "minecraft:glass"
+  },
+  "pattern": [
+    "I",
+    "G",
+    "I"
+  ],
+  "result": {
+    "count": 1,
+    "id": "powers_unleashed:empty_web_cartridge"
+  }
+}

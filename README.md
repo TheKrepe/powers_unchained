@@ -1,4 +1,4 @@
-# Powers Unchained
+# Powers Unleashed
 
 Мод про супергероев для **Minecraft 26.3**. Сейчас собирается только под **NeoForge**; модуль Fabric временно отключён (вернуть: раскомментировать `include('fabric')` в `settings.gradle`).
 
@@ -12,7 +12,7 @@ build-logic/ — общие настройки сборки (трогать ре
 gradle.properties — ВСЕ версии (Minecraft, NeoForge, Fabric) и данные мода в одном месте.
 ```
 
-Общий код вызывается из `PowersUnchainedNeoForge` и `PowersUnchainedFabric` через `PowersUnchained.init()`.
+Общий код вызывается из `PowersUnleashedNeoForge` и `PowersUnleashedFabric` через `PowersUnleashed.init()`.
 Если общему коду нужно что-то от загрузчика, это делается через интерфейс в `common/.../platform/services`
 и две реализации в `neoforge` и `fabric` (см. `IPlatformHelper`).
 
@@ -31,12 +31,12 @@ gradle.properties — ВСЕ версии (Minecraft, NeoForge, Fabric) и да�
    - `./gradlew :neoforge:runClient` — NeoForge
    - `./gradlew :fabric:runClient` — Fabric (когда будет снова включён)
    (на Windows — `gradlew.bat ...`)
-5. В логе должно появиться: `Powers Unchained is loading on NeoForge` (или `Fabric`).
+5. В логе должно появиться: `Powers Unleashed is loading on NeoForge` (или `Fabric`).
 
 ## Сборка .jar
 
 `./gradlew build` → готовые файлы:
-- `neoforge/build/libs/powers_unchained-neoforge-26.3-<версия>.jar`
+- `neoforge/build/libs/powers_unleashed-neoforge-26.3-<версия>.jar`
 - (Fabric — когда будет снова включён)
 
 Файлы `-sources.jar` и `-javadoc.jar` в игру ставить не нужно.

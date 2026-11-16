@@ -388,7 +388,7 @@ def icon(rows, pal):
 
 
 for sid, painter in SUITS.items():
-    d = ("assets", "powers_unchained", "textures", "suit", sid)
+    d = ("assets", "powers_unleashed", "textures", "suit", sid)
     save(painter.texture(False), *d, sid + ".png")
     save(painter.texture(True), *d, sid + "_slim.png")
     save(painter.texture(False, boots=True), *d, sid + "_boots.png")
@@ -397,5 +397,5 @@ for sid, painter in SUITS.items():
     for piece, rows in (("mask", MASK), ("chestplate", SUIT), ("pants", PANTS), ("boots", BOOTS)):
         if sid == "spider_man_advanced_2" and piece == "pants":
             rows = [r.replace("KK", "RR", 1) if 3 < i < 14 else r for i, r in enumerate(rows)]
-        save(icon(rows, pal), "assets", "powers_unchained", "textures", "item", f"{sid}_{piece}.png")
+        save(icon(rows, pal), "assets", "powers_unleashed", "textures", "item", f"{sid}_{piece}.png")
 print("ok")

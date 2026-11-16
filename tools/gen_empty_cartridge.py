@@ -7,7 +7,7 @@ import sys
 
 from PIL import Image
 
-TEX = os.path.join(sys.argv[1], "assets", "powers_unchained", "textures", "item")
+TEX = os.path.join(sys.argv[1], "assets", "powers_unleashed", "textures", "item")
 im = Image.open(os.path.join(TEX, "web_cartridge.png")).convert("RGBA")
 for y in range(5, 11):
     for x in range(6, 10):

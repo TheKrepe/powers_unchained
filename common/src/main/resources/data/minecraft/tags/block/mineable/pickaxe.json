@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "powers_unchained:suit_creator",
-    "powers_unchained:irradiator"
+    "powers_unleashed:suit_creator",
+    "powers_unleashed:irradiator"
   ]
 }

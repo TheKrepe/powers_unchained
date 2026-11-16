@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "top": "powers_unleashed:block/tech_table_top",
+    "front": "powers_unleashed:block/tech_table_front",
+    "side": "powers_unleashed:block/tech_table_side",
+    "bottom": "powers_unleashed:block/tech_table_bottom"
+  }
+}

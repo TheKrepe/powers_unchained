@@ -1,6 +1,6 @@
 """Suit Creator GUI sprites (generic, shared by every suit).
 
-Sprites go to textures/gui/sprites/suit_creator/ (GUI atlas, id powers_unchained:suit_creator/<name>).
+Sprites go to textures/gui/sprites/suit_creator/ (GUI atlas, id powers_unleashed:suit_creator/<name>).
 Usage: python3 tools/gen_suit_creator_gui.py <resources root>
 """
 import os
@@ -8,7 +8,7 @@ import sys
 from PIL import Image
 
 ROOT = sys.argv[1]
-A = os.path.join(ROOT, "assets", "powers_unchained", "textures")
+A = os.path.join(ROOT, "assets", "powers_unleashed", "textures")
 SPR = os.path.join(A, "gui", "sprites", "suit_creator")
 os.makedirs(SPR, exist_ok=True)
 

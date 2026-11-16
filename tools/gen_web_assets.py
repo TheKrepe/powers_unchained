@@ -12,7 +12,7 @@ import sys
 from PIL import Image, ImageDraw
 
 RES = sys.argv[1]
-A = os.path.join(RES, "assets", "powers_unchained")
+A = os.path.join(RES, "assets", "powers_unleashed")
 
 
 def rgb(h, a=255):
@@ -80,9 +80,9 @@ WEB_CARTRIDGE = [
 for name, rows in (("web_shooters", WEB_SHOOTERS), ("web_cartridge", WEB_CARTRIDGE)):
     save(pixels(rows, PAL), "textures", "item", name + ".png")
     for path, data in (
-            (("items", name + ".json"), {"model": {"type": "minecraft:model", "model": f"powers_unchained:item/{name}"}}),
+            (("items", name + ".json"), {"model": {"type": "minecraft:model", "model": f"powers_unleashed:item/{name}"}}),
             (("models", "item", name + ".json"), {"parent": "minecraft:item/generated",
-                                                  "textures": {"layer0": f"powers_unchained:item/{name}"}}),
+                                                  "textures": {"layer0": f"powers_unleashed:item/{name}"}}),
     ):
         p = os.path.join(A, *path)
         os.makedirs(os.path.dirname(p), exist_ok=True)

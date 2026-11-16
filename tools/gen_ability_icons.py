@@ -16,7 +16,7 @@ from PIL import Image
 
 RES = sys.argv[1]
 VAN = sys.argv[2]
-A = os.path.join(RES, "assets", "powers_unchained", "textures", "gui", "sprites")
+A = os.path.join(RES, "assets", "powers_unleashed", "textures", "gui", "sprites")
 OUT = os.path.join(A, "ability")
 os.makedirs(OUT, exist_ok=True)
 
@@ -215,7 +215,7 @@ save(dodge, "dodge")
 # reflexes: the spider with the owner's 5x8 spider-sense bolt
 refl = blank()
 paste(refl, SPIDER, -2, 1)
-bolt = load(os.path.join(RES, "assets", "powers_unchained", "textures", "entity", "power", "spider_sense_bolt.png"))
+bolt = load(os.path.join(RES, "assets", "powers_unleashed", "textures", "entity", "power", "spider_sense_bolt.png"))
 paste(refl, bolt, 12, 1)
 paste(refl, bolt, 13, 9)
 save(refl, "reflexes")
@@ -267,7 +267,7 @@ save(hero, "hero_body")
 # ------------------------------------------------------------------------------------------------- key abilities
 # web shot: a cobweb flying right with streaks
 shot = blank()
-paste(shot, load(os.path.join(RES, "assets", "powers_unchained", "textures", "entity", "web", "web.png")), 3, 1)
+paste(shot, load(os.path.join(RES, "assets", "powers_unleashed", "textures", "entity", "web", "web.png")), 3, 1)
 streaks(shot, (5, 9, 13), 0, 4)
 save(shot, "web_shot")
 

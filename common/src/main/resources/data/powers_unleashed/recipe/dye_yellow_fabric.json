@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "powers_unleashed_dyed_fabric",
+  "ingredients": [
+    "minecraft:yellow_dye",
+    [
+      "powers_unleashed:white_fabric",
+      "powers_unleashed:orange_fabric",
+      "powers_unleashed:magenta_fabric",
+      "powers_unleashed:light_blue_fabric",
+      "powers_unleashed:lime_fabric",
+      "powers_unleashed:pink_fabric",
+      "powers_unleashed:gray_fabric",
+      "powers_unleashed:light_gray_fabric",
+      "powers_unleashed:cyan_fabric",
+      "powers_unleashed:purple_fabric",
+      "powers_unleashed:blue_fabric",
+      "powers_unleashed:brown_fabric",
+      "powers_unleashed:green_fabric",
+      "powers_unleashed:red_fabric",
+      "powers_unleashed:black_fabric"
+    ]
+  ],
+  "result": {
+    "id": "powers_unleashed:yellow_fabric"
+  }
+}

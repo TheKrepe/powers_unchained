@@ -7,7 +7,7 @@ Skins: advanced (Marvel's Spider-Man game: white / black / red), brand_new_day (
 """
 from PIL import Image
 
-ROOT = 'common/src/main/resources/assets/powers_unchained/textures/'
+ROOT = 'common/src/main/resources/assets/powers_unleashed/textures/'
 # the owner's grey palette -> per skin colour
 SKINS = {
     'advanced': {

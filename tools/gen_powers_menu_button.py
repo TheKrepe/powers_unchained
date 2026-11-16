@@ -8,7 +8,7 @@ import sys
 from PIL import Image
 
 SRC = sys.argv[1]
-OUT = 'common/src/main/resources/assets/powers_unchained/textures/gui/sprites/powers_menu/'
+OUT = 'common/src/main/resources/assets/powers_unleashed/textures/gui/sprites/powers_menu/'
 
 # 12x12 emblem: an amber round badge (outline, lit top-left, shaded bottom-right) with a cyan zig-zag lightning bolt
 BOLT = [(7, 1), (8, 1), (6, 2), (7, 2), (5, 3), (6, 3), (4, 4), (5, 4), (3, 5), (4, 5), (5, 5), (6, 5), (7, 5), (8, 5),

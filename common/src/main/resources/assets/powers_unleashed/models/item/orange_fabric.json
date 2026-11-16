@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "powers_unleashed:item/orange_fabric"
+  }
+}
