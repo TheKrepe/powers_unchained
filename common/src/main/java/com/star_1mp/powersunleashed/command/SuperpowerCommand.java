@@ -7,7 +7,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.star_1mp.powersunleashed.power.Superpower;
 import com.star_1mp.powersunleashed.power.Superpowers;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
@@ -50,7 +49,7 @@ public final class SuperpowerCommand {
 
     private static com.mojang.brigadier.builder.RequiredArgumentBuilder<CommandSourceStack, String> powerArg() {
         return Commands.argument("power", StringArgumentType.word())
-                .suggests((context, builder) -> SharedSuggestionProvider.suggest(Arrays.stream(Superpower.values()).map(Superpower::id), builder));
+                .suggests((context, builder) -> SharedSuggestionProvider.suggest(Superpower.all().stream().map(Superpower::id), builder));
     }
 
     /** {@code /superpower xp <power> <amount> [targets]}: adds power experience. */
@@ -120,7 +119,7 @@ public final class SuperpowerCommand {
         return Commands.literal(name)
                 .then(Commands.argument("power", StringArgumentType.word())
                         .suggests((context, builder) -> SharedSuggestionProvider.suggest(
-                                Stream.concat(Stream.of("all"), Arrays.stream(Superpower.values()).map(Superpower::id)), builder))
+                                Stream.concat(Stream.of("all"), Superpower.all().stream().map(Superpower::id)), builder))
                         .executes(context -> run(context, List.of(context.getSource().getPlayerOrException()), add))
                         .then(Commands.argument("targets", EntityArgument.players())
                                 .executes(context -> run(context, EntityArgument.getPlayers(context, "targets"), add))));
@@ -131,7 +130,7 @@ public final class SuperpowerCommand {
         String name = StringArgumentType.getString(context, "power");
         List<Superpower> powers;
         if (name.equals("all")) {
-            powers = List.of(Superpower.values());
+            powers = List.copyOf(Superpower.all());
         } else {
             Superpower power = Superpower.byId(name);
             if (power == null) {

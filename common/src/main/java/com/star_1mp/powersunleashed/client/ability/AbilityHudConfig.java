@@ -42,6 +42,8 @@ public final class AbilityHudConfig {
      * null = automatic (every ability the player has, in the default order).
      */
     public java.util.List<String> abilitySlots = null;
+    /** Selected ultimate ID, {@link AbilitySlots#NONE} for empty, or null for automatic. */
+    public String ultimateAbility = null;
 
     /** Where the powers menu button sits in the inventory ({@code PowersMenu.ButtonPlace} id). */
     public String menuButton = "recipe_book";

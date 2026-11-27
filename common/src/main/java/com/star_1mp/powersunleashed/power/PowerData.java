@@ -37,16 +37,16 @@ public record PowerData(Set<String> owned, Set<String> enabled) {
     public boolean has(PowerAbility ability) {
         for (String id : this.owned) {
             Superpower p = Superpower.byId(id);
-            if (p != null && p.abilities().contains(ability)) {
+            if (p != null && p.grant(ability) != null) {
                 return true;
             }
         }
         return false;
     }
 
-    /** Owned and switched on (abilities that can't be switched off are always on). */
-    public boolean isActive(PowerAbility ability) {
-        return this.has(ability) && (!ability.toggleable() || this.enabled.contains(ability.id()));
+    /** The saved switch state. Ownership and skill requirements are checked by {@link Superpowers}. */
+    public boolean isEnabled(PowerAbility ability) {
+        return !ability.toggleable() || this.enabled.contains(ability.id());
     }
 
     public boolean hasAny() {
@@ -65,9 +65,10 @@ public record PowerData(Set<String> owned, Set<String> enabled) {
         Set<String> o = new HashSet<>(this.owned);
         o.add(power.id());
         Set<String> e = new HashSet<>(this.enabled);
-        for (PowerAbility a : power.abilities()) {
-            if (a.onByDefault()) {
-                e.add(a.id());
+        for (Superpower.AbilityGrant grant : power.abilities()) {
+            PowerAbility ability = grant.ability();
+            if (ability.onByDefault() && !this.has(ability)) {
+                e.add(ability.id());
             }
         }
         return new PowerData(Set.copyOf(o), Set.copyOf(e));
@@ -78,9 +79,9 @@ public record PowerData(Set<String> owned, Set<String> enabled) {
         o.remove(power.id());
         PowerData left = new PowerData(Set.copyOf(o), this.enabled);
         Set<String> e = new HashSet<>(this.enabled);
-        for (PowerAbility a : power.abilities()) {
-            if (!left.has(a)) {
-                e.remove(a.id());
+        for (Superpower.AbilityGrant grant : power.abilities()) {
+            if (!left.has(grant.ability())) {
+                e.remove(grant.ability().id());
             }
         }
         return new PowerData(Set.copyOf(o), Set.copyOf(e));

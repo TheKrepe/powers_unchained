@@ -49,7 +49,7 @@ import org.jspecify.annotations.Nullable;
  *   <li>Умения: the selected power's skill tree (Palladium-like, three branches under the player), bought with that
  *   power's own skill points (experience from using it -> levels -> 1 point a level); gadgets are upgraded on the Tech
  *   Table;</li>
- *   <li>Клавиши: drag abilities onto the 5 keys under the hologram, the HUD preview, "Automatic".</li>
+ *   <li>Клавиши: drag abilities onto the keys under the hologram, with a separate ultimate slot.</li>
  * </ul>
  * The skill-point counter of the selected power is in the top bar on every tab.
  */
@@ -77,6 +77,9 @@ public class PowersMenuScreen extends Screen {
     private static final int HOLO_Y = 20;
     private static final int HOLO_H = 150;
     private static final int HOLO_SCALE = 48;
+    private static final int SOCKET_SIZE = 22;
+    private static final int SOCKET_STEP = 25;
+    private static final int ULTIMATE_GAP = 7;
 
     /** Optimisation: icons are made once, not a new ItemStack every frame. */
     private static final Map<Item, ItemStack> ICONS = new HashMap<>();
@@ -232,7 +235,7 @@ public class PowersMenuScreen extends Screen {
             return list;
         }
         PowerProgress progress = PowerSkills.progress(player);
-        for (Superpower power : Superpower.values()) {
+        for (Superpower power : Superpower.all()) {
             if (Superpowers.data(player).has(power)) {
                 int level = PowerLevels.level(power, progress.get(power).xp());
                 list.add(new Entry("power:" + power.id(), Kind.POWER, power, ItemStack.EMPTY, emblem(power), power.title(), tr("sub.power", level)));
@@ -244,10 +247,7 @@ public class PowersMenuScreen extends Screen {
 
     /** The power's emblem = the hero's group emblem of the Suit Creator (owner). */
     public static Identifier emblem(Superpower power) {
-        String group = switch (power) {
-            case SPIDERMAN -> "spider_man";
-        };
-        return com.star_1mp.powersunleashed.Constants.id("suit_creator/group/" + group);
+        return power.emblem();
     }
 
     /** Saved pick meaning "deliberately nothing" (a click on the list's empty area, owner). */
@@ -708,8 +708,10 @@ public class PowersMenuScreen extends Screen {
     }
 
     private int[] socket(int i) {
-        int x0 = this.left() + CENTER_X + (CENTER_W - (5 * 30 - 4)) / 2;
-        return new int[]{x0 + i * 30, this.top() + HOLO_Y + HOLO_H + 5, 26, 26};
+        int rowWidth = PUKeyMappings.ULTIMATE_SLOT * SOCKET_STEP + ULTIMATE_GAP + SOCKET_SIZE;
+        int x0 = this.left() + CENTER_X + (CENTER_W - rowWidth) / 2;
+        int x = x0 + i * SOCKET_STEP + (i == PUKeyMappings.ULTIMATE_SLOT ? ULTIMATE_GAP : 0);
+        return new int[]{x, this.top() + HOLO_Y + HOLO_H + 5, SOCKET_SIZE, SOCKET_SIZE};
     }
 
     private void drawKeys(GuiGraphicsExtractor g, int x, int y, int mx, int my) {
@@ -721,7 +723,8 @@ public class PowersMenuScreen extends Screen {
         List<String> abilities = this.keyAbilities();
         for (String id : abilities) {
             boolean hover = in(mx, my, lx, ly, LIST_W - 4, CARD_H - 2);
-            this.card(g, lx, ly, LIST_W - 4, ItemStack.EMPTY, abilityIcon(id), abilityName(id), tr("keys.drag"), id.equals(this.dragging), hover);
+            String hint = AbilitySlots.accepts(PUKeyMappings.ULTIMATE_SLOT, id) ? "keys.ultimate_only" : "keys.drag";
+            this.card(g, lx, ly, LIST_W - 4, ItemStack.EMPTY, abilityIcon(id), abilityName(id), tr(hint), id.equals(this.dragging), hover);
             ly += CARD_H;
         }
         g.disableScissor();
@@ -732,23 +735,39 @@ public class PowersMenuScreen extends Screen {
                 ty += 10;
             }
         }
-        // centre: hologram + the 5 keys under it
+        // Centre: hologram, regular keys and the ultimate key.
         this.hologram(g, x + CENTER_X, y + HOLO_Y, CENTER_W, HOLO_H, HOLO_SCALE, tr("keys.set"));
+        String[] choices = AbilitySlots.choices(this.player());
         for (int i = 0; i < PUKeyMappings.ALL.size(); i++) {
             int[] s = this.socket(i);
-            String id = AbilitySlots.chosen(this.player(), i);
-            boolean empty = AbilitySlots.NONE.equals(id) || AbilitySlots.get(id) == null;
-            boolean target = this.dragging != null && in(mx, my, s[0], s[1], s[2], s[3]);
+            String id = choices[i];
+            boolean ultimate = i == PUKeyMappings.ULTIMATE_SLOT;
+            boolean empty = AbilitySlots.NONE.equals(id);
+            boolean hovering = in(mx, my, s[0], s[1], s[2], s[3]);
+            int border = ultimate ? AMBER : empty ? 0xFF3A4652 : CYAN;
+            if (hovering && this.dragging != null) {
+                border = AbilitySlots.accepts(i, this.dragging) ? COPPER : RED;
+            }
             inset(g, s[0], s[1], s[2], s[3], 0xFF1A2027);
-            outline(g, s[0] - 1, s[1] - 1, s[2] + 2, s[3] + 2, target ? COPPER : empty ? 0xFF3A4652 : CYAN);
-            if (!empty) {
-                abilitySprite(g, id, s[0] + 4, s[1] + 4);
-                if (in(mx, my, s[0], s[1], s[2], s[3]) && this.dragging == null) {
-                    g.setTooltipForNextFrame(this.font, List.of(abilityName(id).getVisualOrderText(),
-                            tr("keys.remove").copy().withColor(GREY).getVisualOrderText()), mx, my);
-                }
+            outline(g, s[0] - 1, s[1] - 1, s[2] + 2, s[3] + 2, border);
+            if (empty) {
+                g.centeredText(this.font, Component.literal("+"), s[0] + s[2] / 2, s[1] + 7, ultimate ? AMBER : DIM);
             } else {
-                g.centeredText(this.font, Component.literal("+"), s[0] + 13, s[1] + 9, DIM);
+                abilitySprite(g, id, s[0] + 2, s[1] + 2);
+            }
+            if (ultimate) {
+                g.centeredText(this.font, tr("keys.ultimate"), s[0] + s[2] / 2, s[1] + s[3] + 4, AMBER);
+            }
+            if (hovering && this.dragging == null && (ultimate || !empty)) {
+                List<FormattedCharSequence> lines = new ArrayList<>();
+                if (ultimate) {
+                    lines.add(tr("keys.ultimate_only").copy().withColor(AMBER).getVisualOrderText());
+                }
+                if (!empty) {
+                    lines.add(abilityName(id).getVisualOrderText());
+                    lines.add(tr("keys.remove").copy().withColor(GREY).getVisualOrderText());
+                }
+                g.setTooltipForNextFrame(this.font, lines, mx, my);
             }
             Component key = AbilityHud.keyLabel(PUKeyMappings.ALL.get(i));
             int kw = Math.max(11, this.font.width(key) + 5);
@@ -941,8 +960,9 @@ public class PowersMenuScreen extends Screen {
             for (int i = 0; i < PUKeyMappings.ALL.size(); i++) {
                 int[] s = this.socket(i);
                 if (in(event.x(), event.y(), s[0] - 2, s[1] - 2, s[2] + 4, s[3] + 4)) {
-                    AbilitySlots.choose(this.player(), i, id);
-                    this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.ITEM_PICKUP, 1.0F));
+                    if (AbilitySlots.choose(this.player(), i, id)) {
+                        this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.ITEM_PICKUP, 1.0F));
+                    }
                     return true;
                 }
             }

@@ -70,15 +70,6 @@ public final class PowerSkills {
         return has(player, Superpower.SPIDERMAN, node);
     }
 
-    /** Abilities a node must unlock first (the rest come with the power). */
-    public static boolean unlocks(Player player, PowerAbility ability) {
-        return switch (ability) {
-            case ROLL -> spider(player, SkillTrees.ROLL);
-            case NIGHT_VISION -> spider(player, SkillTrees.NIGHT_VISION);
-            default -> true;
-        };
-    }
-
     // ---- experience ----
 
     public static void addXp(ServerPlayer player, Superpower power, int amount) {
@@ -126,8 +117,11 @@ public final class PowerSkills {
 
     public static void onKill(ServerPlayer player, LivingEntity victim) {
         if (victim instanceof Enemy) {
-            for (Superpower power : Superpower.values()) {
-                addXp(player, power, XP_KILL);
+            for (String id : Superpowers.data(player).owned()) {
+                Superpower power = Superpower.byId(id);
+                if (power != null) {
+                    addXp(player, power, XP_KILL);
+                }
             }
         }
     }

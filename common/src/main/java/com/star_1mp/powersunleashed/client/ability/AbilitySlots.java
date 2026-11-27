@@ -1,6 +1,8 @@
 package com.star_1mp.powersunleashed.client.ability;
 
 import com.star_1mp.powersunleashed.client.input.PUKeyMappings;
+import com.star_1mp.powersunleashed.power.PowerAbility;
+import com.star_1mp.powersunleashed.power.Superpowers;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,7 +20,7 @@ import org.jspecify.annotations.Nullable;
  * gadgets, superpowers...) gets the next free ability key: the web-shooters first (keys 1-3) and Spider-Man's powers
  * after them, so without web-shooters the powers move up to keys 1-2. In the Ability Settings the player can pick their
  * own set instead ({@link AbilityHudConfig#abilitySlots}): one ability (or none) per key; a key whose ability the player
- * doesn't have right now stays empty, and empty keys are not shown in the HUD.
+ * doesn't have right now stays empty, and empty keys are not shown in the HUD. The ultimate has its own key.
  */
 public final class AbilitySlots {
 
@@ -27,7 +29,6 @@ public final class AbilitySlots {
     public static final String WEB_SWING = "web_swing";
     public static final String ROLL = "roll";
     public static final String ABILITY_WHEEL = "ability_wheel";
-    /** Default order of all abilities. */
     /** No ability on the key. */
     public static final String NONE = "none";
     public static final List<String> DEFAULT_ORDER = List.of(WEB_SHOT, WEB_ZIP, WEB_SWING, ROLL, ABILITY_WHEEL);
@@ -39,7 +40,7 @@ public final class AbilitySlots {
      * @param entry     its line in the HUD
      */
     public record Ability(String id, Predicate<LocalPlayer> available, Function<LocalPlayer, AbilityHud.Entry> entry,
-            Component previewName) {
+            Component previewName, @Nullable PowerAbility ultimate) {
     }
 
     private static final Map<String, Ability> ABILITIES = new LinkedHashMap<>();
@@ -51,7 +52,19 @@ public final class AbilitySlots {
 
     public static void register(String id, Predicate<LocalPlayer> available, Function<LocalPlayer, AbilityHud.Entry> entry,
             Component previewName) {
-        ABILITIES.put(id, new Ability(id, available, entry, previewName));
+        ABILITIES.put(id, new Ability(id, available, entry, previewName, null));
+    }
+
+    public static void registerUltimate(PowerAbility ability) {
+        if (!ability.ultimate()) {
+            throw new IllegalArgumentException("Expected an ultimate: " + ability.id());
+        }
+        Component name = ability.title();
+        Ability entry = new Ability(ability.id(), player -> Superpowers.has(player, ability),
+                player -> new AbilityHud.Entry(name, null, true), name, ability);
+        if (ABILITIES.putIfAbsent(ability.id(), entry) != null) {
+            throw new IllegalArgumentException("Duplicate ability key entry: " + ability.id());
+        }
     }
 
     public static @Nullable Ability get(String id) {
@@ -76,8 +89,11 @@ public final class AbilitySlots {
     }
 
     /** The abilities the player has right now, in the default order (all of them, the choices of the Ability Settings). */
-    public static List<String> owned(LocalPlayer player) {
+    public static List<String> owned(@Nullable LocalPlayer player) {
         List<String> list = new ArrayList<>();
+        if (player == null) {
+            return list;
+        }
         for (String id : ordered()) {
             if (ABILITIES.get(id).available().test(player)) {
                 list.add(id);
@@ -88,36 +104,58 @@ public final class AbilitySlots {
 
     /** Whether the player picked their own ability set. */
     public static boolean custom() {
-        return AbilityHudConfig.get().abilitySlots != null;
-    }
-
-    /** The ability chosen for a key in the player's own set ({@link #NONE} if none), or the automatic one. */
-    public static String chosen(@Nullable LocalPlayer player, int slot) {
-        List<String> slots = AbilityHudConfig.get().abilitySlots;
-        if (slots != null) {
-            return slot < slots.size() && slots.get(slot) != null ? slots.get(slot) : NONE;
-        }
-        String[] auto = player != null ? assignment(player) : autoAll();
-        return auto[slot] != null ? auto[slot] : NONE;
-    }
-
-    /** Puts an ability (or {@link #NONE}) on a key of the player's own set; it leaves any other key it was on. */
-    public static void choose(@Nullable LocalPlayer player, int slot, String id) {
         AbilityHudConfig config = AbilityHudConfig.get();
-        List<String> slots = new ArrayList<>();
-        for (int i = 0; i < ASSIGNED.length; i++) {
-            slots.add(chosen(player, i));
+        return config.abilitySlots != null || config.ultimateAbility != null;
+    }
+
+    public static boolean accepts(int slot, @Nullable String id) {
+        if (slot < 0 || slot >= ASSIGNED.length) {
+            return false;
         }
-        if (!NONE.equals(id)) {
-            for (int i = 0; i < slots.size(); i++) {
-                if (id.equals(slots.get(i))) {
-                    slots.set(i, NONE);
+        Ability ability = ABILITIES.get(id);
+        return NONE.equals(id) || (ability != null && (ability.ultimate() != null) == (slot == PUKeyMappings.ULTIMATE_SLOT));
+    }
+
+    /** The configured or automatic choice for each slot, including choices the player doesn't currently own. */
+    public static String[] choices(@Nullable LocalPlayer player) {
+        AbilityHudConfig config = AbilityHudConfig.get();
+        String[] choices = automatic(player);
+        for (int slot = 0; slot < choices.length; slot++) {
+            if (slot == PUKeyMappings.ULTIMATE_SLOT) {
+                if (config.ultimateAbility != null) {
+                    choices[slot] = config.ultimateAbility;
                 }
+            } else if (config.abilitySlots != null) {
+                choices[slot] = slot < config.abilitySlots.size() ? config.abilitySlots.get(slot) : null;
             }
+            if (!accepts(slot, choices[slot])) {
+                choices[slot] = NONE;
+            }
+        }
+        return choices;
+    }
+
+    /** Puts an ability (or {@link #NONE}) on a compatible key, clearing any duplicate key. */
+    public static boolean choose(@Nullable LocalPlayer player, int slot, String id) {
+        if (!accepts(slot, id)) {
+            return false;
+        }
+        AbilityHudConfig config = AbilityHudConfig.get();
+        if (slot == PUKeyMappings.ULTIMATE_SLOT) {
+            config.ultimateAbility = id;
+            config.save();
+            return true;
+        }
+        List<String> slots = new ArrayList<>();
+        String[] choices = choices(player);
+        for (int i = 0; i < PUKeyMappings.ULTIMATE_SLOT; i++) {
+            String previous = choices[i];
+            slots.add(id.equals(previous) ? NONE : previous);
         }
         slots.set(slot, id);
         config.abilitySlots = slots;
         config.save();
+        return true;
     }
 
     /** Back to the automatic set. */
@@ -125,35 +163,53 @@ public final class AbilitySlots {
         AbilityHudConfig config = AbilityHudConfig.get();
         config.abilitySlots = null;
         config.abilityOrder = null;
+        config.ultimateAbility = null;
         config.save();
     }
 
-    /** Every ability in the default order on the keys (no player to ask). */
-    private static String[] autoAll() {
+    private static String[] automatic(@Nullable LocalPlayer player) {
         String[] out = new String[ASSIGNED.length];
-        List<String> all = ordered();
-        for (int i = 0; i < out.length && i < all.size(); i++) {
-            out[i] = all.get(i);
+        int next = 0;
+        for (String id : player == null ? ordered() : owned(player)) {
+            if (ABILITIES.get(id).ultimate() != null) {
+                if (out[PUKeyMappings.ULTIMATE_SLOT] == null) {
+                    out[PUKeyMappings.ULTIMATE_SLOT] = id;
+                }
+            } else if (next < PUKeyMappings.ULTIMATE_SLOT) {
+                out[next++] = id;
+            }
         }
         return out;
     }
 
     /** Which ability is on which key for the player right now (null = none). */
     public static String[] assignment(LocalPlayer player) {
-        String[] out = new String[ASSIGNED.length];
-        List<String> slots = AbilityHudConfig.get().abilitySlots;
+        AbilityHudConfig config = AbilityHudConfig.get();
+        String[] out = automatic(player);
+        List<String> slots = config.abilitySlots;
         if (slots != null) {
-            for (int i = 0; i < out.length && i < slots.size(); i++) {
-                Ability ability = slots.get(i) != null ? ABILITIES.get(slots.get(i)) : null;
-                out[i] = ability != null && ability.available().test(player) ? ability.id() : null;
+            for (int i = 0; i < PUKeyMappings.ULTIMATE_SLOT; i++) {
+                out[i] = assigned(player, i, i < slots.size() ? slots.get(i) : null);
             }
-            return out;
         }
-        List<String> owned = owned(player);
-        for (int i = 0; i < out.length && i < owned.size(); i++) {
-            out[i] = owned.get(i);
+        if (config.ultimateAbility != null) {
+            out[PUKeyMappings.ULTIMATE_SLOT] = assigned(player, PUKeyMappings.ULTIMATE_SLOT, config.ultimateAbility);
         }
         return out;
+    }
+
+    private static @Nullable String assigned(LocalPlayer player, int slot, @Nullable String id) {
+        Ability ability = ABILITIES.get(id);
+        return ability != null && accepts(slot, id) && ability.available().test(player) ? id : null;
+    }
+
+    /** Consumes the ultimate key and returns the assigned ultimate for this press. */
+    public static @Nullable PowerAbility ultimatePressed() {
+        String id = ASSIGNED[PUKeyMappings.ULTIMATE_SLOT];
+        if (id != null && clicks(id) > 0) {
+            return ABILITIES.get(id).ultimate();
+        }
+        return null;
     }
 
     /** Client tick (before the abilities read their keys): which ability is on which key now. */

@@ -103,9 +103,10 @@ public class AbilityHudConfigScreen extends Screen {
         }
         // nothing yet: preview the chosen set (or every ability)
         AbilityHud.Entry[] preview = new AbilityHud.Entry[PUKeyMappings.ALL.size()];
+        String[] choices = AbilitySlots.choices(null);
         boolean any = false;
         for (int i = 0; i < preview.length; i++) {
-            AbilitySlots.Ability ability = AbilitySlots.get(AbilitySlots.chosen(null, i));
+            AbilitySlots.Ability ability = AbilitySlots.get(choices[i]);
             if (ability != null) {
                 preview[i] = new AbilityHud.Entry(ability.previewName(), null, true);
                 any = true;

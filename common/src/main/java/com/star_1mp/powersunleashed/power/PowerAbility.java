@@ -1,37 +1,90 @@
 package com.star_1mp.powersunleashed.power;
 
-import java.util.Locale;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Consumer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
 import org.jspecify.annotations.Nullable;
 
-/**
- * The abilities superpowers are made of. Switchable ones show in the ability wheel and are switched on / off there;
- * the others work whenever the power is owned.
- */
-public enum PowerAbility {
+/** A reusable ability definition. A superpower decides how its player earns access to it. */
+public final class PowerAbility {
+
+    private static volatile Map<String, PowerAbility> registry = Map.of();
+
     /** Crawl over walls and ceilings like Marvel's Spider-Man. */
-    WALL_CLIMBING(true, true),
+    public static final PowerAbility WALL_CLIMBING = registerToggle("wall_climbing", true);
     /** Night vision (off until switched on in the wheel). */
-    NIGHT_VISION(true, false),
+    public static final PowerAbility NIGHT_VISION = registerToggle("night_vision", false);
     /** Warns about danger nearby. */
-    SPIDER_SENSE(true, true),
+    public static final PowerAbility SPIDER_SENSE = registerToggle("spider_sense", true);
     /** Dodge roll on the ground, front flip in the air. */
-    ROLL(false, true);
+    public static final PowerAbility ROLL = registerTriggered("roll");
 
-    private final boolean toggleable;
+    private enum Activation {
+        TOGGLE, TRIGGER, ULTIMATE
+    }
+
+    private final String id;
+    private final Activation activation;
     private final boolean onByDefault;
+    private final @Nullable Consumer<ServerPlayer> ultimateAction;
 
-    PowerAbility(boolean toggleable, boolean onByDefault) {
-        this.toggleable = toggleable;
+    private PowerAbility(String id, Activation activation, boolean onByDefault, @Nullable Consumer<ServerPlayer> ultimateAction) {
+        this.id = id;
+        this.activation = activation;
         this.onByDefault = onByDefault;
+        this.ultimateAction = ultimateAction;
+    }
+
+    public static PowerAbility registerToggle(String id, boolean onByDefault) {
+        return register(new PowerAbility(id, Activation.TOGGLE, onByDefault, null));
+    }
+
+    public static PowerAbility registerTriggered(String id) {
+        return register(new PowerAbility(id, Activation.TRIGGER, false, null));
+    }
+
+    /** Registers an ultimate during mod initialization. The action runs on the server. */
+    public static PowerAbility registerUltimate(String id, Consumer<ServerPlayer> action) {
+        return register(new PowerAbility(id, Activation.ULTIMATE, false, Objects.requireNonNull(action)));
+    }
+
+    private static synchronized PowerAbility register(PowerAbility ability) {
+        String id = ability.id();
+        Identifier key = Identifier.tryParse(id);
+        if (key == null || key.getPath().isEmpty() || id.length() > 128 || "none".equals(id)) {
+            throw new IllegalArgumentException("Invalid ability ID: " + id);
+        }
+        if (registry.containsKey(id)) {
+            throw new IllegalArgumentException("Duplicate ability ID: " + id);
+        }
+        Map<String, PowerAbility> abilities = new LinkedHashMap<>(registry);
+        abilities.put(id, ability);
+        registry = Collections.unmodifiableMap(abilities);
+        return ability;
     }
 
     public String id() {
-        return this.name().toLowerCase(Locale.ROOT);
+        return this.id;
     }
 
     public boolean toggleable() {
-        return this.toggleable;
+        return this.activation == Activation.TOGGLE;
+    }
+
+    public boolean ultimate() {
+        return this.activation == Activation.ULTIMATE;
+    }
+
+    public void activateUltimate(ServerPlayer player) {
+        if (this.ultimateAction != null && player.isAlive() && !player.isSpectator() && Superpowers.has(player, this)) {
+            this.ultimateAction.accept(player);
+        }
     }
 
     public boolean onByDefault() {
@@ -39,15 +92,14 @@ public enum PowerAbility {
     }
 
     public Component title() {
-        return Component.translatable("superpower.powers_unleashed." + this.id());
+        return Component.translatable("ability.powers_unleashed." + this.id);
+    }
+
+    public static Collection<PowerAbility> all() {
+        return registry.values();
     }
 
     public static @Nullable PowerAbility byId(String id) {
-        for (PowerAbility a : values()) {
-            if (a.id().equals(id)) {
-                return a;
-            }
-        }
-        return null;
+        return registry.get(id);
     }
 }

@@ -16,13 +16,25 @@ public final class Superpowers {
         return Services.GAMEPLAY.powerData(player);
     }
 
-    /** Owned through a power AND, for abilities a skill unlocks (roll, night vision), that skill bought. */
+    /** Any owned power can grant access, with its own skill requirement. */
     public static boolean has(Player player, PowerAbility ability) {
-        return data(player).has(ability) && PowerSkills.unlocks(player, ability);
+        return has(player, data(player), ability);
+    }
+
+    private static boolean has(Player player, PowerData data, PowerAbility ability) {
+        for (String id : data.owned()) {
+            Superpower power = Superpower.byId(id);
+            Superpower.AbilityGrant grant = power != null ? power.grant(ability) : null;
+            if (grant != null && (grant.requiredSkill() == null || PowerSkills.progress(player).has(power, grant.requiredSkill()))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean isActive(Player player, PowerAbility ability) {
-        return data(player).isActive(ability) && PowerSkills.unlocks(player, ability);
+        PowerData data = data(player);
+        return data.isEnabled(ability) && has(player, data, ability);
     }
 
     /** Spider-Man with the Soft Landing skill takes no fall damage at all (like Fisk's Spider-Man). */
@@ -47,17 +59,19 @@ public final class Superpowers {
     }
 
     /** From the ability wheel. */
-    public static void toggle(ServerPlayer player, PowerAbility power) {
+    public static void toggle(ServerPlayer player, PowerAbility ability) {
         PowerData data = data(player);
-        if (!has(player, power) || !power.toggleable()) {
+        if (!ability.toggleable() || !has(player, data, ability)) {
             return;
         }
-        Services.GAMEPLAY.setPowerData(player, data.toggle(power));
-        if (power == PowerAbility.NIGHT_VISION && !data(player).isActive(power)) {
-            clearNightVision(player);
-        }
-        if (power == PowerAbility.WALL_CLIMBING && !data(player).isActive(power)) {
-            WallClimbing.stop(player);
+        PowerData updated = data.toggle(ability);
+        Services.GAMEPLAY.setPowerData(player, updated);
+        if (!updated.isEnabled(ability)) {
+            if (ability == PowerAbility.NIGHT_VISION) {
+                clearNightVision(player);
+            } else if (ability == PowerAbility.WALL_CLIMBING) {
+                WallClimbing.stop(player);
+            }
         }
     }
 

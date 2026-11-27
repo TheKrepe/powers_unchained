@@ -2,6 +2,7 @@ package com.star_1mp.powersunleashed;
 
 import com.star_1mp.powersunleashed.command.SuitCommand;
 import com.star_1mp.powersunleashed.dev.CiServerHook;
+import com.star_1mp.powersunleashed.network.AbilityActivatePayload;
 import com.star_1mp.powersunleashed.network.ShootWebPayload;
 import com.star_1mp.powersunleashed.network.WebShotAnimPayload;
 import com.star_1mp.powersunleashed.network.WebSwingPayload;
@@ -132,6 +133,14 @@ public class PowersUnleashedNeoForge {
                     com.star_1mp.powersunleashed.power.Superpower power = com.star_1mp.powersunleashed.power.Superpower.byId(payload.power());
                     if (power != null && context.player() instanceof ServerPlayer player) {
                         com.star_1mp.powersunleashed.power.PowerSkills.buy(player, power, payload.node());
+                    }
+                })
+                .playToServer(AbilityActivatePayload.TYPE, AbilityActivatePayload.STREAM_CODEC, (payload, context) -> {
+                    if (context.player() instanceof ServerPlayer player) {
+                        var ability = com.star_1mp.powersunleashed.power.PowerAbility.byId(payload.ability());
+                        if (ability != null) {
+                            ability.activateUltimate(player);
+                        }
                     }
                 })
                 .playToServer(com.star_1mp.powersunleashed.network.ClimbPayload.TYPE,

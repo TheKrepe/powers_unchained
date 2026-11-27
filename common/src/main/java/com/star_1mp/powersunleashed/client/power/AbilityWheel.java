@@ -68,9 +68,8 @@ public final class AbilityWheel {
 
     /** The switchable abilities the local player has, in wheel order. */
     public static List<PowerAbility> powers(LocalPlayer player) {
-        PowerData data = Superpowers.data(player);
         List<PowerAbility> list = new ArrayList<>();
-        for (PowerAbility p : PowerAbility.values()) {
+        for (PowerAbility p : PowerAbility.all()) {
             if (p.toggleable() && Superpowers.has(player, p)) {
                 list.add(p);
             }
@@ -198,7 +197,7 @@ public final class AbilityWheel {
             float rad = (INNER + OUTER) / 2.0F;
             int ix = Math.round(cx + Mth.cos(ang) * rad) - 9;
             int iy = Math.round(cy + Mth.sin(ang) * rad) - 9;
-            int color = fade(data.isActive(powers.get(i)) ? 0xFFFFFFFF : 0xFFB4BAC4, a);
+            int color = fade(data.isEnabled(powers.get(i)) ? 0xFFFFFFFF : 0xFFB4BAC4, a);
             g.blitSprite(RenderPipelines.GUI_TEXTURED, icon(powers.get(i)), ix, iy, 18, 18, color);
         }
 
@@ -206,7 +205,7 @@ public final class AbilityWheel {
         int textColor = fade(0xFFFFFFFF, a);
         if (hovered >= 0 && hovered < n) {
             PowerAbility p = powers.get(hovered);
-            boolean on = data.isActive(p);
+            boolean on = data.isEnabled(p);
             Component state = Component.translatable(on ? "screen.powers_unleashed.ability_wheel.on" : "screen.powers_unleashed.ability_wheel.off");
             g.centeredText(mc.font, p.title(), (int) cx, (int) (cy + OUTER + 8), textColor);
             g.centeredText(mc.font, state, (int) cx, (int) (cy + OUTER + 20), fade(on ? 0xFF8CD2FF : 0xFFA0A7B2, a));
@@ -230,7 +229,7 @@ public final class AbilityWheel {
     private static void updateRing(List<PowerAbility> powers, PowerData data, float guiScale) {
         StringBuilder key = new StringBuilder().append(guiScale).append('h').append(hovered).append('n').append(powers.size());
         for (PowerAbility p : powers) {
-            key.append(data.isActive(p) ? '1' : '0');
+            key.append(data.isEnabled(p) ? '1' : '0');
         }
         if (key.toString().equals(ringKey) && ringTexture != null) {
             return;
@@ -298,7 +297,7 @@ public final class AbilityWheel {
         int[] fill = new int[n];
         int[] edge = new int[n];
         for (int i = 0; i < n; i++) {
-            boolean on = data.isActive(powers.get(i));
+            boolean on = data.isEnabled(powers.get(i));
             boolean hover = i == hovered;
             fill[i] = fade(on ? (hover ? ON_HOVER : ON_FILL) : (hover ? OFF_HOVER : OFF_FILL), alpha);
             edge[i] = fade(on ? ON_BORDER : OFF_BORDER, alpha);
@@ -355,7 +354,7 @@ public final class AbilityWheel {
         if (player == null) {
             return;
         }
-        boolean on = Superpowers.data(player).isActive(power);
+        boolean on = Superpowers.data(player).isEnabled(power);
         player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.4F, on ? 0.8F : 1.2F);
         Services.GAMEPLAY.sendToServer(new PowerTogglePayload(power.id()));
     }

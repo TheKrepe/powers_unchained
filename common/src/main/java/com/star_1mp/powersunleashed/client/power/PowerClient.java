@@ -2,6 +2,8 @@ package com.star_1mp.powersunleashed.client.power;
 
 import com.star_1mp.powersunleashed.client.ability.AbilityHud;
 import com.star_1mp.powersunleashed.client.ability.AbilitySlots;
+import com.star_1mp.powersunleashed.network.AbilityActivatePayload;
+import com.star_1mp.powersunleashed.platform.Services;
 import com.star_1mp.powersunleashed.power.PowerAbility;
 import com.star_1mp.powersunleashed.power.Superpowers;
 import net.minecraft.network.chat.Component;
@@ -26,11 +28,24 @@ public final class PowerClient {
                 Component.translatable("ability.powers_unleashed.ability_wheel"));
     }
 
+    /** Runs once common mod initialization has registered the available ultimates. */
+    public static void registerUltimates() {
+        for (PowerAbility ability : PowerAbility.all()) {
+            if (ability.ultimate()) {
+                AbilitySlots.registerUltimate(ability);
+            }
+        }
+    }
+
     /** End of every client tick (after {@link AbilitySlots#tick}). */
     public static void tick() {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         boolean roll = AbilitySlots.clicks(AbilitySlots.ROLL) > 0;
+        PowerAbility ultimate = AbilitySlots.ultimatePressed();
+        if (ultimate != null && player != null && !player.isSpectator() && mc.gui.screen() == null) {
+            Services.GAMEPLAY.sendToServer(new AbilityActivatePayload(ultimate.id()));
+        }
         AbilitySlots.clicks(AbilitySlots.ABILITY_WHEEL);  // the wheel goes by the key being held
         AbilityWheel.tick();
         if (player != null) {

@@ -12,8 +12,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * One piece of a {@link Suit}. Behaves like armor (defense, durability, enchanting, equip sound),
- * but has no vanilla equipment asset, so vanilla does not draw it — the suit is drawn on the
- * player's skin by our own render layer instead.
+ * but has no vanilla equipment asset. Powers Unleashed draws it using the model of the wearer.
  */
 public class SuitPieceItem extends Item {
 

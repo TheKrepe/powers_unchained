@@ -43,10 +43,12 @@ import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import com.star_1mp.powersunleashed.compat.curios.CuriosClientCompat;
 import com.star_1mp.powersunleashed.client.dev.CiClientDriver;
 import com.star_1mp.powersunleashed.client.gadget.WebShootersModel;
+import com.star_1mp.powersunleashed.client.suit.EntitySuitLayer;
 import com.star_1mp.powersunleashed.client.suit.SuitArmorStandLayer;
 import com.star_1mp.powersunleashed.client.suit.SuitFirstPersonRenderer;
 import com.star_1mp.powersunleashed.client.suit.SuitLayer;
 import com.star_1mp.powersunleashed.client.suit.SuitModelLayers;
+import com.star_1mp.powersunleashed.client.suit.SuitModelSet;
 import com.star_1mp.powersunleashed.client.suit.SuitRendering;
 import com.star_1mp.powersunleashed.client.suit.SuitVariantScroller;
 import net.minecraft.client.entity.ClientAvatarEntity;
@@ -89,6 +91,7 @@ public class PowersUnleashedNeoForgeClient {
         // lowest priority: other mods (e.g. Curios accessories) draw on the arm before we cancel vanilla's arm
         NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, PowersUnleashedNeoForgeClient::onRenderArm);
         modEventBus.addListener((FMLClientSetupEvent event) -> event.enqueueWork(() -> {
+            com.star_1mp.powersunleashed.client.power.PowerClient.registerUltimates();
             if (ModList.get().isLoaded("curios")) {
                 CuriosClientCompat.init();
             }
@@ -274,10 +277,13 @@ public class PowersUnleashedNeoForgeClient {
                 mannequin.addLayer(new com.star_1mp.powersunleashed.client.power.SpiderSenseLayer(mannequin));
             }
         }
-        // web cocoon over every living entity's model
+        SuitModelSet suitMeshes = EntitySuitLayer.bake(event.getEntityModels());
         for (EntityType<?> type : event.getEntityTypes()) {
             if (event.getRenderer(type) instanceof LivingEntityRenderer<?, ?, ?> living) {
                 addCocoonLayer(living);
+                if (!(living instanceof AvatarRenderer<?>) && !(living instanceof ArmorStandRenderer)) {
+                    addSuitLayer(living, suitMeshes);
+                }
             }
         }
         for (PlayerModelType skin : event.getSkins()) {
@@ -301,9 +307,16 @@ public class PowersUnleashedNeoForgeClient {
         renderer.addLayer(new WebCocoonLayer(renderer));
     }
 
+    private static <S extends LivingEntityRenderState, M extends net.minecraft.client.model.EntityModel<? super S>>
+            void addSuitLayer(LivingEntityRenderer<?, S, M> renderer, SuitModelSet meshes) {
+        renderer.addLayer(new EntitySuitLayer<>(renderer, meshes));
+    }
+
     private static void registerRenderStateModifiers(RegisterRenderStateModifiersEvent event) {
         event.registerEntityModifier(new TypeToken<LivingEntityRenderer<LivingEntity, LivingEntityRenderState, ?>>() {
         }, WebCocoonLayer::extract);
+        event.registerEntityModifier(new TypeToken<LivingEntityRenderer<LivingEntity, LivingEntityRenderState, ?>>() {
+        }, EntitySuitLayer::extract);
         event.registerAvatarEntityModifier(new AvatarRenderStateModifier() {
             @Override
             public <T extends Avatar & ClientAvatarEntity> void accept(T avatar, AvatarRenderState state) {

@@ -18,9 +18,11 @@ public final class PUKeyMappings {
     public static final KeyMapping ABILITY_3 = key(3, InputConstants.KEY_B);
     public static final KeyMapping ABILITY_4 = key(4, InputConstants.KEY_M);
     public static final KeyMapping ABILITY_5 = key(5, InputConstants.KEY_COMMA);
+    public static final KeyMapping ULTIMATE = new KeyMapping("key." + Constants.MOD_ID + ".ultimate", InputConstants.KEY_U, CATEGORY);
 
     /** The ability keys, in HUD order. */
-    public static final List<KeyMapping> ALL = List.of(ABILITY_1, ABILITY_2, ABILITY_3, ABILITY_4, ABILITY_5);
+    public static final List<KeyMapping> ALL = List.of(ABILITY_1, ABILITY_2, ABILITY_3, ABILITY_4, ABILITY_5, ULTIMATE);
+    public static final int ULTIMATE_SLOT = ALL.size() - 1;
 
     /** Opens the HUD settings. */
     public static final KeyMapping HUD_SETTINGS = new KeyMapping("key." + Constants.MOD_ID + ".hud_settings", InputConstants.KEY_H, CATEGORY);
@@ -29,7 +31,7 @@ public final class PUKeyMappings {
     public static final KeyMapping POWERS_MENU = new KeyMapping("key." + Constants.MOD_ID + ".powers_menu", InputConstants.KEY_J, CATEGORY);
 
     /** Every key of the mod, to register. */
-    public static final List<KeyMapping> REGISTER = List.of(ABILITY_1, ABILITY_2, ABILITY_3, ABILITY_4, ABILITY_5, HUD_SETTINGS, POWERS_MENU);
+    public static final List<KeyMapping> REGISTER = List.of(ABILITY_1, ABILITY_2, ABILITY_3, ABILITY_4, ABILITY_5, ULTIMATE, HUD_SETTINGS, POWERS_MENU);
 
     private PUKeyMappings() {
     }
